@@ -1,0 +1,51 @@
+/* 
+  Localizable.strings
+  PhoneIdClient
+
+  Created by Alyona on 7/2/15.
+  Copyright © 2015 phoneId. All rights reserved.
+*/
+
+"button.title.login.with.phone.id"="Login con phone.id";
+"button.title.logged.in"="Connesso";
+
+"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$selectedText\">%@</b><br/>con il tuo numero di telefono:</center>";
+
+"button.title.ok"="OK";
+
+"placeholder.phone.number"="Numero Di Telefono";
+
+"html-your.number.is.safe"= "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">Il tuo numero è sicuro:<br/> non condividiamo, non spam.</center>";
+
+"html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">Continuando, sei d'accordo con:<br/><a href=\"%@\">Condizioni</a> e <a href=\"%@\">Informativa sulla Privacy</a></center>";
+
+"title.country.code"="Prefisso Internazionale";
+
+"current.phone" = "Telefono corrente";
+
+"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
+
+"logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Entrando ...</center>";
+
+"logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Collegato con phone.id</center>";
+
+"loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Il codice digitato è diverso<br/> da quello che abbiamo trasmesso voi.<br/><br/>Correggere il codice, oppure premere indietro e controllare il vostro numero di telefono.</center>";
+
+"error.failed.request.auth.code"="Impossibile richiedere codice di autenticazione PhoneId.";
+"error.failed.request.clients"="Impossibile alla lista delle richieste dei clienti.";
+"error.unexpected.response"="Impossibile analizzare la risposta del server.";
+"error.reason.auth.unexpected.response"="Chiave Il successo non trovata in risposta.";
+"error.reason.clients.unexpected.response"="Non esiste una chiave \"appName\" in risposta.";
+
+"error.phone.number.validation.failed"="Convalida numero di telefono non è riuscita.";
+"error.unkonwn.problem.phone.number.validation"="Telefono Errore sconosciuto convalida numero.";
+"error.failed.request.user.info"="Impossibile chiedere PhoneId informazioni utente.";
+"error.user.info.unexpected.response"="Impossibile analizzare informazioni utente.";
+"error.reason.user.info.unexpected.response"="Chiavi informazioni utente [id, client_id, phoneNumber] non trovato in risposta.";
+"error.failed.request.code.verification" = "Richiesta di verifica di codice non è riuscita.";
+"error.reason.response.does.not.contrain.valid.token.info"="Response does not contain valid token.";
+
+
+
+
+

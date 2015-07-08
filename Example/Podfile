@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'phoneid_iOS_Example', :exclusive => true do
+  pod "phoneid_iOS", :path => "../"
+end
+
+target 'phoneid_iOS_Tests', :exclusive => true do
+  pod "phoneid_iOS", :path => "../"
+
+  
+end

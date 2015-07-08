@@ -1,0 +1,17 @@
+PODS:
+  - libPhoneNumber-iOS (0.8.5)
+  - phoneid_iOS (0.1.0):
+    - libPhoneNumber-iOS (~> 0.8)
+
+DEPENDENCIES:
+  - phoneid_iOS (from `../`)
+
+EXTERNAL SOURCES:
+  phoneid_iOS:
+    :path: ../
+
+SPEC CHECKSUMS:
+  libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
+  phoneid_iOS: d959cdb4ec6be9e65e68265a4126aa0c10cd6816
+
+COCOAPODS: 0.38.0.beta.2

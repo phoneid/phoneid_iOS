@@ -1,0 +1,35 @@
+{
+  "name": "phoneid_iOS",
+  "version": "0.1.0",
+  "summary": "A short description of phoneid_iOS.",
+  "description": "An optional longer description of phoneid_iOS\n\n* Markdown format.\n* Don't worry about the indent, we strip it!",
+  "homepage": "https://github.com/fedepo/phoneid_iOS",
+  "license": "Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)",
+  "authors": {
+    "Alyona": "a.bachurina@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/fedepo/phoneid_iOS.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "phoneid_iOS": [
+      "Pod/Assets/*.png",
+      "Pod/Assets/*.strings"
+    ]
+  },
+  "frameworks": [
+    "UIKit",
+    "CoreTelephony"
+  ],
+  "dependencies": {
+    "libPhoneNumber-iOS": [
+      "~> 0.8"
+    ]
+  }
+}

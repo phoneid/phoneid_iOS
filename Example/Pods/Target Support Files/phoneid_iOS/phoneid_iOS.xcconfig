@@ -1,0 +1,1 @@
+PHONEID_IOS_OTHER_LDFLAGS = -framework "CoreTelephony" -framework "UIKit"

@@ -1,0 +1,50 @@
+/* 
+  Localizable.strings
+  PhoneIdClient
+
+  Created by Alyona on 7/2/15.
+  Copyright © 2015 phoneId. All rights reserved.
+*/
+
+"button.title.login.with.phone.id"="Login with phone.id";
+"button.title.logged.in"="Logged in";
+
+"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
+
+"button.title.ok"="OK";
+
+"placeholder.phone.number"="Phone Number";
+
+"html-your.number.is.safe"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Your number is safe:<br/>we don't share it, we don't SPAM you.</center>";
+
+"html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">By continuing, you agree with:<br/><a href=\"%@\">Terms & Conditions</a> and <a href=\"%@\">Privacy Policy</a></center>";
+
+"title.country.code"="Country Code";
+
+"current.phone" = "Current Phone";
+
+"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Type the confirmation code</b>we just texted you:</center>";
+
+"logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
+
+"logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logged in with phone.id</center>";
+
+"loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and<br/>check your phone number.</center>";
+
+"error.failed.request.auth.code"="Failed to request PhoneId authentication code";
+"error.failed.request.clients"="Failed to request list of clients";
+"error.unexpected.response"="Failed to parse server response.";
+"error.reason.auth.unexpected.response"="Success key not found in response";
+"error.reason.clients.unexpected.response"="There is no \"appName\" key in response";
+
+"error.phone.number.validation.failed"="Phone Number validation failed.";
+"error.unkonwn.problem.phone.number.validation"="Unknown phone number validation error.";
+"error.failed.request.user.info"="Failed to request PhoneId user info.";
+"error.user.info.unexpected.response"="Failed to parse user info.";
+"error.reason.user.info.unexpected.response"="User info keys [id, client_id, phoneNumber] not found in response.";
+
+"error.failed.request.code.verification" = "Code verification request has failed.";
+"error.reason.response.does.not.contrain.valid.token.info"="Response does not contrain valid token info.";
+
+
+
