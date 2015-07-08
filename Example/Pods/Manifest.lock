@@ -12,6 +12,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
-  phoneid_iOS: d959cdb4ec6be9e65e68265a4126aa0c10cd6816
+  phoneid_iOS: 8c40bbf5d8de24700f3f4bb6d69b853cd73b6376
 
 COCOAPODS: 0.38.0.beta.2

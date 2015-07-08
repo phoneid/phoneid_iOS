@@ -19,9 +19,7 @@ Phone.id service allows App developers to use the phone number as a social login
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'phoneid_iOS' => ['Pod/Assets/*.png','Pod/Assets/*.strings']
-  }
+  s.resources =['Pod/Assets/Images.xcassets', 'Pod/Assets/strings/**' ]
 
   s.frameworks = 'UIKit', 'CoreTelephony'
   s.dependency 'libPhoneNumber-iOS', '~> 0.8'
