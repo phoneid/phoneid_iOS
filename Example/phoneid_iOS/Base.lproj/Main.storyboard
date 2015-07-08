@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQp-60-Ktz" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
-                                <rect key="frame" x="232.5" y="285" width="135" height="30"/>
+                                <rect key="frame" x="233" y="285" width="135" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.56862745100000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
