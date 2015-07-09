@@ -29,8 +29,8 @@ public class PhoneIdService: NSObject {
     
     // MARK: Private
     
-    internal(set) var appName: String?
-    internal(set) var clientId: String?
+    internal var appName: String?
+    internal var clientId: String?
     internal var urlSession: NSURLSession!;
     private var apiBaseURL:NSURL!
     
@@ -61,6 +61,9 @@ public class PhoneIdService: NSObject {
     public func logout() {
         KeychainStorage.deleteValue(TokenKey.Access);
         KeychainStorage.deleteValue(TokenKey.Refresh);
+        NSNotificationCenter
+            .defaultCenter()
+            .postNotificationName(Notifications.Logout, object: nil, userInfo:nil)
     }
     
     // MARK: - API
@@ -113,7 +116,7 @@ public class PhoneIdService: NSObject {
             params["client_id"]=clientId!
             params["code"]=verifyCode + "/" + number
             
-            NSLog("request params: %@", params)
+            print("request params: \(params)")
             
             self.post(Endpoints.VerifyToken.endpoint(), params:params) { response in
                 
@@ -266,10 +269,9 @@ public class PhoneIdService: NSObject {
             dispatch_async(dispatch_get_main_queue()) {
                 
                 let response = Response(response: response, data: data, error: error)
-                
-                #if DEBUG
-                    NSLog("Response as string: \(response.responseString)")
-                #endif
+ 
+                print("Response as string: \(response.responseString)")
+
                 
                 completion(response)
             }

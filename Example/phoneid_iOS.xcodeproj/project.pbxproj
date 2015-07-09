@@ -17,7 +17,7 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		7F08B6A788EC97677BDBAD9E /* Pods_phoneid_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F33299F5F5D136F0338288E2 /* Pods_phoneid_iOS_Example.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		7F08B6A788EC97677BDBAD9E /* Pods_phoneid_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F33299F5F5D136F0338288E2 /* Pods_phoneid_iOS_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B277EF78A02703A1CEE4663A /* Pods_phoneid_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F13FCC57C9335EB8B3B8862A /* Pods_phoneid_iOS_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -438,6 +438,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -483,6 +484,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;

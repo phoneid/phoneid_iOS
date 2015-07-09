@@ -44,8 +44,8 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     
     private var sections:CountryCodePickerModel = []
     private var searchResults:CountryCodePickerModel = []
-
-    public override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){        
+    
+    public override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
         populateCountryList()
         doOnInit()
@@ -119,6 +119,9 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     }
     
     func backTapped(sender:UIButton){
+        if(self.countrySearchController.active){
+            countrySearchController.presentingViewController?.dismissViewControllerAnimated(true,completion: nil)
+        }
         if let delegate = delegate{
             delegate.goBack()
         }
@@ -154,7 +157,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
                 return sections[section].countries.count;
             }
         }
-    }    
+    }
     
     public func tableView(tableView:UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         let country: CountryInfo = self.determineModel(atIndexPath:indexPath)
@@ -162,7 +165,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         if( self.countrySearchController.searchBar.isFirstResponder()){
             self.countrySearchController.searchBar.resignFirstResponder()
             self.countrySearchController.dismissViewControllerAnimated(false) { [unowned self] () -> Void in
-              self.applySelection(country)
+                self.applySelection(country)
             }
         }else{
             applySelection(country)
@@ -189,8 +192,8 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         }
         return CountryCodeCell.height;
     }
-
-    // MARK: - Utilities    
+    
+    // MARK: - Utilities
     
     func determineModel(atIndexPath indexPath:NSIndexPath) -> CountryInfo{
         if (self.isSearchMode()) {
@@ -205,7 +208,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
             }
         }
     }
-
+    
     func applySelection(country:CountryInfo){
         
         self.phoneIdModel.isoCountryCode = country.code
@@ -238,7 +241,13 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
                 
                 let filteredCountries:[CountryInfo] = section.countries.filter({ (country:CountryInfo) -> Bool in
                     (country.name.lowercaseString.rangeOfString(searchText.lowercaseString) != nil ) ||
-                    (country.prefix.lowercaseString.rangeOfString(searchText.lowercaseString) != nil )
+                        (country.prefix.lowercaseString.rangeOfString(searchText.lowercaseString) != nil )
+                    
+                    let rangeInName = country.name.rangeOfString(searchText, options: [.CaseInsensitiveSearch,.DiacriticInsensitiveSearch])
+                    
+                    let rangeInPrefix = country.prefix.rangeOfString(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch])
+                    
+                    return (rangeInPrefix != nil || rangeInName != nil)
                 })
                 
                 if (filteredCountries.count > 0){
@@ -246,7 +255,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
                 }
             }
         }else{
-           result = self.sections
+            result = self.sections
         }
         self.searchResults = result;
     }
@@ -262,22 +271,18 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         
         var result:CountryCodePickerModel = []
         
-        result.append(letter:"\u{0001F50D}", countries:[])
+        result.append((letter:"\u{0001F50D}", countries:[]))
         
         let countries = loadCountriesList()
         
         for country:CountryInfo in countries {
-            var countryCharacter: String = country.firstLetter
-            if (countryCharacter == "Å") { // Åland Islands
-                countryCharacter = "A"
-            }
             
             let index = result.indexOf({(letter: String, countries: [CountryInfo]) -> Bool in letter == country.firstLetter })
             
             if let index = index {
                 result[index].countries.append(country)
             } else {
-                result.append(letter:country.firstLetter, countries:[country])
+                result.append((letter:country.firstLetter, countries:[country]))
             }
         }
         
@@ -298,7 +303,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
                     countryArray.append(countryInfo)
                 }
             }else {
-                NSLog("Not present: \(countryCode) \(countryName)")
+                print("Not present: \(countryCode) \(countryName)")
             }
         }
         

@@ -13,6 +13,11 @@ import phoneid_iOS
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var tokensView: UIView!
+    @IBOutlet weak var tokenText: UITextField!
+    @IBOutlet weak var refreshTokenText: UITextField!
+    
+    
     let phoneId: PhoneIdService = PhoneIdService.sharedInstance;
     
     override func viewDidLoad() {
@@ -22,14 +27,9 @@ class ViewController: UIViewController {
         phoneId.configureClient("TestPhoneId");
         
         phoneId.phoneIdAuthenticationCompletion = { (token) ->Void in
-            
-            NSLog("accessToken: %@, refreshToken: %@", token.accessToken!, token.refreshToken!);
-            
-            let alertController = UIAlertController(title: "Phone.id Login OK", message: "accessToken: \(token.accessToken!)\n refreshToken: \(token.refreshToken!)", preferredStyle: .Alert)
-            
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil));
-            
-            self.presentViewController(alertController, animated: true, completion:nil)
+            self.tokensView.hidden = false
+            self.tokenText.text = token.accessToken
+            self.refreshTokenText.text = token.refreshToken
             
         }
         
@@ -38,6 +38,10 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func doLogout(sender: AnyObject) {
+        phoneId.logout()
+        self.tokensView.hidden = true
+    }
 }
 
 // customization point

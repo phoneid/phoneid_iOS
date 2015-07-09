@@ -27,13 +27,13 @@ extension NSURLRequest{
             }
             let components = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true)!
             components.percentEncodedQuery = query
-            NSLog("query = %@", query)
+            print("query = \(query)")
             actualURL = components.URL!
         } else {
             actualURL = URL
         }
         
-        NSLog("URL = %@", actualURL.absoluteString)
+        print("URL = \(actualURL.absoluteString)", actualURL.absoluteString)
         
         let request = NSMutableURLRequest(URL: actualURL)
         request.HTTPMethod = method

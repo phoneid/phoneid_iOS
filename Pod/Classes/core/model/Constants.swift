@@ -10,8 +10,9 @@ import Foundation
 
 
 internal struct Notifications {
-    static let LoginSuccess = "PhoneIdAccessOk"
-    static let LoginFail = "PhoneIdAccessKo"
+    static let LoginSuccess = "PhoneIdLoginSuccess"
+    static let LoginFail = "PhoneIdLoginFail"
+    static let Logout = "PhoneIdLogout"
     static let UpdateAppName = "PhoneIdAppNameUpdate";
 }
 

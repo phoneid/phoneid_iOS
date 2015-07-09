@@ -12,6 +12,8 @@
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
 
 "button.title.ok"="OK";
+"button.title.dismiss"="Dismiss";
+"message.title.error"="Error";
 
 "placeholder.phone.number"="Phone Number";
 

@@ -30,7 +30,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         
         self.loadClientsAndRequestAuthentication(phoneId, info: info)
         
-        var expectation = expectationWithDescription("setp 3: Confirm verification code")
+        var expectation = expectationWithDescription("Confirm verification code")
         phoneId.verifyAuthentication(TestConstants.VerificationCode, info: info, completion: { (token, error) -> Void in
             
             if(error == nil){
@@ -39,7 +39,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         })
         waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
         
-        expectation = expectationWithDescription("setp 4: Request user info")
+        expectation = expectationWithDescription("Request user info")
         phoneId.loadUserInfo() { (userInfo, e1) -> Void in
             
             if let userInfo = userInfo{
@@ -68,7 +68,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         self.loadClientsAndRequestAuthentication(phoneId, info: info)
         
         
-        let expectation = expectationWithDescription("setp 3: Confirm verification code should fail")
+        let expectation = expectationWithDescription("Confirm verification code should fail")
         phoneId.verifyAuthentication("101022", info: info, completion: { (token, error) -> Void in
             
             if(error != nil){
@@ -81,7 +81,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
     
     
     func loadClientsAndRequestAuthentication(phoneId:PhoneIdService, info:NumberInfo){
-        var expectation = expectationWithDescription("setp 1: Load list of application name")
+        var expectation = expectationWithDescription("Load list of application name")
         phoneId.loadClients(phoneId.clientId! ) { (e) -> Void in
             if(e == nil){
                 expectation.fulfill()
@@ -90,7 +90,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
         
         
-        expectation = expectationWithDescription("setp 2: Request verification code")
+        expectation = expectationWithDescription("Request verification code")
         phoneId.requestAuthenticationCode(info) { (e) -> Void in
             if(e == nil){
                 expectation.fulfill()

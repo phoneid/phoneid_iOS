@@ -29,7 +29,7 @@
 		4A8C89F5BD5FB0A78C4980B938F271BF /* NBMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8B12C2124F4203E55E03BADE866101 /* NBMetadataHelper.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		4AE8794A1BC0A8929A36FA5C54A3DC1E /* NSArray+NBAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 830C9A88EDFD22A8CFC10E9F0619BFC0 /* NSArray+NBAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B272191EE4C185E18D2FC2AE348B6F8 /* CountryCodePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF26EBA05489A60AAB675028C1C2E1BD /* CountryCodePickerViewController.swift */; };
-		4BE936C66B07B889AB2118278917953D /* libPhoneNumber_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C49AB1D7C57106E929715A367E0EA54 /* libPhoneNumber_iOS.framework */; };
+		4BE936C66B07B889AB2118278917953D /* libPhoneNumber_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C49AB1D7C57106E929715A367E0EA54 /* libPhoneNumber_iOS.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		4C1068914C99657CE9B60D0EED284B6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AFF4CD9431CCE03BAD0F5EE057C0C5 /* Foundation.framework */; };
 		4E63C0F7B91BDD7D69B9EEAB3FD314AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9FC34EF68B216B4C0226BDC21051BC /* UIKit.framework */; };
 		4E72A40688949ACBC6AF49162131BAC4 /* NBMetadataCoreTestMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F2A09283A1FB29938CFFF4D50EC1408 /* NBMetadataCoreTestMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -861,6 +861,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/libPhoneNumber-iOS/Info.plist";
@@ -888,6 +889,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/libPhoneNumber-iOS/Info.plist";
@@ -949,6 +951,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-phoneid_iOS_Tests/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -978,6 +981,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-phoneid_iOS_Example/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1007,6 +1011,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-phoneid_iOS_Example/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1076,6 +1081,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/phoneid_iOS/phoneid_iOS-prefix.pch";
@@ -1105,6 +1111,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/phoneid_iOS/phoneid_iOS-prefix.pch";
@@ -1133,6 +1140,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-phoneid_iOS_Tests/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

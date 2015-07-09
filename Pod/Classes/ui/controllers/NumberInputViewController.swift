@@ -56,9 +56,11 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
                 }
                 self.presentViewController(controller, animated: true, completion: nil)
             }else{
-                //TODO: test this
-                let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler:nil))
+                let bundle = self.phoneIdService.componentFactory.localizationBundle()
+                let alert = UIAlertController(title: NSLocalizedString("message.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                alert.addAction(UIAlertAction(title: NSLocalizedString("button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
+                
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             } );
@@ -83,7 +85,7 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
         let parent:UIViewController = (self.presentingViewController as UIViewController?)!
         self.dismissViewControllerAnimated(false, completion: {
             parent.dismissViewControllerAnimated(false, completion: {
-                NSLog("PhoneId login finished")
+                print("PhoneId login finished")
                 
                 if let phoneIdAuthenticationCompletion = self.phoneIdService.phoneIdAuthenticationCompletion{
                     phoneIdAuthenticationCompletion(token: self.phoneIdService.token!)
