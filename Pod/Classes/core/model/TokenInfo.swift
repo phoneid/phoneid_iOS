@@ -8,24 +8,24 @@
 
 import Foundation
 
-public class TokenInfo: NSObject{
+public class TokenInfo: ParseableModel{
     
     public var accessToken:String?;
     public var refreshToken:String?;
     public var expirationPeriod:Int?;
 
-    public override init(){
-        super.init()
+    init(){
+        super.init(json:[:])
     }
     
-    public init(json:NSDictionary){
-        super.init()
+    public required init(json:NSDictionary){
+        super.init(json:json)
         self.accessToken = json[TokenKey.Access] as? String
         self.refreshToken = json[TokenKey.Refresh] as? String
         self.expirationPeriod = json[TokenKey.ExpireTime] as? Int
     }
     
-    public func isValid() -> Bool{
+    public override func isValid() -> Bool{
         
         return accessToken != nil && refreshToken != nil && expirationPeriod != nil
     }

@@ -13,8 +13,10 @@ public typealias LoginCompletion = (accessToken: String?, refreshToken: String?,
 public typealias RequestCompletion = (error:NSError?) -> Void
 
 public typealias UserInfoRequestCompletion = (userInfo:UserInfo?,error:NSError?) -> Void
-public typealias VerificationRequestCompletion = (token:TokenInfo?,error:NSError?) -> Void
-public typealias PhoneIdAuthenticationCompletion = (token:TokenInfo) -> Void
+public typealias TokenRequestCompletion = (token:TokenInfo?,error:NSError?) -> Void
+
+public typealias PhoneIdAuthenticationSucceed = (token:TokenInfo) -> Void
+public typealias PhoneIdAuthenticationFailed = (error:NSError) -> Void
 
 public class PhoneIdService: NSObject {
     
@@ -24,18 +26,18 @@ public class PhoneIdService: NSObject {
     }
     
     public var componentFactory:ComponentFactory = DefaultComponentFactory()
-    public var phoneIdAuthenticationCompletion: PhoneIdAuthenticationCompletion?
+    public var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
+    public var phoneIdAuthenticationFailed: PhoneIdAuthenticationFailed?
     
     
-    // MARK: Private
+    public internal(set) var appName: String?
+    public internal(set) var clientId: String?
     
-    internal var appName: String?
-    internal var clientId: String?
     internal var urlSession: NSURLSession!;
-    private var apiBaseURL:NSURL!
     
-
+    private var apiBaseURL:NSURL!
     private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
+    
     internal var token: TokenInfo? {
         get {
             return TokenInfo.loadFromKeyChain()
@@ -80,15 +82,14 @@ public class PhoneIdService: NSObject {
         self.get(Endpoints.RequestCode.endpoint(), params:["number":number,"client_id":clientId!], completion: { response in
             
             var error:NSError?=nil
-            if (response.error != nil){
-                
-                NSLog("Failed to request PhoneId authentication code due to \(response.error))")
-                error = PhoneIdServiceError.requestFailedError("error.failed.request.auth.code", reasonKey:response.error?.localizedDescription)
+            if let responseError = response.error {
+                NSLog("Failed to request PhoneId authentication code due to \(responseError))")
+                error = PhoneIdServiceError.requestFailedError("error.failed.request.auth.code", reasonKey:responseError.localizedDescription)
                 
             }else if let info = response.responseJSON as? NSDictionary{
                 let responseCode = info["result"] as? Int
                 if(responseCode==0){
-                   NSLog("Request authentication code success:\(responseCode), info: \(info)")
+                    NSLog("Request authentication code success:\(responseCode), info: \(info)")
                 }else{
                     let message = "No request success marker in response \(response.responseJSON)"
                     NSLog(message)
@@ -101,7 +102,7 @@ public class PhoneIdService: NSObject {
     }
     
     
-    public func verifyAuthentication(verifyCode: String, info: NumberInfo, completion:VerificationRequestCompletion) {
+    public func verifyAuthentication(verifyCode: String, info: NumberInfo, completion:TokenRequestCompletion) {
         
         let validation = info.isValid()
         guard validation.result else{
@@ -118,40 +119,25 @@ public class PhoneIdService: NSObject {
             
             print("request params: \(params)")
             
-            self.post(Endpoints.VerifyToken.endpoint(), params:params) { response in
+            self.post(Endpoints.RequestToken.endpoint(), params:params) { response in
                 
-                var resultError:NSError? = nil
-                var token:TokenInfo? = nil
-                
-                if let responseJSON = response.responseJSON as? NSDictionary, error = response.error {
-                    var reason: String
-                    if let errorMessage = responseJSON["message"] as? String {
-                        reason = errorMessage
-                    }else{
-                        reason = error.localizedDescription
-                    }
-                    resultError = PhoneIdServiceError.requestFailedError("error.failed.request.code.verification",reasonKey: reason)
-                    self.sendNotificationLoginFail(responseJSON)
+                if let responseError = response.error {
+                    NSLog("Failed to verify code %@", responseError)
+                    let error = PhoneIdServiceError.requestFailedError("error.failed.request.code.verification",reasonKey: responseError.localizedDescription)
+                    self.sendNotificationLoginFail(error)
+                    completion(token:nil, error:error)
+                    
+                }else if let receivedToken = TokenInfo.parse(response){
+                    receivedToken.saveToKeyChain()
+                    self.sendNotificationLoginSuccess()
+                    completion(token:receivedToken, error:nil)
+                    
                 }else{
-                    
-                    if let responseJSON = response.responseJSON as? NSDictionary{
-                        token = TokenInfo(json:responseJSON)
-                        if(!token!.isValid()){
-                            token = nil
-                        }
-                    }
-                    
-                    if(token != nil){
-                        token!.saveToKeyChain()
-                        self.sendNotificationLoginSuccess(token!)
-                    }else{
-                        resultError = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
-                        self.sendNotificationLoginFail(["message" : resultError!.localizedDescription] as NSDictionary)
-                    }
-                
+                    let error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
+                    self.sendNotificationLoginFail(error)
+                    completion(token:nil, error:error)
                 }
                 
-                completion(token:token, error:resultError)
             }
         }
     }
@@ -160,27 +146,19 @@ public class PhoneIdService: NSObject {
         
         let endpoint: String = Endpoints.RequestMe.endpoint()
         self.get(endpoint, params: nil) { response in
-
-            if let responseError =  response.error {
+            
+            if let responseError = response.error {
                 NSLog("Failed to obtain user info due to %@", responseError)
                 let error = PhoneIdServiceError.requestFailedError("error.failed.request.user.info", reasonKey: responseError.localizedDescription)
                 completion(userInfo: nil, error: error)
-            }else{
-                var resultUserInfo:UserInfo?=nil
-                if let info = response.responseJSON as? NSDictionary{
-                    NSLog("received user info %@", info)
-                    let userInfo:UserInfo = UserInfo(json: info)
-                    if(userInfo.isValid()){
-                        resultUserInfo = userInfo
-                    }
-                }
                 
-                if(resultUserInfo != nil){
-                    completion(userInfo:resultUserInfo , error: nil)
-                }else{
-                    let error = PhoneIdServiceError.inappropriateResponseError("error.user.info.unexpected.response", reasonKey:"error.reason.user.info.unexpected.response")
-                    completion(userInfo:nil , error: error)
-                }
+            }else if let resultUserInfo = UserInfo.parse(response){
+                completion(userInfo:resultUserInfo , error: nil)
+                
+            }else{
+                let error = PhoneIdServiceError.inappropriateResponseError("error.user.info.unexpected.response", reasonKey:"error.reason.user.info.unexpected.response")
+                completion(userInfo:nil , error: error)
+                
             }
             
         }
@@ -196,11 +174,10 @@ public class PhoneIdService: NSObject {
                 NSLog("Failed to obtain list of PhoneId clients due to \(error)")
                 resultError = PhoneIdServiceError.requestFailedError("error.failed.request.clients", reasonKey: error.localizedDescription)
                 
-            }else if let info = response.responseJSON as? NSDictionary,
-                appName = info["appName"] as? String {
-                    
+            }else if let info = response.responseJSON as? NSDictionary, appName = info["appName"] as? String {
                 self.appName = appName
-                self.sendNotificationAppName(info)
+                self.sendNotificationAppName()
+                
             }else{
                 NSLog("Failed to parse appName in response \(response.responseJSON)")
                 resultError = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.clients.unexpected.response")
@@ -210,8 +187,40 @@ public class PhoneIdService: NSObject {
         
     }
     
-    public func requestCallMeNow() {
-        // to be implemented
+    public func refreshToken(completion:TokenRequestCompletion){
+        
+        if let currentToken = self.token{
+            
+            var params: Dictionary<String, AnyObject> = [:]
+            params["grant_type"]="refresh_token"
+            params["client_id"]=clientId!
+            params["refresh_token"]=currentToken.refreshToken
+            
+            print("request params: \(params)")
+            
+            
+            self.post(Endpoints.RequestToken.endpoint(), params:params, completion: { response in
+                
+                if let responseError = response.error{
+                    NSLog("Failed refresh token \(responseError)")
+                    let error = PhoneIdServiceError.requestFailedError("error.failed.refresh.token", reasonKey: responseError.localizedDescription)
+                    completion(token: nil, error: error)
+                }else if let refreshedToken = TokenInfo.parse(response) {
+                    refreshedToken.saveToKeyChain()
+                    self.sendNotificationTokenRefreshed()
+                    completion(token: refreshedToken, error: nil)
+                }else{
+                    NSLog("Failed to parse token in response \(response.responseJSON)")
+                    let error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
+                    completion(token: nil, error: error)
+                }
+            })
+            
+            
+        }else{
+            let error = PhoneIdServiceError.requestFailedError("error.failed.refresh.token", reasonKey:"error.reason.no.token.to.refresh")
+            completion(token: nil, error: error)
+        }
     }
     
     public func abortCall() {
@@ -229,23 +238,28 @@ public class PhoneIdService: NSObject {
     
     // MARK: - NOTIFICATIONS / CALLBACKS
     
-    private func sendNotificationLoginSuccess(token:TokenInfo) {
-        
+    private func sendNotificationLoginSuccess() {
         NSNotificationCenter
             .defaultCenter()
-            .postNotificationName(Notifications.LoginSuccess, object: nil, userInfo: ["token":token])
+            .postNotificationName(Notifications.LoginSuccess, object: nil, userInfo:nil)
     }
     
-    private func sendNotificationLoginFail(info: NSDictionary) {
+    private func sendNotificationLoginFail(error:NSError) {
         NSNotificationCenter
             .defaultCenter()
-            .postNotificationName(Notifications.LoginFail, object: nil, userInfo: info as [NSObject:AnyObject])
+            .postNotificationName(Notifications.LoginFail, object: nil, userInfo: ["error":error] as [NSObject : AnyObject])
     }
     
-    private func sendNotificationAppName(info: NSDictionary) {
+    private func sendNotificationTokenRefreshed() {
         NSNotificationCenter
             .defaultCenter()
-            .postNotificationName(Notifications.UpdateAppName, object: nil, userInfo: info as [NSObject:AnyObject])
+            .postNotificationName(Notifications.TokenRefreshed, object: nil, userInfo: nil)
+    }
+    
+    private func sendNotificationAppName() {
+        NSNotificationCenter
+            .defaultCenter()
+            .postNotificationName(Notifications.UpdateAppName, object: nil, userInfo:nil)
     }
     
     // MARK  - Networking internals
@@ -259,21 +273,27 @@ public class PhoneIdService: NSObject {
         let task:NSURLSessionDataTask! = urlSession.dataTaskWithRequest(request) { data, response, sessionError in
             
             var error = sessionError
+            
+            var wrappedResponse = Response(response: response, data: data, error: error)
+            
             if let httpResponse = response as? NSHTTPURLResponse {
                 if httpResponse.statusCode < 200 || httpResponse.statusCode >= 300 {
-                    let description = "HTTP response was \(httpResponse.statusCode)"
-                    error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: description])
+                    
+                    if let message = (wrappedResponse.responseJSON as? NSDictionary)?.objectForKey("message") as? String {
+                        error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: message])
+                    }else{
+                        let description = "HTTP response was \(httpResponse.statusCode)"
+                        error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: description])
+                    }
+                    wrappedResponse.error = error
                 }
             }
             
             dispatch_async(dispatch_get_main_queue()) {
                 
-                let response = Response(response: response, data: data, error: error)
- 
-                print("Response as string: \(response.responseString)")
-
+                print("Response as string: \(wrappedResponse.responseString)")
                 
-                completion(response)
+                completion(wrappedResponse)
             }
         }
         

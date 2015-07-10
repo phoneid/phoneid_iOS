@@ -356,4 +356,8 @@ class PhoneIdServiceTests: XCTestCase {
         
     }
     
+    // MARK: refreshToken
+    
+    // TODO: add tests for refresh token
+    
 }

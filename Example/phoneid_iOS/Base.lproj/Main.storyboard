@@ -74,19 +74,29 @@
                                         </variation>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5w-8M-zVp">
-                                        <rect key="frame" x="120" y="140" width="39" height="30"/>
+                                        <rect key="frame" x="233" y="140" width="39" height="30"/>
                                         <animations/>
                                         <state key="normal" title="Reset"/>
                                         <connections>
                                             <action selector="doLogout:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="HEf-JK-iN0"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUo-jT-giF">
+                                        <rect key="frame" x="8" y="140" width="99" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Refresh Token"/>
+                                        <connections>
+                                            <action selector="doRefreshToken:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wfH-Rh-jze"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="k5w-8M-zVp" secondAttribute="trailing" constant="8" id="0fX-bI-Zgp"/>
                                     <constraint firstAttribute="width" constant="280" id="81p-O5-8TF"/>
                                     <constraint firstItem="k5w-8M-zVp" firstAttribute="centerX" secondItem="pP3-G9-HVJ" secondAttribute="centerX" id="Bw6-mR-TMv"/>
+                                    <constraint firstItem="OUo-jT-giF" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" constant="8" id="FWU-q2-uX3"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="top" secondItem="QXI-Dd-MT1" secondAttribute="bottom" constant="2" id="G8n-wt-xb4"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="top" secondItem="9tJ-gY-i1k" secondAttribute="bottom" constant="8" id="MA9-y8-HeR"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="PHf-P7-PjM"/>
@@ -98,8 +108,14 @@
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="hLH-aS-ZlO"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="k8p-Cm-8SK"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="top" secondItem="9Lg-de-Ymw" secondAttribute="bottom" constant="4" id="tBF-bv-N3K"/>
+                                    <constraint firstAttribute="bottom" secondItem="OUo-jT-giF" secondAttribute="bottom" id="u8T-ep-Cnm"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="vdW-0g-bib"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Bw6-mR-TMv"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <animations/>

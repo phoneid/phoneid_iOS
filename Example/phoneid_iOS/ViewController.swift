@@ -23,17 +23,29 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        //configure client
         phoneId.configureClient("TestPhoneId");
         
-        phoneId.phoneIdAuthenticationCompletion = { (token) ->Void in
+        
+        // Handle authentication success
+        phoneId.phoneIdAuthenticationSucceed = { (token) ->Void in
             self.tokensView.hidden = false
             self.tokenText.text = token.accessToken
             self.refreshTokenText.text = token.refreshToken
             
         }
         
-        //for customization uncomment code below
+        // Handle authentication fail
+        phoneId.phoneIdAuthenticationFailed = { (error) ->Void in
+            
+            let alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
+            self.presentViewController(alertController, animated: true, completion:nil)
+        
+        }
+        
+        //customize appearence
         //phoneId.componentFactory = CustomComponentFactory()
         
     }
@@ -42,6 +54,22 @@ class ViewController: UIViewController {
         phoneId.logout()
         self.tokensView.hidden = true
     }
+    
+
+    @IBAction func doRefreshToken(sender: AnyObject) {
+        
+        phoneId.refreshToken(){ (token, error) ->Void in
+        
+            self.tokensView.hidden = false
+            if let token = token {
+                self.tokenText.text = token.accessToken
+                self.refreshTokenText.text = token.refreshToken
+            } else if let error = error{
+                print("\(error.localizedDescription), \(error.localizedFailureReason!)")
+            }
+        }
+    }
+    
 }
 
 // customization point

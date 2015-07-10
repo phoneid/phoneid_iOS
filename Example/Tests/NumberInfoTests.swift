@@ -23,6 +23,7 @@ class NumberInfoTests: XCTestCase {
     
     func testValidation_CountryCodeIsNot() {
         let info = NumberInfo()
+        info.phoneCountryCode = nil
         info.phoneNumber = "677757473"
         
         do{ try info.validate();}

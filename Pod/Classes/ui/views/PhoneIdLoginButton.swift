@@ -45,10 +45,9 @@ import Foundation
         localizationBundle = phoneIdComponentFactory.localizationBundle()
         localizationTableName = phoneIdComponentFactory.localizationTableName()
         colorScheme = phoneIdComponentFactory.colorScheme()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appNameUpdated", name: Notifications.UpdateAppName, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: Notifications.LoginSuccess, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: Notifications.Logout, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.LoginSuccess, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.Logout, object: nil)
     }
     
     func initUI() {
@@ -77,11 +76,7 @@ import Foundation
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    func appNameUpdated(){
-        self.userInteractionEnabled = true
-    }
-    
+
     func loginTouched() {
         
         if(phoneIdService.clientId == nil){
@@ -111,23 +106,26 @@ import Foundation
         }
     }
     
+    
+    private func loggedInTouched() {
+        print("already logged in with phone id")
+    }
+    
     private func presentNumberInputController(){
         let controller = phoneIdComponentFactory.numberInputViewController()
         window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
     }
     
-    func loggedInTouched() {
-        print("already logged in with phone id")
-    }
+    // MARK: Notification handlers
     
-    func loginSuccess(notification:NSNotification) -> Void {
+    func doOnSuccessfulLogin() -> Void {
         self.removeTarget(self, action: nil, forControlEvents: .TouchUpInside)
         
         self.setTitle(localizedString("button.title.logged.in"), forState:UIControlState.Normal)
         self.addTarget(self, action:"loggedInTouched", forControlEvents: .TouchUpInside)
     }
     
-    func logout(notification:NSNotification) -> Void {
+    func doOnlogout() -> Void {
         
        self.removeTarget(self, action: nil, forControlEvents: .TouchUpInside)
         

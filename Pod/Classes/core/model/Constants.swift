@@ -13,6 +13,7 @@ internal struct Notifications {
     static let LoginSuccess = "PhoneIdLoginSuccess"
     static let LoginFail = "PhoneIdLoginFail"
     static let Logout = "PhoneIdLogout"
+    static let TokenRefreshed = "PhoneIdTokenRefreshed"
     static let UpdateAppName = "PhoneIdAppNameUpdate";
 }
 
@@ -40,14 +41,14 @@ internal struct  HttpHeaderValue{
 
 internal enum Endpoints {
     case RequestCode
-    case VerifyToken
+    case RequestToken
     case RequestMe
     case ClientsList
     
     func endpoint(params: String...) -> String {
         switch (self) {
         case .RequestCode: return "auth/users/sendcode"
-        case .VerifyToken: return "auth/users/token"
+        case .RequestToken: return "auth/users/token"
         case .RequestMe: return "auth/users/me"
         case .ClientsList: return "clients/\(params[0])"
         }

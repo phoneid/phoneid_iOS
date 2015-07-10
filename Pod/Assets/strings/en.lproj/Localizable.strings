@@ -48,5 +48,7 @@
 "error.failed.request.code.verification" = "Code verification request has failed.";
 "error.reason.response.does.not.contrain.valid.token.info"="Response does not contrain valid token info.";
 
+"error.failed.refresh.token"="Failed to refresh authentication.";
+"error.reason.no.token.to.refresh"="There is not authentication credentials to refresh them.";
 
 

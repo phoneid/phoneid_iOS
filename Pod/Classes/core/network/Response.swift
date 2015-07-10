@@ -10,7 +10,7 @@ import Foundation
 
 typealias NetworkingCompletion = Response -> Void
 
-struct Response {
+public struct Response {
 
     let response: NSURLResponse!
     let data: NSData!

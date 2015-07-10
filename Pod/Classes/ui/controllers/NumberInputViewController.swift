@@ -87,7 +87,7 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
             parent.dismissViewControllerAnimated(false, completion: {
                 print("PhoneId login finished")
                 
-                if let phoneIdAuthenticationCompletion = self.phoneIdService.phoneIdAuthenticationCompletion{
+                if let phoneIdAuthenticationCompletion = self.phoneIdService.phoneIdAuthenticationSucceed{
                     phoneIdAuthenticationCompletion(token: self.phoneIdService.token!)
                 }
             })

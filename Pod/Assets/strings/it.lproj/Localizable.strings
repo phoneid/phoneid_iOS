@@ -48,6 +48,8 @@
 "error.reason.response.does.not.contrain.valid.token.info"="Response does not contain valid token.";
 
 
+"error.failed.refresh.token"="Impossibile aggiornare l'autenticazione.";
+"error.reason.no.token.to.refresh"="Non ci è l'autenticazione delle credenziali per rinfrescare loro.";
 
 
 

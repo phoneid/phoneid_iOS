@@ -8,23 +8,22 @@
 
 import Foundation
 
-public class UserInfo: NSObject{
+
+
+public class UserInfo: ParseableModel{
     public var id:String?
     public var clientId:String?
     public var phoneNumber:String?
     
-    public init(json:NSDictionary){
-        super.init()
+    public required init(json:NSDictionary){
+        super.init(json:json)
         id = json["id"] as? String
         clientId = json["client_id"] as? String
         phoneNumber = json["phone_number"] as? String
     }
     
-    public func isValid() -> Bool{
-    
+    public override func isValid() -> Bool{
         return id != nil && clientId != nil && phoneNumber != nil
     }
-    
-    
 
 }
