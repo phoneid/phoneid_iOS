@@ -25,7 +25,7 @@
 
 "current.phone" = "Current Phone";
 
-"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Type the confirmation code</b>we just texted you:</center>";
+"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Type the confirmation code</br>we just texted you:</center>";
 
 "logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
 

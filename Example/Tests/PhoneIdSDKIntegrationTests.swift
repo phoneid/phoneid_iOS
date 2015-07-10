@@ -81,7 +81,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
     
     
     func loadClientsAndRequestAuthentication(phoneId:PhoneIdService, info:NumberInfo){
-        var expectation = expectationWithDescription("Load list of application name")
+        var expectation = expectationWithDescription("Load application name")
         phoneId.loadClients(phoneId.clientId! ) { (e) -> Void in
             if(e == nil){
                 expectation.fulfill()

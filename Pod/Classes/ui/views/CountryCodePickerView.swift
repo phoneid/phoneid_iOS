@@ -9,12 +9,12 @@
 import Foundation
 import libPhoneNumber_iOS
 
-public protocol CountryCodePickerViewDelegate:NSObjectProtocol{
+protocol CountryCodePickerViewDelegate:NSObjectProtocol{
     func countryCodeSelected(model:NumberInfo)
     func goBack()
 }
 
-public class CountryInfo: NSObject{
+class CountryInfo: NSObject{
     var name:String!
     var prefix:String!
     var code:String!
@@ -35,9 +35,9 @@ typealias CountryCodePickerModel = [ (letter: String, countries: [CountryInfo]) 
 
 public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
     
-    public private(set) var tableView:UITableView!
-    public private(set) var titleLabel:UILabel!
-    public private(set) var backButton:UIButton!
+    private(set) var tableView:UITableView!
+    private(set) var titleLabel:UILabel!
+    private(set) var backButton:UIButton!
     
     internal weak var delegate:CountryCodePickerViewDelegate?
     internal var countrySearchController:UISearchController!
@@ -45,7 +45,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     private var sections:CountryCodePickerModel = []
     private var searchResults:CountryCodePickerModel = []
     
-    public override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
+    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
         populateCountryList()
         doOnInit()
@@ -57,6 +57,9 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     
     override func setupSubviews(){
         super.setupSubviews()
+                
+        super.closeButton.hidden = true
+        
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -108,7 +111,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant:5))
         c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
         
-        self.customContraints += c
+        self.customConstraints += c
         
         self.addConstraints(c)
     }
@@ -313,5 +316,5 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         return sortedCountryArray
         
     }
-    
+
 }

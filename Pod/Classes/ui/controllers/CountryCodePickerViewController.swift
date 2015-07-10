@@ -52,11 +52,11 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
     
     // MARK: CountryCodePickerViewDelegate
     
-    public func goBack() {
+    func goBack() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    public func countryCodeSelected(model: NumberInfo) {
+    func countryCodeSelected(model: NumberInfo) {
         self.phoneIdModel = model
         if let completion = countryCodePickerCompletionBlock{
             completion(model: model)

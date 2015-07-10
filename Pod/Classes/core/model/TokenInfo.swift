@@ -46,6 +46,9 @@ public class TokenInfo: ParseableModel{
             KeychainStorage.saveValue(TokenKey.Access, value:self.accessToken!)
             KeychainStorage.saveValue(TokenKey.Refresh, value:self.refreshToken!)
             KeychainStorage.saveIntValue(TokenKey.ExpireTime, value:self.expirationPeriod!)
+            
+            //TODO: save timestamp
+            //KeychainStorage.saveIntValue(TokenKey.Timestamp, value: NSDate().timeIntervalSince1970)
         }else{
             fatalError("Trying to save inconsistent token")
         }

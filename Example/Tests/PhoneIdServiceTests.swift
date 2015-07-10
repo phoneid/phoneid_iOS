@@ -12,6 +12,17 @@ import XCTest
 
 class PhoneIdServiceTests: XCTestCase {
     
+    
+    func phoneIdServiceWithClientErrorExpectation() -> PhoneIdService{
+        let result = PhoneIdService()
+        
+        let expectation = expectationWithDescription("Expected call of phoneIdWorkflowErrorHappened block")
+        result.phoneIdWorkflowErrorHappened = { (error)-> Void in
+            expectation.fulfill()
+        }
+        return result
+    }
+    
     // MARK: loadClients
     
     func testGetClients_Success() {
@@ -22,7 +33,7 @@ class PhoneIdServiceTests: XCTestCase {
         phoneId.clientId = TestConstants.ClientId
         
         let expectation = expectationWithDescription("Should successfully handle request clients list")
-        expectationForNotification(Notifications.UpdateAppName, object: nil, handler: nil)
+        expectationForNotification(Notifications.AppNameUpdated, object: nil, handler: nil)
         
         phoneId.loadClients(phoneId.clientId! ) { (e) -> Void in
             if(e == nil){
@@ -39,7 +50,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testGetClients_UnexpectedResponse() {
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.ClientsList.endpoint(TestConstants.ClientId),params: ["unexpected":"SomeCoolName"], statusCode:200)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
@@ -61,7 +72,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testGetClients_ErrorResponse() {
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.ClientsList.endpoint(TestConstants.ClientId),params: [], statusCode:500)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
@@ -104,7 +115,7 @@ class PhoneIdServiceTests: XCTestCase {
     func testRequestAuthentication_UnexpectedResponse() {
         
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestCode.endpoint(),params:["result":188,"message":":-P"], statusCode:200)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
@@ -125,7 +136,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testRequestAuthentication_ErrorResponse() {
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestCode.endpoint(),params:[], statusCode:500)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
@@ -160,7 +171,7 @@ class PhoneIdServiceTests: XCTestCase {
         
         
         let expectation = expectationWithDescription("Should successfully handle request for verification code confirmation")
-        expectationForNotification(Notifications.LoginSuccess, object: nil, handler: nil)
+        expectationForNotification(Notifications.VerificationSuccess, object: nil, handler: nil)
         
         var result:TokenInfo?
         phoneId.verifyAuthentication(TestConstants.VerificationCode, info: TestConstants.numberInfo) { (token, error) -> Void in
@@ -187,13 +198,13 @@ class PhoneIdServiceTests: XCTestCase {
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestCode.endpoint(),
             params:["code":"InvalidContent","message":message], statusCode:400)
         
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
         
         let expectation = expectationWithDescription("Should return legal error when wrong verification code provided")
-        expectationForNotification(Notifications.LoginFail, object: nil, handler: nil)
+        expectationForNotification(Notifications.VerificationFail, object: nil, handler: nil)
         
         var result:TokenInfo?
         var errorResult:NSError?
@@ -215,13 +226,13 @@ class PhoneIdServiceTests: XCTestCase {
         
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestCode.endpoint(), params:[:], statusCode:500)
         
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
         
         let expectation = expectationWithDescription("Should return default error  when server fails to prcess request")
-        expectationForNotification(Notifications.LoginFail, object: nil, handler: nil)
+        expectationForNotification(Notifications.VerificationFail, object: nil, handler: nil)
         
         var result:TokenInfo?
         var errorResult:NSError?
@@ -247,13 +258,13 @@ class PhoneIdServiceTests: XCTestCase {
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestCode.endpoint(),
             params:["token_type":"bearer", "refresh_token":refreshToken], statusCode:200)
         
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
         
         let expectation = expectationWithDescription("Should fail when received incomplete token info")
-        expectationForNotification(Notifications.LoginFail, object: nil, handler: nil)
+        expectationForNotification(Notifications.VerificationFail, object: nil, handler: nil)
         
         var result:TokenInfo?
         var errorResult:NSError?
@@ -306,7 +317,7 @@ class PhoneIdServiceTests: XCTestCase {
     func testLoadUserInfo_ErrorResponse() {
 
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestMe.endpoint(),params:[:], statusCode:401)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         
@@ -334,7 +345,7 @@ class PhoneIdServiceTests: XCTestCase {
     func testLoadUserInfo_UnexpectedResponse() {
         
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestMe.endpoint(),params:[], statusCode:200)
-        let phoneId:PhoneIdService = PhoneIdService()
+        let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation()
         phoneId.urlSession = session
         phoneId.clientId = TestConstants.ClientId
         

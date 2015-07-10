@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 //TODO: add possibility to style differently depending on login/logout state
 
 @IBDesignable public class PhoneIdLoginButton: UIButton, Customizable {
@@ -46,8 +47,8 @@ import Foundation
         localizationTableName = phoneIdComponentFactory.localizationTableName()
         colorScheme = phoneIdComponentFactory.colorScheme()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.LoginSuccess, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
     }
     
     func initUI() {
@@ -112,7 +113,11 @@ import Foundation
     }
     
     private func presentNumberInputController(){
+
         let controller = phoneIdComponentFactory.numberInputViewController()
+        
+        //let navigationController = UINavigationController(rootViewController: controller)
+        
         window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
     }
     

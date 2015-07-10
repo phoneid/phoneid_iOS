@@ -10,11 +10,11 @@ import Foundation
 
 
 internal struct Notifications {
-    static let LoginSuccess = "PhoneIdLoginSuccess"
-    static let LoginFail = "PhoneIdLoginFail"
-    static let Logout = "PhoneIdLogout"
+    static let VerificationSuccess = "PhoneIdLoginSuccess"
+    static let VerificationFail = "PhoneIdLoginFail"
+    static let DidLogout = "PhoneIdLogout"
     static let TokenRefreshed = "PhoneIdTokenRefreshed"
-    static let UpdateAppName = "PhoneIdAppNameUpdate";
+    static let AppNameUpdated = "PhoneIdAppNameUpdate"
 }
 
 internal struct Constants {
@@ -59,6 +59,7 @@ internal struct TokenKey {
     static let Access = "access_token"
     static let Refresh = "refresh_token"
     static let ExpireTime = "expires_in"
+    static let Timestamp = "timestamp"
 }
 
 

@@ -33,7 +33,7 @@ class NumericTextFieldDelegate: NSObject, UITextFieldDelegate{
     
 }
 
-public class NumericTextField: UITextField{
+class NumericTextField: UITextField{
     var numericDelegate:NumericTextFieldDelegate!
     
     init(maxLength:Int){
@@ -42,11 +42,11 @@ public class NumericTextField: UITextField{
         self.delegate = numericDelegate
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
-    override public func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         UIMenuController.sharedMenuController().menuVisible = false
         return false
     }

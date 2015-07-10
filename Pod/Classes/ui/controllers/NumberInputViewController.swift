@@ -45,28 +45,28 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
     }
     
     // MARK: NumberInputViewDelegate
-    public func phoneNumberWasAccepted(model: NumberInfo){
+    func phoneNumberWasAccepted(model: NumberInfo){
         self.phoneIdModel = model
         phoneIdService.requestAuthenticationCode(phoneIdModel, completion: { [unowned self] (error) -> Void in
             
             if(error == nil){
                 let controller = self.phoneIdComponentFactory.verifyCodeViewController(model)
-                controller.verifyCodeViewCompletionBlock = { ()-> Void in
-                    self.finishPhoneIdWorkflow()
+                controller.verifyCodeViewCompletionBlock = { (success:Bool)-> Void in
+                    self.finishPhoneIdWorkflow(success)
                 }
                 self.presentViewController(controller, animated: true, completion: nil)
             }else{
                 let bundle = self.phoneIdService.componentFactory.localizationBundle()
                 let alert = UIAlertController(title: NSLocalizedString("message.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
-                    
+                
                 alert.addAction(UIAlertAction(title: NSLocalizedString("button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
                 
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-            } );
+            });
     }
     
-    public func countryCodePickerTapped(model: NumberInfo){
+    func countryCodePickerTapped(model: NumberInfo){
         
         self.phoneIdModel = model
         let controller = self.phoneIdComponentFactory.countryCodePickerViewController(model)
@@ -80,19 +80,25 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
         self.presentViewController(controller, animated: true, completion: nil)
     }
     
-    func finishPhoneIdWorkflow(){
+    func finishPhoneIdWorkflow(success:Bool){
         
-        let parent:UIViewController = (self.presentingViewController as UIViewController?)!
-        self.dismissViewControllerAnimated(false, completion: {
-            parent.dismissViewControllerAnimated(false, completion: {
+        self.dismissWithCompletion { () -> Void in
+            
+            if(success){
                 print("PhoneId login finished")
-                
-                if let phoneIdAuthenticationCompletion = self.phoneIdService.phoneIdAuthenticationSucceed{
-                    phoneIdAuthenticationCompletion(token: self.phoneIdService.token!)
-                }
-            })
-        })
+                self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+            }else{
+                print("PhoneId login cancelled")
+                self.phoneIdService.phoneIdAuthenticationCancelled?()
+            }
+        
+        }
+    }
+    
+    func close() {
+        self.finishPhoneIdWorkflow(false)
     }
 }
+
 
 

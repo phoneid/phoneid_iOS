@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias VerifyCodeCompletionBlock = (()->Void)
+public typealias VerifyCodeCompletionBlock = ((success:Bool)->Void)
 
 public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, VerifyCodeViewViewDelegate{
     public var phoneIdModel:NumberInfo!
@@ -49,25 +49,29 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     
     // MARK: CountryCodePickerViewDelegate
     
-    public func goBack() {
+    func goBack() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    public func verifyCode(model:NumberInfo, code:String){
+    func verifyCode(model:NumberInfo, code:String){
         phoneIdService.verifyAuthentication(code, info: model){ (token, error) -> Void in
-            if(error == nil){
+            
+            if(error == nil){                
                 self.verifyCodeView.indicateVerificationSuccess()
-                if let completion = self.verifyCodeViewCompletionBlock{
-                    completion()
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
-  
-                }
+                self.verifyCodeViewCompletionBlock?(success: true)
+                self.dismissViewControllerAnimated(true, completion: nil)
+
             }else{
                self.verifyCodeView.indicateVerificationFail()
             }
             
         }
     }
+    
+    func close() {
+        self.verifyCodeViewCompletionBlock?(success: false)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 
 }

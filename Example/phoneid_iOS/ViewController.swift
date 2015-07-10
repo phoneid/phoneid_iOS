@@ -35,14 +35,18 @@ class ViewController: UIViewController {
             
         }
         
-        // Handle authentication fail
-        phoneId.phoneIdAuthenticationFailed = { (error) ->Void in
+        // SDK calls this block after any error happened during authentication process
+        phoneId.phoneIdWorkflowErrorHappened = { (error) ->Void in
             
-            let alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
+        }
+        
+        // SDK calls this block when user taps close button
+        phoneId.phoneIdAuthenticationCancelled = {
+        
+            let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .Alert)
             
             alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
             self.presentViewController(alertController, animated: true, completion:nil)
-        
         }
         
         //customize appearence
@@ -55,7 +59,7 @@ class ViewController: UIViewController {
         self.tokensView.hidden = true
     }
     
-
+    // TODO: implement automatic refresh of token
     @IBAction func doRefreshToken(sender: AnyObject) {
         
         phoneId.refreshToken(){ (token, error) ->Void in

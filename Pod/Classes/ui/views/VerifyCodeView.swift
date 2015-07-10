@@ -8,28 +8,29 @@
 
 import Foundation
 
-public protocol VerifyCodeViewViewDelegate:NSObjectProtocol{
+protocol VerifyCodeViewViewDelegate:NSObjectProtocol{
     func verifyCode(model:NumberInfo, code:String)
     func goBack()
+    func close()
 }
 
 public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
     
     internal weak var delegate:VerifyCodeViewViewDelegate?
     
-    public private(set) var placeholderView:UIView!
-    public private(set) var codeText:NumericTextField!
-    public private(set) var placeholderLabel:UILabel!
-    public private(set) var activityIndicator:UIActivityIndicatorView!
-    public private(set) var backButton:UIButton!
-    public private(set) var statusImage: UIImageView!
+    private(set) var placeholderView:UIView!
+    private(set) var codeText:NumericTextField!
+    private(set) var placeholderLabel:UILabel!
+    private(set) var activityIndicator:UIActivityIndicatorView!
+    private(set) var backButton:UIButton!
+    private(set) var statusImage: UIImageView!
     
-    public private(set) var hintText: UITextView!
-    public private(set) var statusText: UITextView!
+    private(set) var hintText: UITextView!
+    private(set) var statusText: UITextView!
     
     let verificationCodeLength = 6
     
-    public override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
+    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
     }
     
@@ -120,7 +121,7 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         c.append(NSLayoutConstraint(item: statusText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: statusText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.85, constant: 0))
         
-        self.customContraints += c
+        self.customConstraints += c
         
         self.addConstraints(c)
         
@@ -178,7 +179,7 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         return attributedString
     }
     
-    public func indicateVerificationFail(){
+    func indicateVerificationFail(){
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ko")
         statusImage.hidden = false
@@ -186,11 +187,15 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         backButton.enabled = true
     }
     
-    public func indicateVerificationSuccess(){
+    func indicateVerificationSuccess(){
         statusText.attributedText = localizedStringAttributed("logged.in")
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ok")
         statusImage.hidden = false
+    }
+    
+    override func closeButtonTapped(){
+        self.delegate?.close()
     }
     
 }

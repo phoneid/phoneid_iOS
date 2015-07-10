@@ -8,34 +8,36 @@
 
 import Foundation
 
-public protocol NumberInputViewDelegate:NSObjectProtocol{
+protocol NumberInputViewDelegate:NSObjectProtocol{
     func phoneNumberWasAccepted(model: NumberInfo)
     func countryCodePickerTapped(model: NumberInfo)
+    func close()
 }
 
 public class NumberInputView: PhoneIdBaseView{
     
-    public private(set) var numberText:NumericTextField!
-    public private(set) var accessText: UITextView!
-    public private(set) var okButton:UIButton!
-    public private(set) var prefixButton:UIButton!
-    public private(set) var youNumberIsSafeText: UITextView!
-    public private(set) var termsText: UITextView!
-    public private(set) var numberPlaceholderView: UIView!
-    public private(set) var activityIndicator:UIActivityIndicatorView!
+    private(set) var numberText:NumericTextField!
+    private(set) var accessText: UITextView!
+    private(set) var okButton:UIButton!
+    private(set) var prefixButton:UIButton!
+    private(set) var youNumberIsSafeText: UITextView!
+    private(set) var termsText: UITextView!
+    private(set) var numberPlaceholderView: UIView!
+    private(set) var activityIndicator:UIActivityIndicatorView!
     
-    internal weak var delegate:NumberInputViewDelegate?
+    weak var delegate:NumberInputViewDelegate?
 
-    public override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
+    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func setupSubviews(){
         super.setupSubviews()
+
         
         numberText = NumericTextField(maxLength: 15)
         numberText.keyboardType = .NumberPad
@@ -125,13 +127,13 @@ public class NumberInputView: PhoneIdBaseView{
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: okButton, attribute: .CenterY, multiplier: 1, constant:0))
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: okButton, attribute: .CenterX, multiplier: 1, constant:-5))
         
-        self.customContraints += c
+        self.customConstraints += c
         
         self.addConstraints(c)
         
     }
     
-    override public func setupWithModel(model:NumberInfo){
+    override func setupWithModel(model:NumberInfo){
         super.setupWithModel(model)
         
         if let phoneNumberString = phoneIdModel.phoneNumber{
@@ -190,7 +192,7 @@ public class NumberInputView: PhoneIdBaseView{
         validatePhoneNumber()
     }
     
-    public func validatePhoneNumber() {
+    func validatePhoneNumber() {
         activityIndicator.stopAnimating()
         
         if (phoneIdModel.isValidNumber(numberText.text!)) {
@@ -221,6 +223,10 @@ public class NumberInputView: PhoneIdBaseView{
         if let delegate = delegate {
             delegate.countryCodePickerTapped(self.phoneIdModel)
         }
+    }
+    
+    override func closeButtonTapped(){
+        self.delegate?.close()
     }
     
 }
