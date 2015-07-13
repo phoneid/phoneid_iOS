@@ -14,7 +14,7 @@ extension UIViewController{
     func dismissWithCompletion( completion:(()->Void)?){
         
         let parent:UIViewController = (self.presentingViewController as UIViewController?)!
-        self.dismissViewControllerAnimated(false, completion: {
+        self.dismissViewControllerAnimated(true, completion: {
             parent.dismissViewControllerAnimated(false, completion: {
                 completion?()
             })

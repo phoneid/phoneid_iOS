@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import libPhoneNumber_iOS
 
 protocol NumberInputViewDelegate:NSObjectProtocol{
     func phoneNumberWasAccepted(model: NumberInfo)
@@ -24,6 +25,7 @@ public class NumberInputView: PhoneIdBaseView{
     private(set) var termsText: UITextView!
     private(set) var numberPlaceholderView: UIView!
     private(set) var activityIndicator:UIActivityIndicatorView!
+    private var asYouTypeFomratter:NBAsYouTypeFormatter!
     
     weak var delegate:NumberInputViewDelegate?
 
@@ -38,7 +40,6 @@ public class NumberInputView: PhoneIdBaseView{
     override func setupSubviews(){
         super.setupSubviews()
 
-        
         numberText = NumericTextField(maxLength: 15)
         numberText.keyboardType = .NumberPad
         numberText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
@@ -136,8 +137,14 @@ public class NumberInputView: PhoneIdBaseView{
     override func setupWithModel(model:NumberInfo){
         super.setupWithModel(model)
         
+        if let isoCountryCode = phoneIdModel.isoCountryCode{
+            asYouTypeFomratter = NBAsYouTypeFormatter(regionCode: isoCountryCode)
+        }else{
+            asYouTypeFomratter = NBAsYouTypeFormatter(regionCode: phoneIdModel.defaultIsoCountryCode)
+        }
+        
         if let phoneNumberString = phoneIdModel.phoneNumber{
-            numberText.text = phoneNumberString;
+            numberText.text = asYouTypeFomratter.inputString(phoneNumberString);
         }
         
         if let phoneCountryCodeString = phoneIdModel.phoneCountryCode{
@@ -194,6 +201,9 @@ public class NumberInputView: PhoneIdBaseView{
     
     func validatePhoneNumber() {
         activityIndicator.stopAnimating()
+        
+        print(asYouTypeFomratter.inputString(numberText.text))
+        numberText.text = asYouTypeFomratter.inputString(numberText.text)
         
         if (phoneIdModel.isValidNumber(numberText.text!)) {
             numberText.text = phoneIdModel.formatNumber(numberText.text!) as String
