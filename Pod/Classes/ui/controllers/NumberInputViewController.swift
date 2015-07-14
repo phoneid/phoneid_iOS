@@ -82,21 +82,28 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
     
     func finishPhoneIdWorkflow(success:Bool){
         
-        self.dismissWithCompletion { () -> Void in
-            
-            if(success){
-                print("PhoneId login finished")
-                self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
-            }else{
-                print("PhoneId login cancelled")
-                self.phoneIdService.phoneIdAuthenticationCancelled?()
-            }
-        
+        let parent:UIViewController = (self.presentingViewController as UIViewController?)!
+        self.dismissViewControllerAnimated(false, completion: {
+            parent.dismissViewControllerAnimated(true, completion: {
+                self.callPhoneIdCompletion(success)
+            })
+        })
+    }
+    
+    func callPhoneIdCompletion(success:Bool){
+        if(success){
+            print("PhoneId login finished")
+            self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+        }else{
+            print("PhoneId login cancelled")
+            self.phoneIdService.phoneIdAuthenticationCancelled?()
         }
     }
     
     func close() {
-        self.finishPhoneIdWorkflow(false)
+        self.dismissViewControllerAnimated(false, completion: {
+            self.callPhoneIdCompletion(false)
+        })
     }
 }
 

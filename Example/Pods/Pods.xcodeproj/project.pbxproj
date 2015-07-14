@@ -61,7 +61,6 @@
 		C2ACE566DFBB99EF549880D95408BBF0 /* Pods-phoneid_iOS_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F9A6730CDFC0B29A715F1A745A757283 /* Pods-phoneid_iOS_Tests-dummy.m */; };
 		C3293AE61A6DADBBD75D38B3372A15F6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E7AD4B327914F86C1925E1CF0FFA7E /* UserInfo.swift */; };
 		C4DB77A305DBED00147DBD4EDC2D866D /* NSURLRequest+PhoneId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C7608D47578621ED78B4D188CC830 /* NSURLRequest+PhoneId.swift */; };
-		CB3863331438A4275AB358656226F29D /* UIViewControllerExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE03F97DFB277463D84EF8E244FC807 /* UIViewControllerExtenstions.swift */; };
 		CBDF754CAF1B644A9A82DFF17A7560DC /* NBNumberFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 725F20B1E4305201A684C7888DC86EA8 /* NBNumberFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0C63C84DA099AFC1C6FD18B9F7B26D2 /* Pods-phoneid_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5349756566A9FA8702AA3355D4B736B8 /* Pods-phoneid_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D226F4C97CE651133747260DEC93EE6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5562379569B349F5BAB09F37FC5013 /* Foundation.framework */; };
@@ -197,7 +196,6 @@
 		CB74FE65B2A725E2B27D48E1AB58E132 /* NumberInputViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NumberInputViewController.swift; sourceTree = "<group>"; };
 		CBE7E6EC63787100EDA92F57CC5DCC15 /* NBMetadataHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataHelper.m; path = libPhoneNumber/NBMetadataHelper.m; sourceTree = "<group>"; };
 		D2FAD5C44B4B2E34DBB6585EEC2A2D76 /* NSArray+NBAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+NBAdditions.h"; path = "libPhoneNumber/NSArray+NBAdditions.h"; sourceTree = "<group>"; };
-		DEE03F97DFB277463D84EF8E244FC807 /* UIViewControllerExtenstions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtenstions.swift; sourceTree = "<group>"; };
 		E5F66A6D2B84209263199BC741CFE9D0 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = NBPhoneNumberMetadata.plist; path = libPhoneNumber/NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
 		E836E8E372BAA21B0C3AF4EC5B79E1E8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB6406332C1AB4E6B19DDE24CB7A1F31 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
@@ -511,7 +509,6 @@
 			children = (
 				10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */,
 				A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */,
-				DEE03F97DFB277463D84EF8E244FC807 /* UIViewControllerExtenstions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -783,7 +780,6 @@
 				E5C7740CFFAC5FDD46512A20FE3BF39F /* Response.swift in Sources */,
 				82AAF3066395D2742F1E7EF394222369 /* TokenInfo.swift in Sources */,
 				FC795F22A866D413BDA634A155275C2A /* UICustomization.swift in Sources */,
-				CB3863331438A4275AB358656226F29D /* UIViewControllerExtenstions.swift in Sources */,
 				C3293AE61A6DADBBD75D38B3372A15F6 /* UserInfo.swift in Sources */,
 				AE8969CC2F07308BD02D0AB47DEA7E00 /* VerifyCodeView.swift in Sources */,
 				B6004566BDC3F309F396FB0B257EB96A /* VerifyCodeViewController.swift in Sources */,
