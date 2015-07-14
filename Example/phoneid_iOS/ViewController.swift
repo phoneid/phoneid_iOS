@@ -22,10 +22,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //configure client
-        phoneId.configureClient("TestPhoneId");
-        
+                
         
         // Handle authentication success
         phoneId.phoneIdAuthenticationSucceed = { (token) ->Void in
@@ -35,7 +32,7 @@ class ViewController: UIViewController {
             
         }
         
-        // SDK calls this block after any error happened during authentication process
+        // SDK calls this block whenever error happened
         phoneId.phoneIdWorkflowErrorHappened = { (error) ->Void in
             
         }
@@ -49,6 +46,14 @@ class ViewController: UIViewController {
             self.presentViewController(alertController, animated: true, completion:nil)
         }
         
+        // SDK calls this block every time when token refreshed
+        phoneId.phoneIdAuthenticationRefreshed = { (token) ->Void in
+
+                self.tokenText.text = token.accessToken
+                self.refreshTokenText.text = token.refreshToken
+        }
+        
+        
         //customize appearence
         //phoneId.componentFactory = CustomComponentFactory()
         
@@ -57,21 +62,6 @@ class ViewController: UIViewController {
     @IBAction func doLogout(sender: AnyObject) {
         phoneId.logout()
         self.tokensView.hidden = true
-    }
-    
-    // TODO: implement automatic refresh of token
-    @IBAction func doRefreshToken(sender: AnyObject) {
-        
-        phoneId.refreshToken(){ (token, error) ->Void in
-        
-            self.tokensView.hidden = false
-            if let token = token {
-                self.tokenText.text = token.accessToken
-                self.refreshTokenText.text = token.refreshToken
-            } else if let error = error{
-                print("\(error.localizedDescription), \(error.localizedFailureReason!)")
-            }
-        }
     }
     
 }

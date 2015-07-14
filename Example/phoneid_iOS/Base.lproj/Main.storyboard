@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
@@ -33,14 +33,14 @@
                                         <rect key="frame" x="0.0" y="14" width="59" height="20.5"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh Token:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Lg-de-Ymw">
                                         <rect key="frame" x="0.0" y="74" width="123" height="20.5"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9tJ-gY-i1k">
@@ -73,49 +73,33 @@
                                             </mask>
                                         </variation>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5w-8M-zVp">
-                                        <rect key="frame" x="233" y="140" width="39" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSc-of-YRP">
+                                        <rect key="frame" x="116" y="136" width="48" height="30"/>
                                         <animations/>
-                                        <state key="normal" title="Reset"/>
+                                        <state key="normal" title="Logout"/>
                                         <connections>
-                                            <action selector="doLogout:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="HEf-JK-iN0"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUo-jT-giF">
-                                        <rect key="frame" x="8" y="140" width="99" height="30"/>
-                                        <animations/>
-                                        <state key="normal" title="Refresh Token"/>
-                                        <connections>
-                                            <action selector="doRefreshToken:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wfH-Rh-jze"/>
+                                            <action selector="doLogout:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="b5y-EA-x41"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="k5w-8M-zVp" secondAttribute="trailing" constant="8" id="0fX-bI-Zgp"/>
                                     <constraint firstAttribute="width" constant="280" id="81p-O5-8TF"/>
-                                    <constraint firstItem="k5w-8M-zVp" firstAttribute="centerX" secondItem="pP3-G9-HVJ" secondAttribute="centerX" id="Bw6-mR-TMv"/>
-                                    <constraint firstItem="OUo-jT-giF" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" constant="8" id="FWU-q2-uX3"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="top" secondItem="QXI-Dd-MT1" secondAttribute="bottom" constant="2" id="G8n-wt-xb4"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="top" secondItem="9tJ-gY-i1k" secondAttribute="bottom" constant="8" id="MA9-y8-HeR"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="PHf-P7-PjM"/>
-                                    <constraint firstAttribute="bottom" secondItem="k5w-8M-zVp" secondAttribute="bottom" id="TEj-OB-DbQ"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="Vby-Hb-bd0"/>
+                                    <constraint firstAttribute="bottom" secondItem="cSc-of-YRP" secondAttribute="bottom" constant="4" id="W0z-ew-epn"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="top" constant="14" id="XRL-gf-X0R"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="a3z-Bz-eaf"/>
                                     <constraint firstAttribute="height" constant="170" id="hID-7c-IPW"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="hLH-aS-ZlO"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="k8p-Cm-8SK"/>
+                                    <constraint firstItem="cSc-of-YRP" firstAttribute="centerX" secondItem="pP3-G9-HVJ" secondAttribute="centerX" id="scA-fd-RFJ"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="top" secondItem="9Lg-de-Ymw" secondAttribute="bottom" constant="4" id="tBF-bv-N3K"/>
-                                    <constraint firstAttribute="bottom" secondItem="OUo-jT-giF" secondAttribute="bottom" id="u8T-ep-Cnm"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="vdW-0g-bib"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Bw6-mR-TMv"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <animations/>

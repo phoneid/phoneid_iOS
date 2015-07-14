@@ -51,6 +51,7 @@ import Foundation
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
     }
     
+    // TODO: respect logged in state when init UI
     func initUI() {
         let bgImage:UIImage = UIImage(namedInPhoneId: "phone")!
         setTitle(localizedString("button.title.login.with.phone.id"), forState: .Normal)
@@ -115,8 +116,6 @@ import Foundation
     private func presentNumberInputController(){
 
         let controller = phoneIdComponentFactory.numberInputViewController()
-        
-        //let navigationController = UINavigationController(rootViewController: controller)
         
         window?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
     }

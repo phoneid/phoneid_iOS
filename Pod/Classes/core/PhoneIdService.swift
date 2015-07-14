@@ -29,16 +29,19 @@ public class PhoneIdService: NSObject {
     
     public var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
     public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
+    public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
     public var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
-    
     
     public internal(set) var appName: String?
     public internal(set) var clientId: String?
+    public internal(set) var autorefreshToken: Bool = true
     
     internal var urlSession: NSURLSession!;
+    internal var refreshMonitor: PhoneIdRefreshMonitor!;
     
     private var apiBaseURL:NSURL!
     private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
+    
     
     internal var token: TokenInfo? {
         get {
@@ -50,6 +53,7 @@ public class PhoneIdService: NSObject {
         super.init()
         urlSession = NSURLSession.sharedSession()
         apiBaseURL = Constants.baseURL
+        refreshMonitor = PhoneIdRefreshMonitor(phoneIdService:self)
     }
     
     convenience init(baseURL:NSURL) {
@@ -57,14 +61,16 @@ public class PhoneIdService: NSObject {
         apiBaseURL = baseURL
     }
     
-    public func configureClient(clienId: String) {
-        self.clientId = clienId;
+    public func configureClient(id: String, autorefresh:Bool = true) {
+        self.autorefreshToken = autorefresh
+        self.clientId = id;
+        self.loadClients(id) { (error) -> Void in }
     }
     
     
     public func logout() {
-        KeychainStorage.deleteValue(TokenKey.Access);
-        KeychainStorage.deleteValue(TokenKey.Refresh);
+        self.refreshMonitor.stop()
+        self.token?.removeFromKeychain();
         NSNotificationCenter
             .defaultCenter()
             .postNotificationName(Notifications.DidLogout, object: nil, userInfo:nil)
@@ -136,10 +142,8 @@ public class PhoneIdService: NSObject {
                     
                     
                 }else if let receivedToken = TokenInfo.parse(response){
-                    receivedToken.saveToKeyChain()
-                    self.sendNotificationVerificationSuccess()
+                    self.doOnAuthenticationSucceed(receivedToken)
                     token = receivedToken
-                    
                 }else{
                     error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
                     self.sendNotificationVerificationFail(error!)
@@ -149,6 +153,16 @@ public class PhoneIdService: NSObject {
                 self.notifyClientCodeAboutError(error)
             }
         }
+    }
+    
+    func doOnAuthenticationSucceed(token:TokenInfo){
+        token.saveToKeychain()
+        
+        if(self.autorefreshToken){
+            self.refreshMonitor.start()
+        }
+        
+        self.sendNotificationVerificationSuccess()
     }
     
     func loadUserInfo(completion:UserInfoRequestCompletion) {
@@ -220,9 +234,8 @@ public class PhoneIdService: NSObject {
                     error = PhoneIdServiceError.requestFailedError("error.failed.refresh.token", reasonKey: responseError.localizedDescription)
                     
                 }else if let refreshedToken = TokenInfo.parse(response) {
-                    refreshedToken.saveToKeyChain()
-                    self.sendNotificationTokenRefreshed()
                     token = refreshedToken
+                    self.doOnAuthenticationRefreshSucceed(refreshedToken)
                 }else{
                     NSLog("Failed to parse token in response \(response.responseJSON)")
                     error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
@@ -238,6 +251,12 @@ public class PhoneIdService: NSObject {
             completion(token: nil, error: error)
             self.notifyClientCodeAboutError(error)
         }
+    }
+    
+    func doOnAuthenticationRefreshSucceed(token:TokenInfo){
+        token.saveToKeychain()
+        self.phoneIdAuthenticationRefreshed?(token: token)
+        self.sendNotificationTokenRefreshed()
     }
     
     func abortCall() {

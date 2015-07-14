@@ -50,10 +50,6 @@ public class KeychainStorage: NSObject {
         return status == noErr
     }
     
-    public class func saveIntValue(key: String, value: Int) -> Bool {
-        return self.saveValue(key, value: "\(value)")
-    }
-    
     public class func loadValue(key: String) -> String? {
 
         let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, kCFBooleanTrue, kSecMatchLimitOneValue],
@@ -75,6 +71,10 @@ public class KeychainStorage: NSObject {
         return value
     }
     
+    public class func saveIntValue(key: String, value: Int) -> Bool {
+        return self.saveValue(key, value: "\(value)")
+    }
+    
     public class func loadIntValue(key: String) ->Int?{
         
         var result:Int?
@@ -85,6 +85,22 @@ public class KeychainStorage: NSObject {
         
         return result
     
+    }
+    
+    public class func saveTimeIntervalValue(key: String, value: NSTimeInterval) -> Bool {
+        return self.saveValue(key, value: "\(value)")
+    }
+    
+    public class func loadTimeIntervalValue(key: String) ->NSTimeInterval?{
+        
+        var result:NSTimeInterval?
+        
+        if let value = self.loadValue(key){
+            result = NSTimeInterval(value)
+        }
+        
+        return result
+        
     }
     
     public class func deleteValue(key: String) -> Bool {
