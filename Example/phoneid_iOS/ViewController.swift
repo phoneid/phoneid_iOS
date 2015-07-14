@@ -22,11 +22,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        updateTokenInfoView()
         
         // Handle authentication success
         phoneId.phoneIdAuthenticationSucceed = { (token) ->Void in
-            self.tokensView.hidden = false
+            self.tokensView.hidden = !self.phoneId.isLoggedIn
             self.tokenText.text = token.accessToken
             self.refreshTokenText.text = token.refreshToken
             
@@ -59,9 +60,17 @@ class ViewController: UIViewController {
         
     }
     
+    func updateTokenInfoView(){
+        self.tokensView.hidden = !phoneId.isLoggedIn
+        if let token = phoneId.token {
+            self.tokenText.text = token.accessToken
+            self.refreshTokenText.text = token.refreshToken
+        }
+    }
+    
     @IBAction func doLogout(sender: AnyObject) {
         phoneId.logout()
-        self.tokensView.hidden = true
+        self.tokensView.hidden = !phoneId.isLoggedIn
     }
     
 }

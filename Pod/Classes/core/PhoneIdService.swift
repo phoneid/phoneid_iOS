@@ -26,12 +26,23 @@ public class PhoneIdService: NSObject {
     }
     
     public var componentFactory:ComponentFactory = DefaultComponentFactory()
-    
     public var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
     public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
     public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
     public var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
     
+    public var isLoggedIn: Bool {
+        get {
+            return token != nil ? self.token!.isValid() : false
+        }
+    }
+    
+    public var token: TokenInfo? {
+        get {
+            return TokenInfo.loadFromKeyChain()
+        }
+    }
+        
     public internal(set) var appName: String?
     public internal(set) var clientId: String?
     public internal(set) var autorefreshToken: Bool = true
@@ -42,18 +53,11 @@ public class PhoneIdService: NSObject {
     private var apiBaseURL:NSURL!
     private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
     
-    
-    internal var token: TokenInfo? {
-        get {
-            return TokenInfo.loadFromKeyChain()
-        }
-    }
-    
     override init(){
         super.init()
         urlSession = NSURLSession.sharedSession()
         apiBaseURL = Constants.baseURL
-        refreshMonitor = PhoneIdRefreshMonitor(phoneIdService:self)
+        
     }
     
     convenience init(baseURL:NSURL) {
@@ -63,14 +67,25 @@ public class PhoneIdService: NSObject {
     
     public func configureClient(id: String, autorefresh:Bool = true) {
         self.autorefreshToken = autorefresh
+        
         self.clientId = id;
-        self.loadClients(id) { (error) -> Void in }
+        
+        if(autorefresh){
+            refreshMonitor = PhoneIdRefreshMonitor(phoneIdService:self)
+            if(self.isLoggedIn){
+                refreshMonitor.start()
+            }
+        }
+        
+        self.loadClients(id) { (error) -> Void in}
     }
     
     
     public func logout() {
-        self.refreshMonitor.stop()
+        
+        self.refreshMonitor?.stop()
         self.token?.removeFromKeychain();
+        
         NSNotificationCenter
             .defaultCenter()
             .postNotificationName(Notifications.DidLogout, object: nil, userInfo:nil)

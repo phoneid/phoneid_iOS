@@ -12,6 +12,7 @@
 		09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */; };
 		09587C811B4D1C510019FA97 /* NumberInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */; };
 		09587C821B4D1C510019FA97 /* KeychainStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */; };
+		09C1E6021B55261100662C2F /* PhoneIdRefreshMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdSDKIntegrationTests.swift; sourceTree = "<group>"; };
 		09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInfoTests.swift; sourceTree = "<group>"; };
 		09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorageTests.swift; sourceTree = "<group>"; };
+		09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdRefreshMonitorTests.swift; sourceTree = "<group>"; };
 		0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Tests/Pods-phoneid_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13124AA0B1313A0311ADB6F8 /* Pods-phoneid_iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example/Pods-phoneid_iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* phoneid_iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phoneid_iOS_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +142,7 @@
 				09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */,
 				09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09587C811B4D1C510019FA97 /* NumberInfoTests.swift in Sources */,
+				09C1E6021B55261100662C2F /* PhoneIdRefreshMonitorTests.swift in Sources */,
 				09587C7E1B4D1C510019FA97 /* TestUtils.swift in Sources */,
 				09587C821B4D1C510019FA97 /* KeychainStorageTests.swift in Sources */,
 				09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */,

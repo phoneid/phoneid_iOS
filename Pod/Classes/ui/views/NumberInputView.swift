@@ -201,8 +201,7 @@ public class NumberInputView: PhoneIdBaseView{
     
     func validatePhoneNumber() {
         activityIndicator.stopAnimating()
-        
-        print(asYouTypeFomratter.inputString(numberText.text))
+    
         numberText.text = asYouTypeFomratter.inputString(numberText.text)
         
         if (phoneIdModel.isValidNumber(numberText.text!)) {

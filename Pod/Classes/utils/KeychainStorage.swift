@@ -64,8 +64,6 @@ public class KeychainStorage: NSObject {
         if status == noErr {
             let retrievedData: NSData = dataTypeRef!.takeRetainedValue() as! NSData
             value = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as? String;
-        } else {
-            print("Nothing was retrieved from the keychain. Status code \(status)")
         }
         
         return value

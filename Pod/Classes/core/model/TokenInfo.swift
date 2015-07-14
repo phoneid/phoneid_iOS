@@ -40,12 +40,11 @@ public class TokenInfo: ParseableModel{
         super.init(json:json)
         self.accessToken = json[TokenKey.Access] as? String
         self.refreshToken = json[TokenKey.Refresh] as? String
+        self.expirationPeriod = json[TokenKey.ExpireTime] as? Int
         
-//        #if DEBUG
-//            self.expirationPeriod = 30
-//            #else
-            self.expirationPeriod = json[TokenKey.ExpireTime] as? Int
-//        #endif
+        //#if DEBUG
+        //    self.expirationPeriod = 30
+        //#endif
         
         
         self.timestamp = NSDate()
