@@ -9,8 +9,6 @@
 import Foundation
 
 
-//TODO: add possibility to style differently depending on login/logout state
-
 @IBDesignable public class PhoneIdLoginButton: UIButton, Customizable {
     
     public var colorScheme: ColorScheme!
@@ -77,8 +75,8 @@ import Foundation
     func configureButton(isLoggedIn:Bool){
         self.removeTarget(self, action: nil, forControlEvents: .TouchUpInside)
         if(isLoggedIn){
-            self.setTitle(localizedString("button.title.logged.in"), forState:UIControlState.Normal)
-            self.addTarget(self, action:"loggedInTouched", forControlEvents: .TouchUpInside)
+            self.setTitle(localizedString("button.title.logout"), forState:UIControlState.Normal)
+            self.addTarget(self, action:"logoutTouched", forControlEvents: .TouchUpInside)
         }else{
             setTitle(localizedString("button.title.login.with.phone.id"), forState: .Normal)
             addTarget(self, action:"loginTouched", forControlEvents: .TouchUpInside)
@@ -120,8 +118,8 @@ import Foundation
     }
     
     
-    private func loggedInTouched() {
-        print("already logged in with phone id")
+    func logoutTouched() {
+        phoneIdService.logout()
     }
     
     private func presentNumberInputController(){

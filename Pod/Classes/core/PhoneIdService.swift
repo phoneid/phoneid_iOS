@@ -30,6 +30,7 @@ public class PhoneIdService: NSObject {
     public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
     public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
     public var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
+    public var phoneIdDidLogout:(() -> Void)?
     
     public var isLoggedIn: Bool {
         get {
@@ -89,6 +90,7 @@ public class PhoneIdService: NSObject {
         NSNotificationCenter
             .defaultCenter()
             .postNotificationName(Notifications.DidLogout, object: nil, userInfo:nil)
+        phoneIdDidLogout?()
     }
     
     // MARK: - API

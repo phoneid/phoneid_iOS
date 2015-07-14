@@ -7,7 +7,7 @@
 */
 
 "button.title.login.with.phone.id"="Login with phone.id";
-"button.title.logged.in"="Logged in";
+"button.title.logout"="Log out";
 
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
 

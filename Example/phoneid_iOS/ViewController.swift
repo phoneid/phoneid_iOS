@@ -27,15 +27,12 @@ class ViewController: UIViewController {
         
         // Handle authentication success
         phoneId.phoneIdAuthenticationSucceed = { (token) ->Void in
-            self.tokensView.hidden = !self.phoneId.isLoggedIn
-            self.tokenText.text = token.accessToken
-            self.refreshTokenText.text = token.refreshToken
-            
+            self.updateTokenInfoView()
         }
         
         // SDK calls this block whenever error happened
         phoneId.phoneIdWorkflowErrorHappened = { (error) ->Void in
-            
+            print(error.localizedDescription)
         }
         
         // SDK calls this block when user taps close button
@@ -49,9 +46,12 @@ class ViewController: UIViewController {
         
         // SDK calls this block every time when token refreshed
         phoneId.phoneIdAuthenticationRefreshed = { (token) ->Void in
-
-                self.tokenText.text = token.accessToken
-                self.refreshTokenText.text = token.refreshToken
+            self.updateTokenInfoView()
+        }
+        
+        // SDK calls this block on logout
+        phoneId.phoneIdDidLogout = { (token) ->Void in
+            self.updateTokenInfoView()
         }
         
         
@@ -66,11 +66,6 @@ class ViewController: UIViewController {
             self.tokenText.text = token.accessToken
             self.refreshTokenText.text = token.refreshToken
         }
-    }
-    
-    @IBAction func doLogout(sender: AnyObject) {
-        phoneId.logout()
-        self.tokensView.hidden = !phoneId.isLoggedIn
     }
     
 }
