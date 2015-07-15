@@ -176,7 +176,7 @@ public class PhoneIdService: NSObject {
         token.saveToKeychain()
         
         if(self.autorefreshToken){
-            self.refreshMonitor.start()
+            self.refreshMonitor?.start()
         }
         
         self.sendNotificationVerificationSuccess()
