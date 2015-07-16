@@ -45,7 +45,7 @@
 "error.user.info.unexpected.response"="Impossibile analizzare informazioni utente.";
 "error.reason.user.info.unexpected.response"="Chiavi informazioni utente [id, client_id, phoneNumber] non trovato in risposta.";
 "error.failed.request.code.verification" = "Richiesta di verifica di codice non è riuscita.";
-"error.reason.response.does.not.contrain.valid.token.info"="Response does not contain valid token.";
+"error.reason.response.does.not.contain.valid.token.info"="Response does not contain valid token.";
 
 
 "error.failed.refresh.token"="Impossibile aggiornare l'autenticazione.";

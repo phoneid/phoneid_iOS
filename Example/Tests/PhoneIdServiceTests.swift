@@ -23,6 +23,19 @@ class PhoneIdServiceTests: XCTestCase {
         return result
     }
     
+    func testConfigureClient() {
+        
+        let phoneId = PhoneIdService()
+        phoneId.configureClient(TestConstants.ClientId, autorefresh: true)
+        XCTAssertNotNil(phoneId.refreshMonitor)
+        XCTAssertNotNil(phoneId.clientId)
+        
+        let phoneId1 = PhoneIdService()
+        phoneId1.configureClient(TestConstants.ClientId, autorefresh: false)
+        XCTAssertNil(phoneId1.refreshMonitor)
+        XCTAssertNotNil(phoneId1.clientId)
+    }
+    
     // MARK: loadClients
     
     func testGetClients_Success() {

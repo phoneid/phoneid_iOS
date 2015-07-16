@@ -27,7 +27,7 @@ public class TokenInfo: ParseableModel{
     
     public var expired:Bool{
         get {
-            let result = expirationTime?.timeIntervalSince1970 > NSDate().timeIntervalSince1970
+            let result = expirationTime?.timeIntervalSince1970 < NSDate().timeIntervalSince1970
             return result
         }
     }

@@ -46,7 +46,7 @@
 "error.reason.user.info.unexpected.response"="User info keys [id, client_id, phoneNumber] not found in response.";
 
 "error.failed.request.code.verification" = "Code verification request has failed.";
-"error.reason.response.does.not.contrain.valid.token.info"="Response does not contrain valid token info.";
+"error.reason.response.does.not.contain.valid.token.info"="Response does not contain valid token info.";
 
 "error.failed.refresh.token"="Failed to refresh authentication.";
 "error.reason.no.token.to.refresh"="There is not authentication credentials to refresh them.";

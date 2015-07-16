@@ -17,15 +17,20 @@ class PhoneIdRefreshMonitor{
     let maxRefreshRetryCount = 5
     let refreshRetrySleepSeconds = 2.0
     var refreshRetryCount:Int
+
     
-    init(phoneIdService:PhoneIdService){
-        notificationCenter = NSNotificationCenter.defaultCenter()
+    init(phoneIdService:PhoneIdService, notificationCenter:NSNotificationCenter){
         phoneId = phoneIdService
         isRunning = false
         refreshRetryCount = 0
+        self.notificationCenter = notificationCenter
         
         notificationCenter.addObserver(self, selector: "willEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
         notificationCenter.addObserver(self, selector: "didEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+    }
+    
+    convenience init(phoneIdService:PhoneIdService){
+        self.init(phoneIdService:phoneIdService, notificationCenter: NSNotificationCenter.defaultCenter())
     }
     
     deinit{

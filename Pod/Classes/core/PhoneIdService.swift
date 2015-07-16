@@ -77,8 +77,6 @@ public class PhoneIdService: NSObject {
                 refreshMonitor.start()
             }
         }
-        
-        self.loadClients(id) { (error) -> Void in}
     }
     
     
@@ -162,7 +160,7 @@ public class PhoneIdService: NSObject {
                     self.doOnAuthenticationSucceed(receivedToken)
                     token = receivedToken
                 }else{
-                    error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
+                    error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contain.valid.token.info")
                     self.sendNotificationVerificationFail(error!)
                 }
                 
@@ -255,7 +253,7 @@ public class PhoneIdService: NSObject {
                     self.doOnAuthenticationRefreshSucceed(refreshedToken)
                 }else{
                     NSLog("Failed to parse token in response \(response.responseJSON)")
-                    error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contrain.valid.token.info")
+                    error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contain.valid.token.info")
                 }
                 
                 completion(token: token, error: error)
