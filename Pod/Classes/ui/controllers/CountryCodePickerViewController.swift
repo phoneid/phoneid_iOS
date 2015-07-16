@@ -43,11 +43,12 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
     
     public override func viewDidAppear(animated: Bool) {
         
-        let countrySearchController = self.countryCodePickerView.countrySearchController
+        super.viewDidAppear(animated)
+
+        let countrySearchController = self.countryCodePickerView.searchController()
         presentViewController(countrySearchController, animated: true, completion:{
             countrySearchController.searchBar.becomeFirstResponder()
         })
-        super.viewDidAppear(animated)
     }
     
     // MARK: CountryCodePickerViewDelegate

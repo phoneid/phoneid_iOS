@@ -25,22 +25,22 @@ class CountryCodeCell:UITableViewCell{
         prefixLabel.backgroundColor = UIColor.grayColor();
         prefixLabel.layer.cornerRadius = 3;
         prefixLabel.layer.masksToBounds = true;
-        self.prefixLabel.translatesAutoresizingMaskIntoConstraints = false
+        prefixLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(prefixLabel);
+        self.contentView.addSubview(prefixLabel);
         
         countryLabel = UILabel();
-        self.countryLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.countryLabel.font = UIFont.systemFontOfSize(18)
-        self.addSubview(countryLabel);
-        
+        countryLabel.translatesAutoresizingMaskIntoConstraints = false
+        countryLabel.font = UIFont.systemFontOfSize(18)
+        countryLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: UILayoutConstraintAxis.Horizontal)
+        self.contentView.addSubview(countryLabel);
         
         setupLayout()
     }
     
     func setupLayout(){
         var c:[NSLayoutConstraint] = []
-        let cell = self
+        let cell = self.contentView
         
         c.append(NSLayoutConstraint(item: prefixLabel, attribute: .Left, relatedBy: .Equal, toItem: cell, attribute: .Left, multiplier: 1, constant: 10))
         c.append(NSLayoutConstraint(item: prefixLabel, attribute: .CenterY, relatedBy: .Equal, toItem: cell, attribute: .CenterY, multiplier: 1, constant: 0))
@@ -50,7 +50,7 @@ class CountryCodeCell:UITableViewCell{
         
         c.append(NSLayoutConstraint(item: countryLabel, attribute: .CenterY, relatedBy: .Equal, toItem: cell, attribute: .CenterY, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: countryLabel, attribute: .Left, relatedBy: .Equal, toItem: prefixLabel, attribute: .Right, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: countryLabel, attribute: .Right, relatedBy: .Equal, toItem: cell, attribute: .Right, multiplier: 1, constant: -10))
+        c.append(NSLayoutConstraint(item: countryLabel, attribute: .Right, relatedBy: .Equal, toItem: cell, attribute: .Right, multiplier: 1, constant: 0))
         
         self.addConstraints(c)
         
@@ -61,7 +61,7 @@ class CountryCodeCell:UITableViewCell{
         prefixLabel.text = model.prefix
         countryLabel.text = model.name
         
-        self.needsUpdateConstraints()
+        self.setNeedsLayout()
     }
     
     required init(coder aDecoder: NSCoder) {

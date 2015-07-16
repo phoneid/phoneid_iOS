@@ -40,7 +40,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     private(set) var backButton:UIButton!
     
     internal weak var delegate:CountryCodePickerViewDelegate?
-    internal var countrySearchController:UISearchController!
+    private var countrySearchController:UISearchController!
     
     private var sections:CountryCodePickerModel = []
     private var searchResults:CountryCodePickerModel = []
@@ -80,15 +80,20 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
             self.addSubview(element)
         }
         
-        countrySearchController = UISearchController(searchResultsController: nil)
-        countrySearchController.searchResultsUpdater = self
-        countrySearchController.delegate = self
-        countrySearchController.dimsBackgroundDuringPresentation = false
-        countrySearchController.hidesNavigationBarDuringPresentation = false
+
         
-        countrySearchController.searchBar.sizeToFit()
-        tableView.tableHeaderView = countrySearchController.searchBar
-        
+    }
+    
+    func searchController() -> UISearchController{
+        if(countrySearchController == nil){
+            countrySearchController = UISearchController(searchResultsController: nil)
+            countrySearchController.searchResultsUpdater = self
+            countrySearchController.delegate = self
+            countrySearchController.dimsBackgroundDuringPresentation = false
+            countrySearchController.hidesNavigationBarDuringPresentation = false
+            tableView.tableHeaderView = countrySearchController.searchBar
+        }
+        return countrySearchController
     }
     
     override func setupLayout(){
@@ -223,8 +228,8 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     }
     
     func isSearchMode() -> Bool{
-        let searchString = self.countrySearchController.searchBar.text
-        let result = !searchString!.isEmpty
+        let searchString:String? = self.countrySearchController?.searchBar.text
+        let result = searchString != nil ? !searchString!.isEmpty : false
         return result
     }
     

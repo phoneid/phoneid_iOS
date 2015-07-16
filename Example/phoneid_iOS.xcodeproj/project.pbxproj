@@ -13,6 +13,8 @@
 		09587C811B4D1C510019FA97 /* NumberInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */; };
 		09587C821B4D1C510019FA97 /* KeychainStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */; };
 		09C1E6021B55261100662C2F /* PhoneIdRefreshMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */; };
+		09C1E6261B57B6BE00662C2F /* phoneid_iOS_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */; };
+		09C1E62D1B57B74900662C2F /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -23,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		09C1E6281B57B6BE00662C2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
+			remoteInfo = phoneid_iOS_Example;
+		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -39,6 +48,9 @@
 		09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInfoTests.swift; sourceTree = "<group>"; };
 		09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorageTests.swift; sourceTree = "<group>"; };
 		09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdRefreshMonitorTests.swift; sourceTree = "<group>"; };
+		09C1E6231B57B6BE00662C2F /* phoneid_iOS_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = phoneid_iOS_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phoneid_iOS_UITests.swift; sourceTree = "<group>"; };
+		09C1E6271B57B6BE00662C2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Tests/Pods-phoneid_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13124AA0B1313A0311ADB6F8 /* Pods-phoneid_iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example/Pods-phoneid_iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* phoneid_iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phoneid_iOS_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +72,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		09C1E6201B57B6BE00662C2F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +98,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09C1E6241B57B6BE00662C2F /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */,
+				09C1E6271B57B6BE00662C2F /* Info.plist */,
+			);
+			name = UITests;
+			path = phoneid_iOS_UITests;
+			sourceTree = "<group>";
+		};
 		2EF23F794F090F5052435233 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +125,7 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for phoneid_iOS */,
 				607FACE81AFB9204008FA782 /* Tests */,
+				09C1E6241B57B6BE00662C2F /* UITests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				2EF23F794F090F5052435233 /* Pods */,
 				CF3FA3623E7F61152E941209 /* Frameworks */,
@@ -107,6 +137,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* phoneid_iOS_Example.app */,
 				607FACE51AFB9204008FA782 /* phoneid_iOS_Tests.xctest */,
+				09C1E6231B57B6BE00662C2F /* phoneid_iOS_UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,6 +208,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		09C1E6221B57B6BE00662C2F /* phoneid_iOS_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09C1E62C1B57B6BE00662C2F /* Build configuration list for PBXNativeTarget "phoneid_iOS_UITests" */;
+			buildPhases = (
+				09C1E61F1B57B6BE00662C2F /* Sources */,
+				09C1E6201B57B6BE00662C2F /* Frameworks */,
+				09C1E6211B57B6BE00662C2F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				09C1E6291B57B6BE00662C2F /* PBXTargetDependency */,
+			);
+			name = phoneid_iOS_UITests;
+			productName = phoneid_iOS_UITests;
+			productReference = 09C1E6231B57B6BE00662C2F /* phoneid_iOS_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		607FACCF1AFB9204008FA782 /* phoneid_iOS_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "phoneid_iOS_Example" */;
@@ -228,6 +277,10 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
+					09C1E6221B57B6BE00662C2F = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -252,11 +305,19 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* phoneid_iOS_Example */,
 				607FACE41AFB9204008FA782 /* phoneid_iOS_Tests */,
+				09C1E6221B57B6BE00662C2F /* phoneid_iOS_UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		09C1E6211B57B6BE00662C2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCE1AFB9204008FA782 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,6 +431,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		09C1E61F1B57B6BE00662C2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09C1E6261B57B6BE00662C2F /* phoneid_iOS_UITests.swift in Sources */,
+				09C1E62D1B57B74900662C2F /* TestUtils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -395,6 +465,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		09C1E6291B57B6BE00662C2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 607FACCF1AFB9204008FA782 /* phoneid_iOS_Example */;
+			targetProxy = 09C1E6281B57B6BE00662C2F /* PBXContainerItemProxy */;
+		};
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* phoneid_iOS_Example */;
@@ -422,6 +497,33 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		09C1E62A1B57B6BE00662C2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = phoneid_iOS_UITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.phoneid-iOS.phoneid-iOS-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = phoneid_iOS_Example;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		09C1E62B1B57B6BE00662C2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = phoneid_iOS_UITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.phoneid-iOS.phoneid-iOS-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = phoneid_iOS_Example;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -570,6 +672,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		09C1E62C1B57B6BE00662C2F /* Build configuration list for PBXNativeTarget "phoneid_iOS_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09C1E62A1B57B6BE00662C2F /* Debug */,
+				09C1E62B1B57B6BE00662C2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "phoneid_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
