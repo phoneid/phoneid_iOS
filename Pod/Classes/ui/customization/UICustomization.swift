@@ -50,6 +50,7 @@ public protocol ColorScheme: NSObjectProtocol{
     var selectedText:UIColor {get set}
     var normalText:UIColor {get set}
     var linkText:UIColor {get set}
+    var buttonTextColor:UIColor {get set}
     var defaultTextInputBackground:UIColor {get set}
 }
 
@@ -59,6 +60,7 @@ public class DefaultColorScheme : NSObject, ColorScheme{
     public var disabledText:UIColor = UIColor(netHex: 0xC8C8CD)
     public var selectedText:UIColor = UIColor(netHex: 0x000000)
     public var normalText:UIColor = UIColor(netHex: 0xC8C8CD)
+    public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
     public var linkText:UIColor = UIColor(netHex: 0x133E6B)
     public var defaultTextInputBackground:UIColor = UIColor(netHex: 0xffffff)
 }

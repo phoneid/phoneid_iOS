@@ -153,7 +153,7 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         
         if (textField.text!.utf16.count == verificationCodeLength) {
             
-            statusText.attributedText = localizedStringAttributed("logging.in")
+            statusText.attributedText = localizedStringAttributed("html-logging.in")
             activityIndicator.startAnimating()
             backButton.enabled = false
             if let delegate = delegate {
@@ -183,12 +183,12 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ko")
         statusImage.hidden = false
-        statusText.attributedText = localizedStringAttributed("loggin.failed")
+        statusText.attributedText = localizedStringAttributed("html-loggin.failed")
         backButton.enabled = true
     }
     
     func indicateVerificationSuccess(){
-        statusText.attributedText = localizedStringAttributed("logged.in")
+        statusText.attributedText = localizedStringAttributed("html-logged.in")
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ok")
         statusImage.hidden = false

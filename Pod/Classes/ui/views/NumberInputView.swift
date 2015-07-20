@@ -76,9 +76,6 @@ public class NumberInputView: PhoneIdBaseView{
         activityIndicator=UIActivityIndicatorView()
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
         
-        numberText.font = UIFont.systemFontOfSize(20)
-        prefixButton.titleLabel!.font = UIFont.systemFontOfSize(20)
-        okButton.titleLabel!.font = UIFont.systemFontOfSize(20)
         
         let subviews:[UIView] = [numberPlaceholderView, accessText,numberText, okButton, prefixButton , youNumberIsSafeText, termsText,activityIndicator]
         
@@ -167,7 +164,7 @@ public class NumberInputView: PhoneIdBaseView{
         
         okButton.setTitle(localizedString("button.title.ok"), forState: .Normal)
         
-        numberText.placeholder = localizedString("placeholder.phone.number")
+        numberText.attributedPlaceholder = localizedStringAttributed("html-placeholder.phone.number")
         
         youNumberIsSafeText.attributedText = localizedStringAttributed("html-your.number.is.safe")
         
@@ -186,6 +183,7 @@ public class NumberInputView: PhoneIdBaseView{
         
         okButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
         okButton.setTitleColor(colorScheme.disabledText, forState: .Disabled)
+        
         activityIndicator.color = colorScheme.mainAccent
         self.needsUpdateConstraints()
     }
@@ -203,14 +201,13 @@ public class NumberInputView: PhoneIdBaseView{
         activityIndicator.stopAnimating()
     
         numberText.text = asYouTypeFomratter.inputString(numberText.text)
+        okButton.hidden = numberText.text!.isEmpty
         
         if (phoneIdModel.isValidNumber(numberText.text!)) {
             numberText.text = phoneIdModel.formatNumber(numberText.text!) as String
-            okButton.hidden = false
             okButton.enabled = true
         } else {
             okButton.enabled = false
-            okButton.hidden = true
         }
     }
     

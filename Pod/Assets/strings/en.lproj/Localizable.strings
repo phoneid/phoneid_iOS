@@ -6,32 +6,35 @@
   Copyright © 2015 phoneId. All rights reserved.
 */
 
-"button.title.login.with.phone.id"="Login with phone.id";
-"button.title.logout"="Log out";
+"html-button.title.login.with.phone.id"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Login with phone.id</center>";
+
+"html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Log out</center>";
 
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
 
 "button.title.ok"="OK";
-"button.title.dismiss"="Dismiss";
-"message.title.error"="Error";
 
-"placeholder.phone.number"="Phone Number";
+"html-placeholder.phone.number"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</center>";
 
 "html-your.number.is.safe"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Your number is safe:<br/>we don't share it, we don't SPAM you.</center>";
 
 "html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">By continuing, you agree with:<br/><a href=\"%@\">Terms & Conditions</a> and <a href=\"%@\">Privacy Policy</a></center>";
 
-"title.country.code"="Country Code";
+"html-title.country.code"="Country Code";
 
 "current.phone" = "Current Phone";
 
 "html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Type the confirmation code</br>we just texted you:</center>";
 
-"logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
+"html-logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
 
-"logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logged in with phone.id</center>";
+"html-logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logged in with phone.id</center>";
 
-"loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and<br/>check your phone number.</center>";
+"html-loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and<br/>check your phone number.</center>";
+
+
+"alert.button.title.dismiss"="Dismiss";
+"alert.title.error"="Error";
 
 "error.failed.request.auth.code"="Failed to request PhoneId authentication code";
 "error.failed.request.clients"="Failed to request list of clients";

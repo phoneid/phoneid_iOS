@@ -70,8 +70,10 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     
     func close() {
         self.verifyCodeViewCompletionBlock?(success: false)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(false, completion: nil)
     }
-    
-
 }
+
+
+
+

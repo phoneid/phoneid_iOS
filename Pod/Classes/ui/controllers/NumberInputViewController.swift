@@ -57,9 +57,9 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
                 self.presentViewController(controller, animated: true, completion: nil)
             }else{
                 let bundle = self.phoneIdService.componentFactory.localizationBundle()
-                let alert = UIAlertController(title: NSLocalizedString("message.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
                 
-                alert.addAction(UIAlertAction(title: NSLocalizedString("button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
                 
                 self.presentViewController(alert, animated: true, completion: nil)
             }

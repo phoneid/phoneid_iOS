@@ -66,8 +66,6 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
         tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")
         
         titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(18)
-        titleLabel.textAlignment = .Center
         
         backButton = UIButton()
         backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
@@ -122,7 +120,7 @@ public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITa
     }
     
     override func localizeAndApplyColorScheme(){
-        titleLabel.text = localizedString("title.country.code")
+        titleLabel.attributedText = localizedStringAttributed("html-title.country.code")
         titleLabel.textColor = colorScheme.normalText
     }
     

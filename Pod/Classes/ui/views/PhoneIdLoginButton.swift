@@ -75,10 +75,10 @@ import Foundation
     func configureButton(isLoggedIn:Bool){
         self.removeTarget(self, action: nil, forControlEvents: .TouchUpInside)
         if(isLoggedIn){
-            self.setTitle(localizedString("button.title.logout"), forState:UIControlState.Normal)
-            self.addTarget(self, action:"logoutTouched", forControlEvents: .TouchUpInside)
+            setAttributedTitle(localizedStringAttributed("html-button.title.logout"), forState:UIControlState.Normal)
+            addTarget(self, action:"logoutTouched", forControlEvents: .TouchUpInside)
         }else{
-            setTitle(localizedString("button.title.login.with.phone.id"), forState: .Normal)
+            setAttributedTitle(localizedStringAttributed("html-button.title.login.with.phone.id"), forState: .Normal)
             addTarget(self, action:"loginTouched", forControlEvents: .TouchUpInside)
         }
         
@@ -109,7 +109,7 @@ import Foundation
                     if(error != nil){
                         let alertController = UIAlertController(title:error?.localizedDescription, message:error?.localizedFailureReason, preferredStyle: .Alert)
                         
-                        alertController.addAction(UIAlertAction(title:self.localizedString("button.title.dismiss"), style: .Cancel, handler:nil));
+                        alertController.addAction(UIAlertAction(title:self.localizedString("alert.button.title.dismiss"), style: .Cancel, handler:nil));
                         self.window?.rootViewController?.presentViewController(alertController, animated: true, completion:nil)
                     }
                 }
