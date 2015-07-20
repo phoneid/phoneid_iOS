@@ -679,6 +679,7 @@
 				09C1E62B1B57B6BE00662C2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "phoneid_iOS" */ = {
 			isa = XCConfigurationList;

@@ -17,7 +17,7 @@ class PhoneIdRefreshMonitor{
     let maxRefreshRetryCount = 5
     let refreshRetrySleepSeconds = 2.0
     var refreshRetryCount:Int
-
+    
     
     init(phoneIdService:PhoneIdService, notificationCenter:NSNotificationCenter){
         phoneId = phoneIdService
@@ -39,9 +39,9 @@ class PhoneIdRefreshMonitor{
     }
     
     func start()-> Void {
-    
+        
         guard !isRunning else {return}
-
+        
         isRunning = true
         
         guard phoneId.token != nil else {return}
@@ -55,7 +55,7 @@ class PhoneIdRefreshMonitor{
     }
     
     func resetTimer(token:TokenInfo){
-    
+        refreshRetryCount = 0
         timer?.invalidate()
         timer = nil
         
@@ -71,11 +71,12 @@ class PhoneIdRefreshMonitor{
             timerFired()
         }
         
-
+        
     }
     
     @objc func timerFired(){
         
+        guard isRunning else {return}
         
         phoneId.refreshToken { (token, error) -> Void in
             if(error == nil){
@@ -83,7 +84,7 @@ class PhoneIdRefreshMonitor{
                 self.resetTimer(token!)
                 
             }else if(self.refreshRetryCount <= self.maxRefreshRetryCount){
-            
+                
                 let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(self.refreshRetrySleepSeconds * Double(NSEC_PER_SEC)))
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
                     self.timerFired()
@@ -107,14 +108,14 @@ class PhoneIdRefreshMonitor{
     @objc func willEnterForeground(){
         
         self.start()
-       
+        
     }
     
     @objc func didEnterBackground(){
-       
+        
         self.stop()
-       
+        
     }
     
-
+    
 }
