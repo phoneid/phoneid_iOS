@@ -113,8 +113,38 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = { (token) ->Void in
 ``` 
 
 ## UI Customization
+You can easily customize colors and background of phone.id UI.
 
-// TODO:
+Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
+In customize colors&background can be done in two steps:
+
+1) implement your own component factory (or inherit from DefaultComponentFactory) and override methods with your settings:
+```swift
+class CustomComponentFactory:DefaultComponentFactory{
+    
+    override func defaultBackgroundImage()->UIImage{
+        return UIImage(named:"background")!
+    }
+    
+    override func colorScheme()->ColorScheme{
+        let scheme = super.colorScheme()
+        scheme.mainAccent = UIColor(netHex: 0x357AAE)
+        scheme.selectedText = UIColor(netHex: 0x4192C7)
+        scheme.linkText = UIColor(netHex: 0x4192C7)
+        return scheme
+    }
+}
+``` 
+
+2) set your own component factory to phoneid service:
+```swift
+PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+``` 
+
+Cutomization results:
+
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Jul%2021%202015%203.31.50%20PM_zpslriy7l9s.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Jul%2021%202015%203.31.59%20PM_zpsmtu7ng62.png)
 
 ## Author
 
