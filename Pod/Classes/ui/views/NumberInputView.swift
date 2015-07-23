@@ -163,8 +163,11 @@ public class NumberInputView: PhoneIdBaseView{
         }
         
         okButton.setTitle(localizedString("button.title.ok"), forState: .Normal)
+        okButton.accessibilityLabel = localizedString("accessibility.button.title.ok")
+            
         
         numberText.attributedPlaceholder = localizedStringAttributed("html-placeholder.phone.number")
+        numberText.accessibilityLabel = localizedString("accessibility.phone.number.input")
         
         youNumberIsSafeText.attributedText = localizedStringAttributed("html-your.number.is.safe")
         

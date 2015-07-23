@@ -8,11 +8,17 @@
 
 "html-button.title.login.with.phone.id"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Login with phone.id</center>";
 
+"accessibility.title.login.with.phone.id"="Login with phone.id";
+"accessibility.phone.number.input"="Phone Number";
+
 "html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Log out</center>";
+"accessibility.button.title.logout"="Log out";
 
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
 
 "button.title.ok"="OK";
+
+"accessibility.button.title.ok"="OK";
 
 "html-placeholder.phone.number"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</center>";
 
@@ -20,7 +26,7 @@
 
 "html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">By continuing, you agree with:<br/><a href=\"%@\">Terms & Conditions</a> and <a href=\"%@\">Privacy Policy</a></center>";
 
-"html-title.country.code"="Country Code";
+"html-title.country.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Country Code</center>";
 
 "current.phone" = "Current Phone";
 

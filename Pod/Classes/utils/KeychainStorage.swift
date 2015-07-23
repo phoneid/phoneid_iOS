@@ -55,14 +55,14 @@ public class KeychainStorage: NSObject {
         let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, kCFBooleanTrue, kSecMatchLimitOneValue],
             forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
         
-        var dataTypeRef :Unmanaged<AnyObject>?
-        
-        let status: OSStatus = SecItemCopyMatching(query, &dataTypeRef)
+        var result: AnyObject?
+        let status = withUnsafeMutablePointer(&result) { SecItemCopyMatching(query, UnsafeMutablePointer($0)) }
+
 
         var value: String?
         
         if status == noErr {
-            let retrievedData: NSData = dataTypeRef!.takeRetainedValue() as! NSData
+            let retrievedData: NSData = result as! NSData
             value = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as? String;
         }
         

@@ -35,8 +35,8 @@ class MockSession: NSURLSession {
         return MockSession()
     }
     
-    
-    override func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask? {
+    override func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask{
+        
         self.completionHandler = completionHandler
         return MockTask(response: self.mockResponse, completionHandler: completionHandler)
     }

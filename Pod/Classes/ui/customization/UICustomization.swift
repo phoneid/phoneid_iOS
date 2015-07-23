@@ -70,13 +70,12 @@ public extension ColorScheme {
     {
         let result:NSMutableString = input.mutableCopy() as! NSMutableString
         
-        let members = reflect(self)
+        let members = Mirror(reflecting: self).children
         var names = [String]()
-        for i in 0..<members.count
+        for (name,_) in members
         {
-            let (name,_)  = members[i]
             if name == "super"{continue}
-            names.append(name)
+            names.append(name!)
         }
         
         for name in names{

@@ -53,6 +53,8 @@ import Foundation
     func initUI() {
         let bgImage:UIImage = UIImage(namedInPhoneId: "phone")!
         
+        self.accessibilityActivate()
+        
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
         titleLabel?.font = UIFont.systemFontOfSize(20)
         
@@ -76,9 +78,11 @@ import Foundation
         self.removeTarget(self, action: nil, forControlEvents: .TouchUpInside)
         if(isLoggedIn){
             setAttributedTitle(localizedStringAttributed("html-button.title.logout"), forState:UIControlState.Normal)
+            self.accessibilityLabel = localizedString("accessibility.button.title.logout")
             addTarget(self, action:"logoutTouched", forControlEvents: .TouchUpInside)
         }else{
             setAttributedTitle(localizedStringAttributed("html-button.title.login.with.phone.id"), forState: .Normal)
+            self.accessibilityLabel = localizedString("accessibility.title.login.with.phone.id")
             addTarget(self, action:"loginTouched", forControlEvents: .TouchUpInside)
         }
         
