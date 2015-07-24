@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09024EA31B6253980096198D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024EA21B6253980096198D /* Reachability.swift */; };
 		133969F19365D6E367B8E6B058D6872E /* NBAsYouTypeFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 95F809FCA00152095EDC5DD46A3AFBA9 /* NBAsYouTypeFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15E51AAC09928D4D31410583CCDDE6AA /* ResourcesLoadingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */; };
 		16493AA779A66CAB5A01392C82AC048C /* CountryCodePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9FA4AF25B1B71078B110FFC441C785 /* CountryCodePickerView.swift */; };
@@ -120,6 +121,7 @@
 		0321FBBD8630CE9A579B81B65564FB3D /* phoneid_iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "phoneid_iOS-dummy.m"; sourceTree = "<group>"; };
 		06211216CE7553031D99AFA32B7071EF /* libPhoneNumber-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libPhoneNumber-iOS-umbrella.h"; sourceTree = "<group>"; };
 		08169265E08891757A30EC0E37D05E39 /* NBMetadataCoreTestMapper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreTestMapper.m; path = libPhoneNumber/NBMetadataCoreTestMapper.m; sourceTree = "<group>"; };
+		09024EA21B6253980096198D /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		0CCCD1DE419B9DAA06168D721DD20098 /* Pods-phoneid_iOS_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-phoneid_iOS_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		0D00BFF89090C2D57A465B1663CE5D4B /* Pods-phoneid_iOS_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-phoneid_iOS_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 		B76DA8C9A11665B1D13851C74C269910 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				09024EA21B6253980096198D /* Reachability.swift */,
 				10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */,
 				A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */,
 			);
@@ -771,6 +774,7 @@
 				73EB283CDD8E5D8F0D59ACAB5E670C78 /* NumberInputViewController.swift in Sources */,
 				53BD436586F2E4AF19B9A6F775FA6C01 /* NumericTextField.swift in Sources */,
 				AD1536B23F975259A3662599F4816383 /* ParseableModel.swift in Sources */,
+				09024EA31B6253980096198D /* Reachability.swift in Sources */,
 				EF9ACF1C1D3CE529C56B97533525E705 /* PhoneIdBaseView.swift in Sources */,
 				A3AB5F1F3CD74C496FA9ABE509D65129 /* PhoneIdLoginButton.swift in Sources */,
 				EA1DB99C062CE4F3B275A758961D45D8 /* PhoneIdService.swift in Sources */,
