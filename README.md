@@ -1,9 +1,3 @@
-# phoneid_iOS
-
-[![CI Status](http://img.shields.io/travis/Alyona/phoneid_iOS.svg?style=flat)](https://travis-ci.org/Alyona/phoneid_iOS)
-[![Version](https://img.shields.io/cocoapods/v/phoneid_iOS.svg?style=flat)](http://cocoapods.org/pods/phoneid_iOS)
-[![License](https://img.shields.io/cocoapods/l/phoneid_iOS.svg?style=flat)](http://cocoapods.org/pods/phoneid_iOS)
-[![Platform](https://img.shields.io/cocoapods/p/phoneid_iOS.svg?style=flat)](http://cocoapods.org/pods/phoneid_iOS)
 
 # Overview
 
@@ -23,7 +17,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-iOS 8
+iOS 8,
 
 ## Installation
 
@@ -32,7 +26,7 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 use_frameworks!
-pod "phoneid_iOS", :git => 'https://github.com/fedepo/phoneid_iOS.git'
+pod "phoneid_iOS"
 ```
 
 ## Quick Start
