@@ -57,6 +57,7 @@ public class NumberInputView: PhoneIdBaseView{
         numberText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
         numberText.backgroundColor = UIColor.clearColor()
         numberText.becomeFirstResponder()
+        setupKeyboardToolBar();
         
         numberPlaceholderView = UIView()
         numberPlaceholderView.layer.cornerRadius = 5
@@ -95,8 +96,22 @@ public class NumberInputView: PhoneIdBaseView{
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
+    }
+    
+    func setupKeyboardToolBar(){
+        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
         
+        let countryCodeButton = UIBarButtonItem(title: localizedString("button.title.change.country.code"), style: .Plain, target: self, action: "countryCodeTapped:")
+        countryCodeButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
         
+        let hideKeyboardButton = UIBarButtonItem(title: localizedString("button.title.hide.keyboard"), style: .Plain, target: numberText, action: "resignFirstResponder")
+        hideKeyboardButton.accessibilityLabel = localizedString("accessibility.button.title.hide.keyboard")
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.items = [countryCodeButton, space, hideKeyboardButton]
+        
+        numberText.inputAccessoryView = toolBar
     }
     
     override func setupLayout(){

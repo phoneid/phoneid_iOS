@@ -84,6 +84,36 @@ class phoneid_iOS_UITests: XCTestCase {
         XCTAssertNotNil(app.textViews["The code you typed is different\nfrom the one we've sent you.\n\nCo"])
         
     }
+    
+    func testHideKeyBoard(){
+    
+        
+        let app = XCUIApplication()
+        
+        app.buttons["Login with phone.id"].tap()
+        
+        app.toolbars.buttons["Hide"].tap()
+        
+        NSThread.sleepForTimeInterval(0.5)
+        
+        XCTAssertFalse(app.toolbars.buttons["Hide"].exists)
+        
+    }
+    
+    func testShowCountryCodePicker(){
+        
+        let app = XCUIApplication()
+        
+        app.buttons["Login with phone.id"].tap()
+
+        app.toolbars.buttons["Change Country"].tap()
+        
+        NSThread.sleepForTimeInterval(0.5)
+        
+        let searchSearchField = app.searchFields["Search"]
+        XCTAssertTrue(searchSearchField.exists)
+
+    }
  
 // temporary broken:
 //

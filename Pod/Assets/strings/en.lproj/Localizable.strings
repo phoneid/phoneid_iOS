@@ -8,6 +8,12 @@
 
 "html-button.title.login.with.phone.id"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Login with phone.id</center>";
 
+"button.title.hide.keyboard"="Hide";
+"button.title.change.country.code"="Change Country";
+
+"accessibility.button.title.change.country.code"="Change Country";
+"accessibility.button.title.hide.keyboard"="Hide";
+
 "accessibility.title.login.with.phone.id"="Login with phone.id";
 "accessibility.phone.number.input"="Phone Number";
 
