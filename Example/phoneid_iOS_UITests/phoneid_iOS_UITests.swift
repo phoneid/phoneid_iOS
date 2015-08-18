@@ -85,18 +85,20 @@ class phoneid_iOS_UITests: XCTestCase {
         
     }
     
-    func testHideKeyBoard(){
+    func testDoneButton(){
     
         
         let app = XCUIApplication()
         
         app.buttons["Login with phone.id"].tap()
         
-        app.toolbars.buttons["Hide"].tap()
+        app.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
+        
+        app.toolbars.buttons["Done"].tap()
         
         NSThread.sleepForTimeInterval(0.5)
         
-        XCTAssertFalse(app.toolbars.buttons["Hide"].exists)
+        XCTAssertFalse(app.toolbars.buttons["Done"].exists)
         
     }
     

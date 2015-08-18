@@ -31,6 +31,10 @@ public class NumberInputView: PhoneIdBaseView{
     
     private(set) var numberText:NumericTextField!
     private(set) var accessText: UITextView!
+    
+    private(set) var doneBarButton:UIBarButtonItem!
+    private(set) var countryCodeBarButton:UIBarButtonItem!
+    
     private(set) var okButton:UIButton!
     private(set) var prefixButton:UIButton!
     private(set) var youNumberIsSafeText: UITextView!
@@ -38,6 +42,7 @@ public class NumberInputView: PhoneIdBaseView{
     private(set) var numberPlaceholderView: UIView!
     private(set) var activityIndicator:UIActivityIndicatorView!
     private var asYouTypeFomratter:NBAsYouTypeFormatter!
+
     
     weak var delegate:NumberInputViewDelegate?
 
@@ -101,15 +106,12 @@ public class NumberInputView: PhoneIdBaseView{
     func setupKeyboardToolBar(){
         let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
         
-        let countryCodeButton = UIBarButtonItem(title: localizedString("button.title.change.country.code"), style: .Plain, target: self, action: "countryCodeTapped:")
-        countryCodeButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
-        
-        let hideKeyboardButton = UIBarButtonItem(title: localizedString("button.title.hide.keyboard"), style: .Plain, target: numberText, action: "resignFirstResponder")
-        hideKeyboardButton.accessibilityLabel = localizedString("accessibility.button.title.hide.keyboard")
+        countryCodeBarButton  = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "countryCodeTapped:")
+        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "okButtonTapped:")
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
         
-        toolBar.items = [countryCodeButton, space, hideKeyboardButton]
+        toolBar.items = [countryCodeBarButton, space, doneBarButton]
         
         numberText.inputAccessoryView = toolBar
     }
@@ -196,6 +198,11 @@ public class NumberInputView: PhoneIdBaseView{
         numberText.attributedPlaceholder = localizedStringAttributed("html-placeholder.phone.number")
         numberText.accessibilityLabel = localizedString("accessibility.phone.number.input")
         
+        countryCodeBarButton.title = localizedString("button.title.change.country.code")
+        countryCodeBarButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
+        doneBarButton.title = localizedString("button.title.done.keyboard")
+        doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
+        
         youNumberIsSafeText.attributedText = localizedStringAttributed("html-your.number.is.safe")
         
         termsText.attributedText = localizedStringAttributed("html-label.terms.and.conditions") { (tmpResult) -> String in
@@ -236,8 +243,10 @@ public class NumberInputView: PhoneIdBaseView{
         if (phoneIdModel.isValidNumber(numberText.text!)) {
             numberText.text = phoneIdModel.formatNumber(numberText.text!) as String
             okButton.enabled = true
+            doneBarButton.enabled = true
         } else {
             okButton.enabled = false
+            doneBarButton.enabled = false
         }
     }
     

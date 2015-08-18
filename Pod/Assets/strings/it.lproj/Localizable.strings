@@ -8,11 +8,11 @@
 
 "html-button.title.login.with.phone.id"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Login con phone.id</center>";
 
-"button.title.hide.keyboard"="Respingere";
+"button.title.done.keyboard"="Fatto";
 "button.title.change.country.code"="Cambia Paese";
 
 "accessibility.button.title.change.country.code"="Cambia Paese";
-"accessibility.button.title.hide.keyboard"="Respingere";
+"accessibility.button.title.done.keyboard"="Fatto";
 
 "accessibility.title.login.with.phone.id"="Login con phone.id";
 "accessibility.phone.number.input"="Numero di telefono";
