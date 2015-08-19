@@ -152,9 +152,10 @@ public class PhoneIdService: NSObject {
         if let number: String = info.e164Format(){
             
             var params: Dictionary<String, AnyObject> = [:]
-            params["grant_type"]="authorization_code"
-            params["client_id"]=clientId!
-            params["code"]=verifyCode + "/" + number
+            params["grant_type"] = "password"
+            params["username"] = number
+            params["password"] = verifyCode
+            params["client_id"] = clientId!
             
             print("request params: \(params)")
             
