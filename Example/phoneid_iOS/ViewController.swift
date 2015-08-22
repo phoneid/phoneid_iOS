@@ -50,7 +50,7 @@ class ViewController: UIViewController {
         
         // SDK calls this block when user taps close button
         phoneId.phoneIdAuthenticationCancelled = {
-        
+            
             let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .Alert)
             
             alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
@@ -80,6 +80,18 @@ class ViewController: UIViewController {
             self.refreshTokenText.text = token.refreshToken
         }
     }
+    
+    @IBAction func uploadContactsTapped(sender: UIButton) {
+        phoneId.uploadContacts() { (error) -> Void in
+            if let error = error {
+                let alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
+                
+                alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
+                self.presentViewController(alertController, animated: true, completion:nil)
+            }
+        }
+    }
+    
     
 }
 

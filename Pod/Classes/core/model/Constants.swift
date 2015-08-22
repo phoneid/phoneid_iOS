@@ -56,6 +56,7 @@ internal enum Endpoints {
     case RequestToken
     case RequestMe
     case ClientsList
+    case Contacts
     
     func endpoint(params: String...) -> String {
         switch (self) {
@@ -63,6 +64,7 @@ internal enum Endpoints {
         case .RequestToken: return "auth/users/token"
         case .RequestMe: return "auth/users/me"
         case .ClientsList: return "clients/\(params[0])"
+        case .Contacts: return "contacts"
         }
     }
 }
@@ -74,5 +76,9 @@ internal struct TokenKey {
     static let Timestamp = "timestamp"
 }
 
-
+internal struct NumberKey {
+    static let number = "phone_number"
+    static let iso = "iso_country_code"
+    static let countryCode = "country_code"
+}
 

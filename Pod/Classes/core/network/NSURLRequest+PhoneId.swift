@@ -55,6 +55,7 @@ extension NSURLRequest{
             if headers[HttpHeaderName.ContentType]==HttpHeaderValue.JsonEncoded {
                  do {
                      request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(bodyParams, options: [])
+                     print(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))
                  } catch _ {
                      request.HTTPBody = nil
                  }

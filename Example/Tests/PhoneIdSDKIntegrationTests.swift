@@ -52,6 +52,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         })
         waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
         
+        // request user info
         expectation = expectationWithDescription("Request user info")
         phoneId.loadUserInfo() { (userInfo, e1) -> Void in
             
@@ -63,6 +64,16 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
         
+        // upload contacts list
+        expectation = expectationWithDescription("Upload contacts list")
+        phoneId.uploadContacts() { (error) -> Void in
+            
+            if(error == nil){
+                expectation.fulfill()
+            }
+            
+        }
+        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
         
     }
   

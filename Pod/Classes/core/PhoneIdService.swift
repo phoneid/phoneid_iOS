@@ -23,8 +23,8 @@ import UIKit
 import libPhoneNumber_iOS
 
 
-typealias RequestCompletion = (error:NSError?) -> Void
-typealias UserInfoRequestCompletion = (userInfo:UserInfo?,error:NSError?) -> Void
+public typealias RequestCompletion = (error:NSError?) -> Void
+public typealias UserInfoRequestCompletion = (userInfo:UserInfo?,error:NSError?) -> Void
 public typealias TokenRequestCompletion = (token:TokenInfo?,error:NSError?) -> Void
 
 public typealias PhoneIdAuthenticationSucceed = (token:TokenInfo) -> Void
@@ -56,7 +56,7 @@ public class PhoneIdService: NSObject {
             return TokenInfo.loadFromKeyChain()
         }
     }
-        
+    
     public internal(set) var appName: String?
     public internal(set) var clientId: String?
     public internal(set) var autorefreshToken: Bool = true
@@ -171,8 +171,10 @@ public class PhoneIdService: NSObject {
                     
                     
                 }else if let receivedToken = TokenInfo.parse(response){
+                    receivedToken.numberInfo = info
                     self.doOnAuthenticationSucceed(receivedToken)
                     token = receivedToken
+                    
                 }else{
                     error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contain.valid.token.info")
                     self.sendNotificationVerificationFail(error!)
@@ -243,12 +245,12 @@ public class PhoneIdService: NSObject {
     
     public func refreshToken(completion:TokenRequestCompletion){
         
-        if let currentToken = self.token{
+        self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
             var params: Dictionary<String, AnyObject> = [:]
             params["grant_type"]="refresh_token"
-            params["client_id"]=clientId!
-            params["refresh_token"]=currentToken.refreshToken
+            params["client_id"]=self.clientId!
+            params["refresh_token"]=token.refreshToken
             
             print("request params: \(params)")
             
@@ -274,10 +276,69 @@ public class PhoneIdService: NSObject {
                 self.notifyClientCodeAboutError(error)
             })
             
+            }, fail: {(error) -> Void in
+                
+                completion(token: nil, error: error)
+                
+        })
+    }
+    
+    public func uploadContacts(completion:RequestCompletion){
+        
+        self.checkToken("error.failed.refresh.token", success: {(token) -> Void in
             
+            ContactsLoader().getContacts(token.numberInfo!.isoCountryCode!) { (contacts:[ContactInfo]?) -> Void in
+                
+                if let contacts = contacts{
+                    
+                    let params = self.wrapContactsAsHTTPFormParams(contacts)
+                    
+                    let endpoint = Endpoints.Contacts.endpoint()
+                    self.post(endpoint, params: params, completion: { (response) -> Void in
+                        var error:NSError?
+                        
+                        if let responseError = response.error{
+                            NSLog("Failed to upload contacts \(responseError)")
+                            error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
+                            
+                        }
+                        
+                        completion(error: error)
+                        self.notifyClientCodeAboutError(error)
+                        
+                    })
+                    
+                }else{
+                    completion(error: nil)
+                }
+            }
+            
+            
+            }, fail: { (error) -> Void in
+                completion(error: nil)
+        })
+        
+    }
+    
+    private func wrapContactsAsHTTPFormParams(contacts:[ContactInfo]) -> [String:AnyObject]{
+        
+        let contactsDictionary = contacts.map({ return $0.asDictionary()})
+        
+        let serialized = try! NSJSONSerialization.dataWithJSONObject(["contacts": contactsDictionary], options: [.PrettyPrinted])
+        
+        let serializedAsString = NSString(data: serialized, encoding: NSUTF8StringEncoding) as! String
+        
+        print(serializedAsString)
+        return ["contacts":serializedAsString]
+    }
+    
+    private func checkToken(errorKey:String, success:(token:TokenInfo)->Void, fail:(error:PhoneIdServiceError)->Void){
+        
+        if let currentToken = self.token{
+            success(token: currentToken)
         }else{
-            let error = PhoneIdServiceError.requestFailedError("error.failed.refresh.token", reasonKey:"error.reason.no.token.to.refresh")
-            completion(token: nil, error: error)
+            let error = PhoneIdServiceError.requestFailedError(errorKey, reasonKey:"error.unautorized.request")
+            fail(error: error)
             self.notifyClientCodeAboutError(error)
         }
     }
@@ -374,21 +435,35 @@ public class PhoneIdService: NSObject {
         
     }
     
-    private func get(endpoint:String, params: [String: String]? = nil, completion: NetworkingCompletion) {
-        var headers:[String: String]? = nil
+    private func defaultHeaders() -> [String:String]{
+        var headers:[String: String] = [:]
         if (self.token != nil) {
             headers = [ HttpHeaderName.Authorization :"Bearer \(self.token!.accessToken!)"]
         }
+        return headers
+    }
+    
+    private func get(endpoint:String, params: [String: String]? = nil, completion: NetworkingCompletion) {
+        let headers:[String: String]? = defaultHeaders()
+        
         requestWithMethod(HttpMethod.Get, endpoint:endpoint, queryParams: params, headers: headers, completion: completion)
     }
     
     private func post(endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: NetworkingCompletion) {
-        let headers = [HttpHeaderName.ContentType : HttpHeaderValue.FormEncoded];
+        
+        var headers = defaultHeaders()
+        
+        headers[HttpHeaderName.ContentType] = HttpHeaderValue.FormEncoded
+        
         requestWithMethod(HttpMethod.Post, endpoint:endpoint, bodyParams: params, headers: headers, completion: completion)
     }
     
     private func postJSON(endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: NetworkingCompletion) {
-        let headers = [HttpHeaderName.ContentType : HttpHeaderValue.JsonEncoded];
+        
+        var headers = defaultHeaders()
+        
+        headers[HttpHeaderName.ContentType] = HttpHeaderValue.JsonEncoded
+        
         requestWithMethod(HttpMethod.Post, endpoint:endpoint, bodyParams: params, headers: headers, completion: completion)
     }
     

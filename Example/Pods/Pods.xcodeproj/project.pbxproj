@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		09024EA31B6253980096198D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024EA21B6253980096198D /* Reachability.swift */; };
+		09CE328B1B84B9F500DF6C87 /* ContactsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */; };
+		09CE328D1B87206D00DF6C87 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE328C1B87206D00DF6C87 /* ContactInfo.swift */; };
 		133969F19365D6E367B8E6B058D6872E /* NBAsYouTypeFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 95F809FCA00152095EDC5DD46A3AFBA9 /* NBAsYouTypeFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15E51AAC09928D4D31410583CCDDE6AA /* ResourcesLoadingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */; };
 		16493AA779A66CAB5A01392C82AC048C /* CountryCodePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9FA4AF25B1B71078B110FFC441C785 /* CountryCodePickerView.swift */; };
@@ -122,6 +124,8 @@
 		06211216CE7553031D99AFA32B7071EF /* libPhoneNumber-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libPhoneNumber-iOS-umbrella.h"; sourceTree = "<group>"; };
 		08169265E08891757A30EC0E37D05E39 /* NBMetadataCoreTestMapper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreTestMapper.m; path = libPhoneNumber/NBMetadataCoreTestMapper.m; sourceTree = "<group>"; };
 		09024EA21B6253980096198D /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLoader.swift; sourceTree = "<group>"; };
+		09CE328C1B87206D00DF6C87 /* ContactInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
 		0CCCD1DE419B9DAA06168D721DD20098 /* Pods-phoneid_iOS_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-phoneid_iOS_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		0D00BFF89090C2D57A465B1663CE5D4B /* Pods-phoneid_iOS_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-phoneid_iOS_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
@@ -412,6 +416,7 @@
 				3D274746CE622F1FCD24D8ABC17C3AA3 /* ParseableModel.swift */,
 				B0F1C1CA62369A9746F2D3CC95DDC416 /* TokenInfo.swift */,
 				F5E7AD4B327914F86C1925E1CF0FFA7E /* UserInfo.swift */,
+				09CE328C1B87206D00DF6C87 /* ContactInfo.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				09024EA21B6253980096198D /* Reachability.swift */,
 				10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */,
 				A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */,
+				09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -773,6 +779,7 @@
 				8FA80D0673986D0E27775DD5CE0073E3 /* NumberInputView.swift in Sources */,
 				73EB283CDD8E5D8F0D59ACAB5E670C78 /* NumberInputViewController.swift in Sources */,
 				53BD436586F2E4AF19B9A6F775FA6C01 /* NumericTextField.swift in Sources */,
+				09CE328B1B84B9F500DF6C87 /* ContactsLoader.swift in Sources */,
 				AD1536B23F975259A3662599F4816383 /* ParseableModel.swift in Sources */,
 				09024EA31B6253980096198D /* Reachability.swift in Sources */,
 				EF9ACF1C1D3CE529C56B97533525E705 /* PhoneIdBaseView.swift in Sources */,
@@ -781,6 +788,7 @@
 				1B4A23C48055D1FE17ED231B93263399 /* PhoneIdServiceError.swift in Sources */,
 				5E18C3ED63F0B72A466AE5F1A3B05123 /* PhoneIdRefreshMonitor.swift in Sources */,
 				15E51AAC09928D4D31410583CCDDE6AA /* ResourcesLoadingExtensions.swift in Sources */,
+				09CE328D1B87206D00DF6C87 /* ContactInfo.swift in Sources */,
 				E5C7740CFFAC5FDD46512A20FE3BF39F /* Response.swift in Sources */,
 				82AAF3066395D2742F1E7EF394222369 /* TokenInfo.swift in Sources */,
 				FC795F22A866D413BDA634A155275C2A /* UICustomization.swift in Sources */,

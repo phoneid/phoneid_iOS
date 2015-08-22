@@ -64,6 +64,7 @@
 "error.reason.response.does.not.contain.valid.token.info"="Response does not contain valid token info.";
 
 "error.failed.refresh.token"="Failed to refresh authentication.";
-"error.reason.no.token.to.refresh"="There is not authentication credentials to refresh them.";
+"error.reason.no.token.to.refresh"="There is no authentication credentials to refresh them.";
 
+"error.failed.to.upload.contacts"="Failed to upload contacts";
 

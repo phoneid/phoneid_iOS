@@ -151,13 +151,17 @@ public class NumberInfo: NSObject {
         return false;
     }
     
-
     func e164Format() -> String? {
-        var result: NSString? = nil;
         let number = self.phoneCountryCode! + self.phoneNumber!
-        let formatted: NBPhoneNumber! = try! phoneUtil.parse(number, defaultRegion: self.isoCountryCode)
+        let result: NSString? =  NumberInfo.e164Format(number, iso: self.isoCountryCode!);
+        return result as? String
+    }
+    
+    class func e164Format(number:String, iso:String) -> String? {
+        var result: NSString? = nil;
+        let formatted: NBPhoneNumber! = try! NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso)
         
-        result = try! phoneUtil.format(formatted, numberFormat: NBEPhoneNumberFormatE164)
+        result = try! NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormatE164)
         
         return result as? String
     }
@@ -179,4 +183,31 @@ public class NumberInfo: NSObject {
         return "NumberInfo: {phoneCountryCode:\(phoneCountryCode),\n phoneNumber: \(phoneNumber),\nphoneCountryCodeSim: \(phoneCountryCodeSim), isoCountryCode: \(isoCountryCode), \nisoCountryCodeSim: \(isoCountryCodeSim)  }"
     }
     
+    
+    internal class func loadFromKeyChain()->NumberInfo?{
+        
+        let numberInfo = NumberInfo()
+        
+        numberInfo.phoneNumber = KeychainStorage.loadValue(NumberKey.number)
+        numberInfo.phoneCountryCode = KeychainStorage.loadValue(NumberKey.countryCode)
+        numberInfo.isoCountryCode = KeychainStorage.loadValue(NumberKey.iso)
+        
+        return numberInfo
+    }
+    
+    internal func saveToKeychain(){
+        if(self.isValid().result){
+            KeychainStorage.saveValue(NumberKey.number, value:self.phoneNumber!)
+            KeychainStorage.saveValue(NumberKey.countryCode, value:self.phoneCountryCode!)
+            KeychainStorage.saveValue(NumberKey.iso, value:self.isoCountryCode!)
+        }else{
+            fatalError("Trying to save inconsistent token")
+        }
+    }
+
+    internal func removeFromKeychain(){
+        KeychainStorage.deleteValue(NumberKey.number);
+        KeychainStorage.deleteValue(NumberKey.countryCode);
+        KeychainStorage.deleteValue(NumberKey.iso);
+    }
 }

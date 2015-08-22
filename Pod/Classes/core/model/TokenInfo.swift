@@ -26,6 +26,7 @@ public class TokenInfo: ParseableModel{
     public var refreshToken:String?;
     public var expirationPeriod:Int?;
     public var timestamp:NSDate?;
+    internal var numberInfo:NumberInfo?;
     
     public var expirationTime:NSDate?{
         get {
@@ -75,6 +76,8 @@ public class TokenInfo: ParseableModel{
         tokenInfo.refreshToken = KeychainStorage.loadValue(TokenKey.Refresh)
         tokenInfo.expirationPeriod = KeychainStorage.loadIntValue(TokenKey.ExpireTime)
 
+        tokenInfo.numberInfo = NumberInfo.loadFromKeyChain()
+        
         if let timestamp = KeychainStorage.loadTimeIntervalValue(TokenKey.Timestamp){
             tokenInfo.timestamp = NSDate(timeIntervalSince1970:timestamp)
         }
@@ -89,13 +92,14 @@ public class TokenInfo: ParseableModel{
             KeychainStorage.saveValue(TokenKey.Refresh, value:self.refreshToken!)
             KeychainStorage.saveIntValue(TokenKey.ExpireTime, value:self.expirationPeriod!)
             KeychainStorage.saveTimeIntervalValue(TokenKey.Timestamp, value: self.timestamp!.timeIntervalSince1970)
-            
+            self.numberInfo?.saveToKeychain()
         }else{
             fatalError("Trying to save inconsistent token")
         }
     }
     
     internal func removeFromKeychain(){
+        self.numberInfo?.removeFromKeychain()
         KeychainStorage.deleteValue(TokenKey.Access);
         KeychainStorage.deleteValue(TokenKey.Refresh);
         KeychainStorage.deleteValue(TokenKey.Access);

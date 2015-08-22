@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -27,7 +27,7 @@
                                 </state>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pP3-G9-HVJ">
-                                <rect key="frame" x="160" y="75" width="280" height="170"/>
+                                <rect key="frame" x="160" y="38" width="280" height="181"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Token: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QXI-Dd-MT1">
                                         <rect key="frame" x="0.0" y="14" width="59" height="20.5"/>
@@ -37,7 +37,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh Token:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Lg-de-Ymw">
-                                        <rect key="frame" x="0.0" y="74" width="123" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="74" width="122.5" height="20.5"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -73,20 +73,30 @@
                                             </mask>
                                         </variation>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFm-cb-0bT">
+                                        <rect key="frame" x="-2" y="137" width="113" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Upload contacts"/>
+                                        <connections>
+                                            <action selector="uploadContactsTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LoD-JK-pti"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="81p-O5-8TF"/>
+                                    <constraint firstItem="GFm-cb-0bT" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" constant="-2" id="F80-ao-h7g"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="top" secondItem="QXI-Dd-MT1" secondAttribute="bottom" constant="2" id="G8n-wt-xb4"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="top" secondItem="9tJ-gY-i1k" secondAttribute="bottom" constant="8" id="MA9-y8-HeR"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="PHf-P7-PjM"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="Vby-Hb-bd0"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="top" constant="14" id="XRL-gf-X0R"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="a3z-Bz-eaf"/>
-                                    <constraint firstAttribute="height" constant="170" id="hID-7c-IPW"/>
+                                    <constraint firstAttribute="height" constant="181" id="hID-7c-IPW"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="hLH-aS-ZlO"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="k8p-Cm-8SK"/>
+                                    <constraint firstItem="GFm-cb-0bT" firstAttribute="top" secondItem="iSw-pb-7Hb" secondAttribute="bottom" constant="8" id="sSs-9s-5a9"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="top" secondItem="9Lg-de-Ymw" secondAttribute="bottom" constant="4" id="tBF-bv-N3K"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="vdW-0g-bib"/>
                                 </constraints>
@@ -95,7 +105,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZQp-60-Ktz" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="30" id="FMf-YI-4Kp"/>
+                            <constraint firstItem="ZQp-60-Ktz" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="56" id="FMf-YI-4Kp"/>
                             <constraint firstItem="pP3-G9-HVJ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="FQk-VG-xG5"/>
                             <constraint firstItem="ZQp-60-Ktz" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Sjh-G9-xlL"/>
                             <constraint firstItem="ZQp-60-Ktz" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Tdk-oN-fz7"/>
