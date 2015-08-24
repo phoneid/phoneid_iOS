@@ -57,14 +57,16 @@ internal enum Endpoints {
     case RequestMe
     case ClientsList
     case Contacts
+    case RefreshContacts
     
     func endpoint(params: String...) -> String {
         switch (self) {
-        case .RequestCode: return "auth/users/sendcode"
-        case .RequestToken: return "auth/users/token"
-        case .RequestMe: return "auth/users/me"
+        case .RequestCode: return "auth/sendcode"
+        case .RequestToken: return "auth/token"
+        case .RequestMe: return "users/me"
         case .ClientsList: return "clients/\(params[0])"
         case .Contacts: return "contacts"
+        case .RefreshContacts: return "contacts/refresh"
         }
     }
 }

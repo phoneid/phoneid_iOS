@@ -116,7 +116,7 @@ public class PhoneIdService: NSObject {
         
         let number = info.e164Format()!
         
-        self.get(Endpoints.RequestCode.endpoint(), params:["number":number,"client_id":clientId!], completion: { response in
+        self.post(Endpoints.RequestCode.endpoint(), params:["number":number,"client_id":clientId!], completion: { response in
             
             var error:NSError?=nil
             if let responseError = response.error {
