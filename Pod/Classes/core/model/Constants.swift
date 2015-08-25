@@ -57,7 +57,7 @@ internal enum Endpoints {
     case RequestMe
     case ClientsList
     case Contacts
-    case RefreshContacts
+    case NeedRefreshContacts
     
     func endpoint(params: String...) -> String {
         switch (self) {
@@ -66,7 +66,7 @@ internal enum Endpoints {
         case .RequestMe: return "users/me"
         case .ClientsList: return "clients/\(params[0])"
         case .Contacts: return "contacts"
-        case .RefreshContacts: return "contacts/refresh"
+        case .NeedRefreshContacts: return "contacts/refresh?checksum=\(params[0])"
         }
     }
 }

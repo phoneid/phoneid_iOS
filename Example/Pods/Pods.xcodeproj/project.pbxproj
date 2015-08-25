@@ -10,6 +10,8 @@
 		09024EA31B6253980096198D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024EA21B6253980096198D /* Reachability.swift */; };
 		09CE328B1B84B9F500DF6C87 /* ContactsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */; };
 		09CE328D1B87206D00DF6C87 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE328C1B87206D00DF6C87 /* ContactInfo.swift */; };
+		09F07E651B8C6874005E5BA0 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F07E641B8C6874005E5BA0 /* CryptoUtils.swift */; };
+		09F07E7A1B8C7D26005E5BA0 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F07E6B1B8C70CA005E5BA0 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		133969F19365D6E367B8E6B058D6872E /* NBAsYouTypeFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 95F809FCA00152095EDC5DD46A3AFBA9 /* NBAsYouTypeFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15E51AAC09928D4D31410583CCDDE6AA /* ResourcesLoadingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */; };
 		16493AA779A66CAB5A01392C82AC048C /* CountryCodePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9FA4AF25B1B71078B110FFC441C785 /* CountryCodePickerView.swift */; };
@@ -82,6 +84,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		09F07E781B8C7C96005E5BA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09F07E6A1B8C70CA005E5BA0;
+			remoteInfo = CommonCrypto;
+		};
 		47EA49559925430DC92D2E23C1F41097 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -126,6 +135,13 @@
 		09024EA21B6253980096198D /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLoader.swift; sourceTree = "<group>"; };
 		09CE328C1B87206D00DF6C87 /* ContactInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
+		09F07E641B8C6874005E5BA0 /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		09F07E6B1B8C70CA005E5BA0 /* CommonCrypto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09F07E6F1B8C70CA005E5BA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09F07E731B8C72C8005E5BA0 /* CommonCrypto.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CommonCrypto.xcconfig; sourceTree = "<group>"; };
+		09F07E751B8C7342005E5BA0 /* iphoneos.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iphoneos.modulemap; sourceTree = "<group>"; };
+		09F07E761B8C78A0005E5BA0 /* macosx.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macosx.modulemap; sourceTree = "<group>"; };
+		09F07E771B8C78A0005E5BA0 /* iphonesimulator.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iphonesimulator.modulemap; sourceTree = "<group>"; };
 		0CCCD1DE419B9DAA06168D721DD20098 /* Pods-phoneid_iOS_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-phoneid_iOS_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		0D00BFF89090C2D57A465B1663CE5D4B /* Pods-phoneid_iOS_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-phoneid_iOS_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
@@ -222,6 +238,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		09F07E671B8C70CA005E5BA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		263897C5210E29A8A86D032B90F508B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F07E7A1B8C7D26005E5BA0 /* CommonCrypto.framework in Frameworks */,
 				49A7B8E209F8D13DBBAE85942E34BA75 /* CoreTelephony.framework in Frameworks */,
 				4C1068914C99657CE9B60D0EED284B6D /* Foundation.framework in Frameworks */,
 				4E63C0F7B91BDD7D69B9EEAB3FD314AE /* UIKit.framework in Frameworks */,
@@ -300,6 +324,18 @@
 				AC7908226481A44FFACBFCC5207973FB /* phoneid_iOS */,
 			);
 			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		09F07E6C1B8C70CA005E5BA0 /* CommonCrypto */ = {
+			isa = PBXGroup;
+			children = (
+				09F07E761B8C78A0005E5BA0 /* macosx.modulemap */,
+				09F07E771B8C78A0005E5BA0 /* iphonesimulator.modulemap */,
+				09F07E731B8C72C8005E5BA0 /* CommonCrypto.xcconfig */,
+				09F07E6F1B8C70CA005E5BA0 /* Info.plist */,
+				09F07E751B8C7342005E5BA0 /* iphoneos.modulemap */,
+			);
+			path = CommonCrypto;
 			sourceTree = "<group>";
 		};
 		09FB3E8C3202600665B2525D47CAAB4B /* strings */ = {
@@ -426,6 +462,7 @@
 			children = (
 				C88113A79685B4EFEE7BAD12896829F7 /* Podfile */,
 				0720760E6FAA87218C034E98CCD3509B /* Development Pods */,
+				09F07E6C1B8C70CA005E5BA0 /* CommonCrypto */,
 				D36C6650169CF9B81ADEB7B2F2A0E7B8 /* Frameworks */,
 				FCC6F965540745142F6675EF7C9E0E2D /* Pods */,
 				CCA510CFBEA2D207524CDA0D73C3B561 /* Products */,
@@ -518,6 +555,7 @@
 				10D96E4C56E830952E20E6CEEA2AD5E8 /* KeychainStorage.swift */,
 				A2DA4F21A2F1D9D22921119048C7035D /* ResourcesLoadingExtensions.swift */,
 				09CE328A1B84B9F500DF6C87 /* ContactsLoader.swift */,
+				09F07E641B8C6874005E5BA0 /* CryptoUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -547,6 +585,7 @@
 				160076250D9D28B7967ED42F1A9F946D /* Pods_phoneid_iOS_Tests.framework */,
 				94A7D15815D072E39D657F8E4836A5E0 /* libPhoneNumber_iOS.framework */,
 				C64B36EE356A155879E50BE19821DC4F /* phoneid_iOS.framework */,
+				09F07E6B1B8C70CA005E5BA0 /* CommonCrypto.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -590,6 +629,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		09F07E681B8C70CA005E5BA0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0A19B012B593A6EA7D1A109A2EA39530 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -638,6 +684,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		09F07E6A1B8C70CA005E5BA0 /* CommonCrypto */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09F07E701B8C70CA005E5BA0 /* Build configuration list for PBXNativeTarget "CommonCrypto" */;
+			buildPhases = (
+				09F07E661B8C70CA005E5BA0 /* Sources */,
+				09F07E671B8C70CA005E5BA0 /* Frameworks */,
+				09F07E681B8C70CA005E5BA0 /* Headers */,
+				09F07E691B8C70CA005E5BA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CommonCrypto;
+			productName = CommonCrypto;
+			productReference = 09F07E6B1B8C70CA005E5BA0 /* CommonCrypto.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		0EBA7B5D8C87F2D9C61F95358C4D82BF /* libPhoneNumber-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2870A61F8E0F702AF9E69CD26E33398C /* Build configuration list for PBXNativeTarget "libPhoneNumber-iOS" */;
@@ -687,6 +751,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				09F07E791B8C7C96005E5BA0 /* PBXTargetDependency */,
 				F99E5894623A361AA58FB933F94DFDD7 /* PBXTargetDependency */,
 			);
 			name = phoneid_iOS;
@@ -721,6 +786,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					09F07E6A1B8C70CA005E5BA0 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -738,11 +808,19 @@
 				80ED55E0466308CD98EFBC2E8DBABAAB /* Pods-phoneid_iOS_Tests */,
 				0EBA7B5D8C87F2D9C61F95358C4D82BF /* libPhoneNumber-iOS */,
 				659C171458A0CBCD59B9B4B301F02E8A /* phoneid_iOS */,
+				09F07E6A1B8C70CA005E5BA0 /* CommonCrypto */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		09F07E691B8C70CA005E5BA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		76C4D9FB7EE261C36D479532F27335E7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -764,6 +842,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		09F07E661B8C70CA005E5BA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C2E974E4D53C9AA969F3A5EF62BD536 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -780,6 +865,7 @@
 				73EB283CDD8E5D8F0D59ACAB5E670C78 /* NumberInputViewController.swift in Sources */,
 				53BD436586F2E4AF19B9A6F775FA6C01 /* NumericTextField.swift in Sources */,
 				09CE328B1B84B9F500DF6C87 /* ContactsLoader.swift in Sources */,
+				09F07E651B8C6874005E5BA0 /* CryptoUtils.swift in Sources */,
 				AD1536B23F975259A3662599F4816383 /* ParseableModel.swift in Sources */,
 				09024EA31B6253980096198D /* Reachability.swift in Sources */,
 				EF9ACF1C1D3CE529C56B97533525E705 /* PhoneIdBaseView.swift in Sources */,
@@ -838,6 +924,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		09F07E791B8C7C96005E5BA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09F07E6A1B8C70CA005E5BA0 /* CommonCrypto */;
+			targetProxy = 09F07E781B8C7C96005E5BA0 /* PBXContainerItemProxy */;
+		};
 		43820B2F96CD8894539047AA9B47A360 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "libPhoneNumber-iOS";
@@ -871,6 +962,72 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		09F07E711B8C70CA005E5BA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09F07E731B8C72C8005E5BA0 /* CommonCrypto.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCrypto/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.phoneid-iOS.CommonCrypto";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		09F07E721B8C70CA005E5BA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09F07E731B8C72C8005E5BA0 /* CommonCrypto.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCrypto/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.phoneid-iOS.CommonCrypto";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		2E2FE3061BBF0178B73470F3A8AA31DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1175,6 +1332,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		09F07E701B8C70CA005E5BA0 /* Build configuration list for PBXNativeTarget "CommonCrypto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09F07E711B8C70CA005E5BA0 /* Debug */,
+				09F07E721B8C70CA005E5BA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		2870A61F8E0F702AF9E69CD26E33398C /* Build configuration list for PBXNativeTarget "libPhoneNumber-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

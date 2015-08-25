@@ -392,9 +392,5 @@ class PhoneIdServiceTests: XCTestCase {
         XCTAssertNotNil(errorResult, "Expected non nil error")
         
     }
-    
-    // MARK: refreshToken
-    
-    // TODO: add tests for refresh token
-    
+
 }

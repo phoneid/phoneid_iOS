@@ -291,34 +291,72 @@ public class PhoneIdService: NSObject {
                 
                 if let contacts = contacts{
                     
-                    let params = self.wrapContactsAsHTTPFormParams(contacts)
-                    
-                    let endpoint = Endpoints.Contacts.endpoint()
-                    self.post(endpoint, params: params, completion: { (response) -> Void in
-                        var error:NSError?
-                        
-                        if let responseError = response.error{
-                            NSLog("Failed to upload contacts \(responseError)")
-                            error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
-                            
-                        }
-                        
-                        completion(error: error)
-                        self.notifyClientCodeAboutError(error)
-                        
-                    })
+                    self.updateContactsIfNeeded(contacts, completion:completion)
                     
                 }else{
                     completion(error: nil)
                 }
             }
             
-            
             }, fail: { (error) -> Void in
                 completion(error: nil)
         })
         
     }
+    
+    internal func needsUpdateContacts(contacts:[ContactInfo], completion:(needsUpdate:Bool)->Void){
+        
+        let checksums:[String] = contacts.map({ return $0.number!.sha1()})
+        
+        let checksumFlat = ",".join(checksums.sort())
+        
+        let endpoint = Endpoints.NeedRefreshContacts.endpoint(checksumFlat.sha1())
+        
+        self.get(endpoint, params: nil, completion: { (response) -> Void in
+            
+            var result:Bool = true
+            
+            if let json = response.responseJSON as? NSDictionary,
+                needsUpdate = json["refresh_needed"] as? Bool{
+                    
+                    result = needsUpdate
+            }
+            
+            completion(needsUpdate: result)
+        })
+    }
+    
+    internal func updateContactsIfNeeded(contacts:[ContactInfo], completion:RequestCompletion){
+        
+        self.needsUpdateContacts(contacts, completion: { (needsUpdate) -> Void in
+            
+            if(needsUpdate){
+                
+                let params = self.wrapContactsAsHTTPFormParams(contacts)
+                
+                let endpoint = Endpoints.Contacts.endpoint()
+                
+                self.post(endpoint, params: params, completion: { (response) -> Void in
+                    var error:NSError?
+                    
+                    if let responseError = response.error{
+                        NSLog("Failed to upload contacts \(responseError)")
+                        error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
+                        
+                    }
+                    
+                    completion(error: error)
+                    self.notifyClientCodeAboutError(error)
+                    
+                })
+                
+            }else{
+                completion(error: nil)
+            }
+            
+        })
+    }
+    
     
     private func wrapContactsAsHTTPFormParams(contacts:[ContactInfo]) -> [String:AnyObject]{
         
