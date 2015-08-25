@@ -1,8 +1,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "phoneid_iOS"
-  s.version          = "0.1.0"
-  s.tag          = "0.1.0"
+  s.version          = "0.1.1"
+  s.tag          = "0.1.1"
   s.summary          = "Phone.Id SDK library"
   s.description      = <<-DESC
 
