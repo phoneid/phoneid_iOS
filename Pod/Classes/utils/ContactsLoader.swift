@@ -125,6 +125,16 @@ class ContactsLoader: NSObject {
                     
                 }
                 
+            }else{
+                
+                let alertController = UIAlertController(title:nil, message:NSLocalizedString(
+                    "phone.id.needs.access.to.your.contacts", bundle: NSBundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .Alert)
+                
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: NSBundle.phoneIdBundle(), comment:"alert.button.title.dismiss"), style: .Cancel, handler:nil));
+                
+                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+                
+                
             }
             completion(result)
         }

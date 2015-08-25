@@ -47,6 +47,8 @@
 "alert.button.title.dismiss"="Respingere";
 "alert.title.error"="Errore";
 
+"phone.id.needs.access.to.your.contacts"="Impossibile caricare contatti. Si prega di consentire di accedere ypur phone.id contatti in App Impostazioni";
+
 "error.failed.request.auth.code"="Impossibile richiedere codice di autenticazione PhoneId.";
 "error.failed.request.clients"="Impossibile alla lista delle richieste dei clienti.";
 "error.unexpected.response"="Impossibile analizzare la risposta del server.";

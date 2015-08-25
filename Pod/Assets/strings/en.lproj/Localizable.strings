@@ -48,6 +48,8 @@
 "alert.button.title.dismiss"="Dismiss";
 "alert.title.error"="Error";
 
+"phone.id.needs.access.to.your.contacts"="Failed to upload contacts. Please allow phone.id to access ypur contacts in the Settings App";
+
 "error.failed.request.auth.code"="Failed to request PhoneId authentication code";
 "error.failed.request.clients"="Failed to request list of clients";
 "error.unexpected.response"="Failed to parse server response.";
