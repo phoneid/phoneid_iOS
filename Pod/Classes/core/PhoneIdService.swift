@@ -308,7 +308,7 @@ public class PhoneIdService: NSObject {
         
         let checksums:[String] = contacts.map({ return $0.number!.sha1()})
         
-        let checksumFlat = ",".join(checksums.sort())
+        let checksumFlat = checksums.sort().joinWithSeparator(",")
         
         let endpoint = Endpoints.NeedRefreshContacts.endpoint(checksumFlat.sha1())
         
