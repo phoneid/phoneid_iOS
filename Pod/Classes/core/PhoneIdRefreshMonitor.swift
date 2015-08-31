@@ -84,7 +84,11 @@ class PhoneIdRefreshMonitor{
         timer?.invalidate()
         timer = nil
         
-        let fireTime =  token.expirationTime!.timeIntervalSince1970 - NSTimeInterval(token.expirationPeriod!/3)
+        var fireTime = 0.0
+        
+        if let expirationTime = token.expirationTime {
+            fireTime = expirationTime.timeIntervalSince1970 - NSTimeInterval(token.expirationPeriod!/3)
+        }
         
         if(fireTime > NSDate().timeIntervalSince1970){
             
