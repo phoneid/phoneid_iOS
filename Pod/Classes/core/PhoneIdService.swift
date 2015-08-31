@@ -64,11 +64,13 @@ public class PhoneIdService: NSObject {
     internal var urlSession: NSURLSession!;
     internal var refreshMonitor: PhoneIdRefreshMonitor!;
     
+    private var contactsLoader:ContactsLoader!
     private var apiBaseURL:NSURL!
     private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
     
     override init(){
         super.init()
+        contactsLoader = ContactsLoader()
         urlSession = NSURLSession.sharedSession()
         apiBaseURL = Constants.baseURL
         
@@ -285,9 +287,9 @@ public class PhoneIdService: NSObject {
     
     public func uploadContacts(completion:RequestCompletion){
         
-        self.checkToken("error.failed.refresh.token", success: {(token) -> Void in
+        self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
-            ContactsLoader().getContacts(token.numberInfo!.isoCountryCode!) { (contacts:[ContactInfo]?) -> Void in
+            self.contactsLoader.getContacts(token.numberInfo!.isoCountryCode!) { (contacts:[ContactInfo]?) -> Void in
                 
                 if let contacts = contacts{
                     

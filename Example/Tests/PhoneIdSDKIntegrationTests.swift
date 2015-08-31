@@ -73,7 +73,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
             }
             
         }
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectationsWithTimeout(30, handler: nil)
         
     }
   
