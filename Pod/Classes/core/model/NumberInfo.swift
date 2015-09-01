@@ -159,10 +159,11 @@ public class NumberInfo: NSObject {
     
     class func e164Format(number:String, iso:String) -> String? {
         var result: NSString? = nil;
-        let formatted: NBPhoneNumber! = try! NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso)
         
-        result = try! NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormatE164)
-        
+        if let formatted = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso){
+            result = try? NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormatE164)
+        }
+    
         return result as? String
     }
     
