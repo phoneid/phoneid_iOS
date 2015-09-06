@@ -56,7 +56,7 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     public override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        verifyCodeView.codeText.becomeFirstResponder()
+        verifyCodeView.verifyCodeControl.becomeFirstResponder()
     }
     
     // MARK: CountryCodePickerViewDelegate
@@ -72,6 +72,7 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
                 self.verifyCodeView.indicateVerificationSuccess()
                 self.verifyCodeViewCompletionBlock?(success: true)
                 self.dismissViewControllerAnimated(true, completion: nil)
+                PhoneIdWindow.activePhoneIdWindow()?.close()
 
             }else{
                self.verifyCodeView.indicateVerificationFail()
@@ -81,8 +82,9 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     }
     
     func close() {
+        self.verifyCodeView.resignFirstResponder()
         self.verifyCodeViewCompletionBlock?(success: false)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        PhoneIdWindow.activePhoneIdWindow()?.close()
     }
 }
 

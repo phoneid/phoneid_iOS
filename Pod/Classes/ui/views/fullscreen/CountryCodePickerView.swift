@@ -46,7 +46,7 @@ class CountryInfo: NSObject{
 
 typealias CountryCodePickerModel = [ (letter: String, countries: [CountryInfo]) ]
 
-public class CountryCodePickerView: PhoneIdBaseView, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
+public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
     
     private(set) var tableView:UITableView!
     private(set) var titleLabel:UILabel!

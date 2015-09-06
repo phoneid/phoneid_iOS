@@ -26,12 +26,6 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
     public var colorScheme: ColorScheme!
     public var localizationBundle: NSBundle!
     public var localizationTableName: String!
-   
-    var closeButton: UIButton!
-    var backgroundView:UIImageView!
-    func backgroundImage() -> UIImage { return phoneIdComponentFactory.defaultBackgroundImage() }
-    
-    var customConstraints:[NSLayoutConstraint]=[]
     
     init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         
@@ -41,14 +35,14 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
         colorScheme = scheme
         localizationBundle = bundle
         localizationTableName = tableName
-
+        
         doOnInit()
     }
-
+    
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
     func doOnInit(){
         setupSubviews()
         setupLayout()
@@ -57,6 +51,45 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
     }
     
     func setupSubviews(){
+        
+    }
+    
+    func setupLayout(){
+ 
+    }
+    
+    func setupWithModel(model:NumberInfo){
+        self.phoneIdModel = model
+    }
+    
+    func localizeAndApplyColorScheme(){
+        
+    }
+    
+    func closeButtonTapped(){
+        
+    }
+    
+}
+
+public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
+   
+    var closeButton: UIButton!
+    var backgroundView:UIImageView!
+    func backgroundImage() -> UIImage { return phoneIdComponentFactory.defaultBackgroundImage() }
+    
+    var customConstraints:[NSLayoutConstraint]=[]
+    
+    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
+        super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
+    }
+    
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
+
+    override func setupSubviews(){
         backgroundView = UIImageView(image: backgroundImage())
         closeButton = UIButton(type:.System)
         closeButton.setImage(UIImage(namedInPhoneId: "close"), forState: .Normal)
@@ -71,7 +104,7 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
         
     }
     
-    func setupLayout(){
+    override func setupLayout(){
         self.removeConstraints(self.customConstraints)
         self.customConstraints=[]
         
@@ -89,18 +122,6 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
         
         self.customConstraints=c
         self.addConstraints(c)
-    }
-    
-    func setupWithModel(model:NumberInfo){
-       self.phoneIdModel = model
-    }
-    
-    func localizeAndApplyColorScheme(){
-        
-    }
-    
-    func closeButtonTapped(){
-        
     }
     
 }

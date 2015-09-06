@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A263e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,17 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQp-60-Ktz" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
-                                <rect key="frame" x="160" y="275" width="280" height="50"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.1019607843" green="0.56862745100000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pP3-G9-HVJ">
-                                <rect key="frame" x="160" y="38" width="280" height="181"/>
+                                <rect key="frame" x="160" y="30" width="280" height="181"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Token: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QXI-Dd-MT1">
                                         <rect key="frame" x="0.0" y="14" width="59" height="20.5"/>
@@ -83,7 +74,7 @@
                                     </button>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="81p-O5-8TF"/>
                                     <constraint firstItem="GFm-cb-0bT" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" constant="-2" id="F80-ao-h7g"/>
@@ -101,17 +92,63 @@
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="vdW-0g-bib"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQp-60-Ktz" userLabel="Phoneid button" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
+                                <rect key="frame" x="160" y="224" width="280" height="50"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.1019607843" green="0.56862745100000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1j-sG-beG" userLabel="Compact Phoneid button" customClass="CompactPhoneIdLoginButton" customModule="phoneid_iOS">
+                                <rect key="frame" x="160" y="224" width="280" height="50"/>
+                                <animations/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2TT-Ae-R9v">
+                                <rect key="frame" x="391" y="284" width="51" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="switchCompactMode:" destination="vXZ-lx-hvc" eventType="valueChanged" id="fgc-5j-GMi"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use compact mode" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Pc-08-teV">
+                                <rect key="frame" x="233" y="289" width="150" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96976433011049723" green="0.96976433011049723" blue="0.96976433011049723" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ZQp-60-Ktz" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="56" id="FMf-YI-4Kp"/>
+                            <constraint firstItem="ZQp-60-Ktz" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="13" id="4V0-La-npI"/>
+                            <constraint firstItem="u1j-sG-beG" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="13" id="80W-e2-11M"/>
+                            <constraint firstItem="u1j-sG-beG" firstAttribute="top" secondItem="ZQp-60-Ktz" secondAttribute="bottom" constant="8" id="AAk-Wy-Qx8"/>
+                            <constraint firstItem="ZQp-60-Ktz" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="bottom" constant="87" id="FMf-YI-4Kp"/>
                             <constraint firstItem="pP3-G9-HVJ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="FQk-VG-xG5"/>
+                            <constraint firstItem="2TT-Ae-R9v" firstAttribute="leading" secondItem="4Pc-08-teV" secondAttribute="trailing" constant="8" id="I1k-td-3zI"/>
+                            <constraint firstItem="2TT-Ae-R9v" firstAttribute="trailing" secondItem="u1j-sG-beG" secondAttribute="trailing" id="M7R-QW-PGK"/>
                             <constraint firstItem="ZQp-60-Ktz" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Sjh-G9-xlL"/>
                             <constraint firstItem="ZQp-60-Ktz" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Tdk-oN-fz7"/>
+                            <constraint firstItem="4Pc-08-teV" firstAttribute="top" secondItem="u1j-sG-beG" secondAttribute="bottom" constant="15" id="VMo-3P-Hvv"/>
+                            <constraint firstItem="u1j-sG-beG" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="X9P-Mo-rMn"/>
+                            <constraint firstItem="pP3-G9-HVJ" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="b9M-Ka-lQl"/>
+                            <constraint firstItem="2TT-Ae-R9v" firstAttribute="top" secondItem="u1j-sG-beG" secondAttribute="bottom" constant="10" id="c7t-RI-RkF"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="FMf-YI-4Kp"/>
+                                <exclude reference="Sjh-G9-xlL"/>
+                                <exclude reference="AAk-Wy-Qx8"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="compactPhoneIdButton" destination="u1j-sG-beG" id="5SI-VW-hV0"/>
+                        <outlet property="phoneIdButton" destination="ZQp-60-Ktz" id="f0a-ui-WVJ"/>
                         <outlet property="refreshTokenText" destination="iSw-pb-7Hb" id="zmK-Mm-EW7"/>
                         <outlet property="tokenText" destination="9tJ-gY-i1k" id="rie-WO-OBf"/>
                         <outlet property="tokensView" destination="pP3-G9-HVJ" id="Qdu-3m-YUF"/>

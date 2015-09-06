@@ -30,6 +30,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tokenText: UITextField!
     @IBOutlet weak var refreshTokenText: UITextField!
     
+    @IBOutlet weak var phoneIdButton: PhoneIdLoginButton!
+    @IBOutlet weak var compactPhoneIdButton: CompactPhoneIdLoginButton!
     
     let phoneId: PhoneIdService = PhoneIdService.sharedInstance;
     
@@ -92,6 +94,12 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func switchCompactMode(sender: UISwitch) {
+        
+        phoneIdButton.hidden = sender.on
+        compactPhoneIdButton.hidden = !sender.on
+    }
+   
     
 }
 

@@ -1,5 +1,6 @@
 //
-//  VerifyCodeView.swift
+//  VerifyCodeControl.swift
+//
 //  phoneid_iOS
 //
 //  Copyright 2015 Federico Pomi
@@ -17,19 +18,10 @@
 //  limitations under the License.
 //
 
+import UIKit
 
-import Foundation
+class VerifyCodeControl: PhoneIdBaseView {
 
-protocol VerifyCodeViewViewDelegate:NSObjectProtocol{
-    func verifyCode(model:NumberInfo, code:String)
-    func goBack()
-    func close()
-}
-
-public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
-    
-    internal weak var delegate:VerifyCodeViewViewDelegate?
-    
     private(set) var placeholderView:UIView!
     private(set) var codeText:NumericTextField!
     private(set) var placeholderLabel:UILabel!
@@ -37,37 +29,29 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
     private(set) var backButton:UIButton!
     private(set) var statusImage: UIImageView!
     
-    private(set) var hintText: UITextView!
-    private(set) var statusText: UITextView!
+    var verificationCodeDidCahnge: ((code:String)->Void)?
+    var backButtonTapped: (()->Void)?
     
-    let verificationCodeLength = 6
-    
-    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
-        super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
-    }
-    
-    required public init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    let maxVerificationCodeLength = 6
+
     override func setupSubviews(){
         super.setupSubviews()
         
-        codeText = NumericTextField(maxLength: verificationCodeLength)
+        codeText = NumericTextField(maxLength: maxVerificationCodeLength)
         codeText.keyboardType = .NumberPad
         codeText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
         codeText.backgroundColor = UIColor.clearColor()
-
+        
         placeholderLabel=UILabel()
         
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(string: "______")
-
+        
         placeholderLabel.attributedText = applyCodeFieldStyle(attributedString)
         
         activityIndicator=UIActivityIndicatorView()
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
         
-        statusImage = UIImageView()        
+        statusImage = UIImageView()
         
         placeholderView = UIView()
         placeholderView.layer.cornerRadius = 5
@@ -75,26 +59,15 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         backButton = UIButton()
         backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
         backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
-
-        hintText = UITextView()
-        hintText.backgroundColor = UIColor.clearColor()
-        hintText.editable = false
-        hintText.scrollEnabled = false
-
-        statusText = UITextView()
-        statusText.editable = false
-        statusText.scrollEnabled = false
-        statusText.font = UIFont.systemFontOfSize(18)
-   
-        statusText.backgroundColor = UIColor.clearColor()
-
-        let subviews:[UIView] = [placeholderView, placeholderLabel, codeText]+[activityIndicator, backButton, statusImage, hintText, statusText]
+        
+        
+        let subviews:[UIView] = [placeholderView, placeholderLabel, codeText, activityIndicator, backButton, statusImage]
         
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
-                
+        
     }
     
     override func setupLayout(){
@@ -103,11 +76,7 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: hintText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: hintText, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: hintText, attribute: .Bottom, relatedBy: .Equal, toItem: placeholderView, attribute: .Top, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: hintText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
-        
+        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
@@ -125,89 +94,85 @@ public class VerifyCodeView: PhoneIdBaseView, UITextFieldDelegate{
         
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant:0))
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: placeholderView, attribute: .Right, multiplier: 1, constant:-5))
-
+        
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterY, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterY, multiplier: 1, constant: 0))
-        
-        c.append(NSLayoutConstraint(item: statusText, attribute: .Top, relatedBy: .Equal, toItem: placeholderView, attribute: .Bottom, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: statusText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: statusText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.85, constant: 0))
-        
-        self.customConstraints += c
-        
+         
         self.addConstraints(c)
         
     }
-    
+
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
-        
-        hintText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
+
         placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
-        statusText.textColor = colorScheme.normalText
         codeText.textColor = colorScheme.mainAccent
         placeholderLabel.textColor = colorScheme.placeholderText
         activityIndicator.color = colorScheme.mainAccent
         self.needsUpdateConstraints()
     }
     
-    func backTapped(sender:UIButton){
-        self.codeText.resignFirstResponder()
-        if let delegate = delegate{
-            delegate.goBack()
-        }
-    }
+    
+    // TODO: need to provide fonts from Font factory, like as colors from ColorScheme
+    private func applyCodeFieldStyle(input:NSAttributedString)->NSAttributedString {
+        let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
+        let range:NSRange = NSMakeRange(0, attributedString.length)
+        attributedString.addAttribute(NSKernAttributeName, value: 12, range: range)
+        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo-Bold", size: 22)!, range: range)
+        return attributedString
+    }    
     
     func textFieldDidChange(textField:UITextField) {
-
+        
         textField.attributedText = applyCodeFieldStyle(textField.attributedText!)
         
-        if (textField.text!.utf16.count == verificationCodeLength) {
-            
-            statusText.attributedText = localizedStringAttributed("html-logging.in")
+        if (textField.text!.utf16.count == maxVerificationCodeLength) {
+
             activityIndicator.startAnimating()
             backButton.enabled = false
-            if let delegate = delegate {
-                delegate.verifyCode(self.phoneIdModel, code:textField.text!)
-            }
-            
+
         } else {
-            statusText.text = ""
+
             activityIndicator.stopAnimating()
             phoneIdService.abortCall()
             statusImage.hidden = true
             backButton.enabled = true
         }
         
+        self.verificationCodeDidCahnge?(code: textField.text!)
+        
     }
     
-    // TODO: need to provide fonts from Font factory, like as colors from ColorScheme 
-    func applyCodeFieldStyle(input:NSAttributedString)->NSAttributedString {
-        let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
-        let range:NSRange = NSMakeRange(0, attributedString.length)
-        attributedString.addAttribute(NSKernAttributeName, value: 12, range: range)
-        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo-Bold", size: 22)!, range: range)
-        return attributedString
+    func backTapped(sender:UIButton){
+        backButtonTapped?()
     }
     
     func indicateVerificationFail(){
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ko")
         statusImage.hidden = false
-        statusText.attributedText = localizedStringAttributed("html-loggin.failed")
         backButton.enabled = true
     }
     
     func indicateVerificationSuccess(){
-        statusText.attributedText = localizedStringAttributed("html-logged.in")
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ok")
         statusImage.hidden = false
+
     }
     
-    override func closeButtonTapped(){
-        self.delegate?.close()
+    func reset(){
+        codeText.text=""
+        textFieldDidChange(codeText)
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        return codeText.resignFirstResponder()
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        return codeText.becomeFirstResponder()
     }
     
 }

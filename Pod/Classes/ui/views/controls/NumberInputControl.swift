@@ -1,5 +1,5 @@
 //
-//  NumberInputView.swift
+//  NumberInputControl.swift
 //  phoneid_iOS
 //
 //  Copyright 2015 Federico Pomi
@@ -18,59 +18,46 @@
 //
 
 
-import Foundation
+
+import UIKit
 import libPhoneNumber_iOS
 
-protocol NumberInputViewDelegate:NSObjectProtocol{
-    func phoneNumberWasAccepted(model: NumberInfo)
-    func countryCodePickerTapped(model: NumberInfo)
-    func close()
-}
-
-public class NumberInputView: PhoneIdBaseView{
+class NumberInputControl: PhoneIdBaseView {
     
     private(set) var numberText:NumericTextField!
-    private(set) var accessText: UITextView!
-    
     private(set) var doneBarButton:UIBarButtonItem!
     private(set) var countryCodeBarButton:UIBarButtonItem!
     
     private(set) var okButton:UIButton!
     private(set) var prefixButton:UIButton!
-    private(set) var youNumberIsSafeText: UITextView!
-    private(set) var termsText: UITextView!
+    
     private(set) var numberPlaceholderView: UIView!
     private(set) var activityIndicator:UIActivityIndicatorView!
     private var asYouTypeFomratter:NBAsYouTypeFormatter!
-
     
-    weak var delegate:NumberInputViewDelegate?
-
+    var numberDidChange: (()-> Void)?
+    var numberInputCompleted: ((NumberInfo)-> Void)?
+    
     override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required internal init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func setupSubviews(){
-        super.setupSubviews()
-
+        
+        
         numberText = NumericTextField(maxLength: 15)
         numberText.keyboardType = .NumberPad
         numberText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
         numberText.backgroundColor = UIColor.clearColor()
-        numberText.becomeFirstResponder()
+
         setupKeyboardToolBar();
         
         numberPlaceholderView = UIView()
         numberPlaceholderView.layer.cornerRadius = 5
-        
-        accessText = UITextView()
-        accessText.backgroundColor = UIColor.clearColor()
-        accessText.editable = false
-        accessText.scrollEnabled = false
         
         okButton = UIButton()
         okButton.hidden = true
@@ -80,22 +67,11 @@ public class NumberInputView: PhoneIdBaseView{
         prefixButton.titleLabel?.textAlignment = .Left
         prefixButton.addTarget(self, action: "countryCodeTapped:", forControlEvents: .TouchUpInside)
         
-        youNumberIsSafeText = UITextView()
-        youNumberIsSafeText.editable = false
-        youNumberIsSafeText.scrollEnabled = false
-        youNumberIsSafeText.backgroundColor = UIColor.clearColor()
-        
-        termsText = UITextView()
-        termsText.editable = false
-        termsText.scrollEnabled = false
-        termsText.hidden = true
-        termsText.backgroundColor = UIColor.clearColor()
-        
         activityIndicator=UIActivityIndicatorView()
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
         
         
-        let subviews:[UIView] = [numberPlaceholderView, accessText,numberText, okButton, prefixButton , youNumberIsSafeText, termsText,activityIndicator]
+        let subviews:[UIView] = [numberPlaceholderView, numberText, okButton, prefixButton, activityIndicator]
         
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
@@ -103,30 +79,12 @@ public class NumberInputView: PhoneIdBaseView{
         }
     }
     
-    func setupKeyboardToolBar(){
-        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
-        
-        countryCodeBarButton  = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "countryCodeTapped:")
-        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "okButtonTapped:")
-        
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        
-        toolBar.items = [countryCodeBarButton, space, doneBarButton]
-        
-        numberText.inputAccessoryView = toolBar
-    }
-    
     override func setupLayout(){
-        
-        super.setupLayout()
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: accessText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: accessText, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: accessText, attribute: .Bottom, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .TopMargin, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: accessText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
         
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
@@ -143,21 +101,24 @@ public class NumberInputView: PhoneIdBaseView{
         c.append(NSLayoutConstraint(item: okButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: okButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant:40))
         
-        c.append(NSLayoutConstraint(item: youNumberIsSafeText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: youNumberIsSafeText, attribute: .Top, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: youNumberIsSafeText, attribute: .Width, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Width, multiplier: 1, constant:0))
-        
-        c.append(NSLayoutConstraint(item: termsText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: termsText, attribute: .Top, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: termsText, attribute: .Width, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Width, multiplier: 1, constant:0))
-        
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: okButton, attribute: .CenterY, multiplier: 1, constant:0))
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: okButton, attribute: .CenterX, multiplier: 1, constant:-5))
         
-        self.customConstraints += c
-        
         self.addConstraints(c)
         
+    }
+    
+    private func setupKeyboardToolBar(){
+        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
+        
+        countryCodeBarButton  = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "countryCodeTapped:")
+        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "okButtonTapped:")
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.items = [countryCodeBarButton, space, doneBarButton]
+        
+        numberText.inputAccessoryView = toolBar
     }
     
     override func setupWithModel(model:NumberInfo){
@@ -182,18 +143,13 @@ public class NumberInputView: PhoneIdBaseView{
         }
     }
     
-    
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
         
-        accessText.attributedText = localizedStringAttributed("html-access.app.with.number") { (tmpResult) -> String in
-            return String(format: tmpResult, self.phoneIdService.appName!)
-        }
-        
         okButton.setTitle(localizedString("button.title.ok"), forState: .Normal)
         okButton.accessibilityLabel = localizedString("accessibility.button.title.ok")
-            
+        
         
         numberText.attributedPlaceholder = localizedStringAttributed("html-placeholder.phone.number")
         numberText.accessibilityLabel = localizedString("accessibility.phone.number.input")
@@ -202,15 +158,6 @@ public class NumberInputView: PhoneIdBaseView{
         countryCodeBarButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
-        
-        youNumberIsSafeText.attributedText = localizedStringAttributed("html-your.number.is.safe")
-        
-        termsText.attributedText = localizedStringAttributed("html-label.terms.and.conditions") { (tmpResult) -> String in
-            //TODO: replace terms and privacy policy with right refferences
-            return String(format: tmpResult,"http://google.com", "http://yandex.ru" )
-        }
-        
-        termsText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15),NSForegroundColorAttributeName:self.colorScheme.linkText]
         
         numberPlaceholderView.backgroundColor = colorScheme.defaultTextInputBackground
         
@@ -225,18 +172,9 @@ public class NumberInputView: PhoneIdBaseView{
         self.needsUpdateConstraints()
     }
     
-    // MARK: text field changes
-    
-    func textFieldDidChange(textField:UITextField) {
-        youNumberIsSafeText.hidden = true
-        termsText.hidden = false
-        
-        validatePhoneNumber()
-    }
-    
     func validatePhoneNumber() {
         activityIndicator.stopAnimating()
-    
+        
         numberText.text = asYouTypeFomratter.inputString(numberText.text)
         okButton.hidden = numberText.text!.isEmpty
         
@@ -250,30 +188,46 @@ public class NumberInputView: PhoneIdBaseView{
         }
     }
     
-    // MARK: Actions
+    func reset(){
+        numberText.text=""
+        validatePhoneNumber()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        return self.numberText.resignFirstResponder()
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        return self.numberText.becomeFirstResponder()
+    }
+    
+    func textFieldDidChange(textField:UITextField) {
+        numberDidChange?()
+        validatePhoneNumber()
+    }
     
     func okButtonTapped(sender:UIButton){
         self.phoneIdModel.phoneNumber = self.numberText.text
         
-        if let delegate = delegate {
-            okButton.hidden = true
-            activityIndicator.startAnimating()
-            delegate.phoneNumberWasAccepted(self.phoneIdModel)
-        }
+        okButton.hidden = true
+        activityIndicator.startAnimating()
+        numberInputCompleted?(self.phoneIdModel)
+        
     }
     
     func countryCodeTapped(sender:UIButton){
         self.phoneIdModel.phoneNumber = self.numberText.text
         
-        if let delegate = delegate {
-            delegate.countryCodePickerTapped(self.phoneIdModel)
+        let controller = self.phoneIdComponentFactory.countryCodePickerViewController(self.phoneIdModel)
+        
+        controller.countryCodePickerCompletionBlock = { [unowned self] (model:NumberInfo)-> Void in
+            self.phoneIdModel = model
+            self.setupWithModel(model)
         }
+        
+        let presenter:UIViewController = PhoneIdWindow.currentPresenter()
+        
+        presenter.presentViewController(controller, animated: true, completion: nil)
+        
     }
-    
-    override func closeButtonTapped(){
-        self.delegate?.close()
-    }
-    
 }
-
-
