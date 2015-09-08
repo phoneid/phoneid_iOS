@@ -133,6 +133,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     }
     
     override func localizeAndApplyColorScheme(){
+        super.localizeAndApplyColorScheme()
         titleLabel.attributedText = localizedStringAttributed("html-title.country.code")
         titleLabel.textColor = colorScheme.normalText
     }

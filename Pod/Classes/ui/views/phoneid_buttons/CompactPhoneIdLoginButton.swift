@@ -19,21 +19,54 @@
 
 import UIKit
 
-@IBDesignable public class CompactPhoneIdLoginButton: PhoneIdLoginButton{
+
+@IBDesignable class InternalCompactPhoneIdLoginButton: PhoneIdLoginButton{
+
+    internal var loginTouchedBlock:(()->Void)?
+    override func loginTouched() {
+        
+        loginTouchedBlock?()
+    }
+
+}
+
+
+@IBDesignable public class CompactPhoneIdLoginButton: PhoneIdBaseView{
     
+    private(set) var loginButton: InternalCompactPhoneIdLoginButton!
     private(set) var numberInputControl: NumberInputControl!
     private(set) var verifyCodeControl:VerifyCodeControl!
-    var phoneIdModel:NumberInfo!
     
-    override func initUI(){
-        super.initUI()
+    public init(){
+        super.init(frame: CGRectZero)
+        prep()
+        initUI()
+    }
+    
+    // init from viewcontroller
+    public override init(frame: CGRect) {
+        super.init(frame:frame)
+        prep()
+        initUI()
+    }
+    
+    // init from interface builder
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        prep()
+        initUI();
+    }
+    
+    func initUI(){
+
+        loginButton = InternalCompactPhoneIdLoginButton()
         
         phoneIdModel = NumberInfo()
         
         setupNumberInputControl()
         setupVerificationCodeControl()
         
-        let subviews = [numberInputControl, verifyCodeControl]
+        let subviews = [loginButton, numberInputControl, verifyCodeControl]
         
         for subview in subviews {
             subview.translatesAutoresizingMaskIntoConstraints = false
@@ -45,24 +78,30 @@ import UIKit
             subview.hidden = true
         }
         
+        loginButton.hidden = false
+        
+        loginButton.loginTouchedBlock = {
+            self.numberInputControl.hidden = false
+            self.loginButton.hidden = true
+            self.numberInputControl.validatePhoneNumber()
+            self.numberInputControl.becomeFirstResponder()
+        }
+        
     }
     
-    override func configureButton(isLoggedIn:Bool){
+    func prep(){
+        localizationBundle = phoneIdComponentFactory.localizationBundle()
+        localizationTableName = phoneIdComponentFactory.localizationTableName()
+        colorScheme = phoneIdComponentFactory.colorScheme()
         
-        super.configureButton(isLoggedIn)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
         
-        if let control = numberInputControl {
-            control.reset();
-            control.hidden = true
-            control.resignFirstResponder()
-        }
-        
-        if let control = verifyCodeControl {
-            control.reset();
-            control.hidden = true
-            control.resignFirstResponder()
-        }
-        
+    }
+    
+    override public func prepareForInterfaceBuilder() {
+        self.prep()
+        initUI();
     }
     
     func setupNumberInputControl() {
@@ -114,13 +153,6 @@ import UIKit
         }
     }
     
-    override func loginTouched() {
-        
-        numberInputControl.hidden = false
-        numberInputControl.becomeFirstResponder()
-        
-    }
-    
     func requestAuthentication(){
         
         phoneIdService.requestAuthenticationCode(self.phoneIdModel, completion: { [unowned self] (error) -> Void in
@@ -142,6 +174,31 @@ import UIKit
                 presenter.presentViewController(alert, animated: true, completion: nil)
             }
             });
+    }
+    
+    
+    
+    func doOnSuccessfulLogin() -> Void {
+        resetControls()
+    }
+    
+    func doOnlogout() -> Void {
+        resetControls()
+    }
+    
+    func resetControls(){
+        if let control = numberInputControl {
+            control.reset();
+            control.hidden = true
+            control.resignFirstResponder()
+        }
+        
+        if let control = verifyCodeControl {
+            control.reset();
+            control.hidden = true
+            control.resignFirstResponder()
+        }
+        self.loginButton?.hidden = false
     }
     
     

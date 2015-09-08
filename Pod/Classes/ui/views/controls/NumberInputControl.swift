@@ -156,6 +156,9 @@ class NumberInputControl: PhoneIdBaseView {
         
         countryCodeBarButton.title = localizedString("button.title.change.country.code")
         countryCodeBarButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
+        
+        prefixButton.accessibilityLabel = localizedString("accessibility.button.title.change.country.code")
+        
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
         

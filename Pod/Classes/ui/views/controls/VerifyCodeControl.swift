@@ -108,6 +108,8 @@ class VerifyCodeControl: PhoneIdBaseView {
 
         placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
         codeText.textColor = colorScheme.mainAccent
+        codeText.accessibilityLabel = localizedString("accessibility.verification.input");
+        backButton.accessibilityLabel = localizedString("accessibility.button.title.back");
         placeholderLabel.textColor = colorScheme.placeholderText
         activityIndicator.color = colorScheme.mainAccent
         self.needsUpdateConstraints()

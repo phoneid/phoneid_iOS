@@ -34,119 +34,235 @@ class phoneid_iOS_UITests: XCTestCase {
         XCUIApplication().launch()
     }
     
-    func testFullCycleSuccess() {
-  
+    func testProminentMode_FullCycleSuccess() {
+        
         let app = XCUIApplication()
-        app.buttons["Login with phone.id"].tap()
-        app.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
-
-        app.buttons["OK"].tap()
-        app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.childrenMatchingType(.TextField).element.typeText(TestConstants.VerificationCode)
-        XCTAssertNotNil(app.buttons["Log out"])
-        app.buttons["Log out"].tap()
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
+        
+        let phoneIdButton = app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0)
+        phoneIdButton.tap()
+        
+        
+        window.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
+        
+        window.buttons["OK"].tap()
+        
+        
+        window.textFields["Verification Code"].typeText(TestConstants.VerificationCode)
+        
+        
+        let logout = app.otherElements.containingType(.Button, identifier:"Log out").childrenMatchingType(.Button).matchingIdentifier("Log out").elementBoundByIndex(0)
+        
+        XCTAssertNotNil(logout)
+        
+        
+        logout.tap()
         
     }
     
     
     
-    func testWorkflowCancelled_NumberInput() {
+    func testProminentMode_WorkflowCancelled_NumberInput() {
+        
+        
         let app = XCUIApplication()
-        app.buttons["Login with phone.id"].tap()
-        app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.childrenMatchingType(.Button).elementBoundByIndex(0).tap()
+        
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
+        
+        app.buttons["Close"].tap()
+        
+        app.alerts.collectionViews.buttons["Dismiss"].tap()
+        
+        let loginButton = app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0)
+        
+        XCTAssertNotNil(loginButton)
+        
+    }
+    
+    func testProminentMode_WorkflowCancelled_VerificationCode() {
+        
+        let app = XCUIApplication()
+        
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
+        
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
+        
+        window.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
+        
+        window.buttons["OK"].tap()
+        
+        app.buttons["Close"].tap()
         
         XCTAssertNotNil(app.buttons["Login with phone.id"])
-        
-    }
-    
-    func testWorkflowCancelled_VerificationCode() {
-        
-        let app = XCUIApplication()
-        app.buttons["Login with phone.id"].tap()
-        app.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
-        app.buttons["OK"].tap()
-        app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.childrenMatchingType(.Button).elementBoundByIndex(0).tap()
-        
-        XCTAssertNotNil(app.buttons["Login with phone.id"])
     }
     
     
-    func testWrongVerifictionCode() {
+    func testProminentMode_WrongVerifictionCode() {
         
         
         let app = XCUIApplication()
-        app.buttons["Login with phone.id"].tap()
-        app.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
-        app.buttons["OK"].tap()
         
-        let element = app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element
-        element.childrenMatchingType(.TextField).element.typeText("123456")
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
+        
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
+        
+        window.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
+        
+        window.buttons["OK"].tap()
+        
+        window.textFields["Verification Code"].typeText("1234567")
         
         XCTAssertNotNil(app.textViews["The code you typed is different\nfrom the one we've sent you.\n\nCo"])
         
     }
     
-    func testDoneButton(){
-    
+    func testProminentMode_DoneButton(){
+        
         
         let app = XCUIApplication()
         
-        app.buttons["Login with phone.id"].tap()
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
         
-        app.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
         
-        app.toolbars.buttons["Done"].tap()
+        window.textFields["Phone Number"].typeText(TestConstants.PhoneNumber)
         
         NSThread.sleepForTimeInterval(0.5)
         
-        XCTAssertFalse(app.toolbars.buttons["Done"].exists)
+        XCTAssertFalse(window.toolbars.buttons["Done"].exists)
+        
+        window.buttons["Close"].tap()
         
     }
     
-    func testShowCountryCodePicker(){
+    func testProminentMode_ShowCountryCodePicker(){
+        
         
         let app = XCUIApplication()
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
         
-        app.buttons["Login with phone.id"].tap()
-
         app.toolbars.buttons["Change Country"].tap()
         
         NSThread.sleepForTimeInterval(0.5)
         
-        let searchSearchField = app.searchFields["Search"]
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
+        let searchSearchField = window.searchFields["Search"]
+        
         XCTAssertTrue(searchSearchField.exists)
-
+        
     }
- 
-// temporary broken:
-//
-//    func testCountryCodeSearch() {
-//        
-//
-//        let app = XCUIApplication()
-//        app.buttons["Login with phone.id"].tap()
-//        
-//        NSThread.sleepForTimeInterval(0.5)
-//        
-//        app.buttons["+1"].tap()
-//        
-//        let searchSearchField = app.searchFields["Search"]
-//        
-//        NSThread.sleepForTimeInterval(1.5)
-//        
-//        searchSearchField.typeText("uni")
-//        
-//        
-//        app.tables.elementBoundByIndex(0).staticTexts["United States"].tap()
-//        
-//        let phoneNumberTextField = app.textFields["Phone Number"]
-//        phoneNumberTextField.tap()
-//        phoneNumberTextField.typeText("4158320000")
-//        app.buttons["OK"].tap()
-//        app.textFields["______"].typeText("111111")
-//        
-//        XCTAssertNotNil(app.buttons["Log out"])
-//        
-//        
-//    }
+    
+    func testProminentMode_SearchCountryCode(){
+        
+        let app = XCUIApplication()
+        
+        app.otherElements.containingType(.Button, identifier:"Login with phone.id").childrenMatchingType(.Button).matchingIdentifier("Login with phone.id").elementBoundByIndex(0).tap()
+        
+        app.toolbars.buttons["Change Country"].tap()
+        
+        doSearchTesting(app)
+        
+    }
+    
+    func doSearchTesting(app:XCUIApplication){
+        
+        
+        for str in ["U","n","i","t","e","d"," ","S"] {
+            app.searchFields["Search"].typeText(str)
+            NSThread.sleepForTimeInterval(0.1)
+        }
+        
+        
+        let window = app.childrenMatchingType(.Window).elementBoundByIndex(2)
+        let searchResultsTable = window.tables.elementBoundByIndex(1)
+        let texts = searchResultsTable.childrenMatchingType(.Cell).elementBoundByIndex(0).staticTexts
+        
+        let countryCode = texts.elementBoundByIndex(0).label
+        let countryName = texts.elementBoundByIndex(1).label
+        
+        XCTAssertEqual(countryCode, "+1")
+        XCTAssertEqual(countryName, "United States")
+    
+    }
+    
+    func testCompactMode_EasyCycleSuccess(){
+        
+        let app = XCUIApplication()
+        app.switches["0"].tap()
+        
+        let element = app.otherElements.containingType(.StaticText, identifier:"Use compact mode").childrenMatchingType(.Other).elementBoundByIndex(2)
+        
+        element.buttons["Login with phone.id"].tap()
+        
+        app.textFields["Phone Number "].typeText(TestConstants.PhoneNumber)
+        app.buttons["OK"].tap()
+        
+        NSThread.sleepForTimeInterval(2)
+        app.textFields["Verification Code"].typeText(TestConstants.VerificationCode)
+        
+        NSThread.sleepForTimeInterval(2)
+        element.buttons["Log out"].tap()
+        
+    }
+    
+    func testCompactMode_FullCycleSuccess(){
+        
+        
+        let app = XCUIApplication()
+        app.switches["0"].tap()
+
+        let compactButton = app.otherElements.containingType(.StaticText, identifier:"Use compact mode").childrenMatchingType(.Other).elementBoundByIndex(2)
+        
+        compactButton.buttons["Login with phone.id"].tap()
+        
+        app.textFields["Phone Number "].typeText(TestConstants.PhoneNumber)
+        
+        
+        app.buttons["OK"].tap()
+        
+        NSThread.sleepForTimeInterval(2)
+        
+        let verificationCodeTextField = app.textFields["Verification Code"]
+        
+        verificationCodeTextField.typeText("123456")
+        
+        NSThread.sleepForTimeInterval(5)
+        
+        let backButton = app.buttons["Back"]
+        
+        backButton.tap()
+        
+        app.buttons["OK"].tap()
+        
+        NSThread.sleepForTimeInterval(2)
+        
+        verificationCodeTextField.typeText(TestConstants.VerificationCode)
+        
+        NSThread.sleepForTimeInterval(2)
+        
+        compactButton.buttons["Log out"].tap()
+        
+        
+    }
+    
+    func testCompactMode_Search(){
+    
+        
+        let app = XCUIApplication()
+        
+        app.switches["0"].tap()
+        
+        let compactButton = app.otherElements.containingType(.StaticText, identifier:"Use compact mode").childrenMatchingType(.Other).elementBoundByIndex(2)
+        
+        compactButton.buttons["Login with phone.id"].tap()
+        
+        compactButton.buttons.matchingIdentifier("Change Country").elementBoundByIndex(0).tap()
+        
+        doSearchTesting(app)
+        
+    }
+    
+   
+    
     
 }

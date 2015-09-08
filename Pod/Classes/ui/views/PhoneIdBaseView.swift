@@ -38,9 +38,13 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
         
         doOnInit()
     }
+
+    override public init(frame: CGRect) {
+         super.init(frame: frame)
+    }
     
-    required public init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     func doOnInit(){
@@ -122,6 +126,11 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
         
         self.customConstraints=c
         self.addConstraints(c)
+    }
+    
+    override func localizeAndApplyColorScheme() {
+        super.localizeAndApplyColorScheme()
+        closeButton.accessibilityLabel = localizedString("accessibility.button.title.close")
     }
     
 }

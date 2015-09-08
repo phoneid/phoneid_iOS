@@ -16,6 +16,7 @@
 
 "accessibility.title.login.with.phone.id"="Login con phone.id";
 "accessibility.phone.number.input"="Numero di telefono";
+"accessibility.verification.input"="Codice di verifica";
 
 "html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Uscire</center>";
 "accessibility.button.title.logout"="Uscire";
@@ -25,6 +26,8 @@
 "button.title.ok"="OK";
 
 "accessibility.button.title.ok"="OK";
+"accessibility.button.title.close"="Chiudere";
+"accessibility.button.title.back"="Indietro";
 
 "html-placeholder.phone.number"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</center>"
 
