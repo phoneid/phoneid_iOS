@@ -26,6 +26,7 @@ import libPhoneNumber_iOS
 public typealias RequestCompletion = (error:NSError?) -> Void
 public typealias UserInfoRequestCompletion = (userInfo:UserInfo?,error:NSError?) -> Void
 public typealias TokenRequestCompletion = (token:TokenInfo?,error:NSError?) -> Void
+public typealias ContactsUpdateRequestCompletion = (numberOfUpdatedContacts:NSInteger,error:NSError?) -> Void
 
 public typealias PhoneIdAuthenticationSucceed = (token:TokenInfo) -> Void
 public typealias PhoneIdWorkflowErrorHappened = (error:NSError) -> Void
@@ -285,7 +286,7 @@ public class PhoneIdService: NSObject {
         })
     }
     
-    public func uploadContacts(completion:RequestCompletion){
+    public func uploadContacts(completion:ContactsUpdateRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
@@ -296,12 +297,12 @@ public class PhoneIdService: NSObject {
                     self.updateContactsIfNeeded(contacts, completion:completion)
                     
                 }else{
-                    completion(error: nil)
+                    completion(numberOfUpdatedContacts: 0, error: nil)
                 }
             }
             
             }, fail: { (error) -> Void in
-                completion(error: nil)
+                completion(numberOfUpdatedContacts: 0, error: nil)
         })
         
     }
@@ -328,7 +329,7 @@ public class PhoneIdService: NSObject {
         })
     }
     
-    internal func updateContactsIfNeeded(contacts:[ContactInfo], completion:RequestCompletion){
+    internal func updateContactsIfNeeded(contacts:[ContactInfo], completion:ContactsUpdateRequestCompletion){
         
         self.needsUpdateContacts(contacts, completion: { (needsUpdate) -> Void in
             
@@ -340,20 +341,23 @@ public class PhoneIdService: NSObject {
                 
                 self.post(endpoint, params: params, completion: { (response) -> Void in
                     var error:NSError?
-                    
+                    var numberOfUpdatedContacts = 0
                     if let responseError = response.error{
                         NSLog("Failed to upload contacts \(responseError)")
                         error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
                         
+                    }else if let json = response.responseJSON as? NSDictionary, number = json["received"] as? NSInteger{
+                        numberOfUpdatedContacts = number
                     }
                     
-                    completion(error: error)
+                    completion(numberOfUpdatedContacts: numberOfUpdatedContacts, error: error)
+                    
                     self.notifyClientCodeAboutError(error)
                     
                 })
                 
             }else{
-                completion(error: nil)
+                completion(numberOfUpdatedContacts: 0, error: nil)
             }
             
         })

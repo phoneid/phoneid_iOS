@@ -84,13 +84,19 @@ class ViewController: UIViewController {
     }
     
     @IBAction func uploadContactsTapped(sender: UIButton) {
-        phoneId.uploadContacts() { (error) -> Void in
+        phoneId.uploadContacts() { (numberOfUpdatedContacts, error) -> Void in
+            
+            var alertController:UIAlertController!
+            
             if let error = error {
-                let alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
-                
-                alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
-                self.presentViewController(alertController, animated: true, completion:nil)
+                alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
+            }else{
+                alertController = UIAlertController(title:"Number of updated contacts", message:"\(numberOfUpdatedContacts)", preferredStyle: .Alert)
             }
+       
+            alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
+            self.presentViewController(alertController, animated: true, completion:nil)
+            
         }
     }
     

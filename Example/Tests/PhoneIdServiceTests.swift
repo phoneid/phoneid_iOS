@@ -396,7 +396,7 @@ class PhoneIdServiceTests: XCTestCase {
         contact.firstName = "John"
         contact.lastName = "Doe"
         
-        phoneId.updateContactsIfNeeded([contact]) { (error) -> Void in
+        phoneId.updateContactsIfNeeded([contact]) { (numberOfUpdatedContacts, error) -> Void in
             if(error == nil){
                 expectation.fulfill()
             }

@@ -66,7 +66,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         
         // upload contacts list
         expectation = expectationWithDescription("Upload contacts list")
-        phoneId.uploadContacts() { (error) -> Void in
+        phoneId.uploadContacts() { (numberOfUpdatedContacts ,error) -> Void in
             
             if(error == nil){
                 expectation.fulfill()
