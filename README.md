@@ -9,10 +9,21 @@
 " target="_blank"><img src="http://vid284.photobucket.com/albums/ll39/streamlet10/iphoneid_iOS_zpsflhnnzjn.mp4" 
 alt="video" width="320" height="445" border="10" /></a>
 
+**Fullscreen mode:**
+
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/1_zpsfhg0caoi.png).
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/2_zpsgvy29hzs.png).
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/3_zpsbrwjecjj.png).
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/4_zpsogzpnbkj.png)
+
+**Compact mode:**
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/1_zpsc28ojsg8.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/2_zpsnapr9ry8.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/3_zpsqaissydp.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/4_zpsbxmrdjkf.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/5_zpsnfqnwncb.png).
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/6_zpsf2w6rvpz.png).
+
 
 
 ## Usage
@@ -65,9 +76,11 @@ Don't forget to import phoneid_iOS before refer to PhoneIdService.
 #### 2. Integrate phoneid button:
 **PhoneIdLoginButton** is a UIButton subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
 
-Put UIButton to your view controller in the storyboard and change it's class to “PhoneIdLoginButton”. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
+Put UIButton to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
 
 ![integration](http://i284.photobucket.com/albums/ll39/streamlet10/phoneid_iOS_pic1_zpshn09fx42.jpg)
+
+Note, you can use **CompactPhoneIdLoginButton** instead of **PhoneIdLoginButton**
 
 After this step integration is almost completed. 
 
