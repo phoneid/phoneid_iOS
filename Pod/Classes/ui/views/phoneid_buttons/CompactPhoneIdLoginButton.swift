@@ -99,6 +99,10 @@ import UIKit
         
     }
     
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override public func prepareForInterfaceBuilder() {
         self.prep()
         initUI();

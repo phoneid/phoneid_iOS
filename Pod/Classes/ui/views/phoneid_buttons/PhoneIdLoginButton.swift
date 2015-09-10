@@ -115,7 +115,7 @@ import Foundation
             self.presentNumberInputController()
         }else{
             activityIndicator.startAnimating()
-            phoneIdService.loadClients(phoneIdService.clientId!, completion: { [unowned self] (error) -> Void in
+            phoneIdService.loadClients(phoneIdService.clientId!, completion: {(error) -> Void in
                 
                 self.activityIndicator.stopAnimating()
                 

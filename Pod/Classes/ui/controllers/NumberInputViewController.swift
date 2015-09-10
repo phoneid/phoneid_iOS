@@ -61,7 +61,8 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
     
     
     func finishPhoneIdWorkflow(success:Bool){
-        
+
+        self.dismissViewControllerAnimated(false, completion: nil)
         PhoneIdWindow.activePhoneIdWindow()?.close()
         self.callPhoneIdCompletion(success)
     }
@@ -80,11 +81,11 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
     
     func numberInputCompleted(model: NumberInfo){
         self.phoneIdModel = model
-        phoneIdService.requestAuthenticationCode(phoneIdModel, completion: { [unowned self] (error) -> Void in
+        phoneIdService.requestAuthenticationCode(phoneIdModel, completion: {(error) -> Void in
             
             if(error == nil){
                 let controller = self.phoneIdComponentFactory.verifyCodeViewController(model)
-                controller.verifyCodeViewCompletionBlock = { (success:Bool)-> Void in
+                controller.verifyCodeViewCompletionBlock = { [unowned self] (success:Bool)-> Void in
                     self.finishPhoneIdWorkflow(success)
                 }
                 self.presentViewController(controller, animated: true, completion: nil)
@@ -101,6 +102,7 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
     
     func closeButtonTapped() {
         self.numberInputView.resignFirstResponder()
+        self.dismissViewControllerAnimated(true, completion: nil)        
         self.callPhoneIdCompletion(false)
         PhoneIdWindow.activePhoneIdWindow()?.close()
     }

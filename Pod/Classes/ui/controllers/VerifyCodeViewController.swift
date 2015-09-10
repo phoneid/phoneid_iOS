@@ -66,7 +66,7 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     }
     
     func verifyCode(model:NumberInfo, code:String){
-        phoneIdService.verifyAuthentication(code, info: model){ (token, error) -> Void in
+        phoneIdService.verifyAuthentication(code, info: model){[unowned self] (token, error) -> Void in
             
             if(error == nil){                
                 self.verifyCodeView.indicateVerificationSuccess()
@@ -83,9 +83,10 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     
     func close() {
         self.verifyCodeView.resignFirstResponder()
+        self.dismissViewControllerAnimated(false, completion: nil)
         self.verifyCodeViewCompletionBlock?(success: false)
-        PhoneIdWindow.activePhoneIdWindow()?.close()
     }
+
 }
 
 
