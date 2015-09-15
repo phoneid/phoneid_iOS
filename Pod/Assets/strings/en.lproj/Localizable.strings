@@ -53,6 +53,18 @@
 
 "phone.id.needs.access.to.your.contacts"="Failed to upload contacts. Please allow phone.id to access ypur contacts in the Settings App";
 
+
+"html-button.title.change.picture"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">CHANGE PICTURE</center>";
+"html-button.title.edit.profile"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">EDIT INFO</center>";
+"html-button.title.save.profile"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">SAVE</center>";
+"html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Public Profile</center>";
+"profile.name.placeholder"="Name (and Surname)";
+"profile.birthday.placeholder"="Date of Birth";
+
+"alert.title.select.image"="Pick an image from";
+"alert.button.title.camera"="Camera";
+"alert.button.title.library"="Library";
+
 "error.failed.request.auth.code"="Failed to request PhoneId authentication code";
 "error.failed.request.clients"="Failed to request list of clients";
 "error.unexpected.response"="Failed to parse server response.";

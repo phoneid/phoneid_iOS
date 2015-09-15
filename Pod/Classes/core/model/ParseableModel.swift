@@ -32,7 +32,7 @@ public class ParseableModel:NSObject, Parseable{
     public required init(json:NSDictionary){
         super.init()
     }
-    
+
     public class func parse(response:Response) -> Self?{
         
         if let info = response.responseJSON as? NSDictionary{

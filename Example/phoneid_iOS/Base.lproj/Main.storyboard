@@ -72,6 +72,14 @@
                                             <action selector="uploadContactsTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LoD-JK-pti"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9e-RA-aD9">
+                                        <rect key="frame" x="196" y="137" width="84" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Edit Profile"/>
+                                        <connections>
+                                            <action selector="editProfileTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="p4h-DT-kTG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -79,11 +87,13 @@
                                     <constraint firstAttribute="width" constant="280" id="81p-O5-8TF"/>
                                     <constraint firstItem="GFm-cb-0bT" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" constant="-2" id="F80-ao-h7g"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="top" secondItem="QXI-Dd-MT1" secondAttribute="bottom" constant="2" id="G8n-wt-xb4"/>
+                                    <constraint firstItem="N9e-RA-aD9" firstAttribute="top" secondItem="iSw-pb-7Hb" secondAttribute="bottom" constant="8" id="Kk6-a6-Uls"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="top" secondItem="9tJ-gY-i1k" secondAttribute="bottom" constant="8" id="MA9-y8-HeR"/>
                                     <constraint firstItem="9tJ-gY-i1k" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="PHf-P7-PjM"/>
                                     <constraint firstItem="9Lg-de-Ymw" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="Vby-Hb-bd0"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="top" secondItem="pP3-G9-HVJ" secondAttribute="top" constant="14" id="XRL-gf-X0R"/>
                                     <constraint firstItem="QXI-Dd-MT1" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="a3z-Bz-eaf"/>
+                                    <constraint firstAttribute="trailing" secondItem="N9e-RA-aD9" secondAttribute="trailing" id="ceD-eZ-97q"/>
                                     <constraint firstAttribute="height" constant="181" id="hID-7c-IPW"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="width" secondItem="pP3-G9-HVJ" secondAttribute="width" id="hLH-aS-ZlO"/>
                                     <constraint firstItem="iSw-pb-7Hb" firstAttribute="leading" secondItem="pP3-G9-HVJ" secondAttribute="leading" id="k8p-Cm-8SK"/>

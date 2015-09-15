@@ -26,7 +26,7 @@ public class TokenInfo: ParseableModel{
     public var refreshToken:String?;
     public var expirationPeriod:Int?;
     public var timestamp:NSDate?;
-    internal var numberInfo:NumberInfo?;
+    public internal(set) var numberInfo:NumberInfo?;
     
     public var expirationTime:NSDate?{
         get {

@@ -199,7 +199,7 @@ public class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    func loadUserInfo(completion:UserInfoRequestCompletion) {
+    public func loadUserInfo(completion:UserInfoRequestCompletion) {
         
         let endpoint: String = Endpoints.RequestMe.endpoint()
         self.get(endpoint, params: nil) { response in

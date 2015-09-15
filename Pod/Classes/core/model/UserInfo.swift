@@ -25,17 +25,40 @@ import Foundation
 public class UserInfo: ParseableModel{
     public var id:String?
     public var clientId:String?
+    public var screenName:String?
     public var phoneNumber:String?
+    public var dateOfBirth:NSDate?
+    public var image:UIImage?
     
     public required init(json:NSDictionary){
         super.init(json:json)
         id = json["id"] as? String
         clientId = json["client_id"] as? String
         phoneNumber = json["phone_number"] as? String
+        screenName = json["screen_name"] as? String
+        
+        if let birthdate = json["birthdate"] as? String{
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateOfBirth = dateFormatter.dateFromString(birthdate)
+        }
     }
     
     public override func isValid() -> Bool{
         return id != nil && clientId != nil && phoneNumber != nil
+    }
+    
+    func dateOfBirthAsString() ->String?{
+        var result:String? = nil
+        if let dateOfBirth=self.dateOfBirth {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+            dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+            
+            result = dateFormatter.stringFromDate(dateOfBirth)
+        }
+
+        return result
     }
 
 }

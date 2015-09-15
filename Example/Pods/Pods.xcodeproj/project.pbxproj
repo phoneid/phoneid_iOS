@@ -12,7 +12,10 @@
 		031E113B4F0A94D98A1910C02C77693F /* Pods-phoneid_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F88389657FA8894CCF5F3728E94C5298 /* Pods-phoneid_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03A7FD8BD8DE76618020860A09CD4F54 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41AE79DEE6DEF8492B44DE72CCA501 /* CryptoUtils.swift */; };
 		03AA8CF5845B0CA91CA5CB3678CC9966 /* Pods-phoneid_iOS_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2C434113367960F4E682B475E6F03 /* Pods-phoneid_iOS_Example-dummy.m */; };
+		0942EAD01BA7348D00DB1598 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */; settings = {ASSET_TAGS = (); }; };
+		0942EAD21BA73ED100DB1598 /* ImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		0988EBB71B983BA40003542C /* PhoneIdWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0988EBB61B983BA40003542C /* PhoneIdWindow.swift */; settings = {ASSET_TAGS = (); }; };
+		09BE5BAA1BA7E2940046F308 /* CircleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB061B9C4071009DBDA5 /* CompactPhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB021B9C4053009DBDA5 /* CompactPhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB071B9C4071009DBDA5 /* PhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB031B9C4053009DBDA5 /* PhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB081B9C4071009DBDA5 /* NumberInputControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADAFD1B9C4000009DBDA5 /* NumberInputControl.swift */; settings = {ASSET_TAGS = (); }; };
@@ -21,6 +24,8 @@
 		09EADB0B1B9C4071009DBDA5 /* NumberInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADAF71B9C3F9F009DBDA5 /* NumberInputView.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB0C1B9C4071009DBDA5 /* VerifyCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADAF81B9C3F9F009DBDA5 /* VerifyCodeView.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB0E1B9C434C009DBDA5 /* VerifyCodeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB0D1B9C434C009DBDA5 /* VerifyCodeControl.swift */; settings = {ASSET_TAGS = (); }; };
+		09F63C171BA2DE8E007A49BD /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F63C161BA2DE8E007A49BD /* EditProfileViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		09F63C191BA2DEA6007A49BD /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F63C181BA2DEA6007A49BD /* EditProfileView.swift */; settings = {ASSET_TAGS = (); }; };
 		0A84D9FF6DA060D964B5C8E0B1A1E1C2 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BD78C2761B5853EB6365C5DCB09552 /* ContactInfo.swift */; };
 		10C6FC0FA689BB2C25A1A8633ADF98FC /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CEED1E262B86EDFC002252DBADEFD7 /* Response.swift */; };
 		10E20FD2290BE290494468F7B7C6F8B1 /* Pods-phoneid_iOS_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D0F63CC4424C4F3BA9DE1508657 /* Pods-phoneid_iOS_Tests-dummy.m */; };
@@ -130,8 +135,11 @@
 		0333624922F64D2ABE188089B7459078 /* UICustomization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UICustomization.swift; sourceTree = "<group>"; };
 		06379613C23A19EC7921C58969CA99E4 /* NBMetadataCoreMapper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreMapper.m; path = libPhoneNumber/NBMetadataCoreMapper.m; sourceTree = "<group>"; };
 		08078D221B6905A238342B318976C284 /* libPhoneNumber-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "libPhoneNumber-iOS.xcconfig"; sourceTree = "<group>"; };
+		0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
+		0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEditViewController.swift; sourceTree = "<group>"; };
 		0988EBB61B983BA40003542C /* PhoneIdWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdWindow.swift; sourceTree = "<group>"; };
 		0992F371953F44E3657F3C5B75E32E4F /* libPhoneNumber_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libPhoneNumber_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleOverlayView.swift; sourceTree = "<group>"; };
 		09EADAF61B9C3F9F009DBDA5 /* CountryCodePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodePickerView.swift; sourceTree = "<group>"; };
 		09EADAF71B9C3F9F009DBDA5 /* NumberInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInputView.swift; sourceTree = "<group>"; };
 		09EADAF81B9C3F9F009DBDA5 /* VerifyCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyCodeView.swift; sourceTree = "<group>"; };
@@ -141,6 +149,8 @@
 		09EADB031B9C4053009DBDA5 /* PhoneIdLoginButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdLoginButton.swift; sourceTree = "<group>"; };
 		09EADB0D1B9C434C009DBDA5 /* VerifyCodeControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyCodeControl.swift; sourceTree = "<group>"; };
 		09F5A24EBCE95B313430C3535E0A3C29 /* ResourcesLoadingExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ResourcesLoadingExtensions.swift; sourceTree = "<group>"; };
+		09F63C161BA2DE8E007A49BD /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		09F63C181BA2DEA6007A49BD /* EditProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		0FBC4D141445FC380486FEEB694FB581 /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberDesc.m; path = libPhoneNumber/NBPhoneNumberDesc.m; sourceTree = "<group>"; };
 		112A635F237748ABE352348DA28F1D60 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = NBPhoneNumberMetadata.plist; path = libPhoneNumber/NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
 		136A1F6AC0B1821786AF718B5536EE87 /* phoneid_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = phoneid_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +287,8 @@
 				09EADAF61B9C3F9F009DBDA5 /* CountryCodePickerView.swift */,
 				09EADAF71B9C3F9F009DBDA5 /* NumberInputView.swift */,
 				09EADAF81B9C3F9F009DBDA5 /* VerifyCodeView.swift */,
+				09F63C181BA2DEA6007A49BD /* EditProfileView.swift */,
+				0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */,
 			);
 			path = fullscreen;
 			sourceTree = "<group>";
@@ -324,6 +336,8 @@
 				6A6E9A54DD8EEFC4AB76269239FE93C6 /* CountryCodePickerViewController.swift */,
 				D175B164AC28C5F0233DB4199F7FF591 /* NumberInputViewController.swift */,
 				9E7AF4CDA173D3C6143019CD79FA36C9 /* VerifyCodeViewController.swift */,
+				09F63C161BA2DE8E007A49BD /* EditProfileViewController.swift */,
+				0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -508,6 +522,7 @@
 				267B752C976129230850813318505312 /* CountryCodeCell.swift */,
 				1BC7271B6EFF969665F02EBBCB737468 /* PhoneIdBaseView.swift */,
 				0988EBB61B983BA40003542C /* PhoneIdWindow.swift */,
+				09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -815,16 +830,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F63C191BA2DEA6007A49BD /* EditProfileView.swift in Sources */,
 				700BD7E21B41D3265D8E4964FA10E35A /* ComponentFactory.swift in Sources */,
 				342DFAD335D9333EEC2DD63D3491258F /* Constants.swift in Sources */,
 				0A84D9FF6DA060D964B5C8E0B1A1E1C2 /* ContactInfo.swift in Sources */,
 				09EADB0E1B9C434C009DBDA5 /* VerifyCodeControl.swift in Sources */,
 				E65747D4632C3053E81246B261575F3F /* ContactsLoader.swift in Sources */,
+				0942EAD21BA73ED100DB1598 /* ImageEditViewController.swift in Sources */,
 				09EADB091B9C4071009DBDA5 /* NumericTextField.swift in Sources */,
 				EA936FFD40628C0453DF98BC2F074BAE /* CountryCodeCell.swift in Sources */,
 				09EADB071B9C4071009DBDA5 /* PhoneIdLoginButton.swift in Sources */,
 				822A9297FF2A3759D29CF0FBC011F1D4 /* CountryCodePickerViewController.swift in Sources */,
 				03A7FD8BD8DE76618020860A09CD4F54 /* CryptoUtils.swift in Sources */,
+				09F63C171BA2DE8E007A49BD /* EditProfileViewController.swift in Sources */,
 				E36FCE30BA5142FFD58C1EEC798A50A4 /* KeychainStorage.swift in Sources */,
 				BC09F8AFEF81A65898D6D0B9168651AD /* NSURLRequest+PhoneId.swift in Sources */,
 				4C97A5166935EF2F7AD68E831275919A /* NumberInfo.swift in Sources */,
@@ -837,9 +855,11 @@
 				8B0A58B87CD7D4BD4A00A81FCE164794 /* PhoneIdService.swift in Sources */,
 				DF7ED5FA1CAE5607A4E259997EC93EC2 /* PhoneIdServiceError.swift in Sources */,
 				D9E6556C5089043F11ECD04AB3DF3285 /* Reachability.swift in Sources */,
+				09BE5BAA1BA7E2940046F308 /* CircleOverlayView.swift in Sources */,
 				24022D4D6B5BED41B197610A69D96BD5 /* ResourcesLoadingExtensions.swift in Sources */,
 				10C6FC0FA689BB2C25A1A8633ADF98FC /* Response.swift in Sources */,
 				1E6D84CBC910D8FA2FDB5236B8CC54EC /* TokenInfo.swift in Sources */,
+				0942EAD01BA7348D00DB1598 /* PanZoomImageView.swift in Sources */,
 				45C152054DAAAB9132FF5E985FD992E5 /* UICustomization.swift in Sources */,
 				9923E20D51BD0127EDBD4AD8651F0FAE /* UserInfo.swift in Sources */,
 				09EADB0C1B9C4071009DBDA5 /* VerifyCodeView.swift in Sources */,

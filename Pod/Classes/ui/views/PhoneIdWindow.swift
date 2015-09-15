@@ -22,6 +22,18 @@ import UIKit
 class PhoneIdWindow: UIWindow {
     
     weak var previousKeyWindow:UIWindow?
+    
+    required init(){
+        var frame = CGRectZero
+        if let wnd = UIApplication.sharedApplication().keyWindow{
+            frame = wnd.frame
+        }
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
  
     class func activePhoneIdWindow() -> PhoneIdWindow? {
         return UIApplication.sharedApplication().keyWindow as? PhoneIdWindow
@@ -48,8 +60,6 @@ class PhoneIdWindow: UIWindow {
     }
     
     func makeActive() {
-        
-        self.backgroundColor = UIColor.clearColor()
         
         self.windowLevel = UIWindowLevelAlert
         

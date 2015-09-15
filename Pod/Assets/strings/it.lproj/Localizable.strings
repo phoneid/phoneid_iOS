@@ -46,11 +46,23 @@
 "html-logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Collegato con phone.id</center>";
 
 "html-loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Il codice digitato è diverso<br/> da quello che abbiamo trasmesso voi.<br/><br/>Correggere il codice, oppure premere indietro e controllare il vostro numero di telefono.</center>";
+"profile.name.placeholder"="Nome (e Cognome)";
+"profile.birthday.placeholder"="Data di nascita";
+
 
 "alert.button.title.dismiss"="Respingere";
 "alert.title.error"="Errore";
 
 "phone.id.needs.access.to.your.contacts"="Impossibile caricare contatti. Si prega di consentire di accedere ypur phone.id contatti in App Impostazioni";
+
+"html-button.title.change.picture"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">CAMBIA IMMAGINE</center>";
+"html-button.title.edit.profile"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">MODIFICA INFORMAZIONI</center>";
+"html-button.title.save.profile"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">SALVA</center>";
+"html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Profilo pubblico</center>";
+
+"alert.title.select.image"="Scegli un'immagine da";
+"alert.button.title.camera"="fotocamera";
+"alert.button.title.library"="libreria";
 
 "error.failed.request.auth.code"="Impossibile richiedere codice di autenticazione PhoneId.";
 "error.failed.request.clients"="Impossibile alla lista delle richieste dei clienti.";

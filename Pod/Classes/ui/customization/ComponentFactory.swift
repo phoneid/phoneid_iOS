@@ -25,10 +25,12 @@ public protocol ComponentFactory: NSObjectProtocol{
     func numberInputViewController() -> NumberInputViewController
     func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
     func verifyCodeViewController(model: NumberInfo) -> VerifyCodeViewController
+    func editProfileViewController(model: UserInfo) -> EditProfileViewController
     
     func numberInputView(model: NumberInfo)->NumberInputView
     func countryCodePickerView(model: NumberInfo)->CountryCodePickerView
     func verifyCodeView(model: NumberInfo)->VerifyCodeView
+    func editProfileView(model: UserInfo)->EditProfileView
 
     func colorScheme()->ColorScheme
     
@@ -64,9 +66,19 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
         let controller = VerifyCodeViewController(model: model)
         return controller
     }
-    
+
     public func verifyCodeView(model: NumberInfo)->VerifyCodeView{
         let view = VerifyCodeView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        return view
+    }
+    
+    public func editProfileViewController(model: UserInfo) -> EditProfileViewController{
+        let controller = EditProfileViewController(model: model)
+        return controller
+    }
+    
+    public func editProfileView(model: UserInfo)->EditProfileView{
+        let view = EditProfileView(user:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
     
@@ -93,7 +105,6 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
 public protocol PhoneIdConsumer:NSObjectProtocol{
     var phoneIdService: PhoneIdService! {get}
     var phoneIdComponentFactory: ComponentFactory! {get}
-    var phoneIdModel: NumberInfo! { set get}
 }
 
 public extension PhoneIdConsumer{

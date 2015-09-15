@@ -100,10 +100,23 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func editProfileTapped(sender: AnyObject) {
+    
+        phoneId.loadUserInfo { (userInfo, e) -> Void in
+
+            if let user = userInfo{
+                let profileController = self.phoneId.componentFactory.editProfileViewController(user)
+                self.presentViewController(profileController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     @IBAction func switchCompactMode(sender: UISwitch) {
         
         phoneIdButton.hidden = sender.on
+        phoneIdButton.userInteractionEnabled = phoneIdButton.hidden
         compactPhoneIdButton.hidden = !sender.on
+        compactPhoneIdButton.userInteractionEnabled = phoneIdButton.hidden
     }
    
     
