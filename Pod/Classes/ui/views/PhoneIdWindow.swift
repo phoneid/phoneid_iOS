@@ -24,7 +24,7 @@ class PhoneIdWindow: UIWindow {
     weak var previousKeyWindow:UIWindow?
     
     required init(){
-        var frame = CGRectZero
+        var frame = UIScreen.mainScreen().bounds
         if let wnd = UIApplication.sharedApplication().keyWindow{
             frame = wnd.frame
         }

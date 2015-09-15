@@ -226,11 +226,14 @@ class NumberInputControl: PhoneIdBaseView {
         controller.countryCodePickerCompletionBlock = { [unowned self] (model:NumberInfo)-> Void in
             self.phoneIdModel = model
             self.setupWithModel(model)
+            self.becomeFirstResponder()
         }
         
         let presenter:UIViewController = PhoneIdWindow.currentPresenter()
         
-        presenter.presentViewController(controller, animated: true, completion: nil)
+        presenter.presentViewController(controller, animated: true){
+            self.resignFirstResponder()
+        }
         
     }
 }

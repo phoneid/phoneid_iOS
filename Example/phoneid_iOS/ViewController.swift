@@ -114,9 +114,9 @@ class ViewController: UIViewController {
     @IBAction func switchCompactMode(sender: UISwitch) {
         
         phoneIdButton.hidden = sender.on
-        phoneIdButton.userInteractionEnabled = phoneIdButton.hidden
+        phoneIdButton.userInteractionEnabled = !phoneIdButton.hidden
         compactPhoneIdButton.hidden = !sender.on
-        compactPhoneIdButton.userInteractionEnabled = phoneIdButton.hidden
+        compactPhoneIdButton.userInteractionEnabled = !compactPhoneIdButton.hidden
     }
    
     
