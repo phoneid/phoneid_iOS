@@ -159,7 +159,7 @@ Cutomization results:
 
 ## Author
 
-Federico Pomi, federico@pomi.net
+Copyright 2015 phone.id - 73 knots, Inc.
 
 ## License
 
