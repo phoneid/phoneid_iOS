@@ -29,7 +29,7 @@ class ContactInfo: NSObject{
     var lastName:String?
     var company:String?
             
-    func asDictionary() -> [String:String]{
+    func asDebugDictionary() -> [String:String]{
         
         var result:[String:String] = [:]
         
@@ -51,6 +51,14 @@ class ContactInfo: NSObject{
         
         if let company = self.company {
             result["company"] = company
+        }
+        return result
+    }
+    
+    func asDictionary()->[String:String]{
+        var result:[String:String] = [:]
+        if let number = self.number {
+            result["number_checksum"] = number.sha1()
         }
         return result
     }
