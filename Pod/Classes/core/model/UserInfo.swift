@@ -61,4 +61,20 @@ public class UserInfo: ParseableModel{
         return result
     }
 
+    func asDictionary()->[String:String]{
+        var result:[String:String] = [:]
+        if let screenName = self.screenName {
+            result["screen_name"] = screenName
+        }
+        if let birthdate = self.dateOfBirth {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            result["birthdate"] = dateFormatter.stringFromDate(birthdate)
+        }
+//        if let image = image {
+//            result["picture"] = UIImagePNGRepresentation(image)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+//        }
+        return result
+    }
+    
 }

@@ -95,6 +95,19 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func saveButtonTapped(userInfo:UserInfo) {
+        self.phoneIdService.updateUserProfile(userInfo) { (error) -> Void in
+            if(error != nil){
+                let bundle = self.phoneIdService.componentFactory.localizationBundle()
+                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
     
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -114,5 +127,4 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         picker.navigationBarHidden = false
     }
 
-    
 }

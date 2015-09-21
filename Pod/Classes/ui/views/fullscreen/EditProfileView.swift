@@ -22,22 +22,23 @@ import UIKit
 protocol EditProfileViewDelegate:NSObjectProtocol{
     func changePhotoButtonTapped()
     func closeButtonTapped()
+    func saveButtonTapped(userInfo:UserInfo)
 }
 
 public class EditProfileView: PhoneIdBaseFullscreenView {
-
+    
     
     weak var delegate:EditProfileViewDelegate?
-
+    
     private(set) var titleLabel:UILabel!
-
+    
     private(set) var avatarView: UIImageView!
     private(set) var nameText: UITextField!
     private(set) var birthdayText: UITextField!
     
-    private(set) var changePhotoButton: UIButton!
+    private(set) var hintLabel:UILabel!
     private(set) var editButton: UIButton!
-   
+    
     private(set) var profileView: UIView!
     
     private(set) var datePicker:UIDatePicker!
@@ -66,7 +67,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         setupWithUser(self.userInfo)
         localizeAndApplyColorScheme()
     }
-
+    
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -89,21 +90,23 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         nameText = UITextField()
         nameText.autocapitalizationType = .Words
+        nameText.enabled = false
         
         titleLabel = UILabel()
         
-        birthdayText = UITextField()
+        hintLabel = UILabel()
+        hintLabel.numberOfLines = 0
+        hintLabel.alpha = 0
         
-        changePhotoButton = UIButton()
-        changePhotoButton.titleLabel?.textAlignment = .Left
-        changePhotoButton.addTarget(self, action: "changePhotoTapped", forControlEvents: .TouchUpInside)
+        birthdayText = UITextField()
+        birthdayText.enabled = false
         
         editButton = UIButton()
         editButton.titleLabel?.textAlignment = .Left
         editButton.addTarget(self, action: "editTapped", forControlEvents: .TouchUpInside)
         
         
-        let subviews:[UIView] = [titleLabel, profileView, avatarView, nameText, birthdayText, changePhotoButton, editButton]
+        let subviews:[UIView] = [titleLabel, profileView, avatarView, nameText, birthdayText, editButton, hintLabel]
         
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
@@ -112,8 +115,8 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         let layer = avatarView.layer;
         layer.masksToBounds = true
         layer.cornerRadius = 50
- 
         
+        avatarView.userInteractionEnabled = true
         avatarView.backgroundColor = colorScheme.avatarBackground
         
         datePicker = UIDatePicker()
@@ -129,6 +132,8 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         comps.year = -120
         datePicker.minimumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
+        
+        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
         
         setupKeyboardToolBar()
     }
@@ -163,11 +168,12 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         c.append(NSLayoutConstraint(item: birthdayText, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 5))
         c.append(NSLayoutConstraint(item: birthdayText, attribute: .Right, relatedBy: .Equal, toItem: profileView, attribute: .Right, multiplier: 1, constant: -10))
         
-        c.append(NSLayoutConstraint(item: changePhotoButton, attribute: .Left, relatedBy: .Equal, toItem: profileView, attribute: .Left, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: changePhotoButton, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .Bottom, multiplier: 1, constant: 15))
+        c.append(NSLayoutConstraint(item: hintLabel, attribute: .CenterY, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 5))
+        c.append(NSLayoutConstraint(item: hintLabel, attribute: .CenterX, relatedBy: .Equal, toItem: avatarView, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: hintLabel, attribute: .Width, relatedBy: .Equal, toItem: avatarView, attribute: .Width, multiplier: 1, constant: 0))
         
-        c.append(NSLayoutConstraint(item: editButton, attribute: .Right, relatedBy: .Equal, toItem: profileView, attribute: .Right, multiplier: 1, constant: -20))
-        c.append(NSLayoutConstraint(item: editButton, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .Bottom, multiplier: 1, constant: 15))
+        c.append(NSLayoutConstraint(item: editButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: editButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
         
         self.customConstraints += c
         
@@ -187,15 +193,14 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         super.localizeAndApplyColorScheme()
         
-        changePhotoButton.setAttributedTitle(localizedStringAttributed("html-button.title.change.picture"), forState: .Normal)
         editButton.setAttributedTitle(localizedStringAttributed("html-button.title.edit.profile"), forState: .Normal)
         editButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Selected)
-        
         
         nameText.placeholder = localizedString("profile.name.placeholder")
         birthdayText.placeholder = localizedString("profile.birthday.placeholder")
         
         titleLabel.attributedText = localizedStringAttributed("html-title.public.profile")
+        hintLabel.attributedText = localizedStringAttributed("html-label.tap.to.cahnge")
         
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
@@ -208,20 +213,31 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     }
     
     func changePhotoTapped(){
-    
-        delegate?.changePhotoButtonTapped()
+        
+        if(editButton.selected){
+            delegate?.changePhotoButtonTapped()
+        }
     }
     
     func editTapped(){
-
+        
         editButton.selected = !editButton.selected
         birthdayText.enabled = editButton.selected
         nameText.enabled = editButton.selected
         
         if(!editButton.selected){
             editComplete()
+            delegate?.saveButtonTapped(self.userInfo)
         }else{
             nameText.becomeFirstResponder()
+            
+            UIView.animateWithDuration(1, animations: { () -> Void in
+                self.hintLabel.alpha = 1
+                }, completion: { (_) -> Void in
+                    UIView.animateWithDuration(2) { () -> Void in
+                        self.hintLabel.alpha = 0
+                }
+            })
         }
     }
     

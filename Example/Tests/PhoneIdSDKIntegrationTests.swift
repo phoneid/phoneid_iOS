@@ -54,7 +54,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         
         // request user info
         expectation = expectationWithDescription("Request user info")
-        phoneId.loadUserInfo() { (userInfo, e1) -> Void in
+        phoneId.loadUserProfile() { (userInfo, e1) -> Void in
             
             if let userInfo = userInfo{
                 if(e1 == nil && userInfo.isValid()){

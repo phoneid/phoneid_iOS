@@ -199,7 +199,7 @@ public class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    public func loadUserInfo(completion:UserInfoRequestCompletion) {
+    public func loadUserProfile(completion:UserInfoRequestCompletion) {
         
         let endpoint: String = Endpoints.RequestMe.endpoint()
         self.get(endpoint, params: nil) { response in
@@ -221,6 +221,22 @@ public class PhoneIdService: NSObject {
             self.notifyClientCodeAboutError(error)
         }
     }
+    
+    public func updateUserProfile(userInfo:UserInfo, completion:RequestCompletion){
+        let endpoint: String = Endpoints.RequestMe.endpoint()
+        
+        self.post(endpoint, params: userInfo.asDictionary()) { (response) -> Void in
+            var error:NSError?
+            if let responseError = response.error {
+                NSLog("Failed to update user info due to %@", responseError)
+                error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
+            }
+            
+            completion(error: error)
+            self.notifyClientCodeAboutError(error)
+        }
+    }
+    
     
     func loadClients(clientId:String, completion:RequestCompletion){
         
