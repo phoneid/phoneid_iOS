@@ -109,9 +109,9 @@ class VerifyCodeControl: PhoneIdBaseView {
         placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
         codeText.textColor = colorScheme.mainAccent
         codeText.accessibilityLabel = localizedString("accessibility.verification.input");
-        backButton.accessibilityLabel = localizedString("accessibility.button.title.back");
-        placeholderLabel.textColor = colorScheme.placeholderText
-        activityIndicator.color = colorScheme.mainAccent
+        backButton.accessibilityLabel = localizedString("accessibility.button.title.back");        
+        placeholderLabel.textColor = colorScheme.mainAccent
+        activityIndicator.color = colorScheme.disabledText
         self.needsUpdateConstraints()
     }
     
@@ -121,6 +121,12 @@ class VerifyCodeControl: PhoneIdBaseView {
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
         let range:NSRange = NSMakeRange(0, attributedString.length)
         attributedString.addAttribute(NSKernAttributeName, value: 12, range: range)
+        
+        if(attributedString.length > 2){
+            let range:NSRange = NSMakeRange(2, 1)
+            attributedString.addAttribute(NSKernAttributeName, value: 36, range: range)
+        }
+        
         attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo-Bold", size: 22)!, range: range)
         return attributedString
     }    

@@ -176,6 +176,7 @@ import UIKit
                 
                 let presenter:UIViewController = PhoneIdWindow.currentPresenter()
                 presenter.presentViewController(alert, animated: true, completion: nil)
+                self.numberInputControl.validatePhoneNumber()
             }
             });
     }

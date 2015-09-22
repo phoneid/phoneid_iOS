@@ -166,12 +166,12 @@ class NumberInputControl: PhoneIdBaseView {
         
         prefixButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
         
-        numberText.textColor = colorScheme.mainAccent
+        numberText.textColor = colorScheme.inputText
         
         okButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
         okButton.setTitleColor(colorScheme.disabledText, forState: .Disabled)
         
-        activityIndicator.color = colorScheme.mainAccent
+        activityIndicator.color = colorScheme.disabledText
         self.needsUpdateConstraints()
     }
     

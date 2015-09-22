@@ -94,7 +94,7 @@ public class NumberInputViewController: UIViewController, PhoneIdConsumer, Numbe
                 let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
-                
+                                
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             });

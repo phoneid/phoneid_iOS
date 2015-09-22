@@ -29,7 +29,7 @@
 "accessibility.button.title.close"="Close";
 "accessibility.button.title.back"="Back";
 
-"html-placeholder.phone.number"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</center>";
+"html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</left>";
 
 "html-your.number.is.safe"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Your number is safe:<br/>we don't share it, we don't SPAM you.</center>";
 
