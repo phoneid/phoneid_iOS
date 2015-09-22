@@ -42,11 +42,17 @@ class CountryInfo: NSObject{
         self.prefix = prefix
         self.code = code
     }
+    
+    func localizedTitle() -> String{
+        return name
+    }
 }
 
 typealias CountryCodePickerModel = [ (letter: String, countries: [CountryInfo]) ]
 
 public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
+    
+    private let collation = UILocalizedIndexedCollation.currentCollation()
     
     private(set) var tableView:UITableView!
     private(set) var titleLabel:UILabel!
@@ -136,6 +142,9 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         super.localizeAndApplyColorScheme()
         titleLabel.attributedText = localizedStringAttributed("html-title.country.code")
         titleLabel.textColor = colorScheme.normalText
+        tableView.sectionIndexColor = colorScheme.mainAccent
+        tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        tableView.sectionIndexTrackingBackgroundColor = UIColor.clearColor()
     }
     
     func backTapped(sender:UIButton){
@@ -198,7 +207,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             if (section == 0) {
                 string = phoneIdModel.phoneCountryCode != nil ? localizedString("current.phone") : ""
             } else {
-                string = sections[section].letter
+                string = collation.sectionTitles[section-1]
             }
         } else {
             string = searchResults[section].letter;
@@ -211,6 +220,23 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             return 0;
         }
         return CountryCodeCell.height;
+    }
+    
+    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        
+        var result = collation.sectionIndexTitles
+        
+        if (self.isSearchMode()) {
+            result = self.searchResults.map({ (element:(letter: String, countries: [CountryInfo])) -> String in
+                return element.letter
+            })
+        }
+        
+        return result
+    }
+    
+    public func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        return collation.sectionForSectionIndexTitleAtIndex(index) + 1
     }
     
     // MARK: - Utilities
@@ -294,14 +320,16 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         result.append((letter:"\u{0001F50D}", countries:[]))
         
         let countries = loadCountriesList()
-        
-        for country:CountryInfo in countries {
+
+        let selector: Selector = "localizedTitle"
+        let sortedCountries:[AnyObject] = collation.sortedArrayFromArray(countries, collationStringSelector: selector)
+        for c in sortedCountries {
             
-            let index = result.indexOf({(letter: String, countries: [CountryInfo]) -> Bool in letter == country.firstLetter })
-            
-            if let index = index {
-                result[index].countries.append(country)
-            } else {
+            let sectionNumber = collation.sectionForObject(c, collationStringSelector: selector)
+            let country = c as! CountryInfo
+            if(sectionNumber+1 < result.count){
+                result[sectionNumber+1].countries.append(country)
+            }else{
                 result.append((letter:country.firstLetter, countries:[country]))
             }
         }
@@ -326,11 +354,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
                 print("Not present: \(countryCode) \(countryName)")
             }
         }
-        
-        let sortedCountryArray:Array<CountryInfo> = countryArray.sort({ (first, second) -> Bool in
-            first.name.localizedCaseInsensitiveCompare(second.name) == NSComparisonResult.OrderedAscending
-        })
-        return sortedCountryArray
+        return countryArray
         
     }
 
