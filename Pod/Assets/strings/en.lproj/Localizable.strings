@@ -61,6 +61,7 @@
 "html-button.title.save.profile"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Save</center>";
 "html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Public Profile</center>";
 "html-label.tap.to.cahnge"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:17px;\">Tap to change photo</center>";
+"html-label.profile.view.visibility.hint"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Your friends who have your phone number in their address book will see you with name and picture they have of you.<br/><br/>Other users who don't have your information will see the name and photo of your public profile.</center>";
 
 "alert.title.select.image"="Pick an image from";
 "alert.button.title.camera"="Camera";

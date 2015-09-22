@@ -101,6 +101,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
         backgroundView = UIImageView(image: backgroundImage())
         closeButton = UIButton(type:.System)
         closeButton.setImage(UIImage(namedInPhoneId: "close"), forState: .Normal)
+        
         closeButton.tintColor = colorScheme.normalText
         closeButton.addTarget(self, action: "closeButtonTapped", forControlEvents: .TouchUpInside)
         

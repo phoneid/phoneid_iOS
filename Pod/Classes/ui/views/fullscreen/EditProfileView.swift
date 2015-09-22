@@ -38,6 +38,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     
     private(set) var hintLabel:UILabel!
     private(set) var editButton: UIButton!
+    private(set) var profileVisibilityHintLabel:UILabel!
     
     private(set) var profileView: UIView!
     
@@ -94,6 +95,9 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         titleLabel = UILabel()
         
+        profileVisibilityHintLabel = UILabel();
+        profileVisibilityHintLabel.numberOfLines = 0
+        
         hintLabel = UILabel()
         hintLabel.numberOfLines = 0
         hintLabel.alpha = 0
@@ -106,7 +110,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         editButton.addTarget(self, action: "editTapped", forControlEvents: .TouchUpInside)
         
         
-        let subviews:[UIView] = [titleLabel, profileView, avatarView, nameText, birthdayText, editButton, hintLabel]
+        let subviews:[UIView] = [titleLabel, profileView, avatarView, nameText, birthdayText, editButton, hintLabel, profileVisibilityHintLabel]
         
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
@@ -134,6 +138,8 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         datePicker.minimumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
         
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
+
+        closeButton.bringSubviewToFront(self.subviews.first!)
         
         setupKeyboardToolBar()
     }
@@ -175,6 +181,11 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         c.append(NSLayoutConstraint(item: editButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: editButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
         
+        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .Bottom, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
+        
+        
         self.customConstraints += c
         
         self.addConstraints(c)
@@ -201,6 +212,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         titleLabel.attributedText = localizedStringAttributed("html-title.public.profile")
         hintLabel.attributedText = localizedStringAttributed("html-label.tap.to.cahnge")
+        profileVisibilityHintLabel.attributedText = localizedStringAttributed("html-label.profile.view.visibility.hint")
         
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")

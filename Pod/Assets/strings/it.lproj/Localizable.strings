@@ -61,6 +61,7 @@
 "html-button.title.save.profile"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Salva</center>";
 "html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Profilo pubblico</center>";
 "html-label.tap.to.cahnge"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:17px;\">Toccare per modificare foto</center>";
+"html-label.profile.view.visibility.hint"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">I tuoi amici che hanno il tuo numero di telefono della propria rubrica vi vedranno con il nome e l'immagine che hanno di te. <br/> Altri utenti che non hanno le informazioni vedrà il nome e la foto del tuo profilo pubblico.</center>";
 
 "alert.title.select.image"="Scegli un'immagine da";
 "alert.button.title.camera"="fotocamera";
