@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iOS phone icon.png",
+      "filename" : "Back Arrow.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "iOS phone icon@2x.png",
+      "filename" : "Back Arrow@2x.png",
       "scale" : "2x"
     },
     {

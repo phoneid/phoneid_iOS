@@ -21,13 +21,13 @@ import UIKit
 
 
 @IBDesignable class InternalCompactPhoneIdLoginButton: PhoneIdLoginButton{
-
+    
     internal var loginTouchedBlock:(()->Void)?
     override func loginTouched() {
         
         loginTouchedBlock?()
     }
-
+    
 }
 
 
@@ -58,7 +58,7 @@ import UIKit
     }
     
     func initUI(){
-
+        
         loginButton = InternalCompactPhoneIdLoginButton()
         
         phoneIdModel = NumberInfo()
@@ -131,9 +131,11 @@ import UIKit
                 self.phoneIdService.verifyAuthentication(code, info: self.phoneIdModel){ (token, error) -> Void in
                     
                     if(error == nil){
-                        self.verifyCodeControl.indicateVerificationSuccess()
-                        print("PhoneId login finished")
-                        self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+                        self.verifyCodeControl.indicateVerificationSuccess(){
+                            print("PhoneId login finished")
+                            self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+                            self.resetControls()
+                        }
                     }else{
                         print("PhoneId login cancelled")
                         self.verifyCodeControl.indicateVerificationFail()
@@ -184,7 +186,7 @@ import UIKit
     
     
     func doOnSuccessfulLogin() -> Void {
-        resetControls()
+        
     }
     
     func doOnlogout() -> Void {

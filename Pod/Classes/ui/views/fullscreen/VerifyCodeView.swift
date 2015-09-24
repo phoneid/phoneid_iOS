@@ -48,12 +48,12 @@ public class VerifyCodeView: PhoneIdBaseFullscreenView, UITextFieldDelegate{
         hintText.backgroundColor = UIColor.clearColor()
         hintText.editable = false
         hintText.scrollEnabled = false
-
+        
         statusText = UITextView()
         statusText.editable = false
         statusText.scrollEnabled = false
         statusText.font = UIFont.systemFontOfSize(18)
-   
+        
         statusText.backgroundColor = UIColor.clearColor()
         
         setupVerificationCodeControl()
@@ -65,7 +65,7 @@ public class VerifyCodeView: PhoneIdBaseFullscreenView, UITextFieldDelegate{
             self.addSubview(element)
         }
         
-
+        
     }
     
     func setupVerificationCodeControl(){
@@ -143,9 +143,9 @@ public class VerifyCodeView: PhoneIdBaseFullscreenView, UITextFieldDelegate{
         verifyCodeControl.indicateVerificationFail()
     }
     
-    func indicateVerificationSuccess(){
+    func indicateVerificationSuccess(completion:(()->Void)?){
         statusText.attributedText = localizedStringAttributed("html-logged.in")
-        verifyCodeControl.indicateVerificationSuccess()
+        verifyCodeControl.indicateVerificationSuccess(completion)
     }
     
     

@@ -53,7 +53,7 @@ class NumberInputControl: PhoneIdBaseView {
         numberText.keyboardType = .NumberPad
         numberText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
         numberText.backgroundColor = UIColor.clearColor()
-
+        
         setupKeyboardToolBar();
         
         numberPlaceholderView = UIView()
@@ -86,8 +86,8 @@ class NumberInputControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
         
         c.append(NSLayoutConstraint(item: numberText, attribute: .Left, relatedBy: .Equal, toItem: prefixButton, attribute: .Right, multiplier: 1, constant: 5))
         c.append(NSLayoutConstraint(item: numberText, attribute: .Right, relatedBy: .Equal, toItem: okButton, attribute: .Left, multiplier: 1, constant: 0))
@@ -95,7 +95,7 @@ class NumberInputControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Left, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Left, multiplier: 1, constant: 2))
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant:50))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant:0))
         
         c.append(NSLayoutConstraint(item: okButton, attribute: .Right, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Right, multiplier: 1, constant: -10))
         c.append(NSLayoutConstraint(item: okButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))

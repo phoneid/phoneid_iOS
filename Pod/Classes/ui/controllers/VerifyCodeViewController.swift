@@ -24,7 +24,7 @@ public typealias VerifyCodeCompletionBlock = ((success:Bool)->Void)
 
 public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, VerifyCodeViewViewDelegate{
     public var phoneIdModel:NumberInfo!
-
+    
     public var verifyCodeViewCompletionBlock:VerifyCodeCompletionBlock?
     
     private var verifyCodeView:VerifyCodeView!
@@ -68,14 +68,15 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
     func verifyCode(model:NumberInfo, code:String){
         phoneIdService.verifyAuthentication(code, info: model){[unowned self] (token, error) -> Void in
             
-            if(error == nil){                
-                self.verifyCodeView.indicateVerificationSuccess()
-                self.verifyCodeViewCompletionBlock?(success: true)
-                self.dismissViewControllerAnimated(true, completion: nil)
-                PhoneIdWindow.activePhoneIdWindow()?.close()
-
+            if(error == nil){
+                self.verifyCodeView.indicateVerificationSuccess(){
+                    self.verifyCodeViewCompletionBlock?(success: true)
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    PhoneIdWindow.activePhoneIdWindow()?.close()
+                }
+                
             }else{
-               self.verifyCodeView.indicateVerificationFail()
+                self.verifyCodeView.indicateVerificationFail()
             }
             
         }
@@ -86,7 +87,7 @@ public class VerifyCodeViewController: UIViewController, PhoneIdConsumer, Verify
         self.dismissViewControllerAnimated(false, completion: nil)
         self.verifyCodeViewCompletionBlock?(success: false)
     }
-
+    
 }
 
 

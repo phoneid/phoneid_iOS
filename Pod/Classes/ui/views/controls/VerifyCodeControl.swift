@@ -21,7 +21,7 @@
 import UIKit
 
 class VerifyCodeControl: PhoneIdBaseView {
-
+    
     private(set) var placeholderView:UIView!
     private(set) var codeText:NumericTextField!
     private(set) var placeholderLabel:UILabel!
@@ -33,7 +33,7 @@ class VerifyCodeControl: PhoneIdBaseView {
     var backButtonTapped: (()->Void)?
     
     let maxVerificationCodeLength = 6
-
+    
     override func setupSubviews(){
         super.setupSubviews()
         
@@ -57,7 +57,7 @@ class VerifyCodeControl: PhoneIdBaseView {
         placeholderView.layer.cornerRadius = 5
         
         backButton = UIButton()
-        backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
+        backButton.setImage(UIImage(namedInPhoneId: "compact-back"), forState: .Normal)
         backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
         
         
@@ -78,38 +78,38 @@ class VerifyCodeControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
-        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
+        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
         
         c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterX, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 7))
+        c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 5))
         
         c.append(NSLayoutConstraint(item: backButton, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: placeholderView, attribute: .Left, multiplier: 1, constant:10))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
+        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: placeholderView, attribute: .Left, multiplier: 1, constant:18))
+        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant:0))
         
-        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterX, relatedBy: .Equal, toItem: placeholderLabel, attribute: .CenterX, multiplier: 1, constant: 2))
-        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterX, relatedBy: .Equal, toItem: placeholderLabel, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: -2))
         c.append(NSLayoutConstraint(item: codeText, attribute: .Width, relatedBy: .Equal, toItem: placeholderLabel, attribute: .Width, multiplier: 1, constant: 5))
         
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: placeholderView, attribute: .Right, multiplier: 1, constant:-5))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: placeholderView, attribute: .Right, multiplier: 1, constant:-8))
         
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterY, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterY, multiplier: 1, constant: 0))
-         
+        
         self.addConstraints(c)
         
     }
-
+    
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
-
+        
         placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
-        codeText.textColor = colorScheme.mainAccent
+        codeText.textColor = colorScheme.inputText
         codeText.accessibilityLabel = localizedString("accessibility.verification.input");
-        backButton.accessibilityLabel = localizedString("accessibility.button.title.back");        
+        backButton.accessibilityLabel = localizedString("accessibility.button.title.back");
         placeholderLabel.textColor = colorScheme.mainAccent
         activityIndicator.color = colorScheme.disabledText
         self.needsUpdateConstraints()
@@ -120,28 +120,28 @@ class VerifyCodeControl: PhoneIdBaseView {
     private func applyCodeFieldStyle(input:NSAttributedString)->NSAttributedString {
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
         let range:NSRange = NSMakeRange(0, attributedString.length)
-        attributedString.addAttribute(NSKernAttributeName, value: 12, range: range)
+        attributedString.addAttribute(NSKernAttributeName, value: 8, range: range)
         
         if(attributedString.length > 2){
             let range:NSRange = NSMakeRange(2, 1)
-            attributedString.addAttribute(NSKernAttributeName, value: 36, range: range)
+            attributedString.addAttribute(NSKernAttributeName, value: 24, range: range)
         }
         
-        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo-Bold", size: 22)!, range: range)
+        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo", size: 22)!, range: range)
         return attributedString
-    }    
+    }
     
     func textFieldDidChange(textField:UITextField) {
         
         textField.attributedText = applyCodeFieldStyle(textField.attributedText!)
         
         if (textField.text!.utf16.count == maxVerificationCodeLength) {
-
+            
             activityIndicator.startAnimating()
             backButton.enabled = false
-
+            
         } else {
-
+            
             activityIndicator.stopAnimating()
             phoneIdService.abortCall()
             statusImage.hidden = true
@@ -163,11 +163,19 @@ class VerifyCodeControl: PhoneIdBaseView {
         backButton.enabled = true
     }
     
-    func indicateVerificationSuccess(){
+    func indicateVerificationSuccess(completion:(()->Void)?){
+        
         activityIndicator.stopAnimating()
         statusImage.image = UIImage(namedInPhoneId: "icon-ok")
         statusImage.hidden = false
-
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [], animations: { () -> Void in
+            self.statusImage.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            }) {(_) -> Void in
+                self.statusImage.transform = CGAffineTransformMakeScale(1, 1)
+                completion?()
+        }
+        
     }
     
     func reset(){

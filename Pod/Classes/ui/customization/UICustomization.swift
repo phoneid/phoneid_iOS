@@ -24,16 +24,16 @@ public protocol Customizable: NSObjectProtocol{
     var colorScheme: ColorScheme! {get set}
     var localizationBundle:NSBundle! {get set}
     var localizationTableName:String! {get set}
-
+    
 }
 
 public extension Customizable{
-
+    
     internal func localizedString(key:String, formatting:((String)->String)? = nil) ->String{
         
         var result = NSLocalizedString(key, tableName: localizationTableName , bundle: localizationBundle, comment:key)
         
-        // TODO: this is actually not a part of localization. 
+        // TODO: this is actually not a part of localization.
         // However text-formatting appeared to be tightly coupled with text-content.
         // Need more graceful solution
         result = self.colorScheme.replaceNamedColors(result)
@@ -52,7 +52,7 @@ public extension Customizable{
             documentAttributes: nil)
         return accessAttributedText
     }
-
+    
 }
 
 public protocol ColorScheme: NSObjectProtocol{
@@ -76,7 +76,7 @@ public class DefaultColorScheme : NSObject, ColorScheme{
     public var disabledText:UIColor = UIColor(netHex: 0xC8C8CD)
     public var selectedText:UIColor = UIColor(netHex: 0x000000)
     public var normalText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var inputText:UIColor = UIColor(netHex: 0x000)
+    public var inputText:UIColor = UIColor(netHex: 0x000000)
     public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
     public var linkText:UIColor = UIColor(netHex: 0x133E6B)
     public var defaultTextInputBackground:UIColor = UIColor(netHex: 0xffffff)
