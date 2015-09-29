@@ -28,7 +28,8 @@ public class UserInfo: ParseableModel{
     public var screenName:String?
     public var phoneNumber:String?
     public var dateOfBirth:NSDate?
-    public var image:UIImage?
+    public var imageURL:String?
+    public var updatedImage:UIImage?
     
     public required init(json:NSDictionary){
         super.init(json:json)
@@ -36,7 +37,7 @@ public class UserInfo: ParseableModel{
         clientId = json["client_id"] as? String
         phoneNumber = json["phone_number"] as? String
         screenName = json["screen_name"] as? String
-        
+        imageURL = json["picture"] as? String
         if let birthdate = json["birthdate"] as? String{
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -71,9 +72,6 @@ public class UserInfo: ParseableModel{
             dateFormatter.dateFormat = "yyyy-MM-dd"
             result["birthdate"] = dateFormatter.stringFromDate(birthdate)
         }
-//        if let image = image {
-//            result["picture"] = UIImagePNGRepresentation(image)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-//        }
         return result
     }
     

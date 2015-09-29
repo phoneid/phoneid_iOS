@@ -32,7 +32,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     
     private(set) var titleLabel:UILabel!
     
-    private(set) var avatarView: UIImageView!
+    private(set) var avatarView: WebImageView!
     private(set) var nameText: UITextField!
     private(set) var birthdayText: UITextField!
     
@@ -75,7 +75,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     
     func setupWithUser(user:UserInfo){
         self.nameText.text = user.screenName
-        
+        self.avatarView.downloadImage(user.imageURL)
         self.birthdayText.text = user.dateOfBirthAsString()
         
     }
@@ -86,7 +86,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         profileView = UIView();
         profileView.backgroundColor = UIColor.whiteColor()
         
-        avatarView = UIImageView()
+        avatarView = WebImageView()
         avatarView.contentMode = .ScaleAspectFit
         
         nameText = UITextField()

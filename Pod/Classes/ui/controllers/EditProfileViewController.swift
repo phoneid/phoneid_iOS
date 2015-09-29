@@ -120,6 +120,7 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         
         editingController.imageEditingCompleted = { (editedImage:UIImage) in
             self.editProfileView.avatarView.image = editedImage
+            self.user.updatedImage = editedImage
             picker.dismissViewControllerAnimated(true, completion: nil)
         }
         

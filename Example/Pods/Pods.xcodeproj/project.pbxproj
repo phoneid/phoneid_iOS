@@ -15,6 +15,7 @@
 		0942EAD01BA7348D00DB1598 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */; settings = {ASSET_TAGS = (); }; };
 		0942EAD21BA73ED100DB1598 /* ImageEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		0988EBB71B983BA40003542C /* PhoneIdWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0988EBB61B983BA40003542C /* PhoneIdWindow.swift */; settings = {ASSET_TAGS = (); }; };
+		098C079B1BB9CA1F0075B38A /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098C079A1BB9CA1F0075B38A /* WebImageView.swift */; settings = {ASSET_TAGS = (); }; };
 		09BE5BAA1BA7E2940046F308 /* CircleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB061B9C4071009DBDA5 /* CompactPhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB021B9C4053009DBDA5 /* CompactPhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB071B9C4071009DBDA5 /* PhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB031B9C4053009DBDA5 /* PhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
@@ -138,6 +139,7 @@
 		0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
 		0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEditViewController.swift; sourceTree = "<group>"; };
 		0988EBB61B983BA40003542C /* PhoneIdWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdWindow.swift; sourceTree = "<group>"; };
+		098C079A1BB9CA1F0075B38A /* WebImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		0992F371953F44E3657F3C5B75E32E4F /* libPhoneNumber_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libPhoneNumber_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleOverlayView.swift; sourceTree = "<group>"; };
 		09EADAF61B9C3F9F009DBDA5 /* CountryCodePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodePickerView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				09EADAFD1B9C4000009DBDA5 /* NumberInputControl.swift */,
 				09EADAFE1B9C4000009DBDA5 /* NumericTextField.swift */,
 				09EADB0D1B9C434C009DBDA5 /* VerifyCodeControl.swift */,
+				098C079A1BB9CA1F0075B38A /* WebImageView.swift */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 				822A9297FF2A3759D29CF0FBC011F1D4 /* CountryCodePickerViewController.swift in Sources */,
 				03A7FD8BD8DE76618020860A09CD4F54 /* CryptoUtils.swift in Sources */,
 				09F63C171BA2DE8E007A49BD /* EditProfileViewController.swift in Sources */,
+				098C079B1BB9CA1F0075B38A /* WebImageView.swift in Sources */,
 				E36FCE30BA5142FFD58C1EEC798A50A4 /* KeychainStorage.swift in Sources */,
 				BC09F8AFEF81A65898D6D0B9168651AD /* NSURLRequest+PhoneId.swift in Sources */,
 				4C97A5166935EF2F7AD68E831275919A /* NumberInfo.swift in Sources */,
