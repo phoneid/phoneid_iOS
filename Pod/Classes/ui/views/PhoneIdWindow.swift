@@ -61,7 +61,7 @@ class PhoneIdWindow: UIWindow {
     
     func makeActive() {
         
-        self.windowLevel = UIWindowLevelAlert
+        self.windowLevel = UIWindowLevelNormal+1
         
         self.rootViewController = UIViewController()
         

@@ -24,12 +24,16 @@
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$selectedText\">%@</b><br/>con il tuo numero di telefono:</center>";
 
 "button.title.ok"="OK";
+"button.title.cancel"="Annullare";
 
 "accessibility.button.title.ok"="OK";
+"accessibility.button.title.cancel"="Annullare";
 "accessibility.button.title.close"="Chiudere";
 "accessibility.button.title.back"="Indietro";
 
-"html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>"
+"html-title.login"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
+
+"html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>";
 
 "html-your.number.is.safe"= "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">Il tuo numero è sicuro:<br/> non condividiamo, non spam.</center>";
 

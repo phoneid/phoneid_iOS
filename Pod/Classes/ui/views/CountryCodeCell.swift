@@ -76,6 +76,11 @@ class CountryCodeCell:UITableViewCell{
         self.setNeedsLayout()
     }
     
+    func applyColorScheme(colorScheme: ColorScheme){
+        self.prefixLabel.backgroundColor = colorScheme.mainAccent
+        prefixLabel.textColor = colorScheme.buttonTextColor
+    }
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

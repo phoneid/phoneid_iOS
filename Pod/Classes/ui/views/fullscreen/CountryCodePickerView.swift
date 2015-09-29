@@ -55,8 +55,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     private let collation = UILocalizedIndexedCollation.currentCollation()
     
     private(set) var tableView:UITableView!
-    private(set) var titleLabel:UILabel!
-    private(set) var backButton:UIButton!
+    
     
     internal weak var delegate:CountryCodePickerViewDelegate?
     private var countrySearchController:UISearchController!
@@ -76,28 +75,15 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     
     override func setupSubviews(){
         super.setupSubviews()
-                
-        super.closeButton.hidden = true
         
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")
+        tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")            
         
-        titleLabel = UILabel()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(tableView)
         
-        backButton = UIButton()
-        backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
-        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
-        
-        let subviews:[UIView] = [tableView, titleLabel, backButton]
-        
-        for(_, element) in subviews.enumerate(){
-            element.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(element)
-        }
-        
-
         
     }
     
@@ -108,6 +94,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             countrySearchController.delegate = self
             countrySearchController.dimsBackgroundDuringPresentation = false
             countrySearchController.hidesNavigationBarDuringPresentation = false
+            
             tableView.tableHeaderView = countrySearchController.searchBar
         }
         return countrySearchController
@@ -119,19 +106,12 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant:20))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant:0))
+
         
-        c.append(NSLayoutConstraint(item: tableView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: tableView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: tableView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: titleLabel, attribute: .Bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant:20))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant:5))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
         
         self.customConstraints += c
         
@@ -147,14 +127,6 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         tableView.sectionIndexTrackingBackgroundColor = UIColor.clearColor()
     }
     
-    func backTapped(sender:UIButton){
-        if(self.countrySearchController.active){
-            countrySearchController.presentingViewController?.dismissViewControllerAnimated(true,completion: nil)
-        }
-        if let delegate = delegate{
-            delegate.goBack()
-        }
-    }
     
     // MARK: tableView
     
@@ -169,7 +141,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     public func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell
     {
         let cell:CountryCodeCell = tableView.dequeueReusableCellWithIdentifier("CountryCodeCell", forIndexPath: indexPath) as! CountryCodeCell
-        
+        cell.applyColorScheme(self.phoneIdComponentFactory.colorScheme())
         let model:CountryInfo = self.determineModel(atIndexPath:indexPath)
         cell.setupWithModel(model)
         return cell
@@ -356,6 +328,15 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         }
         return countryArray
         
+    }
+    
+    override func closeButtonTapped(){
+        if(self.countrySearchController.active){
+            countrySearchController.presentingViewController?.dismissViewControllerAnimated(true,completion: nil)
+        }
+        if let delegate = delegate{
+            delegate.goBack()
+        }
     }
 
 }

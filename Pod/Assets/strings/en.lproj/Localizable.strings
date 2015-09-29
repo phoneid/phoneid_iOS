@@ -24,10 +24,14 @@
 "html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
 
 "button.title.ok"="OK";
+"button.title.cancel"="Cancel";
 
 "accessibility.button.title.ok"="OK";
+"accessibility.button.title.cancel"="Cancel";
 "accessibility.button.title.close"="Close";
 "accessibility.button.title.back"="Back";
+
+"html-title.login"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
 
 "html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</left>";
 
@@ -35,7 +39,7 @@
 
 "html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">By continuing, you agree with:<br/><a href=\"%@\">Terms & Conditions</a> and <a href=\"%@\">Privacy Policy</a></center>";
 
-"html-title.country.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Country Code</center>";
+"html-title.country.code"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Country Code</center>";
 
 "current.phone" = "Current Phone";
 

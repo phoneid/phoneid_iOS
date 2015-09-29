@@ -30,8 +30,6 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     
     weak var delegate:EditProfileViewDelegate?
     
-    private(set) var titleLabel:UILabel!
-    
     private(set) var avatarView: WebImageView!
     private(set) var nameText: UITextField!
     private(set) var birthdayText: UITextField!
@@ -76,8 +74,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     func setupWithUser(user:UserInfo){
         self.nameText.text = user.screenName
         self.avatarView.downloadImage(user.imageURL)
-        self.birthdayText.text = user.dateOfBirthAsString()
-        
+        self.datePicker.date = user.dateOfBirth ?? NSDate()
     }
     
     override func setupSubviews(){
@@ -92,8 +89,6 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         nameText = UITextField()
         nameText.autocapitalizationType = .Words
         nameText.enabled = false
-        
-        titleLabel = UILabel()
         
         profileVisibilityHintLabel = UILabel();
         profileVisibilityHintLabel.numberOfLines = 0
@@ -148,14 +143,9 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         
         super.setupLayout()
         
-        var c:[NSLayoutConstraint] = []
+        var c:[NSLayoutConstraint] = []        
         
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant:20))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant:0))
-        
-        c.append(NSLayoutConstraint(item: profileView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 64))
+        c.append(NSLayoutConstraint(item: profileView, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: profileView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: profileView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: profileView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))

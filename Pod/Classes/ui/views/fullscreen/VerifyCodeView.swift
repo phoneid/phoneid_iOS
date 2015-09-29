@@ -103,7 +103,7 @@ public class VerifyCodeView: PhoneIdBaseFullscreenView, UITextFieldDelegate{
         var c:[NSLayoutConstraint] = []
         
         c.append(NSLayoutConstraint(item: hintText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: hintText, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: hintText, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 20))
         c.append(NSLayoutConstraint(item: hintText, attribute: .Bottom, relatedBy: .Equal, toItem: verifyCodeControl, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: hintText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
         
@@ -124,6 +124,7 @@ public class VerifyCodeView: PhoneIdBaseFullscreenView, UITextFieldDelegate{
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
+        titleLabel.attributedText =  localizedStringAttributed("html-title.login")
         hintText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
         statusText.textColor = colorScheme.normalText
         self.needsUpdateConstraints()

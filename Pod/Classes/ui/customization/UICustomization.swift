@@ -68,6 +68,7 @@ public protocol ColorScheme: NSObjectProtocol{
     var avatarBackground:UIColor {get set}
     var failIcon:UIColor {get set}
     var successIcon:UIColor {get set}
+    var headerBackground:UIColor {get set}
 }
 
 public class DefaultColorScheme : NSObject, ColorScheme{
@@ -75,7 +76,7 @@ public class DefaultColorScheme : NSObject, ColorScheme{
     public var placeholderText:UIColor = UIColor(netHex: 0xC8C8CD)
     public var disabledText:UIColor = UIColor(netHex: 0xC8C8CD)
     public var selectedText:UIColor = UIColor(netHex: 0x000000)
-    public var normalText:UIColor = UIColor(netHex: 0xC8C8CD)
+    public var normalText:UIColor = UIColor(netHex: 0xffffff)
     public var inputText:UIColor = UIColor(netHex: 0x000000)
     public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
     public var linkText:UIColor = UIColor(netHex: 0x133E6B)
@@ -83,6 +84,7 @@ public class DefaultColorScheme : NSObject, ColorScheme{
     public var avatarBackground:UIColor = UIColor(netHex: 0xC8C8CD)
     public var failIcon:UIColor = UIColor(netHex: 0xD0021B)
     public var successIcon:UIColor = UIColor(netHex: 0x037AFF)
+    public var headerBackground:UIColor = UIColor(netHex: 0x00796B)
 }
 
 public extension ColorScheme {
