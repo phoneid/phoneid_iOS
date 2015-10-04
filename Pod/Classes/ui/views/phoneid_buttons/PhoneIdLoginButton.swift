@@ -172,7 +172,7 @@ import Foundation
         
         
         if(phoneIdService.appName != nil){
-            self.presentNumberInputController()
+            self.presentLoginViewController()
             self.userInteractionEnabled = true
         }else{
             activityIndicator.startAnimating()
@@ -181,7 +181,7 @@ import Foundation
                 self.activityIndicator.stopAnimating()
                 
                 if(error == nil){
-                    self.presentNumberInputController()
+                    self.presentLoginViewController()
                 }else{
                     if(error != nil){
                         let alertController = UIAlertController(title:error?.localizedDescription, message:error?.localizedFailureReason, preferredStyle: .Alert)
@@ -202,9 +202,9 @@ import Foundation
         phoneIdService.logout()
     }
     
-    private func presentNumberInputController(){
+    private func presentLoginViewController(){
         
-        let controller = phoneIdComponentFactory.numberInputViewController()
+        let controller = phoneIdComponentFactory.loginViewController()
         
         let phoneIdWindow = PhoneIdWindow()
         

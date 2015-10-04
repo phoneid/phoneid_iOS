@@ -22,14 +22,14 @@ import Foundation
 
 public protocol ComponentFactory: NSObjectProtocol{
     
-    func numberInputViewController() -> NumberInputViewController
+    
+    func loginViewController() -> LoginViewController
     func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
-    func verifyCodeViewController(model: NumberInfo) -> VerifyCodeViewController
     func editProfileViewController(model: UserInfo) -> EditProfileViewController
     
-    func numberInputView(model: NumberInfo)->NumberInputView
+    func loginView(model: NumberInfo)->LoginView
+    
     func countryCodePickerView(model: NumberInfo)->CountryCodePickerView
-    func verifyCodeView(model: NumberInfo)->VerifyCodeView
     func editProfileView(model: UserInfo)->EditProfileView
 
     func colorScheme()->ColorScheme
@@ -42,14 +42,15 @@ public protocol ComponentFactory: NSObjectProtocol{
 
 public class DefaultComponentFactory: NSObject, ComponentFactory {
     
-    public func numberInputViewController() -> NumberInputViewController{
-        let controller = NumberInputViewController()
-        return controller
+    
+    public func loginViewController() -> LoginViewController {
+                let controller = LoginViewController()
+                return controller
     }
     
-    public func numberInputView(model: NumberInfo)->NumberInputView{
-        let view = NumberInputView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
-        return view
+    public func loginView(model: NumberInfo) -> LoginView {
+                let view = LoginView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+                return view
     }
     
     public func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController{
@@ -59,16 +60,6 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     
     public func countryCodePickerView(model: NumberInfo)->CountryCodePickerView{
         let view = CountryCodePickerView(model:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
-        return view
-    }
-    
-    public func verifyCodeViewController(model: NumberInfo) -> VerifyCodeViewController{
-        let controller = VerifyCodeViewController(model: model)
-        return controller
-    }
-
-    public func verifyCodeView(model: NumberInfo)->VerifyCodeView{
-        let view = VerifyCodeView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
     

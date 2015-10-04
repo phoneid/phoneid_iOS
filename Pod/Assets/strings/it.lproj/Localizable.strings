@@ -21,10 +21,11 @@
 "html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Uscire</center>";
 "accessibility.button.title.logout"="Uscire";
 
-"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$selectedText\">%@</b><br/>con il tuo numero di telefono:</center>";
+"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$normalText\">%@</b><br/>con il tuo numero di telefono:</center>";
 
 "button.title.ok"="OK";
 "button.title.cancel"="Annullare";
+"button.title.call.me"="Chiamami";
 
 "accessibility.button.title.ok"="OK";
 "accessibility.button.title.cancel"="Annullare";
@@ -33,17 +34,19 @@
 
 "html-title.login"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
 
-"html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>";
+"html-placeholder.phone.number"="<left style=\"color:$disabledText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>";
 
-"html-your.number.is.safe"= "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">Il tuo numero è sicuro:<br/> non condividiamo, non spam.</center>";
+"html-label.we.will.send.sms"= "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Ti invieremo un SMS per verificarlo.</center>";
 
-"html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">Continuando, sei d'accordo con:<br/><a href=\"%@\">Condizioni</a> e <a href=\"%@\">Informativa sulla Privacy</a></center>";
+"html-label.terms.and.conditions"="<center style=\"font-family: Helvetica Neue; font-size:12px;\">Offerto da <a href=\"http://phone.id\">phone.id</a><br/>Continuando, sei d'accordo con <a href=\"http://phone.id\">TDS</a> e <a href=\"http://phone.id\">Informativa sulla Privacy</a></center>";
 
 "html-title.country.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Prefisso Internazionale</center>";
 
+"html-label.when.code.not.received"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Se non hai ricevuto il codice via SMS, si può chiamare e vi leggere il codice</center>";
+
 "current.phone" = "Telefono corrente";
 
-"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
+"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
 
 "html-logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Entrando ...</center>";
 

@@ -21,10 +21,11 @@
 "html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Log out</center>";
 "accessibility.button.title.logout"="Log out";
 
-"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$selectedText\">%@</b><br/>with your phone number:</center>";
+"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$normalText\">%@</b><br/>with your phone number:</center>";
 
 "button.title.ok"="OK";
 "button.title.cancel"="Cancel";
+"button.title.call.me"="Call me";
 
 "accessibility.button.title.ok"="OK";
 "accessibility.button.title.cancel"="Cancel";
@@ -33,17 +34,19 @@
 
 "html-title.login"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
 
-"html-placeholder.phone.number"="<left style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</left>";
+"html-placeholder.phone.number"="<left style=\"color:$disabledText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</left>";
 
-"html-your.number.is.safe"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Your number is safe:<br/>we don't share it, we don't SPAM you.</center>";
+"html-label.we.will.send.sms"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">We'll send you a SMS to verify it.</center>";
 
-"html-label.terms.and.conditions"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:15px;\">By continuing, you agree with:<br/><a href=\"%@\">Terms & Conditions</a> and <a href=\"%@\">Privacy Policy</a></center>";
+"html-label.terms.and.conditions"="<center style=\"font-family: Helvetica Neue; font-size:12px;\">Powered by <a href=\"http://phone.id\">phone.id</a><br/>By proceeding you agree to <a href=\"http://phone.id\">TOS</a> and <a href=\"http://phone.id\">Privacy Policy</a></center>";
 
 "html-title.country.code"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Country Code</center>";
 
+"html-label.when.code.not.received"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">If you have not received the code by SMS, we can call you and read you the code</center>";
+
 "current.phone" = "Current Phone";
 
-"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Type the confirmation code</br>we just texted you:</center>";
+"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Type the confirmation code</br>we just texted you:</center>";
 
 "html-logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
 

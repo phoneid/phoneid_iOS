@@ -182,7 +182,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
                 string = collation.sectionTitles[section-1]
             }
         } else {
-            string = searchResults[section].letter;
+            string = searchResults[section-1].letter;
         }
         return string
     }
@@ -204,11 +204,20 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             })
         }
         
+        result.insert("\u{0001F50D}", atIndex: 0)
+        
         return result
     }
-    
+
     public func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        return collation.sectionForSectionIndexTitleAtIndex(index) + 1
+
+            if (index == 0) {
+                tableView.setContentOffset(CGPointZero, animated:false)
+                
+                return NSNotFound;
+            }
+            return collation.sectionForSectionIndexTitleAtIndex(index-1);
+        
     }
     
     // MARK: - Utilities
