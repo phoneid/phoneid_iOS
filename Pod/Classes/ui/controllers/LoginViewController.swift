@@ -21,7 +21,7 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
         }
     }
     
-    lazy private var phoneIdModel:NumberInfo = {
+    lazy internal var phoneIdModel:NumberInfo = {
         let result = NumberInfo()
         return result
     }()

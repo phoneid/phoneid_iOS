@@ -75,6 +75,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         self.nameText.text = user.screenName
         self.avatarView.downloadImage(user.imageURL)
         self.datePicker.date = user.dateOfBirth ?? NSDate()
+        self.birthdayText.text = user.dateOfBirthAsString()
     }
     
     override func setupSubviews(){
@@ -169,7 +170,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         c.append(NSLayoutConstraint(item: hintLabel, attribute: .Width, relatedBy: .Equal, toItem: avatarView, attribute: .Width, multiplier: 1, constant: 0))
         
         c.append(NSLayoutConstraint(item: editButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: editButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: editButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
         
         c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .Bottom, multiplier: 1, constant: 20))
         c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))

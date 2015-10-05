@@ -64,8 +64,8 @@
 "phone.id.needs.access.to.your.contacts"="Failed to upload contacts. Please allow phone.id to access ypur contacts in the Settings App";
 
 "html-button.title.change.picture"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">CHANGE PICTURE</center>";
-"html-button.title.edit.profile"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Edit</center>";
-"html-button.title.save.profile"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Save</center>";
+"html-button.title.edit.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Edit</center>";
+"html-button.title.save.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Save</center>";
 "html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Public Profile</center>";
 "html-label.tap.to.cahnge"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:17px;\">Tap to change photo</center>";
 "html-label.profile.view.visibility.hint"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Your friends who have your phone number in their address book will see you with name and picture they have of you.<br/><br/>Other users who don't have your information will see the name and photo of your public profile.</center>";

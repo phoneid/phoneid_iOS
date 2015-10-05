@@ -27,6 +27,7 @@ import Foundation
     public var colorScheme: ColorScheme!
     public var localizationBundle:NSBundle!
     public var localizationTableName:String!
+    public var phoneNumberE164:String!
     
     private(set) var imageView:UIImageView!
     private(set) var titleLabel:UILabel!
@@ -39,6 +40,8 @@ import Foundation
     var phoneIdComponentFactory: ComponentFactory! { return phoneIdService.componentFactory}
     
     var activityIndicator:UIActivityIndicatorView!
+    
+    
     
     // init from viewcontroller
     required override public init(frame: CGRect) {
@@ -205,6 +208,11 @@ import Foundation
     private func presentLoginViewController(){
         
         let controller = phoneIdComponentFactory.loginViewController()
+        
+        if let phoneNumberE164 = phoneNumberE164{
+             controller.phoneIdModel = NumberInfo(numberE164:phoneNumberE164)
+        }
+       
         
         let phoneIdWindow = PhoneIdWindow()
         

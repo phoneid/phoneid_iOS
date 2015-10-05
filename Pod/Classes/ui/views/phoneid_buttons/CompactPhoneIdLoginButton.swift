@@ -33,6 +33,17 @@ import UIKit
 
 @IBDesignable public class CompactPhoneIdLoginButton: PhoneIdBaseView{
     
+    public var phoneNumberE164:String!{
+        get{
+            return self.phoneIdModel.e164Format()
+        }
+        set{
+            self.phoneIdModel = NumberInfo(numberE164:newValue)
+            self.numberInputControl?.setupWithModel(self.phoneIdModel)
+            self.verifyCodeControl?.setupWithModel(self.phoneIdModel)
+        }
+    }
+    
     private(set) var loginButton: InternalCompactPhoneIdLoginButton!
     private(set) var numberInputControl: NumberInputControl!
     private(set) var verifyCodeControl:VerifyCodeControl!

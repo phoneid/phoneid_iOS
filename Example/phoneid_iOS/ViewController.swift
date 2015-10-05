@@ -29,11 +29,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var tokensView: UIView!
     @IBOutlet weak var tokenText: UITextField!
     @IBOutlet weak var refreshTokenText: UITextField!
+    @IBOutlet weak var presetNumber: UITextField!
     
     @IBOutlet weak var phoneIdButton: PhoneIdLoginButton!
     @IBOutlet weak var compactPhoneIdButton: CompactPhoneIdLoginButton!
     
     let phoneId: PhoneIdService = PhoneIdService.sharedInstance;
+    var usePresetNumber:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +70,6 @@ class ViewController: UIViewController {
         phoneId.phoneIdDidLogout = { (token) ->Void in
             self.updateTokenInfoView()
         }
-        
         
         //customize appearence
         //phoneId.componentFactory = CustomComponentFactory()
@@ -119,6 +120,16 @@ class ViewController: UIViewController {
         compactPhoneIdButton.userInteractionEnabled = !compactPhoneIdButton.hidden
     }
    
+    @IBAction func switchPresetNumber(sender: UISwitch) {
+
+        if(sender.on){
+            phoneIdButton.phoneNumberE164 = presetNumber.text
+            compactPhoneIdButton.phoneNumberE164 = presetNumber.text
+        }else{
+            phoneIdButton.phoneNumberE164 = nil
+            compactPhoneIdButton.phoneNumberE164 = nil
+        }
+    }
     
 }
 

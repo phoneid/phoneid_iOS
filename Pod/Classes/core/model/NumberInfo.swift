@@ -55,6 +55,15 @@ public class NumberInfo: NSObject {
         self.isoCountryCode = isoCountryCode
     }
     
+    public convenience init(numberE164:String?) {
+        self.init()
+        if let number:NBPhoneNumber = try? self.phoneUtil.parseWithPhoneCarrierRegion(numberE164){
+            self.phoneNumber = number.nationalNumber.stringValue
+            self.phoneCountryCode = "+\(number.countryCode.stringValue)"
+            self.isoCountryCode = self.phoneUtil.getRegionCodeForNumber(number)
+        }
+    }
+    
     public func validate() throws -> Bool {
         
         guard self.phoneNumber != nil else{

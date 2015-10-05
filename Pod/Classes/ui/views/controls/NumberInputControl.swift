@@ -140,6 +140,7 @@ class NumberInputControl: PhoneIdBaseView {
             phoneIdModel.isoCountryCode = phoneIdModel.defaultIsoCountryCode
             prefixButton.setTitle(phoneIdModel.defaultCountryCode, forState: UIControlState.Normal)
         }
+        self.validatePhoneNumber()
     }
     
     override func localizeAndApplyColorScheme(){

@@ -269,4 +269,8 @@ public class LoginView: PhoneIdBaseFullscreenView{
             self.layoutIfNeeded()
         })
     }
+    
+    override func closeButtonTapped(){
+        loginViewDelegate?.close()
+    }
 }
