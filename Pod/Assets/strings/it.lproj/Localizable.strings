@@ -55,6 +55,7 @@
 "html-label.when.code.not.received"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Se non hai ricevuto il codice via SMS, si può chiamare e vi leggere il codice</center>";
 
 "current.phone" = "Telefono corrente";
+"current.network" = "Rete corrente";
 
 "html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
 

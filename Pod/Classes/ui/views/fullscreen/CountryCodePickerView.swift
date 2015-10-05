@@ -73,18 +73,22 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         fatalError("init(coder:) has not been implemented")
     }
     
+    var haveExtraSections:  Bool{ get {return (havePhoneSection || haveNetworkSection) } }
+    var havePhoneSection:   Bool{ get {return phoneIdModel.phoneCountryCode != nil } }
+    var haveNetworkSection: Bool{ get {return phoneIdModel.phoneCountryCode != nil } }
+    var countOfExtraSections: Int{ get {return Int(havePhoneSection) + Int(haveNetworkSection)}}
+    
     override func setupSubviews(){
         super.setupSubviews()
         
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")            
+        tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(tableView)
-        
-        
+  
     }
     
     func searchController() -> UISearchController{
@@ -105,8 +109,6 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         super.setupLayout()
         
         var c:[NSLayoutConstraint] = []
-        
-
         
         c.append(NSLayoutConstraint(item: tableView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: tableView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: 0))
@@ -134,7 +136,8 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults.count
         } else {
-            return sections.count
+            let sectionCount = sections.count - 1 + countOfExtraSections
+            return sectionCount
         }
     }
     
@@ -152,10 +155,10 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults[section].countries.count;
         } else {
-            if (section == 0) {
-                return phoneIdModel.phoneCountryCodeSim != nil ? 1 : 0
+            if (havePhoneSection && section == 0 || haveNetworkSection && section == 1) {
+                return 1
             } else {
-                return sections[section].countries.count;
+                return sections[section - countOfExtraSections + 1].countries.count;
             }
         }
     }
@@ -176,21 +179,20 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     public func tableView(tableView:UITableView, titleForHeaderInSection section:NSInteger) -> String? {
         var string:String
         if (!self.isSearchMode()) {
-            if (section == 0) {
-                string = phoneIdModel.phoneCountryCode != nil ? localizedString("current.phone") : ""
+            if (section == 0 && havePhoneSection) {
+                string = localizedString("current.phone")
+            } else if (section == 1 && haveNetworkSection){
+                string = localizedString("current.network")
             } else {
-                string = collation.sectionTitles[section-1]
+                string = collation.sectionTitles[section-countOfExtraSections]
             }
         } else {
-            string = searchResults[section-1].letter;
+            string = searchResults[section].letter;
         }
         return string
     }
     
     public func tableView(tableView:UITableView, heightForHeaderInSection section:NSInteger) -> (CGFloat) {
-        if (!isSearchMode() && section == 0 && phoneIdModel.phoneCountryCodeSim==nil) {
-            return 0;
-        }
         return CountryCodeCell.height;
     }
     
@@ -208,15 +210,15 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         
         return result
     }
-
+    
     public func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-
-            if (index == 0) {
-                tableView.setContentOffset(CGPointZero, animated:false)
-                
-                return NSNotFound;
-            }
-            return collation.sectionForSectionIndexTitleAtIndex(index-1);
+        
+        if (index == 0) {
+            tableView.setContentOffset(CGPointZero, animated:false)
+            countrySearchController.searchBar.becomeFirstResponder()
+            return NSNotFound;
+        }
+        return collation.sectionForSectionIndexTitleAtIndex(index-1);
         
     }
     
@@ -226,13 +228,18 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults[indexPath.section].countries[indexPath.row];
         } else {
-            if (indexPath.section == 0 && phoneIdModel.phoneCountryCodeSim != nil) {
-                let locale = prefferedLocale()
+            var result:CountryInfo! = nil
+            let locale = prefferedLocale()
+            if (indexPath.section == 0 && havePhoneSection) {
                 let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:phoneIdModel.isoCountryCode!)!;
-                return CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCode!, code: phoneIdModel.isoCountryCode!)
+                result = CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCode!, code: phoneIdModel.isoCountryCode!)
+            } else if (indexPath.section == 1 && haveNetworkSection) {
+                let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:phoneIdModel.isoCountryCodeSim!)!;
+                result = CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCodeSim!, code: phoneIdModel.isoCountryCode!)
             } else {
-                return sections[indexPath.section].countries[indexPath.row];
+                result = sections[indexPath.section-countOfExtraSections+1].countries[indexPath.row];
             }
+            return result
         }
     }
     
@@ -301,7 +308,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         result.append((letter:"\u{0001F50D}", countries:[]))
         
         let countries = loadCountriesList()
-
+        
         let selector: Selector = "localizedTitle"
         let sortedCountries:[AnyObject] = collation.sortedArrayFromArray(countries, collationStringSelector: selector)
         for c in sortedCountries {
@@ -347,5 +354,5 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             delegate.goBack()
         }
     }
-
+    
 }
