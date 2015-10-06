@@ -75,7 +75,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     
     var haveExtraSections:  Bool{ get {return (havePhoneSection || haveNetworkSection) } }
     var havePhoneSection:   Bool{ get {return phoneIdModel.phoneCountryCode != nil } }
-    var haveNetworkSection: Bool{ get {return phoneIdModel.phoneCountryCode != nil } }
+    var haveNetworkSection: Bool{ get {return phoneIdModel.phoneCountryCodeSim != nil } }
     var countOfExtraSections: Int{ get {return Int(havePhoneSection) + Int(haveNetworkSection)}}
     
     override func setupSubviews(){
