@@ -74,7 +74,10 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     }
     
     var haveExtraSections:  Bool{ get {return (havePhoneSection || haveNetworkSection) } }
-    var havePhoneSection:   Bool{ get {return phoneIdModel.phoneCountryCode != nil } }
+    var havePhoneSection:   Bool{ get {
+        return phoneIdModel.phoneCountryCode != nil &&
+               !(phoneIdModel.phoneCountryCode==phoneIdModel.phoneCountryCodeSim)
+        } }
     var haveNetworkSection: Bool{ get {return phoneIdModel.phoneCountryCodeSim != nil } }
     var countOfExtraSections: Int{ get {return Int(havePhoneSection) + Int(haveNetworkSection)}}
     
@@ -155,7 +158,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults[section].countries.count;
         } else {
-            if (havePhoneSection && section == 0 || haveNetworkSection && section == 1) {
+            if (haveExtraSections && section < countOfExtraSections) {
                 return 1
             } else {
                 return sections[section - countOfExtraSections + 1].countries.count;
@@ -179,9 +182,9 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     public func tableView(tableView:UITableView, titleForHeaderInSection section:NSInteger) -> String? {
         var string:String
         if (!self.isSearchMode()) {
-            if (section == 0 && havePhoneSection) {
+            if (section == 0 && havePhoneSection && haveNetworkSection) {
                 string = localizedString("current.phone")
-            } else if (section == 1 && haveNetworkSection){
+            } else if (section < countOfExtraSections){
                 string = localizedString("current.network")
             } else {
                 string = collation.sectionTitles[section-countOfExtraSections]
@@ -230,12 +233,19 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         } else {
             var result:CountryInfo! = nil
             let locale = prefferedLocale()
-            if (indexPath.section == 0 && havePhoneSection) {
+            if (indexPath.section == 0 && havePhoneSection && haveNetworkSection) {
+            
                 let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:phoneIdModel.isoCountryCode!)!;
                 result = CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCode!, code: phoneIdModel.isoCountryCode!)
-            } else if (indexPath.section == 1 && haveNetworkSection) {
-                let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:phoneIdModel.isoCountryCodeSim!)!;
-                result = CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCodeSim!, code: phoneIdModel.isoCountryCode!)
+            
+            } else if (indexPath.section < countOfExtraSections) {
+                
+                let iso:String = phoneIdModel.isoCountryCodeSim != nil ?phoneIdModel.isoCountryCodeSim! : phoneIdModel.isoCountryCode!
+                let cc:String = phoneIdModel.phoneCountryCodeSim != nil ?phoneIdModel.phoneCountryCodeSim! : phoneIdModel.phoneCountryCode!
+                
+                let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:iso)!
+                
+                result = CountryInfo(name:countryName, prefix:cc, code:iso)
             } else {
                 result = sections[indexPath.section-countOfExtraSections+1].countries[indexPath.row];
             }
