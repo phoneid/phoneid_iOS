@@ -60,7 +60,6 @@ public class LoginView: PhoneIdBaseFullscreenView{
     deinit{
         timer?.invalidate()
         timer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func setupSubviews(){
@@ -92,15 +91,15 @@ public class LoginView: PhoneIdBaseFullscreenView{
             self.loginViewDelegate?.numberInputCompleted(self.phoneIdModel)
         }
         
+        self.backgroundView.userInteractionEnabled = true
+        self.backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "resignFirstResponder"))
+        
         let subviews:[UIView] = [verifyCodeControl, numberInputControl, topText, midText, bottomText]
         
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object:nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object:nil)
     }
     
     func setupVerificationCodeControl(){
@@ -154,7 +153,7 @@ public class LoginView: PhoneIdBaseFullscreenView{
         
         c.append(NSLayoutConstraint(item: bottomText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         
-        textViewBottomConstraint = NSLayoutConstraint(item: bottomText, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -20)
+        textViewBottomConstraint = NSLayoutConstraint(item: bottomText, attribute: .Top, relatedBy: .Equal, toItem: midText, attribute: .Bottom, multiplier: 1, constant: 20)
         c.append(textViewBottomConstraint)
         
         c.append(NSLayoutConstraint(item: bottomText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant:0))
@@ -263,25 +262,13 @@ public class LoginView: PhoneIdBaseFullscreenView{
         
     }
     
-    func keyboardWillShow(sender: NSNotification) {
-        if let userInfo = sender.userInfo {
-            if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size.height {
-                textViewBottomConstraint.constant = -keyboardHeight
-                UIView.animateWithDuration(0.25, animations: { () -> Void in
-                    self.layoutIfNeeded()
-                })
-            }
-        }
-    }
-    
-    func keyboardWillHide(sender: NSNotification) {
-        textViewBottomConstraint.constant = -25
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.layoutIfNeeded()
-        })
-    }
-    
     override func closeButtonTapped(){
         loginViewDelegate?.close()
+    }
+    
+    public override func resignFirstResponder() -> Bool {
+        self.verifyCodeControl.resignFirstResponder()
+        self.numberInputControl.resignFirstResponder()
+        return super.resignFirstResponder()
     }
 }
