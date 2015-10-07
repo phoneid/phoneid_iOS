@@ -79,7 +79,7 @@ public class DefaultColorScheme : NSObject, ColorScheme{
     public var normalText:UIColor = UIColor(netHex: 0xffffff)
     public var inputText:UIColor = UIColor(netHex: 0x000000)
     public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
-    public var linkText:UIColor = UIColor(netHex: 0x133E6B)
+    public var linkText:UIColor = UIColor(netHex: 0x000000)
     public var defaultTextInputBackground:UIColor = UIColor(netHex: 0xffffff)
     public var avatarBackground:UIColor = UIColor(netHex: 0xC8C8CD)
     public var failIcon:UIColor = UIColor(netHex: 0xD0021B)
