@@ -67,10 +67,26 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
         populateCountryList()
         doOnInit()
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector:Selector("keyboardWillShow:"),
+            name:UIKeyboardWillShowNotification,
+            object:nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector:Selector("keyboardWillHide:"),
+            name:UIKeyboardWillHideNotification,
+            object:nil)
     }
     
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    
     }
     
     var haveExtraSections:  Bool{ get {return (havePhoneSection || haveNetworkSection) } }
@@ -91,7 +107,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(tableView)
-  
+
     }
     
     func searchController() -> UISearchController{
@@ -341,14 +357,16 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         let locale = prefferedLocale()
         for countryCode in countryCodeArray {
             let countryName:String = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode)!;
-            
+            var countryInfo:CountryInfo!
             let phoneUtil = NBPhoneNumberUtil.sharedInstance()
             if let resolvedCountryCode = phoneUtil.getCountryCodeForRegion(countryCode){
-                if (resolvedCountryCode != "") {
-                    let countryInfo = CountryInfo(name:countryName, prefix:"+\(resolvedCountryCode)",code:countryCode)
+                if (resolvedCountryCode != 0) {
+                    countryInfo = CountryInfo(name:countryName, prefix:"+\(resolvedCountryCode)",code:countryCode)
                     countryArray.append(countryInfo)
                 }
-            }else {
+            }
+            
+            if(countryInfo == nil){
                 print("Not present: \(countryCode) \(countryName)")
             }
         }
@@ -363,6 +381,18 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if let delegate = delegate{
             delegate.goBack()
         }
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize: CGSize = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
+                self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.tableView.contentInset = UIEdgeInsetsZero;
     }
     
 }
