@@ -87,3 +87,15 @@ internal struct NumberKey {
     static let countryCode = "country_code"
 }
 
+internal enum AuthChannels{
+    case Sms
+    case Call
+    var value:String{
+        get{
+          switch(self){
+          case Sms: return "sms"
+          case Call: return "call"}
+        }
+    }
+}
+

@@ -51,23 +51,34 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
       
         self.view = result
         self.loginView.switchToState(.NumberInput)
+        
+        self.loginView.verifyCodeControl.requestVoiceCall = {
+            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .Call, completion:{(error) -> Void in
+                if let e = error{
+                    self.presentError(e)
+                }
+            })
+        }
     }
     
     public func numberInputCompleted(model: NumberInfo){
         self.phoneIdModel = model
         phoneIdService.requestAuthenticationCode(phoneIdModel, completion: {(error) -> Void in
-            
-            if(error == nil){
-                self.loginView.switchToState(.CodeVerification)
+            if let e = error{
+                self.presentError(e)
             }else{
-                let bundle = self.phoneIdService.componentFactory.localizationBundle()
-                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
-                
-                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
-                
-                self.presentViewController(alert, animated: false, completion: nil)
+                self.loginView.switchToState(.CodeVerification)
             }
-        });
+        })
+    }
+    
+    func presentError(error:NSError){
+        let bundle = self.phoneIdService.componentFactory.localizationBundle()
+        let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
+        
+        self.presentViewController(alert, animated: false, completion: nil)
     }
     
     public func goBack() {

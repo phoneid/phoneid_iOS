@@ -108,7 +108,7 @@ public class PhoneIdService: NSObject {
     }
     
     // MARK: - API
-    func requestAuthenticationCode(info: NumberInfo, completion:RequestCompletion) {
+    func requestAuthenticationCode(info: NumberInfo, channel:AuthChannels = .Sms, completion:RequestCompletion) {
         
         let validation = info.isValid()
         guard validation.result else{
@@ -118,8 +118,14 @@ public class PhoneIdService: NSObject {
         }
         
         let number = info.e164Format()!
+
+        var params = ["number":number,"client_id":clientId!, "channel":channel.value]
         
-        self.post(Endpoints.RequestCode.endpoint(), params:["number":number,"client_id":clientId!], completion: { response in
+        if let lang = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String{
+          params["lang"] = NSLocale.canonicalLanguageIdentifierFromString(lang)
+        }
+
+        self.post(Endpoints.RequestCode.endpoint(), params:params, completion: { response in
             
             var error:NSError?=nil
             if let responseError = response.error {

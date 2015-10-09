@@ -197,10 +197,10 @@ public class LoginView: PhoneIdBaseFullscreenView{
     
     func setupHintTimer(){
         
-        
         let fireDate = NSDate(timeIntervalSinceNow: 30)
         timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+        self.verifyCodeControl.setupHintTimer()
         
     }
     
@@ -222,8 +222,6 @@ public class LoginView: PhoneIdBaseFullscreenView{
     func indicateCodeVerification(){
         verifyCodeControl.reset()
         verifyCodeControl.becomeFirstResponder()
-        verifyCodeControl.codeText.inputAccessoryView = nil
-        verifyCodeControl.codeText.reloadInputViews()
         
         topText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
         midText.attributedText = nil
@@ -243,24 +241,9 @@ public class LoginView: PhoneIdBaseFullscreenView{
     }
     
     func timerFired(){
-        midText.attributedText = localizedStringAttributed("html-label.when.code.not.received")
-        
-        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
-        
-        let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .Plain, target: self, action: "callMeButtonTapped")
-        
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        
-        toolBar.items = [space, callMeButton]
-        
-        verifyCodeControl.codeText.inputAccessoryView = toolBar
-        verifyCodeControl.codeText.reloadInputViews()
-        
+        midText.attributedText = localizedStringAttributed("html-label.when.code.not.received")                
     }
-    
-    func callMeButtonTapped(){
-        
-    }
+
     
     override func closeButtonTapped(){
         loginViewDelegate?.close()

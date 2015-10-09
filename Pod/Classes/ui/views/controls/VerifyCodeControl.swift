@@ -30,9 +30,11 @@ class VerifyCodeControl: PhoneIdBaseView {
     private(set) var statusImage: UIImageView!
     
     var verificationCodeDidCahnge: ((code:String)->Void)?
+    var requestVoiceCall: (()->Void)?
     var backButtonTapped: (()->Void)?
     
     let maxVerificationCodeLength = 6
+     private var timer:NSTimer!
     
     override func setupSubviews(){
         super.setupSubviews()
@@ -68,6 +70,11 @@ class VerifyCodeControl: PhoneIdBaseView {
             self.addSubview(element)
         }
         
+    }
+    
+    deinit{
+        timer?.invalidate()
+        timer = nil
     }
     
     override func setupLayout(){
@@ -180,7 +187,10 @@ class VerifyCodeControl: PhoneIdBaseView {
     
     func reset(){
         codeText.text=""
+        codeText.inputAccessoryView = nil
+        codeText.reloadInputViews()
         textFieldDidChange(codeText)
+        timer?.invalidate()
     }
     
     override func resignFirstResponder() -> Bool {
@@ -189,6 +199,32 @@ class VerifyCodeControl: PhoneIdBaseView {
     
     override func becomeFirstResponder() -> Bool {
         return codeText.becomeFirstResponder()
+    }
+    
+    func setupHintTimer(){
+        
+        timer?.invalidate()
+        let fireDate = NSDate(timeIntervalSinceNow: 5)
+        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+        
+    }
+    
+    func timerFired(){
+        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
+        
+        let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .Plain, target: self, action: "callMeButtonTapped")
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.items = [space, callMeButton]
+        codeText.resignFirstResponder()
+        codeText.inputAccessoryView = toolBar
+        codeText.becomeFirstResponder()
+    }
+    
+    func callMeButtonTapped(){
+        requestVoiceCall?()
     }
     
 }
