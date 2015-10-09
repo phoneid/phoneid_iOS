@@ -204,7 +204,7 @@ class VerifyCodeControl: PhoneIdBaseView {
     func setupHintTimer(){
         
         timer?.invalidate()
-        let fireDate = NSDate(timeIntervalSinceNow: 5)
+        let fireDate = NSDate(timeIntervalSinceNow: 30)
         timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
         
