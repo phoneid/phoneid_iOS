@@ -8,10 +8,12 @@
 **phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code 
 
 **Fullscreen mode:**
+
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif)
 
 **Compact mode:**
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpseck5shrk.gif)
+
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsipwil33c.gif)
 
 ## Usage
 
