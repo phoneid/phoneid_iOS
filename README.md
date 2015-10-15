@@ -111,7 +111,22 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = { (token) ->Void in
 ``` 
 
 ## UI Customization
-You can easily customize colors and background of phone.id UI.
+
+Color scheme of phone.id UI can be easily customized.
+This can be achieved via ColorScheme object. ColorScheme object defines set of named colors used inside of phone.id.
+
+All fields of ColorScheme objects are UIColor's. 
+This fields are separated on two groups: common colors and specific colors.
+
+Common colors are used to define main color theme of phone.id UI and provide default values for specific colors.
+Common colors never user directly inside of phone.id, they only provide default values for specific color fields.
+
+This separation was done in order to to provide more flexible way of theming:
+You can change only main colors - and there is no need to change every UI control color, however,
+if you need to set specific colors for some UI controls you can overrite default values.
+
+You can see detailed mapping of fields of ColorScheme to colors of UI controls here 
+[![guide](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)
 
 Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
 In customize colors&background can be done in two steps:
@@ -153,26 +168,6 @@ class CustomComponentFactory:DefaultComponentFactory{
 ```swift
 PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
 ``` 
-
-Cutomization results:
-
-Color scheme of phone.id UI can be customized.
-This can be achieved via ColorScheme object.
-
-ColorScheme object defines set of named colors used inside of phone.id.
-
-All fields of ColorScheme objects are UIColor's. 
-This fields are separated on two groups: common colors and specific colors.
-
-Common colors are used to define main color theme of phone.id UI and provide default values for specific colors.
-Common colors never user directly inside of phone.id, they only provide default values for specific color fields.
-
-This separation was done to provide more flexible way of theming:
-You can change only main colors - and there is no need to change every UI control color, however,
-if you need to set specific colors for some UI controls you can overrite default values.
-
-You can see detailed mapping of fields of ColorScheme to colors of UI controls here 
-[![guide](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)
 
 
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Oct%2015%202015%201.36.47%20PM_zpssahlxjpo.png)
