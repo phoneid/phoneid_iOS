@@ -55,36 +55,141 @@ public extension Customizable{
     
 }
 
-public protocol ColorScheme: NSObjectProtocol{
-    var mainAccent:UIColor {get set}
-    var placeholderText:UIColor {get set}
-    var disabledText:UIColor {get set}
-    var selectedText:UIColor {get set}
-    var normalText:UIColor {get set}
-    var inputText:UIColor {get set}
-    var linkText:UIColor {get set}
-    var buttonTextColor:UIColor {get set}
-    var defaultTextInputBackground:UIColor {get set}
-    var avatarBackground:UIColor {get set}
-    var failIcon:UIColor {get set}
-    var successIcon:UIColor {get set}
-    var headerBackground:UIColor {get set}
-}
-
-public class DefaultColorScheme : NSObject, ColorScheme{
+public class ColorScheme : NSObject{
     public var mainAccent:UIColor = UIColor(netHex: 0x009688)
-    public var placeholderText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var disabledText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var selectedText:UIColor = UIColor(netHex: 0x000000)
-    public var normalText:UIColor = UIColor(netHex: 0xffffff)
-    public var inputText:UIColor = UIColor(netHex: 0x000000)
-    public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
-    public var linkText:UIColor = UIColor(netHex: 0x000000)
-    public var defaultTextInputBackground:UIColor = UIColor(netHex: 0xffffff)
-    public var avatarBackground:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var failIcon:UIColor = UIColor(netHex: 0xD0021B)
-    public var successIcon:UIColor = UIColor(netHex: 0x037AFF)
-    public var headerBackground:UIColor = UIColor(netHex: 0x00796B)
+    public var extraAccent:UIColor = UIColor(netHex: 0x00796B)
+    public var lightText:UIColor = UIColor(netHex: 0xFFFFFF)
+    public var darkText:UIColor = UIColor(netHex: 0x000000)
+    public var disabledText:UIColor = UIColor(netHex: 0xB0B0B0)
+    public var inputBackground:UIColor = UIColor(netHex: 0xFFFFFF)
+    public var lightBackground:UIColor = UIColor(netHex: 0xEFEFF4)
+    public var activityIndicator:UIColor = UIColor(netHex: 0x203034).colorWithAlphaComponent(0.75)
+    
+    public var success:UIColor = UIColor(netHex: 0x037AFF)
+    public var fail:UIColor = UIColor(netHex: 0xD0021B)
+    
+    /// Colors of phone.id button
+    public var activityIndicatorInitial:UIColor!
+    public var buttonSeparator:UIColor!
+    
+    public var buttonDisabledBackground:UIColor!
+    public var buttonNormalBackground:UIColor!
+    public var buttonHightlightedBackground:UIColor!
+    
+    public var buttonDisabledImage:UIColor!
+    public var buttonNormalImage:UIColor!
+    public var buttonHightlightedImage:UIColor!
+    
+    public var buttonDisabledText:UIColor!
+    public var buttonNormalText:UIColor!
+    public var buttonHightlightedText:UIColor!
+    
+    /// Colors common for fullscreen mode
+    public var mainViewBackground:UIColor!
+    public var labelTopNoteText:UIColor!
+    public var labelMidNoteText:UIColor!
+    public var labelBottomNoteText:UIColor!
+    public var labelBottomNoteLinkText:UIColor!
+    public var headerBackground:UIColor!
+    public var headerTitleText:UIColor!
+    public var headerButtonText:UIColor!
+   
+    
+    /// Colors of number input
+    public var activityIndicatorNumber:UIColor!
+    public var buttonOKNormalText:UIColor!
+    public var buttonOKHightlightedText:UIColor!
+    public var buttonOKDisabledText:UIColor!
+    public var inputPrefixText:UIColor!
+    public var inputNumberText:UIColor!
+    public var inputNumberPlaceholderText:UIColor!
+    public var inputNumberBackground:UIColor!
+    
+    /// Colors of verification code input
+    public var activityIndicatorCode:UIColor!
+    public var inputCodeBackbutton:UIColor!
+    public var inputCodePlaceholder:UIColor!
+    public var inputCodeText:UIColor!
+    public var inputCodeBackground:UIColor!
+    public var inputCodeFailIcon:UIColor!
+    public var inputCodeSuccessIcon:UIColor!
+    
+    /// Colors of country-code picker
+    public var labelPrefixText:UIColor!
+    public var labelPrefixBackground:UIColor!
+    public var sectionIndexText:UIColor!
+    
+    /// Colors of profile
+    public var profileCommentSectionText:UIColor!
+    public var profileCommentSectionBackground:UIColor!
+    public var profileDataSectionBackground:UIColor!
+    public var profilePictureSectionBackground:UIColor!
+    public var profilePictureBackground:UIColor!
+    
+    override init() {
+        super.init()
+        applyDefaultColors()
+    }
+    
+    public func applyDefaultColors(){
+        /// Colors of phone.id button
+        activityIndicatorInitial = activityIndicator
+        buttonSeparator = darkText.colorWithAlphaComponent(0.12)
+        
+        buttonDisabledBackground = lightBackground
+        buttonNormalBackground = mainAccent
+        buttonHightlightedBackground = extraAccent
+        
+        buttonDisabledImage = disabledText
+        buttonNormalImage = lightText
+        buttonHightlightedImage = disabledText
+        
+        buttonDisabledText = disabledText
+        buttonNormalText = lightText
+        buttonHightlightedText = disabledText
+        
+        /// Colors common for fullscreen mode
+        mainViewBackground = mainAccent
+        labelTopNoteText = lightText
+        labelMidNoteText = lightText
+        labelBottomNoteText = darkText
+        labelBottomNoteLinkText = darkText
+        headerBackground = extraAccent
+        headerTitleText = lightText
+        headerButtonText = lightText
+        
+        /// Colors of number input
+        activityIndicatorNumber = activityIndicator
+        buttonOKNormalText = mainAccent
+        buttonOKHightlightedText = extraAccent
+        buttonOKDisabledText = disabledText
+        inputPrefixText = mainAccent
+        inputNumberText = darkText
+        inputNumberPlaceholderText = disabledText
+        inputNumberBackground = inputBackground
+        
+        /// Colors of verification code input
+        activityIndicatorCode = activityIndicator
+        inputCodeBackbutton = mainAccent
+        inputCodePlaceholder = mainAccent
+        inputCodeText = darkText
+        inputCodeBackground = inputBackground
+        inputCodeFailIcon = fail
+        inputCodeSuccessIcon = success
+        
+        /// Colors of country-code picker
+        labelPrefixText = lightText
+        labelPrefixBackground = mainAccent
+        sectionIndexText = mainAccent
+        
+        /// Colors of profile
+        profileCommentSectionText = darkText
+        profileCommentSectionBackground = lightBackground
+        profileDataSectionBackground = inputBackground
+        profilePictureSectionBackground = mainAccent
+        profilePictureBackground = inputBackground
+    
+    }
 }
 
 public extension ColorScheme {

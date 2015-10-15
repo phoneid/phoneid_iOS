@@ -214,7 +214,7 @@ public class LoginView: PhoneIdBaseFullscreenView{
         midText.attributedText = localizedStringAttributed("html-label.we.will.send.sms")
         bottomText.attributedText = localizedStringAttributed("html-label.terms.and.conditions")
         
-        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15),NSForegroundColorAttributeName:colorScheme.linkText]
+        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15),NSForegroundColorAttributeName:colorScheme.labelBottomNoteLinkText]
         needsUpdateConstraints()
         bottomText.hidden = false
     }
@@ -225,7 +225,7 @@ public class LoginView: PhoneIdBaseFullscreenView{
         
         topText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
         midText.attributedText = nil
-        midText.textColor = colorScheme.normalText
+        midText.textColor = colorScheme.labelMidNoteText
         bottomText.hidden = true
         setupHintTimer()
     }

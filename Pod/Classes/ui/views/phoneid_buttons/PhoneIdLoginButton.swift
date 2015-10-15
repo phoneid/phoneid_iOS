@@ -22,16 +22,19 @@
 import Foundation
 
 
-@IBDesignable public class PhoneIdLoginButton: UIView, Customizable {
+@IBDesignable public class PhoneIdLoginButton: UIControl, Customizable {
     
     public var colorScheme: ColorScheme!
     public var localizationBundle:NSBundle!
     public var localizationTableName:String!
+    
     public var phoneNumberE164:String!
     
-    private(set) var imageView:UIImageView!
-    private(set) var titleLabel:UILabel!
-    private(set) var separatorView:UIView!
+    
+    public private(set) var imageView:UIImageView!
+    public private(set) var titleLabel:UILabel!
+    public private(set) var separatorView:UIView!
+    public private(set) var activityIndicator:UIActivityIndicatorView!
     
     private var gestureRecognizer:UITapGestureRecognizer!
     
@@ -39,9 +42,72 @@ import Foundation
     var phoneIdService: PhoneIdService! { return PhoneIdService.sharedInstance}
     var phoneIdComponentFactory: ComponentFactory! { return phoneIdService.componentFactory}
     
-    var activityIndicator:UIActivityIndicatorView!
+    
+    private var titleColors:[UInt:UIColor] = [:];
+    private var imageColors:[UInt:UIColor] = [:];
+    private var backgroundColors:[UInt:UIColor] = [:];
     
     
+    public func setTitleColor(color: UIColor?, forState state: UIControlState){
+        titleColors[state.rawValue] = color
+        if(state==self.state){
+            titleLabel?.textColor = color
+        }
+    }
+    
+    public func setImageColor(color: UIColor?, forState state: UIControlState){
+        imageColors[state.rawValue] = color
+        if(state==self.state){
+            imageView?.tintColor = color
+        }
+    }
+    
+    public func setBackgroundColor(color: UIColor?, forState state: UIControlState){
+        backgroundColors[state.rawValue] = color
+        if(state==self.state){
+            backgroundColor = color
+        }
+    }
+    
+    override public var enabled : Bool{ didSet{ updateColors() } }
+    override public var highlighted : Bool{ didSet{ updateColors() } }
+    
+    func setupDefaultColors(){
+        backgroundColors = [
+            UIControlState.Normal.rawValue:colorScheme.buttonNormalBackground,
+            UIControlState.Disabled.rawValue:colorScheme.buttonDisabledBackground,
+            UIControlState.Highlighted.rawValue:colorScheme.buttonHightlightedBackground,
+            UIControlState.Selected.rawValue:colorScheme.buttonNormalBackground
+        ]
+        imageColors = [
+            UIControlState.Normal.rawValue:colorScheme.buttonNormalImage,
+            UIControlState.Disabled.rawValue:colorScheme.buttonDisabledImage,
+            UIControlState.Highlighted.rawValue:colorScheme.buttonHightlightedImage,
+            UIControlState.Selected.rawValue:colorScheme.buttonNormalImage
+        ]
+        titleColors = [
+            UIControlState.Normal.rawValue:colorScheme.buttonNormalText,
+            UIControlState.Disabled.rawValue:colorScheme.buttonDisabledText,
+            UIControlState.Highlighted.rawValue:colorScheme.buttonHightlightedText,
+            UIControlState.Selected.rawValue:colorScheme.buttonNormalText
+        ]
+        
+    }
+    
+    func updateColors(){
+        
+        var clearState:UIControlState = .Normal;
+        if(self.state.contains(UIControlState.Disabled)){
+            clearState = UIControlState.Disabled
+        }else if(self.state.contains(UIControlState.Highlighted)){
+            clearState = UIControlState.Highlighted
+        }
+        
+        
+        backgroundColor = backgroundColors[clearState.rawValue]
+        imageView.tintColor = imageColors[clearState.rawValue]
+        titleLabel.textColor = titleColors[clearState.rawValue]
+    }
     
     // init from viewcontroller
     required override public init(frame: CGRect) {
@@ -77,15 +143,14 @@ import Foundation
         
         self.accessibilityActivate()
         
-        imageView = UIImageView(image: UIImage(namedInPhoneId: "phone")!)
+        imageView = UIImageView(image: UIImage(namedInPhoneId: "phone")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate))
+        
         titleLabel = UILabel()
         separatorView = UIView()
-        separatorView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.12)
+        separatorView.backgroundColor = colorScheme.buttonSeparator
         
-        titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.systemFontOfSize(20)
         
-        backgroundColor = colorScheme.mainAccent
         layer.cornerRadius = 3
         layer.masksToBounds = true
         
@@ -101,6 +166,10 @@ import Foundation
         setupLayout()
         
         configureButton(phoneIdService.isLoggedIn)
+        
+        setupDefaultColors()
+        
+        updateColors()
         
     }
     
@@ -165,8 +234,6 @@ import Foundation
     
     func loginTouched() {
         
-        indicateTap(false)
-        
         self.userInteractionEnabled = false
         
         if(phoneIdService.clientId == nil){
@@ -201,7 +268,6 @@ import Foundation
     
     
     func logoutTouched() {
-        indicateTap(false)
         phoneIdService.logout()
     }
     
@@ -230,18 +296,6 @@ import Foundation
     
     func doOnlogout() -> Void {
         configureButton(phoneIdService.isLoggedIn)
-    }
-    
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        indicateTap(true)
-    }
-    
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        indicateTap(false)
-    }
-    
-    func indicateTap(pressed:Bool){
-        titleLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(pressed ? 0.7 : 1)
     }
     
 }

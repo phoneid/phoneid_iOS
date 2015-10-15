@@ -117,7 +117,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
         layer.cornerRadius = 50
         
         avatarView.userInteractionEnabled = true
-        avatarView.backgroundColor = colorScheme.avatarBackground
+        avatarView.backgroundColor = colorScheme.profilePictureBackground
         
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .Date

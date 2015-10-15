@@ -83,7 +83,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
     private(set) var headerBackgroundView:UIView!
     private(set) var backgroundView:UIImageView!
     
-    func backgroundImage() -> UIImage { return phoneIdComponentFactory.defaultBackgroundImage() }
+    func backgroundImage() -> UIImage? { return phoneIdComponentFactory.defaultBackgroundImage() }
     
     var customConstraints:[NSLayoutConstraint]=[]
     
@@ -146,11 +146,12 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
     
     override func localizeAndApplyColorScheme() {
         super.localizeAndApplyColorScheme()
-        closeButton.tintColor = colorScheme.buttonTextColor
+        closeButton.tintColor = colorScheme.headerButtonText
         closeButton.accessibilityLabel = localizedString("accessibility.button.title.cancel")
         closeButton.setTitle(localizedString("button.title.cancel"), forState: .Normal)
         headerBackgroundView.backgroundColor = colorScheme.headerBackground
-        backgroundView.backgroundColor = colorScheme.mainAccent 
+        backgroundView.backgroundColor = colorScheme.mainViewBackground
+        backgroundView.image = backgroundImage()
     }
     
 }

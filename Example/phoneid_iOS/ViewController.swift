@@ -71,8 +71,16 @@ class ViewController: UIViewController {
             self.updateTokenInfoView()
         }
         
-        //customize appearence
-        //phoneId.componentFactory = CustomComponentFactory()
+        //customize phone.id button appearence
+        
+//        phoneIdButton.backgroundColor = UIColor.yellowColor()
+//        phoneIdButton.titleLabel.textColor = UIColor.darkGrayColor()
+//        phoneIdButton.imageView.tintColor = UIColor.darkGrayColor()
+//        phoneIdButton.separatorView.backgroundColor = UIColor.lightGrayColor()
+        
+//        phoneIdButton.enabled = false
+        
+ 
         
     }
     
@@ -133,18 +141,3 @@ class ViewController: UIViewController {
     
 }
 
-// customization point
-class CustomComponentFactory:DefaultComponentFactory{
-    
-    override func defaultBackgroundImage()->UIImage{
-        return UIImage(named:"background")!
-    }
-    
-    override func colorScheme()->ColorScheme{
-        let scheme = super.colorScheme()
-        scheme.mainAccent = UIColor(netHex: 0x357AAE)
-        scheme.selectedText = UIColor(netHex: 0x4192C7)
-        scheme.linkText = UIColor(netHex: 0x4192C7)
-        return scheme
-    }
-}

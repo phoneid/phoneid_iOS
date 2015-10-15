@@ -22,14 +22,49 @@
 import UIKit
 import phoneid_iOS
 
+
+
+class CustomComponentFactory:DefaultComponentFactory{
+    
+    override func defaultBackgroundImage()->UIImage?{
+        return UIImage(named:"background")!
+    }
+    
+    override func colorScheme()->ColorScheme{
+        let scheme = super.colorScheme()
+        
+        // You can change main colors
+        
+        scheme.mainAccent = UIColor(netHex: 0xAABB44)
+        scheme.extraAccent = UIColor(netHex: 0x886655)
+        scheme.success = UIColor(netHex: 0x91C1CC)
+        scheme.fail = UIColor(netHex: 0xD4556A)
+        scheme.inputBackground = UIColor(netHex: 0xEEEEDD).colorWithAlphaComponent(0.6)
+        
+        scheme.applyDefaultColors()
+        
+        // But also, if some of main colors don't fit, 
+        // you can specify your own colors for certain UI element:
+        
+        scheme.buttonNormalImage = UIColor(netHex: 0xDEEBB3)
+        scheme.buttonNormalText = UIColor(netHex: 0xDEEBB3)
+        
+        scheme.buttonHightlightedImage = UIColor(netHex: 0x886655)
+        scheme.buttonHightlightedText = UIColor(netHex: 0x886655)
+        scheme.buttonHightlightedBackground = UIColor(netHex: 0xDEEBB3)
+        
+        return scheme
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //configure client
+        PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
         PhoneIdService.sharedInstance.configureClient("TestPhoneId");
         return true
     }

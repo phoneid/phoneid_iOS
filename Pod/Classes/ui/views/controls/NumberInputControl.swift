@@ -162,16 +162,16 @@ class NumberInputControl: PhoneIdBaseView {
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
         
-        numberPlaceholderView.backgroundColor = colorScheme.defaultTextInputBackground
+        numberPlaceholderView.backgroundColor = colorScheme.inputNumberBackground
         
-        prefixButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
+        prefixButton.setTitleColor(colorScheme.inputPrefixText, forState: .Normal)
         
-        numberText.textColor = colorScheme.inputText
+        numberText.textColor = colorScheme.inputNumberText
         
-        okButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
-        okButton.setTitleColor(colorScheme.disabledText, forState: .Disabled)
+        okButton.setTitleColor(colorScheme.buttonOKNormalText, forState: .Normal)
+        okButton.setTitleColor(colorScheme.buttonOKDisabledText, forState: .Disabled)
         
-        activityIndicator.color = colorScheme.disabledText
+        activityIndicator.color = colorScheme.activityIndicatorNumber
         self.needsUpdateConstraints()
     }
     

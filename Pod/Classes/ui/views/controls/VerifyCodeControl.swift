@@ -59,9 +59,11 @@ class VerifyCodeControl: PhoneIdBaseView {
         placeholderView.layer.cornerRadius = 5
         
         backButton = UIButton()
-        backButton.setImage(UIImage(namedInPhoneId: "compact-back"), forState: .Normal)
+        let  backButtonImage = UIImage(namedInPhoneId: "compact-back")?.imageWithRenderingMode(.AlwaysTemplate)
+        backButton.setImage(backButtonImage, forState: .Normal)
         backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
         
+        backButton.tintColor = colorScheme.inputCodeBackbutton
         
         let subviews:[UIView] = [placeholderView, placeholderLabel, codeText, activityIndicator, backButton, statusImage]
         
@@ -113,12 +115,12 @@ class VerifyCodeControl: PhoneIdBaseView {
         
         super.localizeAndApplyColorScheme()
         
-        placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
-        codeText.textColor = colorScheme.inputText
+        placeholderView.backgroundColor = colorScheme.inputCodeBackground
+        codeText.textColor = colorScheme.inputCodeText
         codeText.accessibilityLabel = localizedString("accessibility.verification.input");
         backButton.accessibilityLabel = localizedString("accessibility.button.title.back");
-        placeholderLabel.textColor = colorScheme.mainAccent
-        activityIndicator.color = colorScheme.disabledText
+        placeholderLabel.textColor = colorScheme.inputCodePlaceholder
+        activityIndicator.color = colorScheme.activityIndicatorCode
         self.needsUpdateConstraints()
     }
     
@@ -165,7 +167,8 @@ class VerifyCodeControl: PhoneIdBaseView {
     
     func indicateVerificationFail(){
         activityIndicator.stopAnimating()
-        statusImage.image = UIImage(namedInPhoneId: "icon-ko")
+        statusImage.image = UIImage(namedInPhoneId: "icon-ko")?.imageWithRenderingMode(.AlwaysTemplate)
+        statusImage.tintColor = colorScheme.fail
         statusImage.hidden = false
         backButton.enabled = true
     }
@@ -173,7 +176,8 @@ class VerifyCodeControl: PhoneIdBaseView {
     func indicateVerificationSuccess(completion:(()->Void)?){
         
         activityIndicator.stopAnimating()
-        statusImage.image = UIImage(namedInPhoneId: "icon-ok")
+        statusImage.image = UIImage(namedInPhoneId: "icon-ok")?.imageWithRenderingMode(.AlwaysTemplate)
+        statusImage.tintColor = colorScheme.success;
         statusImage.hidden = false
         
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [], animations: { () -> Void in

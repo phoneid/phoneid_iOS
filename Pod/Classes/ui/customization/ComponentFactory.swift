@@ -37,7 +37,7 @@ public protocol ComponentFactory: NSObjectProtocol{
     func localizationBundle()->NSBundle
     func localizationTableName()->String
     
-    func defaultBackgroundImage()->UIImage
+    func defaultBackgroundImage()->UIImage?
 }
 
 public class DefaultComponentFactory: NSObject, ComponentFactory {
@@ -74,7 +74,7 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     }
     
     public func colorScheme()->ColorScheme{
-        let scheme = DefaultColorScheme()
+        let scheme = ColorScheme()
         return scheme
     }
     
@@ -87,8 +87,8 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
         return "Localizable"
     }
     
-    public func defaultBackgroundImage()->UIImage{
-        return UIImage(namedInPhoneId:"background")!
+    public func defaultBackgroundImage()->UIImage?{
+        return UIImage(namedInPhoneId:"background")
     }
  
 }

@@ -16,7 +16,7 @@
 //  limitations under the License.
 //
 
-"html-button.title.login.with.phone.id"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Login con phone.id</center>";
+"html-button.title.login.with.phone.id"="<center style=\"color:$buttonNormalText; font-family: Helvetica Neue; font-size:18px;\">Login con phone.id</center>";
 
 "button.title.done.keyboard"="Fatto";
 "button.title.change.country.code"="Cambia Paese";
@@ -28,10 +28,10 @@
 "accessibility.phone.number.input"="Numero di telefono";
 "accessibility.verification.input"="Codice di verifica";
 
-"html-button.title.logout"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:18px;\">Uscire</center>";
+"html-button.title.logout"="<center style=\"color:$buttonNormalText; font-family: Helvetica Neue; font-size:18px;\">Uscire</center>";
 "accessibility.button.title.logout"="Uscire";
 
-"html-access.app.with.number" = "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$normalText\">%@</b><br/>con il tuo numero di telefono:</center>";
+"html-access.app.with.number" = "<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">Accesso <b style=\"color:$labelTopNoteText\">%@</b><br/>con il tuo numero di telefono:</center>";
 
 "button.title.ok"="OK";
 "button.title.cancel"="Annullare";
@@ -42,28 +42,28 @@
 "accessibility.button.title.close"="Chiudere";
 "accessibility.button.title.back"="Indietro";
 
-"html-title.login"="<center style=\"font-weight: bold; color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
+"html-title.login"="<center style=\"font-weight: bold; color:$headerTitleText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
 
-"html-placeholder.phone.number"="<left style=\"color:$disabledText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>";
+"html-placeholder.phone.number"="<left style=\"color:$inputNumberPlaceholderText; font-family: Helvetica Neue; font-size:20px;\">Numero Di Telefono</left>";
 
-"html-label.we.will.send.sms"= "<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Ti invieremo un SMS per verificarlo.</center>";
+"html-label.we.will.send.sms"= "<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Ti invieremo un SMS per verificarlo.</center>";
 
-"html-label.terms.and.conditions"="<center style=\"font-family: Helvetica Neue; font-size:12px;\">Offerto da <a href=\"http://phone.id\">phone.id</a><br/>Continuando, sei d'accordo con <a href=\"http://phone.id\">TDS</a> e <a href=\"http://phone.id\">Informativa sulla Privacy</a></center>";
+"html-label.terms.and.conditions"="<center style=\"font-family: Helvetica Neue; font-size:12px; color:$labelBottomNoteText;\">Offerto da <a href=\"http://phone.id\">phone.id</a><br/>Continuando, sei d'accordo con <a href=\"http://phone.id\">TDS</a> e <a href=\"http://phone.id\">Informativa sulla Privacy</a></center>";
 
-"html-title.country.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Prefisso Internazionale</center>";
+"html-title.country.code"="<center style=\"color:$headerTitleText; font-family: Helvetica Neue; font-size:17px;\">Prefisso Internazionale</center>";
 
-"html-label.when.code.not.received"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:14px;\">Se non hai ricevuto il codice via SMS, si può chiamare e vi leggere il codice</center>";
+"html-label.when.code.not.received"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:14px;\">Se non hai ricevuto il codice via SMS, si può chiamare e vi leggere il codice</center>";
 
 "current.phone" = "Telefono corrente";
 "current.network" = "Rete corrente";
 
-"html-type.the.confirmation.code"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
+"html-type.the.confirmation.code"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:16px;\">Digita il codice di conferma</b>che abbiamo appena si texted:</center>";
 
-"html-logging.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Entrando ...</center>";
+"html-logging.in"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Entrando ...</center>";
 
-"html-logged.in"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Collegato con phone.id</center>";
+"html-logged.in"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Collegato con phone.id</center>";
 
-"html-loggin.failed"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:16px;\">Il codice digitato è diverso<br/> da quello che abbiamo trasmesso voi.<br/><br/>Correggere il codice, oppure premere indietro e controllare il vostro numero di telefono.</center>";
+"html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Il codice digitato è diverso<br/> da quello che abbiamo trasmesso voi.<br/><br/>Correggere il codice, oppure premere indietro e controllare il vostro numero di telefono.</center>";
 
 "profile.name.placeholder"="Nome (e Cognome)";
 "profile.birthday.placeholder"="Data di nascita";
@@ -74,12 +74,12 @@
 
 "phone.id.needs.access.to.your.contacts"="Impossibile caricare contatti. Si prega di consentire di accedere ypur phone.id contatti in App Impostazioni";
 
-"html-button.title.change.picture"="<center style=\"color:$mainAccent; font-family: Helvetica Neue; font-size:18px;\">CAMBIA IMMAGINE</center>";
-"html-button.title.edit.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Modifica</center>";
-"html-button.title.save.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:18px;\">Salva</center>";
-"html-title.public.profile"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">Profilo pubblico</center>";
-"html-label.tap.to.cahnge"="<center style=\"color:$buttonTextColor; font-family: Helvetica Neue; font-size:17px;\">Toccare per modificare foto</center>";
-"html-label.profile.view.visibility.hint"="<center style=\"color:$normalText; font-family: Helvetica Neue; font-size:17px;\">I tuoi amici che hanno il tuo numero di telefono della propria rubrica vi vedranno con il nome e l'immagine che hanno di te. <br/> Altri utenti che non hanno le informazioni vedrà il nome e la foto del tuo profilo pubblico.</center>";
+"html-button.title.change.picture"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">CAMBIA IMMAGINE</center>";
+"html-button.title.edit.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Modifica</center>";
+"html-button.title.save.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Salva</center>";
+"html-title.public.profile"="<center style=\"color:$headerTitleText; font-family: Helvetica Neue; font-size:17px;\">Profilo pubblico</center>";
+"html-label.tap.to.cahnge"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:17px;\">Toccare per modificare foto</center>";
+"html-label.profile.view.visibility.hint"="<center style=\"color:$profileCommentSectionText; font-family: Helvetica Neue; font-size:17px;\">I tuoi amici che hanno il tuo numero di telefono della propria rubrica vi vedranno con il nome e l'immagine che hanno di te. <br/> Altri utenti che non hanno le informazioni vedrà il nome e la foto del tuo profilo pubblico.</center>";
 
 "alert.title.select.image"="Scegli un'immagine da";
 "alert.button.title.camera"="fotocamera";
