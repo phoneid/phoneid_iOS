@@ -64,7 +64,7 @@
 
 "html-logged.in"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Logged in with phone.id</center>";
 
-"html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and<br/>check your phone number.</center>";
+"html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and check your phone number.</center>";
 
 "profile.name.placeholder"="Name (and Surname)";
 "profile.birthday.placeholder"="Date of Birth";

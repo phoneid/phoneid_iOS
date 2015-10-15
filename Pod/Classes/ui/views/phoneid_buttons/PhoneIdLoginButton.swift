@@ -106,7 +106,8 @@ import Foundation
         
         backgroundColor = backgroundColors[clearState.rawValue]
         imageView.tintColor = imageColors[clearState.rawValue]
-        titleLabel.textColor = titleColors[clearState.rawValue]
+        titleLabel.textColor = titleColors[clearState.rawValue]        
+        activityIndicator.color = colorScheme.activityIndicatorInitial
     }
     
     // init from viewcontroller

@@ -22,8 +22,6 @@
 import UIKit
 import phoneid_iOS
 
-
-
 class CustomComponentFactory:DefaultComponentFactory{
     
     override func defaultBackgroundImage()->UIImage?{
@@ -34,24 +32,20 @@ class CustomComponentFactory:DefaultComponentFactory{
         let scheme = super.colorScheme()
         
         // You can change main colors
+        scheme.mainAccent = UIColor(hex: 0xAABB44)
+        scheme.extraAccent = UIColor(hex: 0x886655)
+        scheme.success = UIColor(hex: 0x91C1CC)
+        scheme.fail = UIColor(hex: 0xD4556A)
+        scheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
         
-        scheme.mainAccent = UIColor(netHex: 0xAABB44)
-        scheme.extraAccent = UIColor(netHex: 0x886655)
-        scheme.success = UIColor(netHex: 0x91C1CC)
-        scheme.fail = UIColor(netHex: 0xD4556A)
-        scheme.inputBackground = UIColor(netHex: 0xEEEEDD).colorWithAlphaComponent(0.6)
+        scheme.applyCommonColors()
         
-        scheme.applyDefaultColors()
-        
-        // But also, if some of main colors don't fit, 
+        // But also, if some of main colors don't fit to your color solution,
         // you can specify your own colors for certain UI element:
-        
-        scheme.buttonNormalImage = UIColor(netHex: 0xDEEBB3)
-        scheme.buttonNormalText = UIColor(netHex: 0xDEEBB3)
-        
-        scheme.buttonHightlightedImage = UIColor(netHex: 0x886655)
-        scheme.buttonHightlightedText = UIColor(netHex: 0x886655)
-        scheme.buttonHightlightedBackground = UIColor(netHex: 0xDEEBB3)
+
+        scheme.buttonHightlightedImage = UIColor(hex: 0x778230)
+        scheme.buttonHightlightedText = UIColor(hex: 0x778230)
+        scheme.buttonHightlightedBackground = UIColor(hex: 0xBBC86A)
         
         return scheme
     }
@@ -62,35 +56,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        //configure client
-        PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+    func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        // configure phone.id
+            
+        // unkomment to see UI theming
+        // PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+        
         PhoneIdService.sharedInstance.configureClient("TestPhoneId");
         return true
     }
-
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
 }
 

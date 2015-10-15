@@ -69,18 +69,7 @@ class ViewController: UIViewController {
         // SDK calls this block on logout
         phoneId.phoneIdDidLogout = { (token) ->Void in
             self.updateTokenInfoView()
-        }
-        
-        //customize phone.id button appearence
-        
-//        phoneIdButton.backgroundColor = UIColor.yellowColor()
-//        phoneIdButton.titleLabel.textColor = UIColor.darkGrayColor()
-//        phoneIdButton.imageView.tintColor = UIColor.darkGrayColor()
-//        phoneIdButton.separatorView.backgroundColor = UIColor.lightGrayColor()
-        
-//        phoneIdButton.enabled = false
-        
- 
+        } 
         
     }
     

@@ -56,35 +56,39 @@ public extension Customizable{
 }
 
 public class ColorScheme : NSObject{
-    public var mainAccent:UIColor = UIColor(netHex: 0x009688)
-    public var extraAccent:UIColor = UIColor(netHex: 0x00796B)
-    public var lightText:UIColor = UIColor(netHex: 0xFFFFFF)
-    public var darkText:UIColor = UIColor(netHex: 0x000000)
-    public var disabledText:UIColor = UIColor(netHex: 0xB0B0B0)
-    public var inputBackground:UIColor = UIColor(netHex: 0xFFFFFF)
-    public var lightBackground:UIColor = UIColor(netHex: 0xEFEFF4)
-    public var activityIndicator:UIColor = UIColor(netHex: 0x203034).colorWithAlphaComponent(0.75)
+    // MARK: Common colors defining color scheme
+    public var mainAccent:UIColor = UIColor(hex: 0x009688)
+    public var extraAccent:UIColor = UIColor(hex: 0x00796B)
+    public var lightText:UIColor = UIColor(hex: 0xFFFFFF)
+    public var darkText:UIColor = UIColor(hex: 0x000000)
+    public var disabledText:UIColor = UIColor(hex: 0xB0B0B0)
+    public var inputBackground:UIColor = UIColor(hex: 0xFFFFFF)
+    public var diabledBackground:UIColor = UIColor(hex: 0xEFEFF4)
+    public var activityIndicator:UIColor = UIColor(hex: 0x203034).colorWithAlphaComponent(0.75)
     
-    public var success:UIColor = UIColor(netHex: 0x037AFF)
-    public var fail:UIColor = UIColor(netHex: 0xD0021B)
+    public var success:UIColor = UIColor(hex: 0x037AFF)
+    public var fail:UIColor = UIColor(hex: 0xD0021B)
     
-    /// Colors of phone.id button
+    // MARK: Specific colors: phone.id button
     public var activityIndicatorInitial:UIColor!
     public var buttonSeparator:UIColor!
     
+    // phone.id button background
     public var buttonDisabledBackground:UIColor!
     public var buttonNormalBackground:UIColor!
     public var buttonHightlightedBackground:UIColor!
     
+    // phone.id button image
     public var buttonDisabledImage:UIColor!
     public var buttonNormalImage:UIColor!
     public var buttonHightlightedImage:UIColor!
     
+    // phone.id button text
     public var buttonDisabledText:UIColor!
     public var buttonNormalText:UIColor!
     public var buttonHightlightedText:UIColor!
     
-    /// Colors common for fullscreen mode
+    // MARK: Specific colors: fullscreen mode
     public var mainViewBackground:UIColor!
     public var labelTopNoteText:UIColor!
     public var labelMidNoteText:UIColor!
@@ -93,9 +97,8 @@ public class ColorScheme : NSObject{
     public var headerBackground:UIColor!
     public var headerTitleText:UIColor!
     public var headerButtonText:UIColor!
-   
     
-    /// Colors of number input
+    // MARK: Specific colors: related to number input
     public var activityIndicatorNumber:UIColor!
     public var buttonOKNormalText:UIColor!
     public var buttonOKHightlightedText:UIColor!
@@ -105,21 +108,23 @@ public class ColorScheme : NSObject{
     public var inputNumberPlaceholderText:UIColor!
     public var inputNumberBackground:UIColor!
     
-    /// Colors of verification code input
+    // MARK: Specific colors: related to code verification
     public var activityIndicatorCode:UIColor!
-    public var inputCodeBackbutton:UIColor!
+    public var inputCodeBackbuttonNormal:UIColor!
+    public var inputCodeBackbuttonDisabled:UIColor!
     public var inputCodePlaceholder:UIColor!
     public var inputCodeText:UIColor!
     public var inputCodeBackground:UIColor!
     public var inputCodeFailIcon:UIColor!
     public var inputCodeSuccessIcon:UIColor!
     
-    /// Colors of country-code picker
+    // MARK: Specific colors: related to country-code picker
     public var labelPrefixText:UIColor!
+    public var labelCountryNameText:UIColor!
     public var labelPrefixBackground:UIColor!
     public var sectionIndexText:UIColor!
     
-    /// Colors of profile
+    // MARK: Specific colors: related to profile
     public var profileCommentSectionText:UIColor!
     public var profileCommentSectionBackground:UIColor!
     public var profileDataSectionBackground:UIColor!
@@ -128,15 +133,15 @@ public class ColorScheme : NSObject{
     
     override init() {
         super.init()
-        applyDefaultColors()
+        applyCommonColors()
     }
     
-    public func applyDefaultColors(){
+    public func applyCommonColors(){
         /// Colors of phone.id button
         activityIndicatorInitial = activityIndicator
         buttonSeparator = darkText.colorWithAlphaComponent(0.12)
         
-        buttonDisabledBackground = lightBackground
+        buttonDisabledBackground = diabledBackground
         buttonNormalBackground = mainAccent
         buttonHightlightedBackground = extraAccent
         
@@ -170,7 +175,8 @@ public class ColorScheme : NSObject{
         
         /// Colors of verification code input
         activityIndicatorCode = activityIndicator
-        inputCodeBackbutton = mainAccent
+        inputCodeBackbuttonNormal = mainAccent
+        inputCodeBackbuttonDisabled = disabledText
         inputCodePlaceholder = mainAccent
         inputCodeText = darkText
         inputCodeBackground = inputBackground
@@ -179,12 +185,13 @@ public class ColorScheme : NSObject{
         
         /// Colors of country-code picker
         labelPrefixText = lightText
+        labelCountryNameText = darkText
         labelPrefixBackground = mainAccent
         sectionIndexText = mainAccent
         
         /// Colors of profile
         profileCommentSectionText = darkText
-        profileCommentSectionBackground = lightBackground
+        profileCommentSectionBackground = diabledBackground
         profileDataSectionBackground = inputBackground
         profilePictureSectionBackground = mainAccent
         profilePictureBackground = inputBackground
@@ -221,8 +228,8 @@ public extension UIColor {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
     
-    public convenience init(netHex:Int) {
-        self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff)
+    public convenience init(hex:Int) {
+        self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
     
     public func hexString() -> String {

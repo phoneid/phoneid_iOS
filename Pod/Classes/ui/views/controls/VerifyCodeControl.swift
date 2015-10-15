@@ -59,11 +59,12 @@ class VerifyCodeControl: PhoneIdBaseView {
         placeholderView.layer.cornerRadius = 5
         
         backButton = UIButton()
+        
         let  backButtonImage = UIImage(namedInPhoneId: "compact-back")?.imageWithRenderingMode(.AlwaysTemplate)
         backButton.setImage(backButtonImage, forState: .Normal)
-        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
         
-        backButton.tintColor = colorScheme.inputCodeBackbutton
+        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
+        backButton.tintColor = colorScheme.inputCodeBackbuttonNormal
         
         let subviews:[UIView] = [placeholderView, placeholderLabel, codeText, activityIndicator, backButton, statusImage]
         
@@ -147,14 +148,14 @@ class VerifyCodeControl: PhoneIdBaseView {
         if (textField.text!.utf16.count == maxVerificationCodeLength) {
             
             activityIndicator.startAnimating()
-            backButton.enabled = false
+            backButtonEnable(false)
             
         } else {
             
             activityIndicator.stopAnimating()
             phoneIdService.abortCall()
             statusImage.hidden = true
-            backButton.enabled = true
+            backButtonEnable(true)
         }
         
         self.verificationCodeDidCahnge?(code: textField.text!)
@@ -170,7 +171,12 @@ class VerifyCodeControl: PhoneIdBaseView {
         statusImage.image = UIImage(namedInPhoneId: "icon-ko")?.imageWithRenderingMode(.AlwaysTemplate)
         statusImage.tintColor = colorScheme.fail
         statusImage.hidden = false
-        backButton.enabled = true
+        backButtonEnable(true)
+    }
+    
+    func backButtonEnable(value:Bool){
+        backButton.enabled = value
+        backButton.tintColor = value ? colorScheme.inputCodeBackbuttonNormal : colorScheme.inputCodeBackbuttonDisabled
     }
     
     func indicateVerificationSuccess(completion:(()->Void)?){

@@ -79,6 +79,7 @@ class CountryCodeCell:UITableViewCell{
     func applyColorScheme(colorScheme: ColorScheme){
         self.prefixLabel.backgroundColor = colorScheme.labelPrefixBackground
         prefixLabel.textColor = colorScheme.labelPrefixText
+        self.countryLabel.textColor = colorScheme.labelCountryNameText
     }
     
     required init(coder aDecoder: NSCoder) {

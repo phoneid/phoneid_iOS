@@ -140,8 +140,8 @@ class CustomComponentFactory:DefaultComponentFactory{
     override func colorScheme()->ColorScheme{
         let scheme = super.colorScheme()
         TODO: FIX DOCUMENTATION
-        //scheme.mainAccent = UIColor(netHex: 0x357AAE)
-        //scheme.linkText = UIColor(netHex: 0x4192C7)
+        //scheme.mainAccent = UIColor(hex: 0x357AAE)
+        //scheme.linkText = UIColor(hex: 0x4192C7)
         return scheme
     }
 }
