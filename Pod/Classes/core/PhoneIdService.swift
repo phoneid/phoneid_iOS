@@ -263,7 +263,7 @@ public class PhoneIdService: NSObject {
         
         params["uploadfile"] = image
         self.post(endpoint, params:params) { (response) -> Void in
-            
+            completion(error: response.error)
         }
     }
     

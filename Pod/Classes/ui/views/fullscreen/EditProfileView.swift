@@ -158,7 +158,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     
     private var cells:[UITableViewCell]!
     
-    private(set) var editButton: UIButton!
+    private(set) var saveButton: UIButton!
 
     public var userInfo:UserInfo!
     
@@ -256,11 +256,11 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             return profileView
             }()
         
-        editButton = {
-            let editButton = UIButton()
-            editButton.titleLabel?.textAlignment = .Left
-            editButton.addTarget(self, action: "editTapped", forControlEvents: .TouchUpInside)
-            return editButton
+        saveButton = {
+            let saveButton = UIButton()
+            saveButton.titleLabel?.textAlignment = .Left
+            saveButton.addTarget(self, action: "saveTapped", forControlEvents: .TouchUpInside)
+            return saveButton
             }()
         
         footer = {
@@ -272,7 +272,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             return footer
         }()
         
-        let subviews:[UIView] = [titleLabel, editButton, table]
+        let subviews:[UIView] = [titleLabel, saveButton, table]
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
@@ -290,8 +290,9 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         c.append(NSLayoutConstraint(item: table, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: table, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: table, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: editButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: editButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
+        
         
         self.customConstraints += c
 
@@ -315,8 +316,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         changePicCell.textLabel!.text = localizedString("profile.change.picture")
         numberCell.textLabel!.text = localizedString("profile.phone.number")
         
-        editButton.setAttributedTitle(localizedStringAttributed("html-button.title.edit.profile"), forState: .Normal)
-        editButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Selected)
+        saveButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Normal)
 
         titleLabel.text = localizedString("title.public.profile")
         titleLabel.textColor = self.colorScheme.headerTitleText
@@ -333,42 +333,15 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
          delegate?.changePhotoButtonTapped()
     }
     
-    func editTapped(){
-        
-        //        editButton.selected = !editButton.selected
-        //        //        birthdayText.enabled = editButton.selected
-        //        nameText.enabled = editButton.selected
-        //
-        //        if(!editButton.selected){
-        //            editComplete()
-        //            delegate?.saveButtonTapped(self.userInfo)
-        //        }else{
-        //            nameText.becomeFirstResponder()
-        //
-        //            UIView.animateWithDuration(1, animations: { () -> Void in
-        //                self.hintLabel.alpha = 1
-        //                }, completion: { (_) -> Void in
-        //                    UIView.animateWithDuration(2) { () -> Void in
-        //                        self.hintLabel.alpha = 0
-        //                    }
-        //            })
-        //        }
-    }
-    
-    func editComplete(){
-        //self.userInfo.screenName = self.nameText.text
-        //nameText.resignFirstResponder()
-        //birthdayText.resignFirstResponder()
+
+    func saveTapped(){
+        delegate?.saveButtonTapped(self.userInfo)
     }
     
     func datePickerChanged(datePicker:UIDatePicker) {
         
         self.userInfo.dateOfBirth = datePicker.date
         self.birthdateCell.detailTextLabel!.text = self.userInfo.dateOfBirthAsString()
-    }
-    
-    func isEditing() ->Bool{
-        return editButton.selected
     }
 
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

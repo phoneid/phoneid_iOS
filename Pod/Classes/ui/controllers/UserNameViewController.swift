@@ -19,7 +19,7 @@
 
 import UIKit
 
-public class UserNameViewController: UIViewController, PhoneIdConsumer{
+public class UserNameViewController: UIViewController, PhoneIdConsumer, UserNameViewDelegate{
 
     
     private var model: UserInfo!
@@ -59,31 +59,19 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer{
         
         super.viewDidLoad()
         
-        self.setupNavigation()
-        
         let result = self.phoneIdComponentFactory.userNameView(self.model.screenName!)
-
+        result.delegate = self
         self.view = result
-        
+    }
+
+    public func close() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
-    private func setupNavigation(){
-        
-        self.title = "Profile" //NSLocalizedString("profile.title", comment: "")
-        
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "didCompleteEditing")
-        
-        //NSLocalizedString("profile.right.done.button", comment: "")
-        
-        self.navigationItem.rightBarButtonItem = doneButton
-        
-    }
-    
-    func didCompleteEditing(){
+    public func save() {
         self.model.screenName = self.userNameView.userNameField.text
         completeEditing?(model: self.model)
-        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }

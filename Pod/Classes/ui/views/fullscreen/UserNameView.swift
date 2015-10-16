@@ -20,14 +20,21 @@
 import Foundation
 import UIKit
 
+public protocol UserNameViewDelegate: NSObjectProtocol{
+    func close()
+    func save()
+}
+
 public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
     
     
     private(set) var userNameLabel: UILabel!
     private(set) var userNameField: UITextField!
     private(set) var noteLabel: UILabel!
+    private(set) var saveButton: UIButton!
     
     var containerView: UIView!
+    internal weak var delegate:UserNameViewDelegate?
     
     var containerTopConstraint: NSLayoutConstraint!
     
@@ -88,7 +95,14 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
             return note
             }()
         
-        let subviews:[UIView] = [containerView, userNameLabel, userNameField, noteLabel]
+        saveButton = {
+            let saveButton = UIButton()
+            saveButton.titleLabel?.textAlignment = .Left
+            saveButton.addTarget(self, action: "saveTapped", forControlEvents: .TouchUpInside)
+            return saveButton
+            }()
+        
+        let subviews:[UIView] = [containerView, userNameLabel, userNameField, noteLabel, saveButton]
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
@@ -121,17 +135,24 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         c.append(NSLayoutConstraint(item: noteLabel, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: -20))
         c.append(NSLayoutConstraint(item: noteLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 10))
         
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
         self.addConstraints(c)
         
     }
     
     override func localizeAndApplyColorScheme() {
         super.localizeAndApplyColorScheme()
-        
-        userNameLabel.text = localizedString("title.public.profile")
+        titleLabel.text = localizedString("title.public.profile")
+        userNameLabel.text = localizedString("profile.name.placeholder")
         noteLabel.text = localizedString("profile.hint.about.name")
+        containerView.backgroundColor = self.colorScheme.profileDataSectionBackground
+        saveButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Normal)
         
-        self.backgroundColor = self.colorScheme.profileCommentSectionBackground
+        titleLabel.text = localizedString("title.public.profile")
+        titleLabel.textColor = self.colorScheme.headerTitleText
+        titleLabel.textAlignment = .Center
+        self.backgroundView.backgroundColor = self.colorScheme.profileCommentSectionBackground
         //self.userNameField.text = self.colorScheme.profileDataSectionBackground
         
     }
@@ -146,5 +167,13 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         let newString: NSString =
         currentString.stringByReplacingCharactersInRange(range, withString: string)
         return newString.length <= maxLength
+    }
+    
+    override func closeButtonTapped() {
+        delegate?.close()
+    }
+    
+    func saveTapped(){
+        delegate?.save()
     }
 }

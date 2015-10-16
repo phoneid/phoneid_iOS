@@ -111,6 +111,8 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
                 alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
                 
                 self.presentViewController(alert, animated: true, completion: nil)
+            }else{
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }
