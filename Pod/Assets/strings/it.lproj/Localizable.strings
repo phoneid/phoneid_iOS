@@ -65,7 +65,7 @@
 
 "html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Il codice digitato è diverso<br/> da quello che abbiamo trasmesso voi.<br/><br/>Correggere il codice, oppure premere indietro e controllare il vostro numero di telefono.</center>";
 
-"profile.name.placeholder"="Nome (e Cognome)";
+"profile.name.placeholder"="Nome utente";
 "profile.birthday.placeholder"="Data di nascita";
 
 
@@ -77,9 +77,14 @@
 "html-button.title.change.picture"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">CAMBIA IMMAGINE</center>";
 "html-button.title.edit.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Modifica</center>";
 "html-button.title.save.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Salva</center>";
-"html-title.public.profile"="<center style=\"color:$headerTitleText; font-family: Helvetica Neue; font-size:17px;\">Profilo pubblico</center>";
 "html-label.tap.to.cahnge"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:17px;\">Toccare per modificare foto</center>";
 "html-label.profile.view.visibility.hint"="<center style=\"color:$profileCommentSectionText; font-family: Helvetica Neue; font-size:17px;\">I tuoi amici che hanno il tuo numero di telefono della propria rubrica vi vedranno con il nome e l'immagine che hanno di te. <br/> Altri utenti che non hanno le informazioni vedrà il nome e la foto del tuo profilo pubblico.</center>";
+"title.public.profile"="Profilo";
+"profile.hint.about.number"="Il tuo numero di telefono non saranno condivise con chiunque, ma le persone che già conoscono il vostro numero sarà in grado di cercare per voi.";
+"profile.hint.about.picture"="La vostra immagine del profilo verrà mostrato a chi non ha la tua foto o il tuo numero di telefono.";
+"profile.hint.about.name"="I tuoi amici saranno sempre a vedere con il nome hanno salvato il tuo numero di telefono, a prescindere dal nome utente sceglie.\n\nIl nome utente verrà utilizzato con le persone che non hanno il tuo numero di telefono";
+"profile.change.picture"="Cambia foto profilo";
+"profile.phone.number"="Numero di telefono";
 
 "alert.title.select.image"="Scegli un'immagine da";
 "alert.button.title.camera"="fotocamera";

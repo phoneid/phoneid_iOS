@@ -276,6 +276,9 @@ import Foundation
         
         let controller = phoneIdComponentFactory.loginViewController()
         
+        let navigation = UINavigationController(rootViewController: controller)
+        navigation.navigationBar.hidden = true
+        
         if let phoneNumberE164 = phoneNumberE164{
              controller.phoneIdModel = NumberInfo(numberE164:phoneNumberE164)
         }
@@ -285,7 +288,7 @@ import Foundation
         
         phoneIdWindow.makeActive()
         
-        phoneIdWindow.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        phoneIdWindow.rootViewController?.presentViewController(navigation, animated: true, completion: nil)
         
     }
     

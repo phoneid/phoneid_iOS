@@ -19,6 +19,8 @@
 		0988EBB71B983BA40003542C /* PhoneIdWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0988EBB61B983BA40003542C /* PhoneIdWindow.swift */; settings = {ASSET_TAGS = (); }; };
 		098C079B1BB9CA1F0075B38A /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098C079A1BB9CA1F0075B38A /* WebImageView.swift */; settings = {ASSET_TAGS = (); }; };
 		09BE5BAA1BA7E2940046F308 /* CircleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */; settings = {ASSET_TAGS = (); }; };
+		09E5A3E41BD1768400C36CE4 /* UserNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5A3E21BD1764600C36CE4 /* UserNameViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		09E5A3E51BD1768A00C36CE4 /* UserNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5A3E01BD1763700C36CE4 /* UserNameView.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB061B9C4071009DBDA5 /* CompactPhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB021B9C4053009DBDA5 /* CompactPhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB071B9C4071009DBDA5 /* PhoneIdLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADB031B9C4053009DBDA5 /* PhoneIdLoginButton.swift */; settings = {ASSET_TAGS = (); }; };
 		09EADB081B9C4071009DBDA5 /* NumberInputControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EADAFD1B9C4000009DBDA5 /* NumberInputControl.swift */; settings = {ASSET_TAGS = (); }; };
@@ -142,6 +144,8 @@
 		098C079A1BB9CA1F0075B38A /* WebImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		0992F371953F44E3657F3C5B75E32E4F /* libPhoneNumber_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libPhoneNumber_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09BE5BA91BA7E2940046F308 /* CircleOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleOverlayView.swift; sourceTree = "<group>"; };
+		09E5A3E01BD1763700C36CE4 /* UserNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNameView.swift; sourceTree = "<group>"; };
+		09E5A3E21BD1764600C36CE4 /* UserNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNameViewController.swift; sourceTree = "<group>"; };
 		09EADAF61B9C3F9F009DBDA5 /* CountryCodePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodePickerView.swift; sourceTree = "<group>"; };
 		09EADAFD1B9C4000009DBDA5 /* NumberInputControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInputControl.swift; sourceTree = "<group>"; };
 		09EADAFE1B9C4000009DBDA5 /* NumericTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
@@ -282,6 +286,7 @@
 		09EADAF51B9C3F9F009DBDA5 /* fullscreen */ = {
 			isa = PBXGroup;
 			children = (
+				09E5A3E01BD1763700C36CE4 /* UserNameView.swift */,
 				09EADAF61B9C3F9F009DBDA5 /* CountryCodePickerView.swift */,
 				09F63C181BA2DEA6007A49BD /* EditProfileView.swift */,
 				0942EACF1BA7348D00DB1598 /* PanZoomImageView.swift */,
@@ -331,6 +336,7 @@
 		29EBDE482C25BCEC106648433A541B98 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				09E5A3E21BD1764600C36CE4 /* UserNameViewController.swift */,
 				6A6E9A54DD8EEFC4AB76269239FE93C6 /* CountryCodePickerViewController.swift */,
 				09F63C161BA2DE8E007A49BD /* EditProfileViewController.swift */,
 				0942EAD11BA73ED100DB1598 /* ImageEditViewController.swift */,
@@ -830,6 +836,7 @@
 				09F63C191BA2DEA6007A49BD /* EditProfileView.swift in Sources */,
 				700BD7E21B41D3265D8E4964FA10E35A /* ComponentFactory.swift in Sources */,
 				342DFAD335D9333EEC2DD63D3491258F /* Constants.swift in Sources */,
+				09E5A3E51BD1768A00C36CE4 /* UserNameView.swift in Sources */,
 				0A84D9FF6DA060D964B5C8E0B1A1E1C2 /* ContactInfo.swift in Sources */,
 				09EADB0E1B9C434C009DBDA5 /* VerifyCodeControl.swift in Sources */,
 				E65747D4632C3053E81246B261575F3F /* ContactsLoader.swift in Sources */,
@@ -851,6 +858,7 @@
 				8B0A58B87CD7D4BD4A00A81FCE164794 /* PhoneIdService.swift in Sources */,
 				DF7ED5FA1CAE5607A4E259997EC93EC2 /* PhoneIdServiceError.swift in Sources */,
 				D9E6556C5089043F11ECD04AB3DF3285 /* Reachability.swift in Sources */,
+				09E5A3E41BD1768400C36CE4 /* UserNameViewController.swift in Sources */,
 				09BE5BAA1BA7E2940046F308 /* CircleOverlayView.swift in Sources */,
 				24022D4D6B5BED41B197610A69D96BD5 /* ResourcesLoadingExtensions.swift in Sources */,
 				0981D35F1BC018F600326C77 /* LoginViewController.swift in Sources */,
@@ -1119,6 +1127,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EFA9552444F1FADC1639A93421A957CD /* Pods-phoneid_iOS_Example.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1206,6 +1215,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 718AE95871AEC6FFD74B6D3A51F5C6A7 /* Pods-phoneid_iOS_Example.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

@@ -1,4 +1,3 @@
-
 //  Localizable.strings
 //  phoneid_iOS
 //
@@ -66,8 +65,8 @@
 
 "html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and check your phone number.</center>";
 
-"profile.name.placeholder"="Name (and Surname)";
-"profile.birthday.placeholder"="Date of Birth";
+"profile.name.placeholder"="Username";
+"profile.birthday.placeholder"="Birthdate";
 
 
 "alert.button.title.dismiss"="Dismiss";
@@ -78,9 +77,14 @@
 "html-button.title.change.picture"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">CHANGE PICTURE</center>";
 "html-button.title.edit.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Edit</center>";
 "html-button.title.save.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Save</center>";
-"html-title.public.profile"="<center style=\"color:$headerTitleText; font-family: Helvetica Neue; font-size:17px;\">Public Profile</center>";
 "html-label.tap.to.cahnge"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:17px;\">Tap to change photo</center>";
 "html-label.profile.view.visibility.hint"="<center style=\"color:$profileCommentSectionText; font-family: Helvetica Neue; font-size:17px;\">Your friends who have your phone number in their address book will see you with name and picture they have of you.<br/><br/>Other users who don't have your information will see the name and photo of your public profile.</center>";
+"title.public.profile"="Profile";
+"profile.hint.about.number"="Your phone number won't be shared with anyone, but people who already know your number will be able to look for you.";
+"profile.hint.about.name"="Your friends will always see you with the name they saved your phone number, regardless of the username you pick. \n\nYour username will be used with people who don't have your phone number";
+"profile.hint.about.picture"="Your profile picture will be shown to anyone who doesn't have your photo or your phone number.";
+"profile.change.picture"="Change Prifle Picture";
+"profile.phone.number"="Phone Number";
 
 "alert.title.select.image"="Pick an image from";
 "alert.button.title.camera"="Camera";

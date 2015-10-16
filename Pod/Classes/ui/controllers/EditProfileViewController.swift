@@ -60,6 +60,15 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         // Dispose of any resources that can be recreated.
     }
     
+    func changeUserNameButtonTapped() {
+        let controller = self.phoneIdService.componentFactory.editUserNameViewController(self.user)
+        controller.completeEditing = { (user:UserInfo) -> Void in
+            self.user = user
+            self.editProfileView.setupWithUser(user)
+        }
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
     func changePhotoButtonTapped(){
         
         let bundle = self.phoneIdService.componentFactory.localizationBundle()
@@ -84,8 +93,6 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         
         imagePickerViewController.allowsEditing = false
         imagePickerViewController.sourceType = sourceType
-        
-        
         
         self.presentViewController(imagePickerViewController, animated: true, completion: nil)
     }
@@ -112,14 +119,14 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
     
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-        let editingController = ImageEditViewController(image: image)
+        let editingController = self.phoneIdComponentFactory.imageEditViewController(image)
         
         editingController.imageEditingCancelled = {
             picker.dismissViewControllerAnimated(true, completion: nil)
         }
         
         editingController.imageEditingCompleted = { (editedImage:UIImage) in
-            self.editProfileView.avatarView.image = editedImage
+            self.editProfileView.avatarImage = editedImage
             self.user.updatedImage = editedImage
             picker.dismissViewControllerAnimated(true, completion: nil)
         }

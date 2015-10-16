@@ -21,9 +21,9 @@
 import Foundation
 
 public protocol Customizable: NSObjectProtocol{
-    var colorScheme: ColorScheme! {get set}
-    var localizationBundle:NSBundle! {get set}
-    var localizationTableName:String! {get set}
+    var colorScheme: ColorScheme! {get }
+    var localizationBundle:NSBundle! {get }
+    var localizationTableName:String! {get }
     
 }
 
@@ -130,6 +130,8 @@ public class ColorScheme : NSObject{
     public var profileDataSectionBackground:UIColor!
     public var profilePictureSectionBackground:UIColor!
     public var profilePictureBackground:UIColor!
+    public var profileTopUsernameText:UIColor!
+    public var profilePictureEditingHintText:UIColor!
     
     override init() {
         super.init()
@@ -195,7 +197,8 @@ public class ColorScheme : NSObject{
         profileDataSectionBackground = inputBackground
         profilePictureSectionBackground = mainAccent
         profilePictureBackground = inputBackground
-    
+        profileTopUsernameText = lightText
+        profilePictureEditingHintText = lightText
     }
 }
 

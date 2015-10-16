@@ -26,7 +26,7 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
         get {
             let result = self.view as? LoginView
             if(result == nil){
-                fatalError("self.view expected to be kind of NumberInputView")
+                fatalError("self.view expected to be kind of LoginView")
             }
             return result
         }

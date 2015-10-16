@@ -26,11 +26,14 @@ public protocol ComponentFactory: NSObjectProtocol{
     func loginViewController() -> LoginViewController
     func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
     func editProfileViewController(model: UserInfo) -> EditProfileViewController
+    func imageEditViewController(image:UIImage) -> ImageEditViewController
+    func editUserNameViewController(model: UserInfo) -> UserNameViewController
     
     func loginView(model: NumberInfo)->LoginView
     
     func countryCodePickerView(model: NumberInfo)->CountryCodePickerView
     func editProfileView(model: UserInfo)->EditProfileView
+    func userNameView(model:String?)->UserNameView
 
     func colorScheme()->ColorScheme
     
@@ -41,7 +44,6 @@ public protocol ComponentFactory: NSObjectProtocol{
 }
 
 public class DefaultComponentFactory: NSObject, ComponentFactory {
-    
     
     public func loginViewController() -> LoginViewController {
                 let controller = LoginViewController()
@@ -66,6 +68,21 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     public func editProfileViewController(model: UserInfo) -> EditProfileViewController{
         let controller = EditProfileViewController(model: model)
         return controller
+    }
+    
+    public func imageEditViewController(image:UIImage) -> ImageEditViewController{
+        let controller = ImageEditViewController(image: image)
+        return controller
+    }
+    
+    public func editUserNameViewController(model: UserInfo) -> UserNameViewController{
+        let controller = UserNameViewController(model: model)
+        return controller
+    }
+    
+    public func userNameView(model:String?)->UserNameView{
+        let view = UserNameView(userName:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        return view
     }
     
     public func editProfileView(model: UserInfo)->EditProfileView{

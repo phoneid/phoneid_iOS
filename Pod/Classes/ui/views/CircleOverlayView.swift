@@ -47,7 +47,7 @@ class CircleOverlayView: UIView {
     {
         self.userInteractionEnabled = false
         shapeLayer.opaque = false
-        shapeLayer.fillColor = UIColor(white: 0, alpha: 0.7).CGColor
+        shapeLayer.fillColor = UIColor.blackColor().CGColor
         shapeLayer.fillRule = kCAFillRuleEvenOdd
         shapeLayer.borderWidth = 1.0
         self.layer.addSublayer(shapeLayer)

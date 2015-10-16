@@ -21,32 +21,158 @@ import UIKit
 
 protocol EditProfileViewDelegate:NSObjectProtocol{
     func changePhotoButtonTapped()
+    func changeUserNameButtonTapped()
     func closeButtonTapped()
     func saveButtonTapped(userInfo:UserInfo)
 }
 
-public class EditProfileView: PhoneIdBaseFullscreenView {
+class DatePickerCell:UITableViewCell{
+    private(set) var datePicker:UIDatePicker!
+    private var expanded:Bool = false {
+        didSet {
+            datePicker?.hidden = !expanded
+        }
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupSubviews()
+        setupLayout()
+    }
+    
+    func setupSubviews(){
+        datePicker = {
+            let picker = UIDatePicker()
+            picker.datePickerMode = .Date
+            picker.hidden = true
+            
+            let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+            let currentDate = NSDate()
+            let comps = NSDateComponents()
+            
+            comps.year = -8
+            picker.maximumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
+            
+            comps.year = -120
+            picker.minimumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
+            
+            return picker
+            }()
+        
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(datePicker)
+    }
+    
+    func setupLayout(){
+        self.removeConstraints(self.contentView.constraints)
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: self.contentView, attribute: .Top, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Left, relatedBy: .Equal, toItem: self.contentView, attribute: .Left, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Width, relatedBy: .Equal, toItem: self.contentView, attribute: .Width, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Height, relatedBy: .Equal, toItem: self.contentView, attribute: .Height, multiplier: 1, constant: 5))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class ProfilePictureView:UIView{
+    private(set) var avatarView: WebImageView!
+    private(set) var nameText: UILabel!
+    private(set) var hintLabel: UILabel!
+    
+    init(){
+        super.init(frame:CGRectZero)
+        setupSubviews()
+        setupLayout()
+    }
+    
+    func setupWithUser(user:UserInfo){
+        avatarView.downloadImage(user.imageURL)
+        nameText.text = user.screenName
+    }
+    
+    func setupSubviews(){
+        avatarView = {
+            let avatarView = WebImageView()
+            avatarView.contentMode = .ScaleAspectFit
+            let layer = avatarView.layer;
+            layer.masksToBounds = true
+            layer.cornerRadius = 50
+            return avatarView
+            }()
+        
+        nameText = {
+            let label = UILabel()
+            label.textAlignment = .Center
+            return label
+            }()
+        
+        hintLabel = {
+            let label = UILabel()
+            label.numberOfLines = 0
+            label.textAlignment = .Center
+            label.alpha = 0
+            return label
+            }()
+        
+        let subviews:[UIView] = [hintLabel, avatarView, nameText]
+        for(_, element) in subviews.enumerate(){
+            element.translatesAutoresizingMaskIntoConstraints = false
+            self.addSubview(element)
+        }
+    }
+    
+    func setupLayout(){
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem:nil, attribute: .Height, multiplier: 1, constant: 166))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 20))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .CenterX, relatedBy: .Equal, toItem: avatarView, attribute: .CenterX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .CenterY, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .Top, relatedBy: .Equal, toItem: self.avatarView, attribute: .Bottom, multiplier: 1, constant: 8))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate {
     
     
     weak var delegate:EditProfileViewDelegate?
     
-    private(set) var avatarView: WebImageView!
-    private(set) var nameText: UITextField!
-    private(set) var birthdayText: UITextField!
+    private(set) var table:UITableView!
+    private(set) var userNameCell:UITableViewCell!
+    private(set) var birthdateCell:UITableViewCell!
+    private(set) var datePickerCell:DatePickerCell!
+    private(set) var changePicCell:UITableViewCell!
+    private(set) var numberCell:UITableViewCell!
+    private(set) var profileSummaryView: ProfilePictureView!
+    private(set) var footer: UITableViewHeaderFooterView!
     
-    private(set) var hintLabel:UILabel!
+    private var cells:[UITableViewCell]!
+    
     private(set) var editButton: UIButton!
-    private(set) var profileVisibilityHintLabel:UILabel!
-    
-    private(set) var profileView: UIView!
-    
-    private(set) var datePicker:UIDatePicker!
-    private(set) var doneBarButton:UIBarButtonItem!
-    
+
     public var userInfo:UserInfo!
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    public var avatarImage:UIImage?{
+        set{
+            self.profileSummaryView.avatarView.image = newValue
+        }
+        get {
+            return self.profileSummaryView.avatarView.image
+        }
     }
     
     convenience init(user:UserInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
@@ -72,142 +198,130 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     }
     
     func setupWithUser(user:UserInfo){
-        self.nameText.text = user.screenName
-        self.avatarView.downloadImage(user.imageURL)
-        self.datePicker.date = user.dateOfBirth ?? NSDate()
-        self.birthdayText.text = user.dateOfBirthAsString()
+        userNameCell.detailTextLabel!.text = user.screenName ?? "Not Set"
+        birthdateCell.detailTextLabel!.text = user.dateOfBirth != nil ? user.dateOfBirthAsString() : "Not Set"
+        numberCell.detailTextLabel!.text = user.phoneNumber
+        profileSummaryView.setupWithUser(user)
+        datePickerCell.datePicker.date = userInfo.dateOfBirth ?? NSDate()
     }
     
     override func setupSubviews(){
         super.setupSubviews()
         
-        profileView = UIView();
-        profileView.backgroundColor = UIColor.whiteColor()
+        userNameCell = {
+            let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .DisclosureIndicator
+            return cell
+            }()
         
-        avatarView = WebImageView()
-        avatarView.contentMode = .ScaleAspectFit
+        birthdateCell = {
+            let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .DisclosureIndicator
+            return cell}()
         
-        nameText = UITextField()
-        nameText.autocapitalizationType = .Words
-        nameText.enabled = false
-        
-        profileVisibilityHintLabel = UILabel();
-        profileVisibilityHintLabel.numberOfLines = 0
-        
-        hintLabel = UILabel()
-        hintLabel.numberOfLines = 0
-        hintLabel.alpha = 0
-        
-        birthdayText = UITextField()
-        birthdayText.enabled = false
-        
-        editButton = UIButton()
-        editButton.titleLabel?.textAlignment = .Left
-        editButton.addTarget(self, action: "editTapped", forControlEvents: .TouchUpInside)
+        datePickerCell = { let cell = DatePickerCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "expandable")
+            cell.datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
+            return cell
+            }()
         
         
-        let subviews:[UIView] = [titleLabel, profileView, avatarView, nameText, birthdayText, editButton, hintLabel, profileVisibilityHintLabel]
+        changePicCell = {let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .DisclosureIndicator
+            return cell
+            }()
         
+        
+        numberCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
+        
+        cells = [userNameCell, birthdateCell, datePickerCell, changePicCell, numberCell]
+        
+        table = { [unowned self] in
+            let table = UITableView(frame: CGRectZero, style: .Grouped)
+            table.delegate = self
+            table.dataSource = self
+            table.backgroundColor = self.colorScheme.profileCommentSectionBackground
+            table.tableFooterView = UIView()
+            
+            return table
+            }()
+        
+        profileSummaryView = {
+            let profileView = ProfilePictureView()
+            profileView.backgroundColor = colorScheme.profilePictureSectionBackground
+            profileView.avatarView.backgroundColor = colorScheme.profilePictureBackground
+            profileView.nameText.textColor = colorScheme.profileTopUsernameText
+            profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
+            profileView.avatarView.userInteractionEnabled = true
+            profileView.userInteractionEnabled = true
+            return profileView
+            }()
+        
+        editButton = {
+            let editButton = UIButton()
+            editButton.titleLabel?.textAlignment = .Left
+            editButton.addTarget(self, action: "editTapped", forControlEvents: .TouchUpInside)
+            return editButton
+            }()
+        
+        footer = {
+            let footer = UITableViewHeaderFooterView()
+            footer.textLabel?.textColor = colorScheme.profileCommentSectionText
+            footer.textLabel?.font = UIFont.systemFontOfSize(17)
+            footer.textLabel?.numberOfLines = 0
+            footer.textLabel?.lineBreakMode = .ByWordWrapping
+            return footer
+        }()
+        
+        let subviews:[UIView] = [titleLabel, editButton, table]
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
-        let layer = avatarView.layer;
-        layer.masksToBounds = true
-        layer.cornerRadius = 50
-        
-        avatarView.userInteractionEnabled = true
-        avatarView.backgroundColor = colorScheme.profilePictureBackground
-        
-        datePicker = UIDatePicker()
-        datePicker.datePickerMode = .Date
-        datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
-        self.birthdayText.inputView = datePicker
-        
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let currentDate = NSDate()
-        let comps = NSDateComponents()
-        comps.year = -8
-        datePicker.maximumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
-        
-        comps.year = -120
-        datePicker.minimumDate = calendar!.dateByAddingComponents(comps, toDate:currentDate, options:[]);
-        
-        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
 
-        closeButton.bringSubviewToFront(self.subviews.first!)
-        
-        setupKeyboardToolBar()
     }
     
     override func setupLayout(){
         
         super.setupLayout()
         
-        var c:[NSLayoutConstraint] = []        
+        var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: profileView, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: profileView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: profileView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: profileView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        
-        c.append(NSLayoutConstraint(item: avatarView, attribute: .Top, relatedBy: .Equal, toItem: profileView, attribute: .Top, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: avatarView, attribute: .Left, relatedBy: .Equal, toItem: profileView, attribute: .Left, multiplier: 1, constant: 20))
-        
-        c.append(NSLayoutConstraint(item: avatarView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 100))
-        c.append(NSLayoutConstraint(item: avatarView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 100))
-        
-        c.append(NSLayoutConstraint(item: nameText, attribute: .Left, relatedBy: .Equal, toItem: avatarView, attribute: .Right, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: nameText, attribute: .Bottom, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: -5))
-        c.append(NSLayoutConstraint(item: nameText, attribute: .Right, relatedBy: .Equal, toItem: profileView, attribute: .Right, multiplier: 1, constant: -10))
-        
-        c.append(NSLayoutConstraint(item: birthdayText, attribute: .Left, relatedBy: .Equal, toItem: avatarView, attribute: .Right, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: birthdayText, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 5))
-        c.append(NSLayoutConstraint(item: birthdayText, attribute: .Right, relatedBy: .Equal, toItem: profileView, attribute: .Right, multiplier: 1, constant: -10))
-        
-        c.append(NSLayoutConstraint(item: hintLabel, attribute: .CenterY, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 5))
-        c.append(NSLayoutConstraint(item: hintLabel, attribute: .CenterX, relatedBy: .Equal, toItem: avatarView, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: hintLabel, attribute: .Width, relatedBy: .Equal, toItem: avatarView, attribute: .Width, multiplier: 1, constant: 0))
-        
+        c.append(NSLayoutConstraint(item: table, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: editButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: editButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
         
-        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Top, relatedBy: .Equal, toItem: avatarView, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: profileVisibilityHintLabel, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
-        
-        
         self.customConstraints += c
-        
+
         self.addConstraints(c)
         
     }
     
-    private func setupKeyboardToolBar(){
-        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
-        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "editComplete")
-        toolBar.items = [doneBarButton]
-        nameText.inputAccessoryView = toolBar
-        birthdayText.inputAccessoryView = toolBar
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        let newSize = profileSummaryView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+        profileSummaryView.frame = CGRectMake(0, 0, table.bounds.size.height, newSize.height)
+        table.tableHeaderView = profileSummaryView
     }
     
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
         
+        userNameCell.textLabel!.text = localizedString("profile.name.placeholder")
+        birthdateCell.textLabel!.text = localizedString("profile.birthday.placeholder")
+        changePicCell.textLabel!.text = localizedString("profile.change.picture")
+        numberCell.textLabel!.text = localizedString("profile.phone.number")
+        
         editButton.setAttributedTitle(localizedStringAttributed("html-button.title.edit.profile"), forState: .Normal)
         editButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Selected)
-        
-        nameText.placeholder = localizedString("profile.name.placeholder")
-        birthdayText.placeholder = localizedString("profile.birthday.placeholder")
-        
-        titleLabel.attributedText = localizedStringAttributed("html-title.public.profile")
-        hintLabel.attributedText = localizedStringAttributed("html-label.tap.to.cahnge")
-        profileVisibilityHintLabel.attributedText = localizedStringAttributed("html-label.profile.view.visibility.hint")
-        
-        doneBarButton.title = localizedString("button.title.done.keyboard")
-        doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
-        
+
+        titleLabel.text = localizedString("title.public.profile")
+        titleLabel.textColor = self.colorScheme.headerTitleText
+        titleLabel.textAlignment = .Center
+
         self.needsUpdateConstraints()
     }
     
@@ -216,49 +330,101 @@ public class EditProfileView: PhoneIdBaseFullscreenView {
     }
     
     func changePhotoTapped(){
-        
-        if(editButton.selected){
-            delegate?.changePhotoButtonTapped()
-        }
+         delegate?.changePhotoButtonTapped()
     }
     
     func editTapped(){
         
-        editButton.selected = !editButton.selected
-        birthdayText.enabled = editButton.selected
-        nameText.enabled = editButton.selected
-        
-        if(!editButton.selected){
-            editComplete()
-            delegate?.saveButtonTapped(self.userInfo)
-        }else{
-            nameText.becomeFirstResponder()
-            
-            UIView.animateWithDuration(1, animations: { () -> Void in
-                self.hintLabel.alpha = 1
-                }, completion: { (_) -> Void in
-                    UIView.animateWithDuration(2) { () -> Void in
-                        self.hintLabel.alpha = 0
-                }
-            })
-        }
+        //        editButton.selected = !editButton.selected
+        //        //        birthdayText.enabled = editButton.selected
+        //        nameText.enabled = editButton.selected
+        //
+        //        if(!editButton.selected){
+        //            editComplete()
+        //            delegate?.saveButtonTapped(self.userInfo)
+        //        }else{
+        //            nameText.becomeFirstResponder()
+        //
+        //            UIView.animateWithDuration(1, animations: { () -> Void in
+        //                self.hintLabel.alpha = 1
+        //                }, completion: { (_) -> Void in
+        //                    UIView.animateWithDuration(2) { () -> Void in
+        //                        self.hintLabel.alpha = 0
+        //                    }
+        //            })
+        //        }
     }
     
     func editComplete(){
-        self.userInfo.screenName = self.nameText.text
-        nameText.resignFirstResponder()
-        birthdayText.resignFirstResponder()
+        //self.userInfo.screenName = self.nameText.text
+        //nameText.resignFirstResponder()
+        //birthdayText.resignFirstResponder()
     }
     
     func datePickerChanged(datePicker:UIDatePicker) {
         
         self.userInfo.dateOfBirth = datePicker.date
-        birthdayText.text = self.userInfo.dateOfBirthAsString()
-        birthdayText.selected = true
+        self.birthdateCell.detailTextLabel!.text = self.userInfo.dateOfBirthAsString()
     }
     
     func isEditing() ->Bool{
         return editButton.selected
+    }
+
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cells.count
+    }
+    
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return cells[indexPath.row]
+    }
+    
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        var result:CGFloat = 44
+
+       if let cell = cells[indexPath.row] as? DatePickerCell{
+           result = cell.expanded ? 177 : 0
+       }
+
+        
+        return result
+    }
+    
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)  {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        switch(indexPath.row){
+        case 0:
+            delegate?.changeUserNameButtonTapped()
+            break
+        case 1:
+            tableView.beginUpdates()
+            datePickerCell.expanded = !datePickerCell.expanded
+            tableView.endUpdates()
+            break
+        case 3:
+            delegate?.changePhotoButtonTapped()
+            break
+        default: break
+        
+        }
+    }
+    
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return "Your phone number won’t be shared with anyone, but people who already know your number will be able to look for you."
+    }
+    
+    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return footer
+    }
+    
+    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 100
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
     }
 }
 
