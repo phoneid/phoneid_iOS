@@ -132,6 +132,7 @@ public class ColorScheme : NSObject{
     public var profilePictureBackground:UIColor!
     public var profileTopUsernameText:UIColor!
     public var profilePictureEditingHintText:UIColor!
+    public var profileActivityIndicator:UIColor!
     
     override init() {
         super.init()
@@ -199,6 +200,7 @@ public class ColorScheme : NSObject{
         profilePictureBackground = inputBackground
         profileTopUsernameText = lightText
         profilePictureEditingHintText = lightText
+        profileActivityIndicator = activityIndicator
     }
 }
 

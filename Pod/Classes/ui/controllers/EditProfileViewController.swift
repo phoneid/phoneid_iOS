@@ -103,7 +103,9 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
     }
     
     func saveButtonTapped(userInfo:UserInfo) {
+        self.editProfileView.activityIndicator.startAnimating()
         self.phoneIdService.updateUserProfile(userInfo) { (error) -> Void in
+            self.editProfileView.activityIndicator.stopAnimating()
             if(error != nil){
                 let bundle = self.phoneIdService.componentFactory.localizationBundle()
                 let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)

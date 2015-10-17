@@ -236,6 +236,8 @@ public class PhoneIdService: NSObject {
             if let responseError = response.error {
                 NSLog("Failed to update user info due to %@", responseError)
                 error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
+                completion(error: error)
+                self.notifyClientCodeAboutError(error)
             }else if let image  = userInfo.updatedImage{
                 
                 if let imageURL = userInfo.imageURL, let URL =  NSURL(string: imageURL){

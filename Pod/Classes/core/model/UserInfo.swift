@@ -20,7 +20,7 @@
 
 import Foundation
 
-
+import libPhoneNumber_iOS
 
 public class UserInfo: ParseableModel{
     public var id:String?
@@ -73,6 +73,12 @@ public class UserInfo: ParseableModel{
             result["birthdate"] = dateFormatter.stringFromDate(birthdate)
         }
         return result
+    }
+    
+    func formattedPhoneNumber()->String?{
+        
+        let number = NumberInfo(numberE164: self.phoneNumber).internationalFormatted()
+        return number
     }
     
 }

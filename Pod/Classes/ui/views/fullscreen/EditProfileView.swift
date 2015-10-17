@@ -155,6 +155,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     private(set) var numberCell:UITableViewCell!
     private(set) var profileSummaryView: ProfilePictureView!
     private(set) var footer: UITableViewHeaderFooterView!
+    private(set) var activityIndicator:UIActivityIndicatorView!
     
     private var cells:[UITableViewCell]!
     
@@ -200,7 +201,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     func setupWithUser(user:UserInfo){
         userNameCell.detailTextLabel!.text = user.screenName ?? "Not Set"
         birthdateCell.detailTextLabel!.text = user.dateOfBirth != nil ? user.dateOfBirthAsString() : "Not Set"
-        numberCell.detailTextLabel!.text = user.phoneNumber
+        numberCell.detailTextLabel!.text = user.formattedPhoneNumber()
         profileSummaryView.setupWithUser(user)
         datePickerCell.datePicker.date = userInfo.dateOfBirth ?? NSDate()
     }
@@ -229,6 +230,12 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             cell.accessoryType = .DisclosureIndicator
             return cell
             }()
+        
+        activityIndicator = {
+            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+            activityIndicator.color = self.colorScheme.profileActivityIndicator
+            return activityIndicator
+        }()
         
         
         numberCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
@@ -272,7 +279,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             return footer
         }()
         
-        let subviews:[UIView] = [titleLabel, saveButton, table]
+        let subviews:[UIView] = [titleLabel, saveButton, table, activityIndicator]
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
@@ -286,7 +293,10 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: table, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        
+        c.append(NSLayoutConstraint(item: table, attribute: .Top, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: table, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: table, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: table, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))

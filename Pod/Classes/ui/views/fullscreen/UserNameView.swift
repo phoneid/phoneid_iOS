@@ -75,8 +75,9 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         
         userNameLabel = {
             let label = UILabel()
-            label.sizeToFit()
-            label.numberOfLines = 1
+            label.font = UIFont.boldSystemFontOfSize(17)
+            label.numberOfLines = 1         
+            label.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
             return label
             }()
         
@@ -115,25 +116,22 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: containerView, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: containerView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 44))
-        c.append(NSLayoutConstraint(item: containerView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: containerView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 74))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 44))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 74))
         
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 80))
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .Leading, relatedBy: .Equal, toItem: self.containerView, attribute: .Leading, multiplier: 1, constant: 16))
+        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterY, multiplier: 1, constant: 0))
         
-        c.append(NSLayoutConstraint(item: userNameField, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.userNameLabel, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: -10))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .Left, relatedBy: .Equal, toItem: userNameLabel, attribute: .Right, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .Right, relatedBy: .Equal, toItem: self.containerView, attribute: .Right, multiplier: 1, constant: -16))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .Baseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .Baseline, multiplier: 1, constant: 0))
         
         
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: -20))
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.containerView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 16))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -16))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Bottom, multiplier: 1, constant: 10))
         
         c.append(NSLayoutConstraint(item: saveButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: saveButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
@@ -147,13 +145,12 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         userNameLabel.text = localizedString("profile.name.placeholder")
         noteLabel.text = localizedString("profile.hint.about.name")
         containerView.backgroundColor = self.colorScheme.profileDataSectionBackground
-        saveButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Normal)
+        saveButton.setTitle(localizedString("button.title.done.keyboard"), forState: .Normal)
         
         titleLabel.text = localizedString("title.public.profile")
         titleLabel.textColor = self.colorScheme.headerTitleText
         titleLabel.textAlignment = .Center
         self.backgroundView.backgroundColor = self.colorScheme.profileCommentSectionBackground
-        //self.userNameField.text = self.colorScheme.profileDataSectionBackground
         
     }
     

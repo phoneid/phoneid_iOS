@@ -188,6 +188,16 @@ public class NumberInfo: NSObject {
         }
     }
     
+    func internationalFormatted()->String?{
+        var number = self.phoneNumber
+        if let parsed = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: self.isoCountryCode){
+            if let formatted = try? NBPhoneNumberUtil.sharedInstance().format(parsed, numberFormat: NBEPhoneNumberFormatINTERNATIONAL){
+                number = formatted
+            }
+        }
+        return number
+    }
+    
     override public var description: String {
         
         return "NumberInfo: {phoneCountryCode:\(phoneCountryCode),\n phoneNumber: \(phoneNumber),\nphoneCountryCodeSim: \(phoneCountryCodeSim), isoCountryCode: \(isoCountryCode), \nisoCountryCodeSim: \(isoCountryCodeSim)  }"
