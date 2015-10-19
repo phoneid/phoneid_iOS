@@ -88,6 +88,7 @@ class ProfilePictureView:UIView{
     }
     
     func setupWithUser(user:UserInfo){
+        hintLabel.hidden = (user.imageURL != nil)
         avatarView.downloadImage(user.imageURL)
         nameText.text = user.screenName
     }
@@ -112,11 +113,10 @@ class ProfilePictureView:UIView{
             let label = UILabel()
             label.numberOfLines = 0
             label.textAlignment = .Center
-            label.alpha = 0
             return label
             }()
         
-        let subviews:[UIView] = [hintLabel, avatarView, nameText]
+        let subviews:[UIView] = [avatarView, nameText, hintLabel]
         for(_, element) in subviews.enumerate(){
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
@@ -170,6 +170,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     public var avatarImage:UIImage?{
         set{
             self.profileSummaryView.avatarView.image = newValue
+            self.profileSummaryView.hintLabel.hidden = newValue != nil
         }
         get {
             return self.profileSummaryView.avatarView.image
@@ -199,8 +200,8 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     }
     
     func setupWithUser(user:UserInfo){
-        userNameCell.detailTextLabel!.text = user.screenName ?? "Not Set"
-        birthdateCell.detailTextLabel!.text = user.dateOfBirth != nil ? user.dateOfBirthAsString() : "Not Set"
+        userNameCell.detailTextLabel!.text = user.screenName ?? localizedString("profile.value.not.set")
+        birthdateCell.detailTextLabel!.text = user.dateOfBirth != nil ? user.dateOfBirthAsString() : localizedString("profile.value.not.set")
         numberCell.detailTextLabel!.text = user.formattedPhoneNumber()
         profileSummaryView.setupWithUser(user)
         datePickerCell.datePicker.date = userInfo.dateOfBirth ?? NSDate()
@@ -257,6 +258,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             profileView.backgroundColor = colorScheme.profilePictureSectionBackground
             profileView.avatarView.backgroundColor = colorScheme.profilePictureBackground
             profileView.nameText.textColor = colorScheme.profileTopUsernameText
+            profileView.hintLabel.textColor = colorScheme.profilePictureEditingHintText
             profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
             profileView.avatarView.userInteractionEnabled = true
             profileView.avatarView.activityIndicator.color = colorScheme.profileActivityIndicator
@@ -322,6 +324,8 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         
         super.localizeAndApplyColorScheme()
         
+        profileSummaryView.hintLabel.text = localizedString("profile.hint.photo")
+        
         userNameCell.textLabel!.text = localizedString("profile.name.placeholder")
         birthdateCell.textLabel!.text = localizedString("profile.birthday.placeholder")
         changePicCell.textLabel!.text = localizedString("profile.change.picture")
@@ -360,7 +364,11 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return cells[indexPath.row]
+        let cell = cells[indexPath.row]
+        cell.backgroundColor = self.colorScheme.profileDataSectionBackground
+        cell.textLabel?.textColor = self.colorScheme.profileDataSectionTitleText
+        cell.detailTextLabel?.textColor = self.colorScheme.profileDataSectionValueText
+        return cell
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -396,7 +404,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
     }
     
     public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return "Your phone number won’t be shared with anyone, but people who already know your number will be able to look for you."
+        return self.localizedString("profile.hint.about.number")
     }
     
     public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

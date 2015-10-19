@@ -76,7 +76,8 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         userNameLabel = {
             let label = UILabel()
             label.font = UIFont.boldSystemFontOfSize(17)
-            label.numberOfLines = 1         
+            label.numberOfLines = 1
+            label.textColor = self.colorScheme.profileDataSectionTitleText
             label.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
             return label
             }()
@@ -85,6 +86,7 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         userNameField = {
             let textField = UITextField()
             textField.delegate = self
+            textField.textColor = self.colorScheme.profileDataSectionValueText
             return textField
             
             }()
@@ -126,8 +128,7 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         
         c.append(NSLayoutConstraint(item: userNameField, attribute: .Left, relatedBy: .Equal, toItem: userNameLabel, attribute: .Right, multiplier: 1, constant: 10))
         c.append(NSLayoutConstraint(item: userNameField, attribute: .Right, relatedBy: .Equal, toItem: self.containerView, attribute: .Right, multiplier: 1, constant: -16))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: .Baseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .Baseline, multiplier: 1, constant: 0))
-        
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .Baseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .Baseline, multiplier: 1, constant: 0))        
         
         c.append(NSLayoutConstraint(item: noteLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 16))
         c.append(NSLayoutConstraint(item: noteLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -16))
@@ -150,6 +151,7 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         titleLabel.text = localizedString("title.public.profile")
         titleLabel.textColor = self.colorScheme.headerTitleText
         titleLabel.textAlignment = .Center
+        self.backgroundView.image = nil
         self.backgroundView.backgroundColor = self.colorScheme.profileCommentSectionBackground
         
     }

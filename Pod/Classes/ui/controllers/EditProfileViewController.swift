@@ -50,7 +50,7 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
     }
     
     public override func loadView() {
-        let result = phoneIdComponentFactory.editProfileView(self.user)
+        let result = phoneIdComponentFactory.editProfileView(user)
         result.delegate = self
         self.view = result
     }
@@ -93,7 +93,13 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         
         imagePickerViewController.allowsEditing = false
         imagePickerViewController.sourceType = sourceType
-        
+        let colorScheme = self.phoneIdComponentFactory.colorScheme()
+        imagePickerViewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: colorScheme.headerTitleText]
+        imagePickerViewController.navigationBar.translucent = false
+        imagePickerViewController.navigationBar.barStyle = UIBarStyle.Default
+        imagePickerViewController.navigationBar.barTintColor = colorScheme.headerBackground
+        imagePickerViewController.navigationBar.tintColor = colorScheme.headerButtonText
+
         self.presentViewController(imagePickerViewController, animated: true, completion: nil)
     }
     

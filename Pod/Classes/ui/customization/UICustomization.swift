@@ -127,6 +127,8 @@ public class ColorScheme : NSObject{
     // MARK: Specific colors: related to profile
     public var profileCommentSectionText:UIColor!
     public var profileCommentSectionBackground:UIColor!
+    public var profileDataSectionTitleText:UIColor!
+    public var profileDataSectionValueText:UIColor!
     public var profileDataSectionBackground:UIColor!
     public var profilePictureSectionBackground:UIColor!
     public var profilePictureBackground:UIColor!
@@ -195,11 +197,13 @@ public class ColorScheme : NSObject{
         /// Colors of profile
         profileCommentSectionText = darkText
         profileCommentSectionBackground = diabledBackground
+        profileDataSectionTitleText = darkText
+        profileDataSectionValueText = disabledText
         profileDataSectionBackground = inputBackground
         profilePictureSectionBackground = mainAccent
         profilePictureBackground = inputBackground
         profileTopUsernameText = lightText
-        profilePictureEditingHintText = lightText
+        profilePictureEditingHintText = darkText
         profileActivityIndicator = activityIndicator
     }
 }

@@ -83,8 +83,10 @@
 "profile.hint.about.number"="Il tuo numero di telefono non saranno condivise con chiunque, ma le persone che già conoscono il vostro numero sarà in grado di cercare per voi.";
 "profile.hint.about.picture"="La vostra immagine del profilo verrà mostrato a chi non ha la tua foto o il tuo numero di telefono.";
 "profile.hint.about.name"="I tuoi amici saranno sempre a vedere con il nome hanno salvato il tuo numero di telefono, a prescindere dal nome utente sceglie.\n\nIl nome utente verrà utilizzato con le persone che non hanno il tuo numero di telefono";
+"profile.hint.photo"="Imposta la tua foto";
 "profile.change.picture"="Cambia foto profilo";
 "profile.phone.number"="Numero di telefono";
+"profile.value.not.set"="Non impostato";
 
 "alert.title.select.image"="Scegli un'immagine da";
 "alert.button.title.camera"="fotocamera";

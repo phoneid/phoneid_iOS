@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // configure phone.id
             
         // unkomment to see UI theming
-        // PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+        //PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
         
         PhoneIdService.sharedInstance.configureClient("TestPhoneId");
         return true
