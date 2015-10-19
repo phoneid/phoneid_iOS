@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "phone.png",
+      "filename" : "iOS phone icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "phone@2x.png",
+      "filename" : "iOS phone icon@2x.png",
       "scale" : "2x"
     },
     {

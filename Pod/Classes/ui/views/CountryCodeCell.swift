@@ -2,7 +2,7 @@
 //  CountryCodeCell.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -74,6 +74,12 @@ class CountryCodeCell:UITableViewCell{
         countryLabel.text = model.name
         
         self.setNeedsLayout()
+    }
+    
+    func applyColorScheme(colorScheme: ColorScheme){
+        self.prefixLabel.backgroundColor = colorScheme.labelPrefixBackground
+        prefixLabel.textColor = colorScheme.labelPrefixText
+        self.countryLabel.textColor = colorScheme.labelCountryNameText
     }
     
     required init(coder aDecoder: NSCoder) {

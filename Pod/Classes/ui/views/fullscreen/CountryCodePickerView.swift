@@ -2,7 +2,7 @@
 //  CountryCodePickerView.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -42,15 +42,20 @@ class CountryInfo: NSObject{
         self.prefix = prefix
         self.code = code
     }
+    
+    func localizedTitle() -> String{
+        return name
+    }
 }
 
 typealias CountryCodePickerModel = [ (letter: String, countries: [CountryInfo]) ]
 
 public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
     
+    private let collation = UILocalizedIndexedCollation.currentCollation()
+    
     private(set) var tableView:UITableView!
-    private(set) var titleLabel:UILabel!
-    private(set) var backButton:UIButton!
+    
     
     internal weak var delegate:CountryCodePickerViewDelegate?
     private var countrySearchController:UISearchController!
@@ -62,37 +67,47 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
         populateCountryList()
         doOnInit()
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector:Selector("keyboardWillShow:"),
+            name:UIKeyboardWillShowNotification,
+            object:nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector:Selector("keyboardWillHide:"),
+            name:UIKeyboardWillHideNotification,
+            object:nil)
     }
     
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    
+    }
+    
+    var haveExtraSections:  Bool{ get {return (havePhoneSection || haveNetworkSection) } }
+    var havePhoneSection:   Bool{ get {
+        return phoneIdModel.phoneCountryCode != nil &&
+               !(phoneIdModel.phoneCountryCode==phoneIdModel.phoneCountryCodeSim)
+        } }
+    var haveNetworkSection: Bool{ get {return phoneIdModel.phoneCountryCodeSim != nil } }
+    var countOfExtraSections: Int{ get {return Int(havePhoneSection) + Int(haveNetworkSection)}}
+    
     override func setupSubviews(){
         super.setupSubviews()
-                
-        super.closeButton.hidden = true
         
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.registerClass(CountryCodeCell.self , forCellReuseIdentifier: "CountryCodeCell")
         
-        titleLabel = UILabel()
-        
-        backButton = UIButton()
-        backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
-        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
-        
-        let subviews:[UIView] = [tableView, titleLabel, backButton]
-        
-        for(_, element) in subviews.enumerate(){
-            element.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(element)
-        }
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(tableView)
 
-        
     }
     
     func searchController() -> UISearchController{
@@ -102,6 +117,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             countrySearchController.delegate = self
             countrySearchController.dimsBackgroundDuringPresentation = false
             countrySearchController.hidesNavigationBarDuringPresentation = false
+            
             tableView.tableHeaderView = countrySearchController.searchBar
         }
         return countrySearchController
@@ -113,19 +129,10 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         
         var c:[NSLayoutConstraint] = []
         
-        c.append(NSLayoutConstraint(item: tableView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: tableView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: tableView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: titleLabel, attribute: .Bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant:20))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant:0))
-        
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant:20))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant:5))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
         
         self.customConstraints += c
         
@@ -135,17 +142,11 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     override func localizeAndApplyColorScheme(){
         super.localizeAndApplyColorScheme()
         titleLabel.attributedText = localizedStringAttributed("html-title.country.code")
-        titleLabel.textColor = colorScheme.normalText
+        tableView.sectionIndexColor = colorScheme.sectionIndexText
+        tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        tableView.sectionIndexTrackingBackgroundColor = UIColor.clearColor()
     }
     
-    func backTapped(sender:UIButton){
-        if(self.countrySearchController.active){
-            countrySearchController.presentingViewController?.dismissViewControllerAnimated(true,completion: nil)
-        }
-        if let delegate = delegate{
-            delegate.goBack()
-        }
-    }
     
     // MARK: tableView
     
@@ -153,14 +154,15 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults.count
         } else {
-            return sections.count
+            let sectionCount = sections.count - 1 + countOfExtraSections
+            return sectionCount
         }
     }
     
     public func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell
     {
         let cell:CountryCodeCell = tableView.dequeueReusableCellWithIdentifier("CountryCodeCell", forIndexPath: indexPath) as! CountryCodeCell
-        
+        cell.applyColorScheme(self.phoneIdComponentFactory.colorScheme())
         let model:CountryInfo = self.determineModel(atIndexPath:indexPath)
         cell.setupWithModel(model)
         return cell
@@ -171,10 +173,10 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults[section].countries.count;
         } else {
-            if (section == 0) {
-                return phoneIdModel.phoneCountryCodeSim != nil ? 1 : 0
+            if (haveExtraSections && section < countOfExtraSections) {
+                return 1
             } else {
-                return sections[section].countries.count;
+                return sections[section - countOfExtraSections + 1].countries.count;
             }
         }
     }
@@ -195,10 +197,12 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     public func tableView(tableView:UITableView, titleForHeaderInSection section:NSInteger) -> String? {
         var string:String
         if (!self.isSearchMode()) {
-            if (section == 0) {
-                string = phoneIdModel.phoneCountryCode != nil ? localizedString("current.phone") : ""
+            if (section == 0 && havePhoneSection && haveNetworkSection) {
+                string = localizedString("current.phone")
+            } else if (section < countOfExtraSections){
+                string = localizedString("current.network")
             } else {
-                string = sections[section].letter
+                string = collation.sectionTitles[section-countOfExtraSections]
             }
         } else {
             string = searchResults[section].letter;
@@ -207,10 +211,33 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
     }
     
     public func tableView(tableView:UITableView, heightForHeaderInSection section:NSInteger) -> (CGFloat) {
-        if (!isSearchMode() && section == 0 && phoneIdModel.phoneCountryCodeSim==nil) {
-            return 0;
-        }
         return CountryCodeCell.height;
+    }
+    
+    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        
+        var result = collation.sectionIndexTitles
+        
+        if (self.isSearchMode()) {
+            result = self.searchResults.map({ (element:(letter: String, countries: [CountryInfo])) -> String in
+                return element.letter
+            })
+        }
+        
+        result.insert("\u{0001F50D}", atIndex: 0)
+        
+        return result
+    }
+    
+    public func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        
+        if (index == 0) {
+            tableView.setContentOffset(CGPointZero, animated:false)
+            countrySearchController.searchBar.becomeFirstResponder()
+            return NSNotFound;
+        }
+        return collation.sectionForSectionIndexTitleAtIndex(index-1);
+        
     }
     
     // MARK: - Utilities
@@ -219,13 +246,25 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         if (self.isSearchMode()) {
             return searchResults[indexPath.section].countries[indexPath.row];
         } else {
-            if (indexPath.section == 0 && phoneIdModel.phoneCountryCodeSim != nil) {
-                let locale = prefferedLocale()
+            var result:CountryInfo! = nil
+            let locale = prefferedLocale()
+            if (indexPath.section == 0 && havePhoneSection && haveNetworkSection) {
+            
                 let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:phoneIdModel.isoCountryCode!)!;
-                return CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCode!, code: phoneIdModel.isoCountryCode!)
+                result = CountryInfo(name:countryName, prefix: phoneIdModel.phoneCountryCode!, code: phoneIdModel.isoCountryCode!)
+            
+            } else if (indexPath.section < countOfExtraSections) {
+                
+                let iso:String = phoneIdModel.isoCountryCodeSim != nil ?phoneIdModel.isoCountryCodeSim! : phoneIdModel.isoCountryCode!
+                let cc:String = phoneIdModel.phoneCountryCodeSim != nil ?phoneIdModel.phoneCountryCodeSim! : phoneIdModel.phoneCountryCode!
+                
+                let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:iso)!
+                
+                result = CountryInfo(name:countryName, prefix:cc, code:iso)
             } else {
-                return sections[indexPath.section].countries[indexPath.row];
+                result = sections[indexPath.section-countOfExtraSections+1].countries[indexPath.row];
             }
+            return result
         }
     }
     
@@ -295,13 +334,15 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         
         let countries = loadCountriesList()
         
-        for country:CountryInfo in countries {
+        let selector: Selector = "localizedTitle"
+        let sortedCountries:[AnyObject] = collation.sortedArrayFromArray(countries, collationStringSelector: selector)
+        for c in sortedCountries {
             
-            let index = result.indexOf({(letter: String, countries: [CountryInfo]) -> Bool in letter == country.firstLetter })
-            
-            if let index = index {
-                result[index].countries.append(country)
-            } else {
+            let sectionNumber = collation.sectionForObject(c, collationStringSelector: selector)
+            let country = c as! CountryInfo
+            if(sectionNumber+1 < result.count){
+                result[sectionNumber+1].countries.append(country)
+            }else{
                 result.append((letter:country.firstLetter, countries:[country]))
             }
         }
@@ -315,23 +356,42 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
         let locale = prefferedLocale()
         for countryCode in countryCodeArray {
             let countryName:String = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode)!;
-            
+            var countryInfo:CountryInfo!
             let phoneUtil = NBPhoneNumberUtil.sharedInstance()
             if let resolvedCountryCode = phoneUtil.getCountryCodeForRegion(countryCode){
-                if (resolvedCountryCode != "") {
-                    let countryInfo = CountryInfo(name:countryName, prefix:"+\(resolvedCountryCode)",code:countryCode)
+                if (resolvedCountryCode != 0) {
+                    countryInfo = CountryInfo(name:countryName, prefix:"+\(resolvedCountryCode)",code:countryCode)
                     countryArray.append(countryInfo)
                 }
-            }else {
+            }
+            
+            if(countryInfo == nil){
                 print("Not present: \(countryCode) \(countryName)")
             }
         }
-        
-        let sortedCountryArray:Array<CountryInfo> = countryArray.sort({ (first, second) -> Bool in
-            first.name.localizedCaseInsensitiveCompare(second.name) == NSComparisonResult.OrderedAscending
-        })
-        return sortedCountryArray
+        return countryArray
         
     }
-
+    
+    override func closeButtonTapped(){
+        if(self.countrySearchController.active){
+            countrySearchController.presentingViewController?.dismissViewControllerAnimated(true,completion: nil)
+        }
+        if let delegate = delegate{
+            delegate.goBack()
+        }
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize: CGSize = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
+                self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.tableView.contentInset = UIEdgeInsetsZero;
+    }
+    
 }

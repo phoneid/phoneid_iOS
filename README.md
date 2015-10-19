@@ -5,26 +5,15 @@
 
 # Overview
 
-**phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code, demo <a href="http://www.youtube.com/watch?feature=player_embedded&v=-U1M-CVJlvE
-" target="_blank"><img src="http://vid284.photobucket.com/albums/ll39/streamlet10/iphoneid_iOS_zpsflhnnzjn.mp4" 
-alt="video" width="320" height="445" border="10" /></a>
+**phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code 
 
 **Fullscreen mode:**
 
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/1_zpsfhg0caoi.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/2_zpsgvy29hzs.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/3_zpsbrwjecjj.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/4_zpsogzpnbkj.png)
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif)
 
 **Compact mode:**
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/1_zpsc28ojsg8.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/2_zpsnapr9ry8.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/3_zpsqaissydp.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/4_zpsbxmrdjkf.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/5_zpsnfqnwncb.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/6_zpsf2w6rvpz.png).
 
-
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsipwil33c.gif)
 
 ## Usage
 
@@ -124,7 +113,22 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = { (token) ->Void in
 ``` 
 
 ## UI Customization
-You can easily customize colors and background of phone.id UI.
+
+Color scheme of phone.id UI can be easily customized.
+This can be achieved via ColorScheme object. ColorScheme object defines set of named colors used inside of phone.id.
+
+All fields of ColorScheme objects are UIColor's. 
+This fields are separated on two groups: common colors and specific colors.
+
+Common colors are used to define main color theme of phone.id UI and provide default values for specific colors.
+Common colors never user directly inside of phone.id, they only provide default values for specific color fields.
+
+This separation was done in order to to provide more flexible way of theming:
+You can change only main colors - and there is no need to change every UI control color, however,
+if you need to set specific colors for some UI controls you can overrite default values.
+
+You can see detailed mapping of fields of ColorScheme to colors of UI controls here 
+[![guide](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)
 
 Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
 In customize colors&background can be done in two steps:
@@ -133,15 +137,30 @@ In customize colors&background can be done in two steps:
 ```swift
 class CustomComponentFactory:DefaultComponentFactory{
     
-    override func defaultBackgroundImage()->UIImage{
+    override func defaultBackgroundImage()->UIImage?{
         return UIImage(named:"background")!
     }
     
     override func colorScheme()->ColorScheme{
         let scheme = super.colorScheme()
-        scheme.mainAccent = UIColor(netHex: 0x357AAE)
-        scheme.selectedText = UIColor(netHex: 0x4192C7)
-        scheme.linkText = UIColor(netHex: 0x4192C7)
+        
+        // You can change main colors
+        
+        scheme.mainAccent = UIColor(hex: 0xAABB44)
+        scheme.extraAccent = UIColor(hex: 0x886655)
+        scheme.success = UIColor(hex: 0x91C1CC)
+        scheme.fail = UIColor(hex: 0xD4556A)
+        scheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
+        
+        scheme.applyCommonColors()
+        
+        // But also, if some of main colors don't fit to your color solution,
+        // you can specify your own colors for certain UI element:
+
+        scheme.buttonHightlightedImage = UIColor(hex: 0x778230)
+        scheme.buttonHightlightedText = UIColor(hex: 0x778230)
+        scheme.buttonHightlightedBackground = UIColor(hex: 0xBBC86A)
+        
         return scheme
     }
 }
@@ -152,10 +171,8 @@ class CustomComponentFactory:DefaultComponentFactory{
 PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
 ``` 
 
-Cutomization results:
 
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Jul%2021%202015%203.31.50%20PM_zpslriy7l9s.png).
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Jul%2021%202015%203.31.59%20PM_zpsmtu7ng62.png)
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Oct%2015%202015%201.36.47%20PM_zpssahlxjpo.png)
 
 ## Author
 

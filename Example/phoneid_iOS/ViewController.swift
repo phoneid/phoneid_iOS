@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,11 +29,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var tokensView: UIView!
     @IBOutlet weak var tokenText: UITextField!
     @IBOutlet weak var refreshTokenText: UITextField!
+    @IBOutlet weak var presetNumber: UITextField!
     
     @IBOutlet weak var phoneIdButton: PhoneIdLoginButton!
     @IBOutlet weak var compactPhoneIdButton: CompactPhoneIdLoginButton!
     
     let phoneId: PhoneIdService = PhoneIdService.sharedInstance;
+    var usePresetNumber:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,11 +69,7 @@ class ViewController: UIViewController {
         // SDK calls this block on logout
         phoneId.phoneIdDidLogout = { (token) ->Void in
             self.updateTokenInfoView()
-        }
-        
-        
-        //customize appearence
-        //phoneId.componentFactory = CustomComponentFactory()
+        } 
         
     }
     
@@ -100,27 +98,35 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func editProfileTapped(sender: AnyObject) {
+    
+        phoneId.loadUserProfile{ (userInfo, e) -> Void in
+
+            if let user = userInfo{
+                let profileController = self.phoneId.componentFactory.editProfileViewController(user)
+                self.presentViewController(profileController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     @IBAction func switchCompactMode(sender: UISwitch) {
         
         phoneIdButton.hidden = sender.on
+        phoneIdButton.userInteractionEnabled = !phoneIdButton.hidden
         compactPhoneIdButton.hidden = !sender.on
+        compactPhoneIdButton.userInteractionEnabled = !compactPhoneIdButton.hidden
     }
    
+    @IBAction func switchPresetNumber(sender: UISwitch) {
+
+        if(sender.on){
+            phoneIdButton.phoneNumberE164 = presetNumber.text
+            compactPhoneIdButton.phoneNumberE164 = presetNumber.text
+        }else{
+            phoneIdButton.phoneNumberE164 = nil
+            compactPhoneIdButton.phoneNumberE164 = nil
+        }
+    }
     
 }
 
-// customization point
-class CustomComponentFactory:DefaultComponentFactory{
-    
-    override func defaultBackgroundImage()->UIImage{
-        return UIImage(named:"background")!
-    }
-    
-    override func colorScheme()->ColorScheme{
-        let scheme = super.colorScheme()
-        scheme.mainAccent = UIColor(netHex: 0x357AAE)
-        scheme.selectedText = UIColor(netHex: 0x4192C7)
-        scheme.linkText = UIColor(netHex: 0x4192C7)
-        return scheme
-    }
-}

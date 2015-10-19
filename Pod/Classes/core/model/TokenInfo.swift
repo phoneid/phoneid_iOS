@@ -2,7 +2,7 @@
 //  TokenInfo.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ public class TokenInfo: ParseableModel{
     public var refreshToken:String?;
     public var expirationPeriod:Int?;
     public var timestamp:NSDate?;
-    internal var numberInfo:NumberInfo?;
+    public internal(set) var numberInfo:NumberInfo?;
     
     public var expirationTime:NSDate?{
         get {

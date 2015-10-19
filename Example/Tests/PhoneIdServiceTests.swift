@@ -2,7 +2,7 @@
 //  PhoneIdServiceTests.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -312,7 +312,7 @@ class PhoneIdServiceTests: XCTestCase {
         let expectation = expectationWithDescription("Should successfully handle user info request")
 
         var result:UserInfo? = nil
-        phoneId.loadUserInfo { (userInfo, e) -> Void in
+        phoneId.loadUserProfile { (userInfo, e) -> Void in
             
             result = userInfo
             if(e == nil){
@@ -339,7 +339,7 @@ class PhoneIdServiceTests: XCTestCase {
         
         var result:UserInfo? = nil
         var errorResult:NSError?
-        phoneId.loadUserInfo { (userInfo, e) -> Void in
+        phoneId.loadUserProfile { (userInfo, e) -> Void in
             
             result = userInfo
             if(e != nil){
@@ -364,7 +364,7 @@ class PhoneIdServiceTests: XCTestCase {
         let expectation = expectationWithDescription("Expected to get server error")
 
         var errorResult:NSError?
-        phoneId.loadUserInfo { (userInfo, e) -> Void in
+        phoneId.loadUserProfile { (userInfo, e) -> Void in
 
             if(e != nil){
                 errorResult = e

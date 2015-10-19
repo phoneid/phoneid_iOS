@@ -6,7 +6,7 @@
     },
     {
       "idiom" : "iphone",
-      "filename" : "ornaments_texture_iphone6_vert.jpg",
+      "filename" : "random-grey-variations_v.png",
       "scale" : "2x"
     },
     {
@@ -16,18 +16,18 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "heightClass" : "compact"
+      "height-class" : "compact"
     },
     {
-      "heightClass" : "compact",
       "idiom" : "iphone",
-      "filename" : "ornaments_texture_iphone6_horiz.jpg",
+      "filename" : "random-grey-variations_h.png",
+      "height-class" : "compact",
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
       "scale" : "3x",
-      "heightClass" : "compact"
+      "height-class" : "compact"
     }
   ],
   "info" : {

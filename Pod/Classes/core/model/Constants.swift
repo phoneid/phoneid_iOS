@@ -2,7 +2,7 @@
 //  Constants.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ internal struct HttpHeaderName{
 internal struct  HttpHeaderValue{
     static let  FormEncoded = "application/x-www-form-urlencoded"
     static let  JsonEncoded = "application/json"
+    static let  FormMultipart = "multipart/form-data"
 }
 
 internal enum Endpoints {
@@ -58,6 +59,7 @@ internal enum Endpoints {
     case ClientsList
     case Contacts
     case NeedRefreshContacts
+    case UploadAvatar
     
     func endpoint(params: String...) -> String {
         switch (self) {
@@ -67,6 +69,7 @@ internal enum Endpoints {
         case .ClientsList: return "clients/\(params[0])"
         case .Contacts: return "contacts"
         case .NeedRefreshContacts: return "contacts/refresh?checksum=\(params[0])"
+        case .UploadAvatar: return "users/upload"
         }
     }
 }
@@ -82,5 +85,17 @@ internal struct NumberKey {
     static let number = "phone_number"
     static let iso = "iso_country_code"
     static let countryCode = "country_code"
+}
+
+internal enum AuthChannels{
+    case Sms
+    case Call
+    var value:String{
+        get{
+          switch(self){
+          case Sms: return "sms"
+          case Call: return "call"}
+        }
+    }
 }
 

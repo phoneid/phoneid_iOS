@@ -2,7 +2,7 @@
 //  PhoneIdService.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -108,7 +108,7 @@ public class PhoneIdService: NSObject {
     }
     
     // MARK: - API
-    func requestAuthenticationCode(info: NumberInfo, completion:RequestCompletion) {
+    func requestAuthenticationCode(info: NumberInfo, channel:AuthChannels = .Sms, completion:RequestCompletion) {
         
         let validation = info.isValid()
         guard validation.result else{
@@ -118,8 +118,14 @@ public class PhoneIdService: NSObject {
         }
         
         let number = info.e164Format()!
+
+        var params = ["number":number,"client_id":clientId!, "channel":channel.value]
         
-        self.post(Endpoints.RequestCode.endpoint(), params:["number":number,"client_id":clientId!], completion: { response in
+        if let lang = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String{
+          params["lang"] = NSLocale.canonicalLanguageIdentifierFromString(lang)
+        }
+
+        self.post(Endpoints.RequestCode.endpoint(), params:params, completion: { response in
             
             var error:NSError?=nil
             if let responseError = response.error {
@@ -199,7 +205,7 @@ public class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    func loadUserInfo(completion:UserInfoRequestCompletion) {
+    public func loadUserProfile(completion:UserInfoRequestCompletion) {
         
         let endpoint: String = Endpoints.RequestMe.endpoint()
         self.get(endpoint, params: nil) { response in
@@ -221,6 +227,42 @@ public class PhoneIdService: NSObject {
             self.notifyClientCodeAboutError(error)
         }
     }
+    
+    public func updateUserProfile(userInfo:UserInfo, completion:RequestCompletion){
+        let endpoint: String = Endpoints.RequestMe.endpoint()
+        
+        self.post(endpoint, params: userInfo.asDictionary()) { (response) -> Void in
+            var error:NSError?
+            if let responseError = response.error {
+                NSLog("Failed to update user info due to %@", responseError)
+                error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
+                completion(error: error)
+                self.notifyClientCodeAboutError(error)
+            }else if let image  = userInfo.updatedImage{                
+                self.updateUserAvatar(image, completion: { (error) -> Void in
+                    completion(error: error)
+                    self.notifyClientCodeAboutError(error)
+                })
+            }else{
+                completion(error: error)
+                self.notifyClientCodeAboutError(error)
+            }
+            
+
+        }
+    }
+    
+    public func updateUserAvatar(image:UIImage, completion:RequestCompletion){
+        let endpoint: String = Endpoints.UploadAvatar.endpoint()
+        
+        var params: Dictionary<String, AnyObject> = [:]
+        
+        params["uploadfile"] = image
+        self.post(endpoint, params:params) { (response) -> Void in
+            completion(error: response.error)
+        }
+    }
+    
     
     func loadClients(clientId:String, completion:RequestCompletion){
         
@@ -474,7 +516,7 @@ public class PhoneIdService: NSObject {
                 completion(wrappedResponse)
             }
         }
-        
+       
         task.resume()
         
     }

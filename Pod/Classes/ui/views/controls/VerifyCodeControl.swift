@@ -3,7 +3,7 @@
 //
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 import UIKit
 
 class VerifyCodeControl: PhoneIdBaseView {
-
+    
     private(set) var placeholderView:UIView!
     private(set) var codeText:NumericTextField!
     private(set) var placeholderLabel:UILabel!
@@ -30,10 +30,12 @@ class VerifyCodeControl: PhoneIdBaseView {
     private(set) var statusImage: UIImageView!
     
     var verificationCodeDidCahnge: ((code:String)->Void)?
+    var requestVoiceCall: (()->Void)?
     var backButtonTapped: (()->Void)?
     
     let maxVerificationCodeLength = 6
-
+     private var timer:NSTimer!
+    
     override func setupSubviews(){
         super.setupSubviews()
         
@@ -57,9 +59,12 @@ class VerifyCodeControl: PhoneIdBaseView {
         placeholderView.layer.cornerRadius = 5
         
         backButton = UIButton()
-        backButton.setImage(UIImage(namedInPhoneId: "icon-back"), forState: .Normal)
-        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
         
+        let  backButtonImage = UIImage(namedInPhoneId: "compact-back")?.imageWithRenderingMode(.AlwaysTemplate)
+        backButton.setImage(backButtonImage, forState: .Normal)
+        
+        backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
+        backButton.tintColor = colorScheme.inputCodeBackbuttonNormal
         
         let subviews:[UIView] = [placeholderView, placeholderLabel, codeText, activityIndicator, backButton, statusImage]
         
@@ -70,6 +75,11 @@ class VerifyCodeControl: PhoneIdBaseView {
         
     }
     
+    deinit{
+        timer?.invalidate()
+        timer = nil
+    }
+    
     override func setupLayout(){
         
         super.setupLayout()
@@ -78,18 +88,18 @@ class VerifyCodeControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: placeholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
-        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
+        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: placeholderView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
         
         c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterX, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 7))
+        c.append(NSLayoutConstraint(item: placeholderLabel, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 5))
         
         c.append(NSLayoutConstraint(item: backButton, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: placeholderView, attribute: .Left, multiplier: 1, constant:10))
-        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant:44))
+        c.append(NSLayoutConstraint(item: backButton, attribute: .Left, relatedBy: .Equal, toItem: placeholderView, attribute: .Left, multiplier: 1, constant:18))
+        c.append(NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant:0))
         
         c.append(NSLayoutConstraint(item: codeText, attribute: .CenterX, relatedBy: .Equal, toItem: placeholderLabel, attribute: .CenterX, multiplier: 1, constant: 2))
-        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: codeText, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant: -2))
         c.append(NSLayoutConstraint(item: codeText, attribute: .Width, relatedBy: .Equal, toItem: placeholderLabel, attribute: .Width, multiplier: 1, constant: 5))
         
         c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: placeholderView, attribute: .CenterY, multiplier: 1, constant:0))
@@ -97,21 +107,21 @@ class VerifyCodeControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: statusImage, attribute: .CenterY, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterY, multiplier: 1, constant: 0))
-         
+        
         self.addConstraints(c)
         
     }
-
+    
     override func localizeAndApplyColorScheme(){
         
         super.localizeAndApplyColorScheme()
-
-        placeholderView.backgroundColor = colorScheme.defaultTextInputBackground
-        codeText.textColor = colorScheme.mainAccent
+        
+        placeholderView.backgroundColor = colorScheme.inputCodeBackground
+        codeText.textColor = colorScheme.inputCodeText
         codeText.accessibilityLabel = localizedString("accessibility.verification.input");
         backButton.accessibilityLabel = localizedString("accessibility.button.title.back");
-        placeholderLabel.textColor = colorScheme.placeholderText
-        activityIndicator.color = colorScheme.mainAccent
+        placeholderLabel.textColor = colorScheme.inputCodePlaceholder
+        activityIndicator.color = colorScheme.activityIndicatorCode
         self.needsUpdateConstraints()
     }
     
@@ -120,26 +130,32 @@ class VerifyCodeControl: PhoneIdBaseView {
     private func applyCodeFieldStyle(input:NSAttributedString)->NSAttributedString {
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
         let range:NSRange = NSMakeRange(0, attributedString.length)
-        attributedString.addAttribute(NSKernAttributeName, value: 12, range: range)
-        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo-Bold", size: 22)!, range: range)
+        attributedString.addAttribute(NSKernAttributeName, value: 8, range: range)
+        
+        if(attributedString.length > 2){
+            let range:NSRange = NSMakeRange(2, 1)
+            attributedString.addAttribute(NSKernAttributeName, value: 24, range: range)
+        }
+        
+        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo", size: 22)!, range: range)
         return attributedString
-    }    
+    }
     
     func textFieldDidChange(textField:UITextField) {
         
         textField.attributedText = applyCodeFieldStyle(textField.attributedText!)
         
         if (textField.text!.utf16.count == maxVerificationCodeLength) {
-
+            
             activityIndicator.startAnimating()
-            backButton.enabled = false
-
+            backButtonEnable(false)
+            
         } else {
-
+            
             activityIndicator.stopAnimating()
             phoneIdService.abortCall()
             statusImage.hidden = true
-            backButton.enabled = true
+            backButtonEnable(true)
         }
         
         self.verificationCodeDidCahnge?(code: textField.text!)
@@ -152,21 +168,39 @@ class VerifyCodeControl: PhoneIdBaseView {
     
     func indicateVerificationFail(){
         activityIndicator.stopAnimating()
-        statusImage.image = UIImage(namedInPhoneId: "icon-ko")
+        statusImage.image = UIImage(namedInPhoneId: "icon-ko")?.imageWithRenderingMode(.AlwaysTemplate)
+        statusImage.tintColor = colorScheme.fail
         statusImage.hidden = false
-        backButton.enabled = true
+        backButtonEnable(true)
     }
     
-    func indicateVerificationSuccess(){
+    func backButtonEnable(value:Bool){
+        backButton.enabled = value
+        backButton.tintColor = value ? colorScheme.inputCodeBackbuttonNormal : colorScheme.inputCodeBackbuttonDisabled
+    }
+    
+    func indicateVerificationSuccess(completion:(()->Void)?){
+        
         activityIndicator.stopAnimating()
-        statusImage.image = UIImage(namedInPhoneId: "icon-ok")
+        statusImage.image = UIImage(namedInPhoneId: "icon-ok")?.imageWithRenderingMode(.AlwaysTemplate)
+        statusImage.tintColor = colorScheme.success;
         statusImage.hidden = false
-
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [], animations: { () -> Void in
+            self.statusImage.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            }) {(_) -> Void in
+                self.statusImage.transform = CGAffineTransformMakeScale(1, 1)
+                completion?()
+        }
+        
     }
     
     func reset(){
         codeText.text=""
+        codeText.inputAccessoryView = nil
+        codeText.reloadInputViews()
         textFieldDidChange(codeText)
+        timer?.invalidate()
     }
     
     override func resignFirstResponder() -> Bool {
@@ -175,6 +209,32 @@ class VerifyCodeControl: PhoneIdBaseView {
     
     override func becomeFirstResponder() -> Bool {
         return codeText.becomeFirstResponder()
+    }
+    
+    func setupHintTimer(){
+        
+        timer?.invalidate()
+        let fireDate = NSDate(timeIntervalSinceNow: 30)
+        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+        
+    }
+    
+    func timerFired(){
+        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
+        
+        let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .Plain, target: self, action: "callMeButtonTapped")
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.items = [space, callMeButton]
+        codeText.resignFirstResponder()
+        codeText.inputAccessoryView = toolBar
+        codeText.becomeFirstResponder()
+    }
+    
+    func callMeButtonTapped(){
+        requestVoiceCall?()
     }
     
 }

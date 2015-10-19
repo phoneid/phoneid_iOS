@@ -2,7 +2,7 @@
 //  ComponentFactory.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,32 +22,37 @@ import Foundation
 
 public protocol ComponentFactory: NSObjectProtocol{
     
-    func numberInputViewController() -> NumberInputViewController
-    func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
-    func verifyCodeViewController(model: NumberInfo) -> VerifyCodeViewController
     
-    func numberInputView(model: NumberInfo)->NumberInputView
+    func loginViewController() -> LoginViewController
+    func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
+    func editProfileViewController(model: UserInfo) -> EditProfileViewController
+    func imageEditViewController(image:UIImage) -> ImageEditViewController
+    func editUserNameViewController(model: UserInfo) -> UserNameViewController
+    
+    func loginView(model: NumberInfo)->LoginView
+    
     func countryCodePickerView(model: NumberInfo)->CountryCodePickerView
-    func verifyCodeView(model: NumberInfo)->VerifyCodeView
+    func editProfileView(model: UserInfo)->EditProfileView
+    func userNameView(model:String?)->UserNameView
 
     func colorScheme()->ColorScheme
     
     func localizationBundle()->NSBundle
     func localizationTableName()->String
     
-    func defaultBackgroundImage()->UIImage
+    func defaultBackgroundImage()->UIImage?
 }
 
 public class DefaultComponentFactory: NSObject, ComponentFactory {
     
-    public func numberInputViewController() -> NumberInputViewController{
-        let controller = NumberInputViewController()
-        return controller
+    public func loginViewController() -> LoginViewController {
+                let controller = LoginViewController()
+                return controller
     }
     
-    public func numberInputView(model: NumberInfo)->NumberInputView{
-        let view = NumberInputView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
-        return view
+    public func loginView(model: NumberInfo) -> LoginView {
+                let view = LoginView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+                return view
     }
     
     public func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController{
@@ -60,18 +65,33 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
         return view
     }
     
-    public func verifyCodeViewController(model: NumberInfo) -> VerifyCodeViewController{
-        let controller = VerifyCodeViewController(model: model)
+    public func editProfileViewController(model: UserInfo) -> EditProfileViewController{
+        let controller = EditProfileViewController(model: model)
         return controller
     }
     
-    public func verifyCodeView(model: NumberInfo)->VerifyCodeView{
-        let view = VerifyCodeView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+    public func imageEditViewController(image:UIImage) -> ImageEditViewController{
+        let controller = ImageEditViewController(image: image)
+        return controller
+    }
+    
+    public func editUserNameViewController(model: UserInfo) -> UserNameViewController{
+        let controller = UserNameViewController(model: model)
+        return controller
+    }
+    
+    public func userNameView(model:String?)->UserNameView{
+        let view = UserNameView(userName:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        return view
+    }
+    
+    public func editProfileView(model: UserInfo)->EditProfileView{
+        let view = EditProfileView(user:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
     
     public func colorScheme()->ColorScheme{
-        let scheme = DefaultColorScheme()
+        let scheme = ColorScheme()
         return scheme
     }
     
@@ -84,8 +104,8 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
         return "Localizable"
     }
     
-    public func defaultBackgroundImage()->UIImage{
-        return UIImage(namedInPhoneId:"background")!
+    public func defaultBackgroundImage()->UIImage?{
+        return UIImage(namedInPhoneId:"background")
     }
  
 }
@@ -93,7 +113,6 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
 public protocol PhoneIdConsumer:NSObjectProtocol{
     var phoneIdService: PhoneIdService! {get}
     var phoneIdComponentFactory: ComponentFactory! {get}
-    var phoneIdModel: NumberInfo! { set get}
 }
 
 public extension PhoneIdConsumer{

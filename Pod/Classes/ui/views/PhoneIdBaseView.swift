@@ -2,7 +2,7 @@
 //  PhoneIdBaseView.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -78,14 +78,21 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer{
 
 public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
    
-    var closeButton: UIButton!
-    var backgroundView:UIImageView!
-    func backgroundImage() -> UIImage { return phoneIdComponentFactory.defaultBackgroundImage() }
+    private(set) var closeButton: UIButton!
+    private(set) var titleLabel:UILabel!
+    private(set) var headerBackgroundView:UIView!
+    private(set) var backgroundView:UIImageView!
+    
+    func backgroundImage() -> UIImage? { return phoneIdComponentFactory.defaultBackgroundImage() }
     
     var customConstraints:[NSLayoutConstraint]=[]
     
     override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
         super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
+    }
+    
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -94,13 +101,15 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
         
 
     override func setupSubviews(){
-        backgroundView = UIImageView(image: backgroundImage())
+        backgroundView = UIImageView()
+        headerBackgroundView = UIView()
         closeButton = UIButton(type:.System)
-        closeButton.setImage(UIImage(namedInPhoneId: "close"), forState: .Normal)
-        closeButton.tintColor = colorScheme.normalText
+        
         closeButton.addTarget(self, action: "closeButtonTapped", forControlEvents: .TouchUpInside)
         
-        let views = [backgroundView, closeButton]
+         titleLabel = UILabel()
+        
+        let views = [backgroundView, headerBackgroundView, closeButton, titleLabel]
         for view in views{
             view.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(view)
@@ -114,15 +123,22 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
         
         var c:[NSLayoutConstraint]=[]
         
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .CenterY, multiplier: 1, constant:10))
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant:0))
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant:0))
+        
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 64))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+        
         c.append(NSLayoutConstraint(item: backgroundView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: backgroundView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: backgroundView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: backgroundView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
         
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 30))
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: closeButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: closeButton, attribute: .Baseline, relatedBy: .Equal, toItem: titleLabel, attribute: .Baseline, multiplier: 1, constant: 0))
         
         self.customConstraints=c
         self.addConstraints(c)
@@ -130,7 +146,12 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView{
     
     override func localizeAndApplyColorScheme() {
         super.localizeAndApplyColorScheme()
-        closeButton.accessibilityLabel = localizedString("accessibility.button.title.close")
+        closeButton.tintColor = colorScheme.headerButtonText
+        closeButton.accessibilityLabel = localizedString("accessibility.button.title.cancel")
+        closeButton.setTitle(localizedString("button.title.cancel"), forState: .Normal)
+        headerBackgroundView.backgroundColor = colorScheme.headerBackground
+        backgroundView.backgroundColor = colorScheme.mainViewBackground
+        backgroundView.image = backgroundImage()
     }
     
 }

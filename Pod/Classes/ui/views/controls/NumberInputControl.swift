@@ -53,7 +53,7 @@ class NumberInputControl: PhoneIdBaseView {
         numberText.keyboardType = .NumberPad
         numberText.addTarget(self, action:"textFieldDidChange:", forControlEvents:.EditingChanged)
         numberText.backgroundColor = UIColor.clearColor()
-
+        
         setupKeyboardToolBar();
         
         numberPlaceholderView = UIView()
@@ -86,8 +86,8 @@ class NumberInputControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 290))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
         
         c.append(NSLayoutConstraint(item: numberText, attribute: .Left, relatedBy: .Equal, toItem: prefixButton, attribute: .Right, multiplier: 1, constant: 5))
         c.append(NSLayoutConstraint(item: numberText, attribute: .Right, relatedBy: .Equal, toItem: okButton, attribute: .Left, multiplier: 1, constant: 0))
@@ -95,14 +95,13 @@ class NumberInputControl: PhoneIdBaseView {
         
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Left, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Left, multiplier: 1, constant: 2))
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant:50))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant:0))
         
-        c.append(NSLayoutConstraint(item: okButton, attribute: .Right, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Right, multiplier: 1, constant: -10))
-        c.append(NSLayoutConstraint(item: okButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: okButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant:40))
+        c.append(NSLayoutConstraint(item: okButton, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: okButton, attribute: .CenterY, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterY, multiplier: 1, constant: 0))
         
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: okButton, attribute: .CenterY, multiplier: 1, constant:0))
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: okButton, attribute: .CenterX, multiplier: 1, constant:-5))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .CenterY, multiplier: 1, constant:0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Right, multiplier: 1, constant:-5))
         
         self.addConstraints(c)
         
@@ -141,6 +140,7 @@ class NumberInputControl: PhoneIdBaseView {
             phoneIdModel.isoCountryCode = phoneIdModel.defaultIsoCountryCode
             prefixButton.setTitle(phoneIdModel.defaultCountryCode, forState: UIControlState.Normal)
         }
+        self.validatePhoneNumber()
     }
     
     override func localizeAndApplyColorScheme(){
@@ -162,16 +162,16 @@ class NumberInputControl: PhoneIdBaseView {
         doneBarButton.title = localizedString("button.title.done.keyboard")
         doneBarButton.accessibilityLabel = localizedString("accessibility.button.title.done.keyboard")
         
-        numberPlaceholderView.backgroundColor = colorScheme.defaultTextInputBackground
+        numberPlaceholderView.backgroundColor = colorScheme.inputNumberBackground
         
-        prefixButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
+        prefixButton.setTitleColor(colorScheme.inputPrefixText, forState: .Normal)
         
-        numberText.textColor = colorScheme.mainAccent
+        numberText.textColor = colorScheme.inputNumberText
         
-        okButton.setTitleColor(colorScheme.mainAccent, forState: .Normal)
-        okButton.setTitleColor(colorScheme.disabledText, forState: .Disabled)
+        okButton.setTitleColor(colorScheme.buttonOKNormalText, forState: .Normal)
+        okButton.setTitleColor(colorScheme.buttonOKDisabledText, forState: .Disabled)
         
-        activityIndicator.color = colorScheme.mainAccent
+        activityIndicator.color = colorScheme.activityIndicatorNumber
         self.needsUpdateConstraints()
     }
     
@@ -226,11 +226,14 @@ class NumberInputControl: PhoneIdBaseView {
         controller.countryCodePickerCompletionBlock = { [unowned self] (model:NumberInfo)-> Void in
             self.phoneIdModel = model
             self.setupWithModel(model)
+            self.becomeFirstResponder()
         }
         
         let presenter:UIViewController = PhoneIdWindow.currentPresenter()
         
-        presenter.presentViewController(controller, animated: true, completion: nil)
+        presenter.presentViewController(controller, animated: true){
+            self.resignFirstResponder()
+        }
         
     }
 }

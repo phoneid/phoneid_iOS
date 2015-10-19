@@ -2,7 +2,7 @@
 //  ParseableModel.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public class ParseableModel:NSObject, Parseable{
     public required init(json:NSDictionary){
         super.init()
     }
-    
+
     public class func parse(response:Response) -> Self?{
         
         if let info = response.responseJSON as? NSDictionary{

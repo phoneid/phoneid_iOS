@@ -2,7 +2,7 @@
 //  CountryCodePickerViewController.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -71,10 +71,8 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
     
     func countryCodeSelected(model: NumberInfo) {
         self.phoneIdModel = model
-        if let completion = countryCodePickerCompletionBlock{
-            completion(model: model)
+        self.dismissViewControllerAnimated(true){
+            countryCodePickerCompletionBlock?(model: model)
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

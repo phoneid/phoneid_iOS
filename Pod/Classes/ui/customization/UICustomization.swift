@@ -2,7 +2,7 @@
 //  UICustomization.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,19 +21,19 @@
 import Foundation
 
 public protocol Customizable: NSObjectProtocol{
-    var colorScheme: ColorScheme! {get set}
-    var localizationBundle:NSBundle! {get set}
-    var localizationTableName:String! {get set}
-
+    var colorScheme: ColorScheme! {get }
+    var localizationBundle:NSBundle! {get }
+    var localizationTableName:String! {get }
+    
 }
 
 public extension Customizable{
-
+    
     internal func localizedString(key:String, formatting:((String)->String)? = nil) ->String{
         
         var result = NSLocalizedString(key, tableName: localizationTableName , bundle: localizationBundle, comment:key)
         
-        // TODO: this is actually not a part of localization. 
+        // TODO: this is actually not a part of localization.
         // However text-formatting appeared to be tightly coupled with text-content.
         // Need more graceful solution
         result = self.colorScheme.replaceNamedColors(result)
@@ -52,29 +52,160 @@ public extension Customizable{
             documentAttributes: nil)
         return accessAttributedText
     }
-
+    
 }
 
-public protocol ColorScheme: NSObjectProtocol{
-    var mainAccent:UIColor {get set}
-    var placeholderText:UIColor {get set}
-    var disabledText:UIColor {get set}
-    var selectedText:UIColor {get set}
-    var normalText:UIColor {get set}
-    var linkText:UIColor {get set}
-    var buttonTextColor:UIColor {get set}
-    var defaultTextInputBackground:UIColor {get set}
-}
-
-public class DefaultColorScheme : NSObject, ColorScheme{
-    public var mainAccent:UIColor = UIColor(netHex: 0x19586E)
-    public var placeholderText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var disabledText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var selectedText:UIColor = UIColor(netHex: 0x000000)
-    public var normalText:UIColor = UIColor(netHex: 0xC8C8CD)
-    public var buttonTextColor:UIColor = UIColor(netHex: 0xffffff)
-    public var linkText:UIColor = UIColor(netHex: 0x133E6B)
-    public var defaultTextInputBackground:UIColor = UIColor(netHex: 0xffffff)
+public class ColorScheme : NSObject{
+    // MARK: Common colors defining color scheme
+    public var mainAccent:UIColor = UIColor(hex: 0x009688)
+    public var extraAccent:UIColor = UIColor(hex: 0x00796B)
+    public var lightText:UIColor = UIColor(hex: 0xFFFFFF)
+    public var darkText:UIColor = UIColor(hex: 0x000000)
+    public var disabledText:UIColor = UIColor(hex: 0xB0B0B0)
+    public var inputBackground:UIColor = UIColor(hex: 0xFFFFFF)
+    public var diabledBackground:UIColor = UIColor(hex: 0xEFEFF4)
+    public var activityIndicator:UIColor = UIColor(hex: 0x203034).colorWithAlphaComponent(0.75)
+    
+    public var success:UIColor = UIColor(hex: 0x037AFF)
+    public var fail:UIColor = UIColor(hex: 0xD0021B)
+    
+    // MARK: Specific colors: phone.id button
+    public var activityIndicatorInitial:UIColor!
+    public var buttonSeparator:UIColor!
+    
+    // phone.id button background
+    public var buttonDisabledBackground:UIColor!
+    public var buttonNormalBackground:UIColor!
+    public var buttonHightlightedBackground:UIColor!
+    
+    // phone.id button image
+    public var buttonDisabledImage:UIColor!
+    public var buttonNormalImage:UIColor!
+    public var buttonHightlightedImage:UIColor!
+    
+    // phone.id button text
+    public var buttonDisabledText:UIColor!
+    public var buttonNormalText:UIColor!
+    public var buttonHightlightedText:UIColor!
+    
+    // MARK: Specific colors: fullscreen mode
+    public var mainViewBackground:UIColor!
+    public var labelTopNoteText:UIColor!
+    public var labelMidNoteText:UIColor!
+    public var labelBottomNoteText:UIColor!
+    public var labelBottomNoteLinkText:UIColor!
+    public var headerBackground:UIColor!
+    public var headerTitleText:UIColor!
+    public var headerButtonText:UIColor!
+    
+    // MARK: Specific colors: related to number input
+    public var activityIndicatorNumber:UIColor!
+    public var buttonOKNormalText:UIColor!
+    public var buttonOKHightlightedText:UIColor!
+    public var buttonOKDisabledText:UIColor!
+    public var inputPrefixText:UIColor!
+    public var inputNumberText:UIColor!
+    public var inputNumberPlaceholderText:UIColor!
+    public var inputNumberBackground:UIColor!
+    
+    // MARK: Specific colors: related to code verification
+    public var activityIndicatorCode:UIColor!
+    public var inputCodeBackbuttonNormal:UIColor!
+    public var inputCodeBackbuttonDisabled:UIColor!
+    public var inputCodePlaceholder:UIColor!
+    public var inputCodeText:UIColor!
+    public var inputCodeBackground:UIColor!
+    public var inputCodeFailIcon:UIColor!
+    public var inputCodeSuccessIcon:UIColor!
+    
+    // MARK: Specific colors: related to country-code picker
+    public var labelPrefixText:UIColor!
+    public var labelCountryNameText:UIColor!
+    public var labelPrefixBackground:UIColor!
+    public var sectionIndexText:UIColor!
+    
+    // MARK: Specific colors: related to profile
+    public var profileCommentSectionText:UIColor!
+    public var profileCommentSectionBackground:UIColor!
+    public var profileDataSectionTitleText:UIColor!
+    public var profileDataSectionValueText:UIColor!
+    public var profileDataSectionBackground:UIColor!
+    public var profilePictureSectionBackground:UIColor!
+    public var profilePictureBackground:UIColor!
+    public var profileTopUsernameText:UIColor!
+    public var profilePictureEditingHintText:UIColor!
+    public var profileActivityIndicator:UIColor!
+    
+    override init() {
+        super.init()
+        applyCommonColors()
+    }
+    
+    public func applyCommonColors(){
+        /// Colors of phone.id button
+        activityIndicatorInitial = activityIndicator
+        buttonSeparator = darkText.colorWithAlphaComponent(0.12)
+        
+        buttonDisabledBackground = diabledBackground
+        buttonNormalBackground = mainAccent
+        buttonHightlightedBackground = extraAccent
+        
+        buttonDisabledImage = disabledText
+        buttonNormalImage = lightText
+        buttonHightlightedImage = disabledText
+        
+        buttonDisabledText = disabledText
+        buttonNormalText = lightText
+        buttonHightlightedText = disabledText
+        
+        /// Colors common for fullscreen mode
+        mainViewBackground = mainAccent
+        labelTopNoteText = lightText
+        labelMidNoteText = lightText
+        labelBottomNoteText = darkText
+        labelBottomNoteLinkText = darkText
+        headerBackground = extraAccent
+        headerTitleText = lightText
+        headerButtonText = lightText
+        
+        /// Colors of number input
+        activityIndicatorNumber = activityIndicator
+        buttonOKNormalText = mainAccent
+        buttonOKHightlightedText = extraAccent
+        buttonOKDisabledText = disabledText
+        inputPrefixText = mainAccent
+        inputNumberText = darkText
+        inputNumberPlaceholderText = disabledText
+        inputNumberBackground = inputBackground
+        
+        /// Colors of verification code input
+        activityIndicatorCode = activityIndicator
+        inputCodeBackbuttonNormal = mainAccent
+        inputCodeBackbuttonDisabled = disabledText
+        inputCodePlaceholder = mainAccent
+        inputCodeText = darkText
+        inputCodeBackground = inputBackground
+        inputCodeFailIcon = fail
+        inputCodeSuccessIcon = success
+        
+        /// Colors of country-code picker
+        labelPrefixText = lightText
+        labelCountryNameText = darkText
+        labelPrefixBackground = mainAccent
+        sectionIndexText = mainAccent
+        
+        /// Colors of profile
+        profileCommentSectionText = darkText
+        profileCommentSectionBackground = diabledBackground
+        profileDataSectionTitleText = darkText
+        profileDataSectionValueText = disabledText
+        profileDataSectionBackground = inputBackground
+        profilePictureSectionBackground = mainAccent
+        profilePictureBackground = inputBackground
+        profileTopUsernameText = lightText
+        profilePictureEditingHintText = darkText
+        profileActivityIndicator = activityIndicator
+    }
 }
 
 public extension ColorScheme {
@@ -106,8 +237,8 @@ public extension UIColor {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
     
-    public convenience init(netHex:Int) {
-        self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff)
+    public convenience init(hex:Int) {
+        self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
     
     public func hexString() -> String {

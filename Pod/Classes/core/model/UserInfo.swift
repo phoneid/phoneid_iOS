@@ -2,7 +2,7 @@
 //  UserInfo.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,22 +20,65 @@
 
 import Foundation
 
-
+import libPhoneNumber_iOS
 
 public class UserInfo: ParseableModel{
     public var id:String?
     public var clientId:String?
+    public var screenName:String?
     public var phoneNumber:String?
+    public var dateOfBirth:NSDate?
+    public var imageURL:String?
+    public var updatedImage:UIImage?
     
     public required init(json:NSDictionary){
         super.init(json:json)
         id = json["id"] as? String
         clientId = json["client_id"] as? String
         phoneNumber = json["phone_number"] as? String
+        screenName = json["screen_name"] as? String
+        imageURL = json["picture"] as? String
+        if let birthdate = json["birthdate"] as? String{
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateOfBirth = dateFormatter.dateFromString(birthdate)
+        }
     }
     
     public override func isValid() -> Bool{
         return id != nil && clientId != nil && phoneNumber != nil
     }
+    
+    func dateOfBirthAsString() ->String?{
+        var result:String? = nil
+        if let dateOfBirth=self.dateOfBirth {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+            dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+            
+            result = dateFormatter.stringFromDate(dateOfBirth)
+        }
 
+        return result
+    }
+
+    func asDictionary()->[String:String]{
+        var result:[String:String] = [:]
+        if let screenName = self.screenName {
+            result["screen_name"] = screenName
+        }
+        if let birthdate = self.dateOfBirth {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            result["birthdate"] = dateFormatter.stringFromDate(birthdate)
+        }
+        return result
+    }
+    
+    func formattedPhoneNumber()->String?{
+        
+        let number = NumberInfo(numberE164: self.phoneNumber).internationalFormatted()
+        return number
+    }
+    
 }

@@ -2,7 +2,7 @@
 //  PhoneIdSDKIntegrationTests.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         
         // request user info
         expectation = expectationWithDescription("Request user info")
-        phoneId.loadUserInfo() { (userInfo, e1) -> Void in
+        phoneId.loadUserProfile() { (userInfo, e1) -> Void in
             
             if let userInfo = userInfo{
                 if(e1 == nil && userInfo.isValid()){

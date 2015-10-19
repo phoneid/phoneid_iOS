@@ -2,7 +2,7 @@
 //  NumberInfo.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -53,6 +53,15 @@ public class NumberInfo: NSObject {
         self.phoneNumber = number
         self.phoneCountryCode = countryCode
         self.isoCountryCode = isoCountryCode
+    }
+    
+    public convenience init(numberE164:String?) {
+        self.init()
+        if let number:NBPhoneNumber = try? self.phoneUtil.parseWithPhoneCarrierRegion(numberE164){
+            self.phoneNumber = number.nationalNumber.stringValue
+            self.phoneCountryCode = "+\(number.countryCode.stringValue)"
+            self.isoCountryCode = self.phoneUtil.getRegionCodeForNumber(number)
+        }
     }
     
     public func validate() throws -> Bool {
@@ -177,6 +186,16 @@ public class NumberInfo: NSObject {
         }catch{
             return number
         }
+    }
+    
+    func internationalFormatted()->String?{
+        var number = self.phoneNumber
+        if let parsed = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: self.isoCountryCode){
+            if let formatted = try? NBPhoneNumberUtil.sharedInstance().format(parsed, numberFormat: NBEPhoneNumberFormatINTERNATIONAL){
+                number = formatted
+            }
+        }
+        return number
     }
     
     override public var description: String {

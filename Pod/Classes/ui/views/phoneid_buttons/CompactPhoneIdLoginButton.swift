@@ -2,7 +2,7 @@
 //  CompactPhoneIdLoginButton.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,17 +21,28 @@ import UIKit
 
 
 @IBDesignable class InternalCompactPhoneIdLoginButton: PhoneIdLoginButton{
-
+    
     internal var loginTouchedBlock:(()->Void)?
     override func loginTouched() {
         
         loginTouchedBlock?()
     }
-
+    
 }
 
 
 @IBDesignable public class CompactPhoneIdLoginButton: PhoneIdBaseView{
+    
+    public var phoneNumberE164:String!{
+        get{
+            return self.phoneIdModel.e164Format()
+        }
+        set{
+            self.phoneIdModel = NumberInfo(numberE164:newValue)
+            self.numberInputControl?.setupWithModel(self.phoneIdModel)
+            self.verifyCodeControl?.setupWithModel(self.phoneIdModel)
+        }
+    }
     
     private(set) var loginButton: InternalCompactPhoneIdLoginButton!
     private(set) var numberInputControl: NumberInputControl!
@@ -58,7 +69,7 @@ import UIKit
     }
     
     func initUI(){
-
+        
         loginButton = InternalCompactPhoneIdLoginButton()
         
         phoneIdModel = NumberInfo()
@@ -131,9 +142,11 @@ import UIKit
                 self.phoneIdService.verifyAuthentication(code, info: self.phoneIdModel){ (token, error) -> Void in
                     
                     if(error == nil){
-                        self.verifyCodeControl.indicateVerificationSuccess()
-                        print("PhoneId login finished")
-                        self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+                        self.verifyCodeControl.indicateVerificationSuccess(){
+                            print("PhoneId login finished")
+                            self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+                            self.resetControls()
+                        }
                     }else{
                         print("PhoneId login cancelled")
                         self.verifyCodeControl.indicateVerificationFail()
@@ -155,35 +168,45 @@ import UIKit
             self.numberInputControl.validatePhoneNumber()
             self.numberInputControl.becomeFirstResponder()
         }
+        
+        verifyCodeControl.requestVoiceCall = {
+            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .Call, completion:{ (error) -> Void in
+                if let e = error {
+                    self.presentErrorMessage(e)
+                }
+            })
+        }
     }
     
     func requestAuthentication(){
         
         phoneIdService.requestAuthenticationCode(self.phoneIdModel, completion: { [unowned self] (error) -> Void in
             
-            if(error == nil){
-                
+            if let e = error{
+                self.presentErrorMessage(e)
+            }else{
                 self.numberInputControl.hidden = true
-                
                 self.verifyCodeControl.hidden = false
                 self.verifyCodeControl.becomeFirstResponder()
-                
-            }else{
-                let bundle = self.phoneIdService.componentFactory.localizationBundle()
-                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
-                
-                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
-                
-                let presenter:UIViewController = PhoneIdWindow.currentPresenter()
-                presenter.presentViewController(alert, animated: true, completion: nil)
+                self.verifyCodeControl.setupHintTimer()
             }
             });
     }
     
+    func presentErrorMessage(error:NSError){
+          let bundle = self.phoneIdService.componentFactory.localizationBundle()
+          let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment:"Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+          
+          alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment:"Dismiss"), style: .Cancel, handler:nil))
+          
+          let presenter:UIViewController = PhoneIdWindow.currentPresenter()
+          presenter.presentViewController(alert, animated: true, completion: nil)
+          self.numberInputControl.validatePhoneNumber()
+    }
     
     
     func doOnSuccessfulLogin() -> Void {
-        resetControls()
+        
     }
     
     func doOnlogout() -> Void {

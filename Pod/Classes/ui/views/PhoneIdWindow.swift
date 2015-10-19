@@ -2,7 +2,7 @@
 //  PhoneIdWindow.swift
 //  phoneid_iOS
 //
-//  Copyright 2015 Federico Pomi
+//  Copyright 2015 phone.id - 73 knots, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,6 +22,18 @@ import UIKit
 class PhoneIdWindow: UIWindow {
     
     weak var previousKeyWindow:UIWindow?
+    
+    required init(){
+        var frame = UIScreen.mainScreen().bounds
+        if let wnd = UIApplication.sharedApplication().keyWindow{
+            frame = wnd.frame
+        }
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
  
     class func activePhoneIdWindow() -> PhoneIdWindow? {
         return UIApplication.sharedApplication().keyWindow as? PhoneIdWindow
@@ -49,9 +61,7 @@ class PhoneIdWindow: UIWindow {
     
     func makeActive() {
         
-        self.backgroundColor = UIColor.clearColor()
-        
-        self.windowLevel = UIWindowLevelAlert
+        self.windowLevel = UIWindowLevelNormal+1
         
         self.rootViewController = UIViewController()
         
