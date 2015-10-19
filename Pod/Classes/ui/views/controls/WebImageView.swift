@@ -51,9 +51,14 @@ class WebImageView: UIImageView {
     func getDataFromUrl(url:String, completion: ((data: NSData?) -> Void)) {
         let urlSession = PhoneIdService.sharedInstance.urlSession
         
-        urlSession.dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        
+        request.cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
+        
+        let dataTask = urlSession.dataTaskWithRequest(request) { (data, response, error) -> Void in
             completion(data: data != nil ? NSData(data: data!) : nil )
-        }.resume()
+        }
+        dataTask.resume()
     }
     
     func downloadImage(url:String?){

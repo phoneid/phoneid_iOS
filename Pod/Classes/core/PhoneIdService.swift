@@ -238,13 +238,7 @@ public class PhoneIdService: NSObject {
                 error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
                 completion(error: error)
                 self.notifyClientCodeAboutError(error)
-            }else if let image  = userInfo.updatedImage{
-                
-                if let imageURL = userInfo.imageURL, let URL =  NSURL(string: imageURL){
-                    let datatask = self.urlSession.dataTaskWithURL(URL)
-                    NSURLCache.sharedURLCache().removeCachedResponseForDataTask(datatask)
-                }
-                
+            }else if let image  = userInfo.updatedImage{                
                 self.updateUserAvatar(image, completion: { (error) -> Void in
                     completion(error: error)
                     self.notifyClientCodeAboutError(error)

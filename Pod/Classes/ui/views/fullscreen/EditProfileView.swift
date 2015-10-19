@@ -259,6 +259,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             profileView.nameText.textColor = colorScheme.profileTopUsernameText
             profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
             profileView.avatarView.userInteractionEnabled = true
+            profileView.avatarView.activityIndicator.color = colorScheme.profileActivityIndicator
             profileView.userInteractionEnabled = true
             return profileView
             }()
