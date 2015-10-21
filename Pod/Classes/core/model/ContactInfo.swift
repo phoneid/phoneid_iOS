@@ -21,7 +21,7 @@
 import Foundation
 
 
-class ContactInfo: NSObject{
+internal class ContactInfo: NSObject{
     
     var number:String?
     var kind:String?
