@@ -18,7 +18,6 @@
 //
 
 
-
 import UIKit
 
 import Security
@@ -44,94 +43,96 @@ public class KeychainStorage: NSObject {
     public class func saveValue(value: String) {
         self.saveValue(serviceIdentifier, value: value)
     }
-    
+
     public class func loadValue() -> String? {
         let token = self.loadValue(serviceIdentifier)
         return token
     }
-    
+
     public class func saveValue(key: String, value: String) -> Bool {
-        
+
         let data: NSData = value.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
 
         let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, data], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
 
         SecItemDelete(query as CFDictionaryRef)
-        
+
         let status: OSStatus = SecItemAdd(query as CFDictionaryRef, nil)
-        
+
         return status == noErr
     }
-    
+
     public class func loadValue(key: String) -> String? {
 
         let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, kCFBooleanTrue, kSecMatchLimitOneValue],
-            forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
-        
+                forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
+
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(&result) { SecItemCopyMatching(query, UnsafeMutablePointer($0)) }
+        let status = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(query, UnsafeMutablePointer($0))
+        }
 
 
         var value: String?
-        
+
         if status == noErr {
             let retrievedData: NSData = result as! NSData
             value = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as? String;
         }
-        
+
         return value
     }
-    
+
     public class func saveIntValue(key: String, value: Int) -> Bool {
         return self.saveValue(key, value: "\(value)")
     }
-    
-    public class func loadIntValue(key: String) ->Int?{
-        
-        var result:Int?
-        
-        if let value = self.loadValue(key){
+
+    public class func loadIntValue(key: String) -> Int? {
+
+        var result: Int?
+
+        if let value = self.loadValue(key) {
             result = Int(value)
         }
-        
+
         return result
-    
+
     }
-    
+
     public class func saveTimeIntervalValue(key: String, value: NSTimeInterval) -> Bool {
         return self.saveValue(key, value: "\(value)")
     }
-    
-    public class func loadTimeIntervalValue(key: String) ->NSTimeInterval?{
-        
-        var result:NSTimeInterval?
-        
-        if let value = self.loadValue(key){
+
+    public class func loadTimeIntervalValue(key: String) -> NSTimeInterval? {
+
+        var result: NSTimeInterval?
+
+        if let value = self.loadValue(key) {
             result = NSTimeInterval(value)
         }
-        
+
         return result
-        
+
     }
-    
+
     public class func deleteValue(key: String) -> Bool {
         let query = [
-            kSecClass as String : kSecClassGenericPassword,
-            kSecAttrServiceValue as String : key ]
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrServiceValue as String: key]
 
-        
+
         let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
-        
+
         return status == noErr
     }
-    
+
     public class func clear() -> Bool {
-        let query = [ kSecClass as String : kSecClassGenericPassword ]
-        
+        let query = [kSecClass as String: kSecClassGenericPassword]
+
         let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
-        
+
         return status == noErr
     }
-    
-    
+
+
 }

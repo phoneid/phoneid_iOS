@@ -20,12 +20,12 @@
 import UIKit
 
 class PhoneIdWindow: UIWindow {
-    
-    weak var previousKeyWindow:UIWindow?
-    
-    required init(){
+
+    weak var previousKeyWindow: UIWindow?
+
+    required init() {
         var frame = UIScreen.mainScreen().bounds
-        if let wnd = UIApplication.sharedApplication().keyWindow{
+        if let wnd = UIApplication.sharedApplication().keyWindow {
             frame = wnd.frame
         }
         super.init(frame: frame)
@@ -34,56 +34,58 @@ class PhoneIdWindow: UIWindow {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
- 
+
     class func activePhoneIdWindow() -> PhoneIdWindow? {
         return UIApplication.sharedApplication().keyWindow as? PhoneIdWindow
     }
-    
+
     class func currentPresenter() -> UIViewController {
         if PhoneIdWindow.activePhoneIdWindow() == nil {
             PhoneIdWindow().makeActive()
         }
-        let presenter:UIViewController = PhoneIdWindow.activePhoneIdWindow()!.currentPresenter()!
+        let presenter: UIViewController = PhoneIdWindow.activePhoneIdWindow()!.currentPresenter()!
         return presenter
     }
-    
-    func close(){
+
+    func close() {
         self.resignFirstResponder()
-        UIView.animateWithDuration(0.3, animations: {  () -> Void in
-                self.alpha = 0
-            
-            }) { (Bool) -> Void in
-                self.removeFromSuperview()
-                self.previousKeyWindow?.makeKeyAndVisible()
+        UIView.animateWithDuration(0.3, animations: {
+            () -> Void in
+            self.alpha = 0
+
+        }) {
+            (Bool) -> Void in
+            self.removeFromSuperview()
+            self.previousKeyWindow?.makeKeyAndVisible()
         }
 
     }
-    
+
     func makeActive() {
-        
-        self.windowLevel = UIWindowLevelNormal+1
-        
+
+        self.windowLevel = UIWindowLevelNormal + 1
+
         self.rootViewController = UIViewController()
-        
+
         self.makeKeyAndVisible()
-        
+
     }
-    
+
     func currentPresenter() -> UIViewController? {
-    
-        var presenter:UIViewController?
-        
+
+        var presenter: UIViewController?
+
         if let window = PhoneIdWindow.activePhoneIdWindow() {
-         
+
             if let presentedViewController = window.rootViewController!.presentedViewController {
-                presenter =  presentedViewController
-            }else{
+                presenter = presentedViewController
+            } else {
                 presenter = window.rootViewController
             }
         }
-        
+
         return presenter
     }
-    
+
 }
 

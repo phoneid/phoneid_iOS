@@ -76,12 +76,12 @@ public class Reachability: NSObject {
     }
 
     // MARK: - *** Initialisation methods ***
-    
+
     public required init(reachabilityRef: SCNetworkReachability) {
         reachableOnWWAN = true
         self.reachabilityRef = reachabilityRef
     }
-    
+
     public convenience init(hostname: String) {
         let reachabilityRef = SCNetworkReachabilityCreateWithName(nil, (hostname as NSString).UTF8String)
         self.init(reachabilityRef: reachabilityRef!)
@@ -123,9 +123,10 @@ public class Reachability: NSObject {
         previousReachabilityFlags = reachabilityFlags
         if let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, timer_queue) {
             dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), 500 * NSEC_PER_MSEC, 100 * NSEC_PER_MSEC)
-            dispatch_source_set_event_handler(timer, { [unowned self] in
+            dispatch_source_set_event_handler(timer, {
+                [unowned self] in
                 self.timerFired()
-                })
+            })
 
             dispatch_timer = timer
             dispatch_resume(timer)
@@ -149,7 +150,8 @@ public class Reachability: NSObject {
 
     // MARK: - *** Connection test methods ***
     public func isReachable() -> Bool {
-        return isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
+        return isReachableWithTest({
+            (flags: SCNetworkReachabilityFlags) -> (Bool) in
             return self.isReachableWithFlags(flags)
         })
     }
@@ -157,7 +159,8 @@ public class Reachability: NSObject {
     public func isReachableViaWWAN() -> Bool {
 
         if isRunningOnDevice {
-            return isReachableWithTest() { flags -> Bool in
+            return isReachableWithTest() {
+                flags -> Bool in
                 // Check we're REACHABLE
                 if self.isReachable(flags) {
 
@@ -174,7 +177,8 @@ public class Reachability: NSObject {
 
     public func isReachableViaWiFi() -> Bool {
 
-        return isReachableWithTest() { flags -> Bool in
+        return isReachableWithTest() {
+            flags -> Bool in
 
             // Check we're reachable
             if self.isReachable(flags) {
@@ -194,29 +198,30 @@ public class Reachability: NSObject {
 
     // MARK: - *** Private methods ***
     private var isRunningOnDevice: Bool = {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
-            return false
-            #else
-            return true
-        #endif
-        }()
+#if ( arch(i386) || arch(x86_64)) && os(iOS)
+        return false
+#else
+        return true
+#endif
+    }()
 
     private var reachabilityRef: SCNetworkReachability?
     private var reachabilityObject: AnyObject?
     private var dispatch_timer: dispatch_source_t?
     private lazy var timer_queue: dispatch_queue_t = {
         return dispatch_queue_create("uk.co.joylordsystems.reachability_timer_queue", nil)
-        }()
+    }()
     private var previousReachabilityFlags: SCNetworkReachabilityFlags?
 
     func timerFired() {
         let currentReachabilityFlags = reachabilityFlags
         if let _ = previousReachabilityFlags {
             if currentReachabilityFlags != previousReachabilityFlags {
-                dispatch_async(dispatch_get_main_queue(), { [unowned self] in
+                dispatch_async(dispatch_get_main_queue(), {
+                    [unowned self] in
                     self.reachabilityChanged(currentReachabilityFlags!)
                     self.previousReachabilityFlags = currentReachabilityFlags
-                    })
+                })
             }
         }
     }
@@ -232,7 +237,7 @@ public class Reachability: NSObject {
             }
         }
 
-        notificationCenter.postNotificationName(ReachabilityChangedNotification, object:self)
+        notificationCenter.postNotificationName(ReachabilityChangedNotification, object: self)
     }
 
     private func isReachableWithFlags(flags: SCNetworkReachabilityFlags) -> Bool {
@@ -274,75 +279,79 @@ public class Reachability: NSObject {
     }
 
     private func connectionRequired() -> Bool {
-        return isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
+        return isReachableWithTest({
+            (flags: SCNetworkReachabilityFlags) -> (Bool) in
             return self.isConnectionRequired(flags)
         })
     }
 
     // Dynamic, on demand connection?
     private func isConnectionOnDemand() -> Bool {
-        return isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
+        return isReachableWithTest({
+            (flags: SCNetworkReachabilityFlags) -> (Bool) in
             return self.isConnectionRequired(flags) && self.isConnectionOnTrafficOrDemand(flags)
         })
     }
 
     // Is user intervention required?
     private func isInterventionRequired() -> Bool {
-        return isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
+        return isReachableWithTest({
+            (flags: SCNetworkReachabilityFlags) -> (Bool) in
             return self.isConnectionRequired(flags) && self.isInterventionRequired(flags)
         })
     }
 
     private func isOnWWAN(flags: SCNetworkReachabilityFlags) -> Bool {
-        #if os(iOS)
-            return flags.contains(SCNetworkReachabilityFlags.IsWWAN)
-        #else
-            return false
-        #endif
+#if os(iOS)
+        return flags.contains(SCNetworkReachabilityFlags.IsWWAN)
+#else
+        return false
+#endif
     }
-    
+
     private func isReachable(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.Reachable)
     }
-    
+
     private func isConnectionRequired(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.ConnectionRequired)
     }
-        
+
     private func isInterventionRequired(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.InterventionRequired)
     }
-    
+
     private func isConnectionOnTraffic(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.ConnectionOnTraffic)
     }
-    
+
     private func isConnectionOnDemand(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.ConnectionOnDemand)
     }
-    
+
     func isConnectionOnTrafficOrDemand(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags.contains(SCNetworkReachabilityFlags.ConnectionOnTraffic)||flags.contains(SCNetworkReachabilityFlags.ConnectionOnDemand)
+        return flags.contains(SCNetworkReachabilityFlags.ConnectionOnTraffic) || flags.contains(SCNetworkReachabilityFlags.ConnectionOnDemand)
     }
-    
+
     private func isTransientConnection(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.IsLocalAddress)
     }
-    
+
     private func isLocalAddress(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.IsLocalAddress)
     }
-    
+
     private func isDirect(flags: SCNetworkReachabilityFlags) -> Bool {
         return flags.contains(SCNetworkReachabilityFlags.IsDirect)
     }
+
     private func isConnectionRequiredOrTransient(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags.contains(SCNetworkReachabilityFlags.ConnectionRequired )||flags.contains(SCNetworkReachabilityFlags.TransientConnection)
+        return flags.contains(SCNetworkReachabilityFlags.ConnectionRequired) || flags.contains(SCNetworkReachabilityFlags.TransientConnection)
     }
 
     private var reachabilityFlags: SCNetworkReachabilityFlags? {
         var flags: SCNetworkReachabilityFlags = SCNetworkReachabilityFlags()
-        let gotFlags =  SCNetworkReachabilityGetFlags(reachabilityRef!, &flags)
+        let gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef!, &flags)
         if (gotFlags == true) {
             return flags
         }

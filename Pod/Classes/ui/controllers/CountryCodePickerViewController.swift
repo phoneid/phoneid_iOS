@@ -20,58 +20,57 @@
 
 import Foundation
 
-public typealias CountryCodePickerCompletionBlock = ((model:NumberInfo)->Void)
+public typealias CountryCodePickerCompletionBlock = ((model:NumberInfo) -> Void)
 
 public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer, CountryCodePickerViewDelegate {
 
-    public var phoneIdModel:NumberInfo!
-    public var countryCodePickerCompletionBlock:CountryCodePickerCompletionBlock?
-    
-    private var countryCodePickerView:CountryCodePickerView!
-        {
+    public var phoneIdModel: NumberInfo!
+    public var countryCodePickerCompletionBlock: CountryCodePickerCompletionBlock?
+
+    private var countryCodePickerView: CountryCodePickerView! {
         get {
             let result = self.view as? CountryCodePickerView
-            if(result == nil){
+            if (result == nil) {
                 fatalError("self.view expected to be kind of CountryCodePickerView")
             }
             return result
         }
     }
-    
-    public init(model: NumberInfo){
+
+    public init(model: NumberInfo) {
         super.init(nibName: nil, bundle: nil)
         self.phoneIdModel = model
     }
-    
+
     required public init(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
     }
-    
+
     public override func loadView() {
         let result = phoneIdComponentFactory.countryCodePickerView(self.phoneIdModel)
         result.delegate = self
         self.view = result
     }
-    
+
     public override func viewDidAppear(animated: Bool) {
-        
+
         super.viewDidAppear(animated)
 
         let countrySearchController = self.countryCodePickerView.searchController()
-        presentViewController(countrySearchController, animated: true, completion:{
+        presentViewController(countrySearchController, animated: true, completion: {
             countrySearchController.searchBar.becomeFirstResponder()
         })
     }
-    
+
     // MARK: CountryCodePickerViewDelegate
-    
-    func goBack() {
+
+    func close() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
     func countryCodeSelected(model: NumberInfo) {
         self.phoneIdModel = model
-        self.dismissViewControllerAnimated(true){
+        self.dismissViewControllerAnimated(true) {
             countryCodePickerCompletionBlock?(model: model)
         }
     }

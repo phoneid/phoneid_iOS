@@ -20,12 +20,15 @@
 import UIKit
 
 
-public protocol LoginViewDelegate: NSObjectProtocol{
+public protocol LoginViewDelegate: NSObjectProtocol {
     func close()
+
     func goBack()
-    func verifyCode(model:NumberInfo, code:String)
+
+    func verifyCode(model: NumberInfo, code: String)
+
     func numberInputCompleted(model: NumberInfo)
-    
+
 }
 
 internal enum LoginState {
@@ -35,151 +38,163 @@ internal enum LoginState {
     case CodeVerificationSuccess
 }
 
-public class LoginView: PhoneIdBaseFullscreenView{
-    
-    private(set) var verifyCodeControl:VerifyCodeControl!
+public class LoginView: PhoneIdBaseFullscreenView {
+
+    private(set) var verifyCodeControl: VerifyCodeControl!
     private(set) var numberInputControl: NumberInputControl!
-    
+
     private(set) var topText: UITextView!
     private(set) var midText: UITextView!
     private(set) var bottomText: UITextView!
-    
-    private var timer:NSTimer!
-    private var textViewBottomConstraint:NSLayoutConstraint!
-    
-    internal weak var loginViewDelegate:LoginViewDelegate?
-    
-    override init(model:NumberInfo, scheme:ColorScheme, bundle:NSBundle, tableName:String){
-        super.init(model: model, scheme:scheme, bundle:bundle, tableName:tableName)
+
+    private var timer: NSTimer!
+    private var textViewBottomConstraint: NSLayoutConstraint!
+
+    internal weak var loginViewDelegate: LoginViewDelegate?
+
+    override init(model: NumberInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+        super.init(model: model, scheme: scheme, bundle: bundle, tableName: tableName)
     }
-    
+
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    deinit{
+
+    deinit {
         timer?.invalidate()
         timer = nil
     }
-    
-    override func setupSubviews(){
+
+    override func setupSubviews() {
         super.setupSubviews()
-        
-        topText = UITextView()
-        topText.backgroundColor = UIColor.clearColor()
-        topText.editable = false
-        topText.scrollEnabled = false
-        
-        midText = UITextView()
-        midText.editable = false
-        midText.scrollEnabled = false
-        midText.font = UIFont.systemFontOfSize(18)
-        midText.backgroundColor = UIColor.clearColor()
-        
+
+        topText = {
+            let topText = UITextView()
+            topText.backgroundColor = UIColor.clearColor()
+            topText.editable = false
+            topText.scrollEnabled = false
+            return topText
+        }()
+
+        midText = {
+            let midText = UITextView()
+            midText.editable = false
+            midText.scrollEnabled = false
+            midText.font = UIFont.systemFontOfSize(18)
+            midText.backgroundColor = UIColor.clearColor()
+            return midText
+        }()
+
         setupVerificationCodeControl()
-        
-        bottomText = UITextView()
-        bottomText.editable = false
-        bottomText.scrollEnabled = false
-        bottomText.hidden = true
-        bottomText.backgroundColor = UIColor.clearColor()
-        
-        numberInputControl = NumberInputControl(model: phoneIdModel, scheme:colorScheme, bundle:localizationBundle, tableName:localizationTableName)
-        
-        numberInputControl.numberInputCompleted = {(numberInfo)-> Void in
+
+        bottomText = {
+            let bottomText = UITextView()
+            bottomText.editable = false
+            bottomText.scrollEnabled = false
+            bottomText.hidden = true
+            bottomText.backgroundColor = UIColor.clearColor()
+            return bottomText
+        }()
+
+        numberInputControl = NumberInputControl(model: phoneIdModel, scheme: colorScheme, bundle: localizationBundle, tableName: localizationTableName)
+
+        numberInputControl.numberInputCompleted = {
+            (numberInfo) -> Void in
             self.phoneIdModel = numberInfo
             self.loginViewDelegate?.numberInputCompleted(self.phoneIdModel)
         }
-        
+
         self.backgroundView.userInteractionEnabled = true
         self.backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "resignFirstResponder"))
-        
-        let subviews:[UIView] = [verifyCodeControl, numberInputControl, topText, midText, bottomText]
-        
-        for(_, element) in subviews.enumerate(){
+
+        let subviews: [UIView] = [verifyCodeControl, numberInputControl, topText, midText, bottomText]
+
+        for (_, element) in subviews.enumerate() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
     }
-    
-    func setupVerificationCodeControl(){
-        verifyCodeControl = VerifyCodeControl(model: phoneIdModel, scheme:colorScheme, bundle:localizationBundle, tableName:localizationTableName)
-        
-        verifyCodeControl.verificationCodeDidCahnge = { (code)->Void in
-            
+
+    func setupVerificationCodeControl() {
+        verifyCodeControl = VerifyCodeControl(model: phoneIdModel, scheme: colorScheme, bundle: localizationBundle, tableName: localizationTableName)
+
+        verifyCodeControl.verificationCodeDidCahnge = {
+            (code) -> Void in
+
             if (code.utf16.count == self.verifyCodeControl.maxVerificationCodeLength) {
-                
+
                 self.midText.attributedText = self.localizedStringAttributed("html-logging.in")
-                
+
                 if let delegate = self.loginViewDelegate {
-                    delegate.verifyCode(self.phoneIdModel, code:code)
+                    delegate.verifyCode(self.phoneIdModel, code: code)
                 }
-                
+
             } else {
                 self.phoneIdService.abortCall()
             }
-            
+
         }
-        
-        verifyCodeControl.backButtonTapped = { [weak self] in
+
+        verifyCodeControl.backButtonTapped = {
+            [weak self] in
             self?.verifyCodeControl.resignFirstResponder()
             self?.loginViewDelegate?.goBack()
         }
     }
-    
-    override func setupLayout(){
-        
+
+    override func setupLayout() {
+
         super.setupLayout()
-        
-        var c:[NSLayoutConstraint] = []
-        
+
+        var c: [NSLayoutConstraint] = []
+
         c.append(NSLayoutConstraint(item: topText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: topText, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 20))
         c.append(NSLayoutConstraint(item: topText, attribute: .Bottom, relatedBy: .Equal, toItem: numberInputControl, attribute: .TopMargin, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: topText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
-        
+
         c.append(NSLayoutConstraint(item: numberInputControl, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: numberInputControl, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
         c.append(NSLayoutConstraint(item: numberInputControl, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
-        
+
         c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .CenterX, relatedBy: .Equal, toItem: numberInputControl, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .CenterY, relatedBy: .Equal, toItem: numberInputControl, attribute: .CenterY, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .Height, relatedBy: .Equal, toItem: numberInputControl, attribute: .Height, multiplier: 1, constant: 0))
-        
+
         c.append(NSLayoutConstraint(item: midText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: midText, attribute: .Top, relatedBy: .Equal, toItem: numberInputControl, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: midText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant:0))
-        
+        c.append(NSLayoutConstraint(item: midText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
+
         c.append(NSLayoutConstraint(item: bottomText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        
+
         textViewBottomConstraint = NSLayoutConstraint(item: bottomText, attribute: .Top, relatedBy: .Equal, toItem: midText, attribute: .Bottom, multiplier: 1, constant: 20)
         c.append(textViewBottomConstraint)
-        
-        c.append(NSLayoutConstraint(item: bottomText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant:0))
-        
+
+        c.append(NSLayoutConstraint(item: bottomText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
+
         self.customConstraints += c
-        
+
         self.addConstraints(c)
-        
+
     }
-    
-    override func localizeAndApplyColorScheme(){
-        
+
+    override func localizeAndApplyColorScheme() {
+
         super.localizeAndApplyColorScheme()
-        titleLabel.attributedText =  localizedStringAttributed("html-title.login")
-        
+        titleLabel.attributedText = localizedStringAttributed("html-title.login")
+
         self.needsUpdateConstraints()
     }
-    
-    
-    func switchToState(state:LoginState, completion:(()->Void)? = nil){
-        
+
+
+    func switchToState(state: LoginState, completion: (() -> Void)? = nil) {
+
         self.numberInputControl.hidden = state != .NumberInput
         self.verifyCodeControl.hidden = !self.numberInputControl.hidden
-        midText.hidden =  false
+        midText.hidden = false
         timer?.invalidate()
-        switch(state){
+        switch (state) {
         case .NumberInput:
             indicateNumberInput()
             break
@@ -194,61 +209,62 @@ public class LoginView: PhoneIdBaseFullscreenView{
             break
         }
     }
-    
-    func setupHintTimer(){
-        
+
+    func setupHintTimer() {
+
         let fireDate = NSDate(timeIntervalSinceNow: 30)
         timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
         self.verifyCodeControl.setupHintTimer()
-        
+
     }
-    
-    func indicateNumberInput(){
+
+    func indicateNumberInput() {
         numberInputControl.validatePhoneNumber()
         numberInputControl.becomeFirstResponder()
-        topText.attributedText = localizedStringAttributed("html-access.app.with.number") { (tmpResult) -> String in
+        topText.attributedText = localizedStringAttributed("html-access.app.with.number") {
+            (tmpResult) -> String in
             return String(format: tmpResult, self.phoneIdService.appName!)
         }
-        
+
         midText.attributedText = localizedStringAttributed("html-label.we.will.send.sms")
         bottomText.attributedText = localizedStringAttributed("html-label.terms.and.conditions")
-        
-        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15),NSForegroundColorAttributeName:colorScheme.labelBottomNoteLinkText]
+
+        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: colorScheme.labelBottomNoteLinkText]
         needsUpdateConstraints()
         bottomText.hidden = false
     }
-    
-    func indicateCodeVerification(){
+
+    func indicateCodeVerification() {
         verifyCodeControl.reset()
         verifyCodeControl.becomeFirstResponder()
-        
+
         topText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
         midText.attributedText = nil
         midText.textColor = colorScheme.labelMidNoteText
         bottomText.hidden = true
         setupHintTimer()
     }
-    
-    func indicateVerificationFail(){
+
+    func indicateVerificationFail() {
         self.midText.attributedText = localizedStringAttributed("html-loggin.failed")
         verifyCodeControl.indicateVerificationFail()
     }
-    
-    func indicateVerificationSuccess(completion:(()->Void)?){
+
+    func indicateVerificationSuccess(completion: (() -> Void)?) {
         self.midText.attributedText = localizedStringAttributed("html-logged.in")
         verifyCodeControl.indicateVerificationSuccess(completion)
     }
-    
-    func timerFired(){
-        midText.attributedText = localizedStringAttributed("html-label.when.code.not.received")                
+
+    func timerFired() {
+        midText.attributedText = localizedStringAttributed("html-label.when.code.not.received")
     }
 
-    
-    override func closeButtonTapped(){
+
+    override func closeButtonTapped() {
         loginViewDelegate?.close()
     }
-    
+
     public override func resignFirstResponder() -> Bool {
         self.verifyCodeControl.resignFirstResponder()
         self.numberInputControl.resignFirstResponder()

@@ -19,46 +19,45 @@
 
 import UIKit
 
-public class UserNameViewController: UIViewController, PhoneIdConsumer, UserNameViewDelegate{
+public class UserNameViewController: UIViewController, PhoneIdConsumer, UserNameViewDelegate {
 
-    
+
     private var model: UserInfo!
-    
-    public var completeEditing: ((model:UserInfo)->Void)?
+
+    public var completeEditing: ((model:UserInfo) -> Void)?
 
     // Mark: custom init
-    
-    init(model: UserInfo){
-    
+
+    init(model: UserInfo) {
+
         super.init(nibName: nil, bundle: nil)
-        
+
         self.model = model
-        
+
     }
 
-    
+
     required public init?(coder aDecoder: NSCoder) {
-        
+
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private var userNameView:UserNameView!
-        {
+
+    private var userNameView: UserNameView! {
         get {
             let result = self.view as? UserNameView
-            if(result == nil){
+            if (result == nil) {
                 fatalError("self.view expected to be kind of UserNameView")
             }
             return result
         }
     }
-    
+
     // MARK: initialization
-    
+
     override public func viewDidLoad() {
-        
+
         super.viewDidLoad()
-        
+
         let result = self.phoneIdComponentFactory.userNameView(self.model.screenName!)
         result.delegate = self
         self.view = result
@@ -67,12 +66,10 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer, UserName
     public func close() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
     public func save() {
         self.model.screenName = self.userNameView.userNameField.text
         completeEditing?(model: self.model)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }
-

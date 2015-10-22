@@ -48,7 +48,7 @@ class CountryCodeCell: UITableViewCell {
             return label
         }();
 
-        for(_, element) in [prefixLabel, countryLabel].enumerate(){
+        for (_, element) in [prefixLabel, countryLabel].enumerate() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(element)
         }

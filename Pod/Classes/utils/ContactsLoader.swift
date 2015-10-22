@@ -25,42 +25,42 @@ import AddressBook
 
 class ContactsLoader: NSObject {
 
-    var book : ABAddressBook!
-    
+    var book: ABAddressBook!
+
     func createAddressBook() -> Bool {
-        
+
         if self.book != nil {
             return true
         }
-        
-        var err : Unmanaged<CFError>? = nil
-        let adbk : ABAddressBook? = ABAddressBookCreateWithOptions(nil, &err).takeRetainedValue()
-        
+
+        var err: Unmanaged<CFError>? = nil
+        let adbk: ABAddressBook? = ABAddressBookCreateWithOptions(nil, &err).takeRetainedValue()
+
         if adbk == nil {
             print(err)
             self.book = nil
             return false
         }
-        
+
         self.book = adbk
-        
+
         return true
     }
-    
-    func determineStatus(completion:(Bool)->Void){
+
+    func determineStatus(completion: (Bool) -> Void) {
         let status = ABAddressBookGetAuthorizationStatus()
         switch status {
         case .Authorized:
             self.createAddressBook()
             completion(true)
-            
+
         case .NotDetermined:
             ABAddressBookRequestAccessWithCompletion(nil) {
-                (granted:Bool, err:CFError!) in
+                (granted: Bool, err: CFError!) in
                 dispatch_async(dispatch_get_main_queue()) {
                     if granted {
                         self.createAddressBook()
-                    }else{
+                    } else {
                         self.book = nil
                     }
                     completion(granted)
@@ -71,70 +71,71 @@ class ContactsLoader: NSObject {
             completion(false)
         }
     }
-    
-    func getContacts(defaultISOCountryCode:String, completion: ([ContactInfo]?) -> Void){
-                       
-        determineStatus { [unowned self] (authenticated) -> Void in
-            
-            var result:[ContactInfo]?
-            
-            if(authenticated){
-                
+
+    func getContacts(defaultISOCountryCode: String, completion: ([ContactInfo]?) -> Void) {
+
+        determineStatus {
+            [unowned self] (authenticated) -> Void in
+
+            var result: [ContactInfo]?
+
+            if (authenticated) {
+
                 let people = ABAddressBookCopyArrayOfAllPeople(self.book).takeRetainedValue() as NSArray as [ABRecord]
-                for person:ABRecordRef in people {
-                    
-                    var contactInfo:ContactInfo!
-                    
+                for person: ABRecordRef in people {
+
+                    var contactInfo: ContactInfo!
+
                     let phonesRef: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValueRef
-                    
-                    for var i:Int = 0; i < ABMultiValueGetCount(phonesRef); i++ {
-                        
+
+                    for var i: Int = 0; i < ABMultiValueGetCount(phonesRef); i++ {
+
                         if let value = ABMultiValueCopyValueAtIndex(phonesRef, i).takeRetainedValue() as? String {
 
-                            if let number =  NumberInfo.e164Format(value, iso: defaultISOCountryCode){
-                                
+                            if let number = NumberInfo.e164Format(value, iso: defaultISOCountryCode) {
+
                                 contactInfo = ContactInfo()
-                                
+
                                 contactInfo.number = number
-                                
+
                                 let rawLabel = ABMultiValueCopyLabelAtIndex(phonesRef, i)?.takeRetainedValue()
-                                
+
                                 contactInfo.kind = ABAddressBookCopyLocalizedLabel(rawLabel)?.takeRetainedValue() as? String
-                                
+
                                 if let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty)?.takeRetainedValue() as? String {
                                     contactInfo.firstName = firstName
                                 }
-                                
+
                                 if let lastName = ABRecordCopyValue(person, kABPersonLastNameProperty)?.takeRetainedValue() as? String {
                                     contactInfo.lastName = lastName
                                 }
-                                
+
                                 if let lastName = ABRecordCopyValue(person, kABPersonOrganizationProperty)?.takeRetainedValue() as? String {
                                     contactInfo.company = lastName
                                 }
                             }
                         }
-                        if(contactInfo != nil){
+                        if (contactInfo != nil) {
                             if result == nil {
                                 result = []
                             }
                             result?.append(contactInfo)
                         }
                     }
-                    
-                    
+
+
                 }
-                
-            }else{
-                
-                let alertController = UIAlertController(title:nil, message:NSLocalizedString(
-                    "phone.id.needs.access.to.your.contacts", bundle: NSBundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .Alert)
-                
-                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: NSBundle.phoneIdBundle(), comment:"alert.button.title.dismiss"), style: .Cancel, handler:nil));
-                
+
+            } else {
+
+                let alertController = UIAlertController(title: nil, message: NSLocalizedString(
+                "phone.id.needs.access.to.your.contacts", bundle: NSBundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .Alert)
+
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: NSBundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .Cancel, handler: nil));
+
                 UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
-                
-                
+
+
             }
             completion(result)
         }

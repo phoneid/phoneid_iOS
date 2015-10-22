@@ -37,6 +37,16 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>s3.amazonaws.com</key>
+            <dict>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>

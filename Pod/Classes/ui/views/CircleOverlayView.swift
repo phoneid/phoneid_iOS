@@ -21,30 +21,25 @@ import UIKit
 
 class CircleOverlayView: UIView {
 
-    var inset: CGFloat = 5
-        {
-        didSet
-        {
+    var inset: CGFloat = 5 {
+        didSet {
             self.layoutSubviews()
         }
     }
-    
+
     let shapeLayer = CAShapeLayer()
-    
-    override init(frame: CGRect)
-    {
+
+    override init(frame: CGRect) {
         super.init(frame: frame)
         self.setup()
     }
-    
-    required init?(coder aDecoder: NSCoder)
-    {
+
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
     }
-    
-    func setup()
-    {
+
+    func setup() {
         self.userInteractionEnabled = false
         shapeLayer.opaque = false
         shapeLayer.fillColor = UIColor.blackColor().CGColor
@@ -52,19 +47,18 @@ class CircleOverlayView: UIView {
         shapeLayer.borderWidth = 1.0
         self.layer.addSublayer(shapeLayer)
     }
-    
-    override func layoutSubviews()
-    {
+
+    override func layoutSubviews() {
         let frame = self.layer.bounds
         shapeLayer.frame = frame
         let smallest = min(frame.size.height, frame.size.width) - inset
         let square = CGRect(
-            x: (frame.size.width - smallest)/2.0,
-            y: (frame.size.height - smallest)/2.0,
-            width: smallest,
-            height: smallest)
+        x: (frame.size.width - smallest) / 2.0,
+                y: (frame.size.height - smallest) / 2.0,
+                width: smallest,
+                height: smallest)
         let path = UIBezierPath(rect: frame)
-        path.appendPath(UIBezierPath(ovalInRect:  square))
+        path.appendPath(UIBezierPath(ovalInRect: square))
         path.closePath()
         shapeLayer.path = path.CGPath
     }

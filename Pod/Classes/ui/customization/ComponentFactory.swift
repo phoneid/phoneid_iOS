@@ -20,103 +20,114 @@
 
 import Foundation
 
-public protocol ComponentFactory: NSObjectProtocol{
-    
-    
-    func loginViewController() -> LoginViewController
-    func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
-    func editProfileViewController(model: UserInfo) -> EditProfileViewController
-    func imageEditViewController(image:UIImage) -> ImageEditViewController
-    func editUserNameViewController(model: UserInfo) -> UserNameViewController
-    
-    func loginView(model: NumberInfo)->LoginView
-    
-    func countryCodePickerView(model: NumberInfo)->CountryCodePickerView
-    func editProfileView(model: UserInfo)->EditProfileView
-    func userNameView(model:String?)->UserNameView
+public protocol ComponentFactory: NSObjectProtocol {
 
-    func colorScheme()->ColorScheme
-    
-    func localizationBundle()->NSBundle
-    func localizationTableName()->String
-    
-    func defaultBackgroundImage()->UIImage?
+
+    func loginViewController() -> LoginViewController
+
+    func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
+
+    func editProfileViewController(model: UserInfo) -> EditProfileViewController
+
+    func imageEditViewController(image: UIImage) -> ImageEditViewController
+
+    func editUserNameViewController(model: UserInfo) -> UserNameViewController
+
+    func loginView(model: NumberInfo) -> LoginView
+
+    func countryCodePickerView(model: NumberInfo) -> CountryCodePickerView
+
+    func editProfileView(model: UserInfo) -> EditProfileView
+
+    func userNameView(model: String?) -> UserNameView
+
+    func colorScheme() -> ColorScheme
+
+    func localizationBundle() -> NSBundle
+
+    func localizationTableName() -> String
+
+    func defaultBackgroundImage() -> UIImage?
 }
 
 public class DefaultComponentFactory: NSObject, ComponentFactory {
-    
+
     public func loginViewController() -> LoginViewController {
-                let controller = LoginViewController()
-                return controller
+        let controller = LoginViewController()
+        return controller
     }
-    
+
     public func loginView(model: NumberInfo) -> LoginView {
-                let view = LoginView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
-                return view
+        let view = LoginView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        return view
     }
-    
-    public func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController{
+
+    public func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController {
         let controller = CountryCodePickerViewController(model: model)
         return controller
     }
-    
-    public func countryCodePickerView(model: NumberInfo)->CountryCodePickerView{
-        let view = CountryCodePickerView(model:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+
+    public func countryCodePickerView(model: NumberInfo) -> CountryCodePickerView {
+        let view = CountryCodePickerView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
-    
-    public func editProfileViewController(model: UserInfo) -> EditProfileViewController{
+
+    public func editProfileViewController(model: UserInfo) -> EditProfileViewController {
         let controller = EditProfileViewController(model: model)
         return controller
     }
-    
-    public func imageEditViewController(image:UIImage) -> ImageEditViewController{
+
+    public func imageEditViewController(image: UIImage) -> ImageEditViewController {
         let controller = ImageEditViewController(image: image)
         return controller
     }
-    
-    public func editUserNameViewController(model: UserInfo) -> UserNameViewController{
+
+    public func editUserNameViewController(model: UserInfo) -> UserNameViewController {
         let controller = UserNameViewController(model: model)
         return controller
     }
-    
-    public func userNameView(model:String?)->UserNameView{
-        let view = UserNameView(userName:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+
+    public func userNameView(model: String?) -> UserNameView {
+        let view = UserNameView(userName: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
-    
-    public func editProfileView(model: UserInfo)->EditProfileView{
-        let view = EditProfileView(user:model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+
+    public func editProfileView(model: UserInfo) -> EditProfileView {
+        let view = EditProfileView(user: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
         return view
     }
-    
-    public func colorScheme()->ColorScheme{
+
+    public func colorScheme() -> ColorScheme {
         let scheme = ColorScheme()
         return scheme
     }
-    
-    public func localizationBundle()->NSBundle{
+
+    public func localizationBundle() -> NSBundle {
         let bundle = NSBundle.phoneIdBundle()
         return bundle
     }
-    
-    public func localizationTableName()->String{
+
+    public func localizationTableName() -> String {
         return "Localizable"
     }
-    
-    public func defaultBackgroundImage()->UIImage?{
-        return UIImage(namedInPhoneId:"background")
+
+    public func defaultBackgroundImage() -> UIImage? {
+        return UIImage(namedInPhoneId: "background")
     }
- 
+
 }
 
-public protocol PhoneIdConsumer:NSObjectProtocol{
-    var phoneIdService: PhoneIdService! {get}
-    var phoneIdComponentFactory: ComponentFactory! {get}
+public protocol PhoneIdConsumer: NSObjectProtocol {
+    var phoneIdService: PhoneIdService! { get }
+    var phoneIdComponentFactory: ComponentFactory! { get }
 }
 
-public extension PhoneIdConsumer{
-    var phoneIdService: PhoneIdService! { return PhoneIdService.sharedInstance}
-    var phoneIdComponentFactory: ComponentFactory! { return phoneIdService.componentFactory}
+public extension PhoneIdConsumer {
+    var phoneIdService: PhoneIdService! {
+        return PhoneIdService.sharedInstance
+    }
+    var phoneIdComponentFactory: ComponentFactory! {
+        return phoneIdService.componentFactory
+    }
 }
 

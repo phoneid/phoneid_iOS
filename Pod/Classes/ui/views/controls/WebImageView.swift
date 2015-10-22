@@ -70,7 +70,7 @@ class WebImageView: UIImageView {
         getDataFromUrl(url!) { data in
             dispatch_async(dispatch_get_main_queue()) {
                 self.activityIndicator.stopAnimating()
-                self.image = UIImage(data: data!)
+                self.image = data != nil ? UIImage(data: data!) : nil
             }
         }
     }

@@ -27,34 +27,6 @@ public protocol Customizable: NSObjectProtocol{
     
 }
 
-public extension Customizable{
-    
-    internal func localizedString(key:String, formatting:((String)->String)? = nil) ->String{
-        
-        var result = NSLocalizedString(key, tableName: localizationTableName , bundle: localizationBundle, comment:key)
-        
-        // TODO: this is actually not a part of localization.
-        // However text-formatting appeared to be tightly coupled with text-content.
-        // Need more graceful solution
-        result = self.colorScheme.replaceNamedColors(result)
-        
-        if let formatting = formatting{
-            result = formatting(result)
-        }
-        return result
-    }
-    
-    internal func localizedStringAttributed(key:String, formatting:((String)->String)? = nil) ->NSAttributedString{
-        let text = localizedString(key, formatting: formatting)
-        let accessAttributedText = try! NSAttributedString(
-            data: text.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
-            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
-            documentAttributes: nil)
-        return accessAttributedText
-    }
-    
-}
-
 public class ColorScheme : NSObject{
     // MARK: Common colors defining color scheme
     public var mainAccent:UIColor = UIColor(hex: 0x009688)
@@ -230,6 +202,35 @@ public extension ColorScheme {
         
         return result as String
     }
+}
+
+
+public extension Customizable{
+
+    internal func localizedString(key:String, formatting:((String)->String)? = nil) ->String{
+
+        var result = NSLocalizedString(key, tableName: localizationTableName , bundle: localizationBundle, comment:key)
+
+        // TODO: this is actually not a part of localization.
+        // However text-formatting appeared to be tightly coupled with text-content.
+        // Need more graceful solution
+        result = self.colorScheme.replaceNamedColors(result)
+
+        if let formatting = formatting{
+            result = formatting(result)
+        }
+        return result
+    }
+
+    internal func localizedStringAttributed(key:String, formatting:((String)->String)? = nil) ->NSAttributedString{
+        let text = localizedString(key, formatting: formatting)
+        let accessAttributedText = try! NSAttributedString(
+            data: text.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
+            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil)
+        return accessAttributedText
+    }
+
 }
 
 public extension UIColor {
