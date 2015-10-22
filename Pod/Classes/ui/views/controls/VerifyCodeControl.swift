@@ -63,7 +63,7 @@ class VerifyCodeControl: PhoneIdBaseView {
         statusImage = UIImageView()
 
         placeholderView = {
-            let placeholderView = placeholderView = UIView()
+            let placeholderView = UIView()
             placeholderView.layer.cornerRadius = 5
             return placeholderView
         }()
@@ -76,7 +76,7 @@ class VerifyCodeControl: PhoneIdBaseView {
 
             backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
             backButton.tintColor = colorScheme.inputCodeBackbuttonNormal
-
+            return backButton
         }()
 
         let subviews: [UIView] = [placeholderView, placeholderLabel, codeText, activityIndicator, backButton, statusImage]
