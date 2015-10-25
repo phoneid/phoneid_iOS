@@ -75,11 +75,11 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 PhoneIdService.sharedInstance - returns a singleton instance of PhoneIdService.
 
 #### 2. Integrate phoneid button:
-**PhoneIdLoginButton** is a UIButton subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
+**PhoneIdLoginButton** is a UIView's subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
 
-Put UIButton to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
+Put UIView to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
 
-![integration](http://i284.photobucket.com/albums/ll39/streamlet10/phoneid_iOS_pic1_zpshn09fx42.jpg)
+![integration](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.17.26_zpsrtgdj7hk.png)
 
 Note, you can use **CompactPhoneIdLoginButton** instead of **PhoneIdLoginButton**
 
@@ -91,37 +91,74 @@ In order to be notified about interesting events like successfull login, logout,
 
 Here is list if available handlers:
 
-* phoneIdAuthenticationSucceed - Here you can get authentication token info after user has successfully logged in
+phoneIdAuthenticationSucceed - Here you can get authentication token info after user has successfully logged in
+#####Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdAuthenticationSucceed = { (token) ->Void in
  
 }
-```        
-* phoneIdAuthenticationCancelled - phoneId SDK calls this block when user taps close button during authentication workflow
+```  
+#####Objective-C
+```Objective-C
+self.phoneId.phoneIdAuthenticationSucceed = ^(TokenInfo* token){
+
+};
+```  
+
+phoneIdAuthenticationCancelled - phoneId SDK calls this block when user taps close button during authentication workflow
+#####Swift
 ```swift
  PhoneIdService.sharedInstance.phoneIdAuthenticationCancelled = {
  
 }
 ```  
-* phoneIdAuthenticationRefreshed - phoneid SDK calls this block every time when token refreshed
+#####Objective-C
+```Objective-C
+self.phoneId.phoneIdAuthenticationCancelled = ^{
+        
+};
+``` 
+
+phoneIdAuthenticationRefreshed - phoneid SDK calls this block every time when token refreshed
+#####Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdAuthenticationRefreshed = { (token) ->Void in
 
 }
 ``` 
+#####Objective-C
+```Objective-C
+self.phoneId.phoneIdAuthenticationRefreshed = ^(TokenInfo* token){
+
+};
+``` 
 
 * phoneIdWorkflowErrorHappened - phoneid SDK calls this block whenever error happened
+#####Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdWorkflowErrorHappened = { (error) ->Void in
     print(error.localizedDescription)
 } 
 ``` 
+#####Objective-C
+```Objective-C
+self.phoneId.phoneIdWorkflowErrorHappened = ^(NSError* error){
+    NSLog(@"%@", error.localizedDescription);
+};
+``` 
 
-* phoneIdDidLogout - phoneid SDK calls this block on logout
+phoneIdDidLogout - phoneid SDK calls this block on logout
+#####Swift
 ```swift
-PhoneIdService.sharedInstance.phoneIdDidLogout = { (token) ->Void in
+PhoneIdService.sharedInstance.phoneIdDidLogout = {
 
 }
+``` 
+#####Objective-C
+```Objective-C
+self.phoneId.phoneIdDidLogout = ^{
+        
+};
 ``` 
 
 ## UI Customization
