@@ -97,7 +97,7 @@ PhoneIdService.sharedInstance.phoneIdAuthenticationSucceed = { (token) ->Void in
 ```
 ######Objective-C
 ```Objective-C
-self.phoneId.phoneIdAuthenticationSucceed = ^(TokenInfo* token){
+[PhoneIdService sharedInstance].phoneIdAuthenticationSucceed = ^(TokenInfo* token){
 
 };
 ```
@@ -111,7 +111,7 @@ self.phoneId.phoneIdAuthenticationSucceed = ^(TokenInfo* token){
 ```  
 ######Objective-C
 ```Objective-C
-self.phoneId.phoneIdAuthenticationCancelled = ^{
+[PhoneIdService sharedInstance].phoneIdAuthenticationCancelled = ^{
         
 };
 ```
@@ -125,7 +125,7 @@ PhoneIdService.sharedInstance.phoneIdAuthenticationRefreshed = { (token) ->Void 
 ``` 
 ######Objective-C
 ```Objective-C
-self.phoneId.phoneIdAuthenticationRefreshed = ^(TokenInfo* token){
+[PhoneIdService sharedInstance].phoneIdAuthenticationRefreshed = ^(TokenInfo* token){
 
 };
 ``` 
@@ -139,7 +139,7 @@ PhoneIdService.sharedInstance.phoneIdWorkflowErrorHappened = { (error) ->Void in
 ``` 
 ######Objective-C
 ```Objective-C
-self.phoneId.phoneIdWorkflowErrorHappened = ^(NSError* error){
+[PhoneIdService sharedInstance].phoneIdWorkflowErrorHappened = ^(NSError* error){
     NSLog(@"%@", error.localizedDescription);
 };
 ``` 
@@ -153,7 +153,7 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = {
 ``` 
 ######Objective-C
 ```Objective-C
-self.phoneId.phoneIdDidLogout = ^{
+[PhoneIdService sharedInstance].phoneIdDidLogout = ^{
         
 };
 ``` 
