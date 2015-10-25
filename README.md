@@ -5,11 +5,8 @@
 
 # Overview
 
-**phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code 
+**phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code. See [Fullscreen mode](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif), [Compact mode](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpseck5shrk.gif)
 
-|Fullscreen mode:| Compact mode:|
-|----------------|--------------|
-|![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif)|![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsipwil33c.gif)|
 
 ## Usage
 
@@ -90,76 +87,78 @@ After this step integration is almost completed.
 In order to be notified about interesting events like successfull login, logout, or some error happened, etc. you can set appropriate handlers on PhoneIdService.sharedInstance
 
 Here is list if available handlers:
-
-phoneIdAuthenticationSucceed - Here you can get authentication token info after user has successfully logged in
-#####Swift
+---
+**phoneIdAuthenticationSucceed** - Here you can get authentication token info after user has successfully logged in
+######Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdAuthenticationSucceed = { (token) ->Void in
  
 }
-```  
-#####Objective-C
+```
+######Objective-C
 ```Objective-C
 self.phoneId.phoneIdAuthenticationSucceed = ^(TokenInfo* token){
 
 };
-```  
-
-phoneIdAuthenticationCancelled - phoneId SDK calls this block when user taps close button during authentication workflow
-#####Swift
+```
+---
+**phoneIdAuthenticationCancelled** - phoneId SDK calls this block when user taps close button during authentication workflow
+######Swift
 ```swift
  PhoneIdService.sharedInstance.phoneIdAuthenticationCancelled = {
  
 }
 ```  
-#####Objective-C
+######Objective-C
 ```Objective-C
 self.phoneId.phoneIdAuthenticationCancelled = ^{
         
 };
-``` 
-
-phoneIdAuthenticationRefreshed - phoneid SDK calls this block every time when token refreshed
-#####Swift
+```
+---
+**phoneIdAuthenticationRefreshed** - phoneid SDK calls this block every time when token refreshed
+######Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdAuthenticationRefreshed = { (token) ->Void in
 
 }
 ``` 
-#####Objective-C
+######Objective-C
 ```Objective-C
 self.phoneId.phoneIdAuthenticationRefreshed = ^(TokenInfo* token){
 
 };
 ``` 
-
-* phoneIdWorkflowErrorHappened - phoneid SDK calls this block whenever error happened
-#####Swift
+---
+**phoneIdWorkflowErrorHappened** - phoneid SDK calls this block whenever error happened
+######Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdWorkflowErrorHappened = { (error) ->Void in
     print(error.localizedDescription)
 } 
 ``` 
-#####Objective-C
+######Objective-C
 ```Objective-C
 self.phoneId.phoneIdWorkflowErrorHappened = ^(NSError* error){
     NSLog(@"%@", error.localizedDescription);
 };
 ``` 
-
-phoneIdDidLogout - phoneid SDK calls this block on logout
-#####Swift
+---
+**phoneIdDidLogout** - phoneid SDK calls this block on logout
+######Swift
 ```swift
 PhoneIdService.sharedInstance.phoneIdDidLogout = {
 
 }
 ``` 
-#####Objective-C
+######Objective-C
 ```Objective-C
 self.phoneId.phoneIdDidLogout = ^{
         
 };
 ``` 
+
+
 
 ## UI Customization
 
@@ -182,46 +181,92 @@ You can see detailed mapping of fields of ColorScheme to colors of UI controls h
 Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
 In customize colors&background can be done in two steps:
 
-1) implement your own component factory (or inherit from DefaultComponentFactory) and override methods with your settings:
+1) Create your own instance of component factory and setup colorScheme with colors you like:
+######Swift
 ```swift
-class CustomComponentFactory:DefaultComponentFactory{
-    
-    override func defaultBackgroundImage()->UIImage?{
-        return UIImage(named:"background")!
-    }
-    
-    override func colorScheme()->ColorScheme{
-        let scheme = super.colorScheme()
+    func customComponentFactory() -> ComponentFactory{
+        
+        let factory:ComponentFactory = DefaultComponentFactory()
+        factory.colorScheme = ColorScheme()
         
         // You can change main colors
+        factory.colorScheme.mainAccent = UIColor(hex: 0xAABB44)
+        factory.colorScheme.extraAccent = UIColor(hex: 0x886655)
+        factory.colorScheme.success = UIColor(hex: 0x91C1CC)
+        factory.colorScheme.fail = UIColor(hex: 0xD4556A)
+        factory.colorScheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
         
-        scheme.mainAccent = UIColor(hex: 0xAABB44)
-        scheme.extraAccent = UIColor(hex: 0x886655)
-        scheme.success = UIColor(hex: 0x91C1CC)
-        scheme.fail = UIColor(hex: 0xD4556A)
-        scheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
-        
-        scheme.applyCommonColors()
+        factory.colorScheme .applyCommonColors()
         
         // But also, if some of main colors don't fit to your color solution,
         // you can specify your own colors for certain UI element:
-
-        scheme.buttonHighlightedImage = UIColor(hex: 0x778230)
-        scheme.buttonHighlightedText = UIColor(hex: 0x778230)
-        scheme.buttonHighlightedBackground = UIColor(hex: 0xBBC86A)
         
-        return scheme
+        factory.colorScheme.buttonHighlightedImage = UIColor(hex: 0x778230)
+        factory.colorScheme.buttonHighlightedText = UIColor(hex: 0x778230)
+        factory.colorScheme.buttonHighlightedBackground = UIColor(hex: 0xBBC86A)
+        
+        factory.defaultBackgroundImage = UIImage(named:"background")!
+        
+        return factory
+    
     }
+``` 
+######Objective-C
+```Objective-C
+- (id<ComponentFactory>)customComponentFactory{
+
+    id<ComponentFactory> factory = [[DefaultComponentFactory alloc] init];
+    
+    ColorScheme* colorScheme = [[ColorScheme alloc] init];
+    colorScheme.mainAccent = [[UIColor alloc] initWithHex:0xAABB44];
+    colorScheme.extraAccent = [[UIColor alloc] initWithHex:0x886655];
+    colorScheme.success = [[UIColor alloc] initWithHex:0x91C1CC];
+    colorScheme.fail = [[UIColor alloc] initWithHex:0xD4556A];
+    
+    colorScheme.inputBackground = [[[UIColor alloc] initWithHex:0xEEEEDD] colorWithAlphaComponent:0.6];
+    [colorScheme applyCommonColors];
+    
+    colorScheme.buttonHighlightedImage = [[UIColor alloc] initWithHex: 0x778230];
+    colorScheme.buttonHighlightedText = [[UIColor alloc] initWithHex: 0x778230];
+    colorScheme.buttonHighlightedBackground = [[UIColor alloc] initWithHex: 0xBBC86A];
+    factory.defaultBackgroundImage = [UIImage imageNamed:@"background"];
+    factory.colorScheme = colorScheme;
+    
+    return factory;
 }
 ``` 
 
-2) set your own component factory to phoneid service:
+
+2) set your own component factory to phoneid service, as early as possible, preferable in didFinishLaunchingWithOptions:
 ```swift
-PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+    func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+            
+            // configure phone.id
+            PhoneIdService.sharedInstance.configureClient("TestPhoneId");
+            
+            // UI theming
+            PhoneIdService.sharedInstance.componentFactory = customComponentFactory()
+            return true
+    }
+``` 
+
+######Objective-C
+```Objective-C
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // configure phone.id
+    [[PhoneIdService sharedInstance] configureClient:@"TestPhoneId" autorefresh:YES];
+    
+    // UI theming
+    [PhoneIdService sharedInstance].componentFactory = [self customComponentFactory];
+    
+    return YES;
+}
 ``` 
 
 
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Simulator%20Screen%20Shot%20Oct%2015%202015%201.36.47%20PM_zpssahlxjpo.png)
+![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
 
 ## Author
 
