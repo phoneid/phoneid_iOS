@@ -34,12 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PhoneIdService.sharedInstance.configureClient("TestPhoneId");
             
             // UI theming
-            setupPhoneIdAppearence()
+            PhoneIdService.sharedInstance.componentFactory = customComponentFactory()
             return true
     }
     
-    func setupPhoneIdAppearence(){
-    
+    func customComponentFactory() -> ComponentFactory{
         
         let factory:ComponentFactory = DefaultComponentFactory()
         factory.colorScheme = ColorScheme()
@@ -62,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         factory.defaultBackgroundImage = UIImage(named:"background")!
         
-        PhoneIdService.sharedInstance.componentFactory = factory
+        return factory
     
     }
 }
