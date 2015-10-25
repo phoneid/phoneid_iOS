@@ -7,13 +7,9 @@
 
 **phoneid_iOS** is lightweight and easy-to-use library for iOS 8 (written in Swift). It provides service to login users by phone number with verification code 
 
-**Fullscreen mode:**
-
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif)
-
-**Compact mode:**
-
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsipwil33c.gif)
+|Fullscreen mode:| Compact mode:|
+|----------------|--------------|
+|![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsiocqf1g4.gif)|![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/out_zpsipwil33c.gif)|
 
 ## Usage
 
@@ -21,7 +17,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-iOS 8,
+iOS 8, iOS 9
 
 ## Installation
 
@@ -38,8 +34,9 @@ pod "phoneid_iOS"
 #### 1. Configure phoneid client:
 If your app is not yet registered with PhoneId and has a client ID, you should create it on [developer.phone.id](http://developer.phone.id/)
 
-In order to start work with phoneid SDK you should configure it with your client ID:
+In order to start work with phoneid SDK you should configure it with your client ID (replace "TestPhoneId" with your client ID):
 
+#####Swift
 ```swift
 import phoneid_iOS
 
@@ -59,8 +56,23 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
 ```
 
+#####Objective-C
+```Objective-C
+#import "phoneid_iOS-Swift.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // configure phone.id
+    [[PhoneIdService sharedInstance] configureClient:@"TestPhoneId" autorefresh:YES];
+    
+    return YES;
+}
+@end
+```
+
 PhoneIdService.sharedInstance - returns a singleton instance of PhoneIdService.
-Don't forget to import phoneid_iOS before refer to PhoneIdService.
 
 #### 2. Integrate phoneid button:
 **PhoneIdLoginButton** is a UIButton subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
