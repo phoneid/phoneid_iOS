@@ -101,9 +101,9 @@ import UIKit
     }
 
     func prep() {
-        localizationBundle = phoneIdComponentFactory.localizationBundle()
-        localizationTableName = phoneIdComponentFactory.localizationTableName()
-        colorScheme = phoneIdComponentFactory.colorScheme()
+        localizationBundle = phoneIdComponentFactory.localizationBundle
+        localizationTableName = phoneIdComponentFactory.localizationTableName
+        colorScheme = phoneIdComponentFactory.colorScheme
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
@@ -199,7 +199,7 @@ import UIKit
     }
 
     func presentErrorMessage(error: NSError) {
-        let bundle = self.phoneIdService.componentFactory.localizationBundle()
+        let bundle = self.phoneIdService.componentFactory.localizationBundle
         let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
 
         alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))

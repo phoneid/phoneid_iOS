@@ -45,6 +45,7 @@ class MockSession: NSURLSession {
     
     var mockResponses: [String : Response] = [:]
     
+    func workQueue () ->NSOperationQueue { return NSOperationQueue.mainQueue()}
     
     override class func sharedSession() -> NSURLSession {
         return MockSession()
@@ -59,6 +60,7 @@ class MockSession: NSURLSession {
         }
     }
     
+ 
     class MockTask: NSURLSessionDataTask {
         var mockResponse:Response!
         var completionHandler:CompletionHandler!

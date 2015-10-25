@@ -177,7 +177,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: CountryCodeCell = tableView.dequeueReusableCellWithIdentifier("CountryCodeCell", forIndexPath: indexPath) as! CountryCodeCell
-        cell.applyColorScheme(self.phoneIdComponentFactory.colorScheme())
+        cell.applyColorScheme(self.phoneIdComponentFactory.colorScheme)
         let model: CountryInfo = self.determineModel(atIndexPath: indexPath)
         cell.setupWithModel(model)
         return cell

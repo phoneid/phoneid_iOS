@@ -74,7 +74,7 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
     }
 
     func presentError(error: NSError) {
-        let bundle = self.phoneIdService.componentFactory.localizationBundle()
+        let bundle = self.phoneIdService.componentFactory.localizationBundle
         let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
 
         alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))

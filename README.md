@@ -157,9 +157,9 @@ class CustomComponentFactory:DefaultComponentFactory{
         // But also, if some of main colors don't fit to your color solution,
         // you can specify your own colors for certain UI element:
 
-        scheme.buttonHightlightedImage = UIColor(hex: 0x778230)
-        scheme.buttonHightlightedText = UIColor(hex: 0x778230)
-        scheme.buttonHightlightedBackground = UIColor(hex: 0xBBC86A)
+        scheme.buttonHighlightedImage = UIColor(hex: 0x778230)
+        scheme.buttonHighlightedText = UIColor(hex: 0x778230)
+        scheme.buttonHighlightedBackground = UIColor(hex: 0xBBC86A)
         
         return scheme
     }

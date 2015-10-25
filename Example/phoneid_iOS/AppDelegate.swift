@@ -22,50 +22,48 @@
 import UIKit
 import phoneid_iOS
 
-class CustomComponentFactory:DefaultComponentFactory{
-    
-    override func defaultBackgroundImage()->UIImage?{
-        return UIImage(named:"background")!
-    }
-    
-    override func colorScheme()->ColorScheme{
-        let scheme = super.colorScheme()
-        
-        // You can change main colors
-        scheme.mainAccent = UIColor(hex: 0xAABB44)
-        scheme.extraAccent = UIColor(hex: 0x886655)
-        scheme.success = UIColor(hex: 0x91C1CC)
-        scheme.fail = UIColor(hex: 0xD4556A)
-        scheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
-        
-        scheme.applyCommonColors()
-        
-        // But also, if some of main colors don't fit to your color solution,
-        // you can specify your own colors for certain UI element:
-
-        scheme.buttonHightlightedImage = UIColor(hex: 0x778230)
-        scheme.buttonHightlightedText = UIColor(hex: 0x778230)
-        scheme.buttonHightlightedBackground = UIColor(hex: 0xBBC86A)
-        
-        return scheme
-    }
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-        // configure phone.id
             
-        // unkomment to see UI theming
-        //PhoneIdService.sharedInstance.componentFactory = CustomComponentFactory()
+            // configure phone.id
+            PhoneIdService.sharedInstance.configureClient("TestPhoneId");
+            
+            // UI theming
+            setupPhoneIdAppearence()
+            return true
+    }
+    
+    func setupPhoneIdAppearence(){
+    
         
-        PhoneIdService.sharedInstance.configureClient("TestPhoneId");
-        return true
+        let factory:ComponentFactory = DefaultComponentFactory()
+        factory.colorScheme = ColorScheme()
+        
+        // You can change main colors
+        factory.colorScheme.mainAccent = UIColor(hex: 0xAABB44)
+        factory.colorScheme.extraAccent = UIColor(hex: 0x886655)
+        factory.colorScheme.success = UIColor(hex: 0x91C1CC)
+        factory.colorScheme.fail = UIColor(hex: 0xD4556A)
+        factory.colorScheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
+        
+        factory.colorScheme .applyCommonColors()
+        
+        // But also, if some of main colors don't fit to your color solution,
+        // you can specify your own colors for certain UI element:
+        
+        factory.colorScheme.buttonHighlightedImage = UIColor(hex: 0x778230)
+        factory.colorScheme.buttonHighlightedText = UIColor(hex: 0x778230)
+        factory.colorScheme.buttonHighlightedBackground = UIColor(hex: 0xBBC86A)
+        
+        factory.defaultBackgroundImage = UIImage(named:"background")!
+        
+        PhoneIdService.sharedInstance.componentFactory = factory
+    
     }
 }
 

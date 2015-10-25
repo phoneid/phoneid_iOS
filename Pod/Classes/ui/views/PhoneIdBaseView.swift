@@ -84,7 +84,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
     private(set) var backgroundView: UIImageView!
 
     func backgroundImage() -> UIImage? {
-        return phoneIdComponentFactory.defaultBackgroundImage()
+        return phoneIdComponentFactory.defaultBackgroundImage
     }
 
     var customConstraints: [NSLayoutConstraint] = []
@@ -97,8 +97,8 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
         super.init(frame: frame)
     }
 
-    required public init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 

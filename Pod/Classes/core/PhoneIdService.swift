@@ -39,7 +39,7 @@ public class PhoneIdService: NSObject {
         return Static.instance
     }
     
-    public var componentFactory:ComponentFactory = DefaultComponentFactory()
+    public var componentFactory:ComponentFactory!
     public var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
     public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
     public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
@@ -71,6 +71,7 @@ public class PhoneIdService: NSObject {
     
     override init(){
         super.init()
+        componentFactory = DefaultComponentFactory()
         contactsLoader = ContactsLoader()
         urlSession = NSURLSession.sharedSession()
         apiBaseURL = Constants.baseURL

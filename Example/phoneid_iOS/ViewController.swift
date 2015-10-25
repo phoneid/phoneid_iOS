@@ -43,7 +43,7 @@ class ViewController: UIViewController {
         updateTokenInfoView()
         
         // Handle authentication success
-        phoneId.phoneIdAuthenticationSucceed = { (token) ->Void in
+        phoneId.phoneIdAuthenticationSucceed = { [unowned self] (token) ->Void in
             self.updateTokenInfoView()
         }
         
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         }
         
         // SDK calls this block when user taps close button
-        phoneId.phoneIdAuthenticationCancelled = {
+        phoneId.phoneIdAuthenticationCancelled = { [unowned self] in
             
             let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .Alert)
             
@@ -62,12 +62,12 @@ class ViewController: UIViewController {
         }
         
         // SDK calls this block every time when token refreshed
-        phoneId.phoneIdAuthenticationRefreshed = { (token) ->Void in
+        phoneId.phoneIdAuthenticationRefreshed = {  [unowned self] (token) ->Void in
             self.updateTokenInfoView()
         }
         
         // SDK calls this block on logout
-        phoneId.phoneIdDidLogout = { (token) ->Void in
+        phoneId.phoneIdDidLogout = {  [unowned self] () ->Void in
             self.updateTokenInfoView()
         } 
         

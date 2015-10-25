@@ -71,7 +71,7 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
 
     func changePhotoButtonTapped() {
 
-        let bundle = self.phoneIdService.componentFactory.localizationBundle()
+        let bundle = self.phoneIdService.componentFactory.localizationBundle
         let actionSheet = UIAlertController(title: NSLocalizedString("alert.title.select.image", bundle: bundle, comment: "alert.title.select.image"), message: nil, preferredStyle: .ActionSheet)
 
         if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
@@ -95,7 +95,7 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
 
         imagePickerViewController.allowsEditing = false
         imagePickerViewController.sourceType = sourceType
-        let colorScheme = self.phoneIdComponentFactory.colorScheme()
+        let colorScheme = self.phoneIdComponentFactory.colorScheme
         imagePickerViewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: colorScheme.headerTitleText]
         imagePickerViewController.navigationBar.translucent = false
         imagePickerViewController.navigationBar.barStyle = UIBarStyle.Default
@@ -116,7 +116,7 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
             (error) -> Void in
             self.editProfileView.activityIndicator.stopAnimating()
             if (error != nil) {
-                let bundle = self.phoneIdService.componentFactory.localizationBundle()
+                let bundle = self.phoneIdService.componentFactory.localizationBundle
                 let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
 
                 alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))

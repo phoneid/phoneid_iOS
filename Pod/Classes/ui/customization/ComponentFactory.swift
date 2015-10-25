@@ -20,7 +20,7 @@
 
 import Foundation
 
-public protocol ComponentFactory: NSObjectProtocol {
+@objc public protocol ComponentFactory: NSObjectProtocol {
 
 
     func loginViewController() -> LoginViewController
@@ -41,16 +41,16 @@ public protocol ComponentFactory: NSObjectProtocol {
 
     func userNameView(model: String?) -> UserNameView
 
-    func colorScheme() -> ColorScheme
+    var colorScheme:ColorScheme {get set}
 
-    func localizationBundle() -> NSBundle
+    var localizationBundle: NSBundle {get set}
 
-    func localizationTableName() -> String
+    var localizationTableName:String {get set}
 
-    func defaultBackgroundImage() -> UIImage?
+    var defaultBackgroundImage:UIImage? {get set}
 }
 
-public class DefaultComponentFactory: NSObject, ComponentFactory {
+@objc public class DefaultComponentFactory: NSObject, ComponentFactory {
 
     public func loginViewController() -> LoginViewController {
         let controller = LoginViewController()
@@ -58,7 +58,7 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     }
 
     public func loginView(model: NumberInfo) -> LoginView {
-        let view = LoginView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        let view = LoginView(model: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
@@ -68,7 +68,7 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     }
 
     public func countryCodePickerView(model: NumberInfo) -> CountryCodePickerView {
-        let view = CountryCodePickerView(model: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        let view = CountryCodePickerView(model: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
@@ -88,32 +88,22 @@ public class DefaultComponentFactory: NSObject, ComponentFactory {
     }
 
     public func userNameView(model: String?) -> UserNameView {
-        let view = UserNameView(userName: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        let view = UserNameView(userName: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
     public func editProfileView(model: UserInfo) -> EditProfileView {
-        let view = EditProfileView(user: model, scheme: self.colorScheme(), bundle: self.localizationBundle(), tableName: localizationTableName())
+        let view = EditProfileView(user: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
-    public func colorScheme() -> ColorScheme {
-        let scheme = ColorScheme()
-        return scheme
-    }
+    public var colorScheme = ColorScheme()
 
-    public func localizationBundle() -> NSBundle {
-        let bundle = NSBundle.phoneIdBundle()
-        return bundle
-    }
+    public var localizationBundle = NSBundle.phoneIdBundle()
 
-    public func localizationTableName() -> String {
-        return "Localizable"
-    }
+    public var localizationTableName = "Localizable"
 
-    public func defaultBackgroundImage() -> UIImage? {
-        return UIImage(namedInPhoneId: "background")
-    }
+    public var defaultBackgroundImage = UIImage(namedInPhoneId: "background")
 
 }
 

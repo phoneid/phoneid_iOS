@@ -48,17 +48,17 @@ public class ColorScheme : NSObject{
     // phone.id button background
     public var buttonDisabledBackground:UIColor!
     public var buttonNormalBackground:UIColor!
-    public var buttonHightlightedBackground:UIColor!
+    public var buttonHighlightedBackground:UIColor!
     
     // phone.id button image
     public var buttonDisabledImage:UIColor!
     public var buttonNormalImage:UIColor!
-    public var buttonHightlightedImage:UIColor!
+    public var buttonHighlightedImage:UIColor!
     
     // phone.id button text
     public var buttonDisabledText:UIColor!
     public var buttonNormalText:UIColor!
-    public var buttonHightlightedText:UIColor!
+    public var buttonHighlightedText:UIColor!
     
     // MARK: Specific colors: fullscreen mode
     public var mainViewBackground:UIColor!
@@ -73,7 +73,7 @@ public class ColorScheme : NSObject{
     // MARK: Specific colors: related to number input
     public var activityIndicatorNumber:UIColor!
     public var buttonOKNormalText:UIColor!
-    public var buttonOKHightlightedText:UIColor!
+    public var buttonOKHighlightedText:UIColor!
     public var buttonOKDisabledText:UIColor!
     public var inputPrefixText:UIColor!
     public var inputNumberText:UIColor!
@@ -108,7 +108,7 @@ public class ColorScheme : NSObject{
     public var profilePictureEditingHintText:UIColor!
     public var profileActivityIndicator:UIColor!
     
-    override init() {
+    override public init() {
         super.init()
         applyCommonColors()
     }
@@ -120,15 +120,15 @@ public class ColorScheme : NSObject{
         
         buttonDisabledBackground = diabledBackground
         buttonNormalBackground = mainAccent
-        buttonHightlightedBackground = extraAccent
+        buttonHighlightedBackground = extraAccent
         
         buttonDisabledImage = disabledText
         buttonNormalImage = lightText
-        buttonHightlightedImage = disabledText
+        buttonHighlightedImage = disabledText
         
         buttonDisabledText = disabledText
         buttonNormalText = lightText
-        buttonHightlightedText = disabledText
+        buttonHighlightedText = disabledText
         
         /// Colors common for fullscreen mode
         mainViewBackground = mainAccent
@@ -143,7 +143,7 @@ public class ColorScheme : NSObject{
         /// Colors of number input
         activityIndicatorNumber = activityIndicator
         buttonOKNormalText = mainAccent
-        buttonOKHightlightedText = extraAccent
+        buttonOKHighlightedText = extraAccent
         buttonOKDisabledText = disabledText
         inputPrefixText = mainAccent
         inputNumberText = darkText

@@ -33,20 +33,19 @@ public class ImageEditViewController: UIViewController, PhoneIdConsumer, Customi
 
     public var colorScheme: ColorScheme! {
         get {
-            return self.phoneIdComponentFactory.colorScheme()
+            return self.phoneIdComponentFactory.colorScheme
         }
     }
 
     public var localizationBundle: NSBundle! {
         get {
-            return self.phoneIdComponentFactory.localizationBundle()
+            return self.phoneIdComponentFactory.localizationBundle
         }
     }
 
     public var localizationTableName: String! {
         get {
-            return self.phoneIdComponentFactory.localizationTableName()
-        }
+            return self.phoneIdComponentFactory.localizationTableName      }
     }
 
     required public init(image: UIImage) {

@@ -87,19 +87,19 @@ import Foundation
         backgroundColors = [
                 UIControlState.Normal.rawValue: colorScheme.buttonNormalBackground,
                 UIControlState.Disabled.rawValue: colorScheme.buttonDisabledBackground,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHightlightedBackground,
+                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedBackground,
                 UIControlState.Selected.rawValue: colorScheme.buttonNormalBackground
         ]
         imageColors = [
                 UIControlState.Normal.rawValue: colorScheme.buttonNormalImage,
                 UIControlState.Disabled.rawValue: colorScheme.buttonDisabledImage,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHightlightedImage,
+                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedImage,
                 UIControlState.Selected.rawValue: colorScheme.buttonNormalImage
         ]
         titleColors = [
                 UIControlState.Normal.rawValue: colorScheme.buttonNormalText,
                 UIControlState.Disabled.rawValue: colorScheme.buttonDisabledText,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHightlightedText,
+                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedText,
                 UIControlState.Selected.rawValue: colorScheme.buttonNormalText
         ]
 
@@ -141,9 +141,9 @@ import Foundation
     }
 
     func prep() {
-        localizationBundle = phoneIdComponentFactory.localizationBundle()
-        localizationTableName = phoneIdComponentFactory.localizationTableName()
-        colorScheme = phoneIdComponentFactory.colorScheme()
+        localizationBundle = phoneIdComponentFactory.localizationBundle
+        localizationTableName = phoneIdComponentFactory.localizationTableName
+        colorScheme = phoneIdComponentFactory.colorScheme
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
