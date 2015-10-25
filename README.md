@@ -26,9 +26,21 @@ use_frameworks!
 pod "phoneid_iOS"
 ```
 
-## Quick Start
+## <a name="#content">Table Of Contents</a>
+- [Quick Start](#quickStart) 
+ - [Configure phoneid client](#configureClient) 
+ - [Integrate phoneid button](#integrateButton) 
+ - [Callbacks](#callbacks) 
+- [UI Customization](#ui) 
+- [User Profile](#profile)
+- [Upload Contacts](#contacts)
+- [How automatic token refresh works](#tokenRefresh)
+- [Author](#author)
+- [License](#license)
 
-#### 1. Configure phoneid client:
+## <a name="#quickStart">Quick Start</a>
+
+#### <a name="configureClient">1. Configure phoneid client:</a>
 If your app is not yet registered with PhoneId and has a client ID, you should create it on [developer.phone.id](http://developer.phone.id/)
 
 In order to start work with phoneid SDK you should configure it with your client ID (replace "TestPhoneId" with your client ID):
@@ -71,7 +83,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
 PhoneIdService.sharedInstance - returns a singleton instance of PhoneIdService.
 
-#### 2. Integrate phoneid button:
+#### 2. <a name="#integrateButton">Integrate phoneid button:</a>
 **PhoneIdLoginButton** is a UIView's subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
 
 Put UIView to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
@@ -82,11 +94,10 @@ Note, you can use **CompactPhoneIdLoginButton** instead of **PhoneIdLoginButton*
 
 After this step integration is almost completed. 
 
-#### 3. Callbacks
+#### 3. <a name="#callbacks">Callbacks</a>
 
-In order to be notified about interesting events like successfull login, logout, or some error happened, etc. you can set appropriate handlers on PhoneIdService.sharedInstance
+In order to be notified about interesting events like successfull login, logout, or some error happened, etc. you can set appropriate handlers on PhoneIdService.sharedInstance. Here is list if available handlers:
 
-Here is list if available handlers:
 ---
 **phoneIdAuthenticationSucceed** - Here you can get authentication token info after user has successfully logged in
 ######Swift
@@ -160,7 +171,7 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = {
 
 
 
-## UI Customization
+## <a name="#ui">UI Customization</a>
 
 Color scheme of phone.id UI can be easily customized.
 This can be achieved via ColorScheme object. ColorScheme object defines set of named colors used inside of phone.id.
@@ -176,7 +187,7 @@ You can change only main colors - and there is no need to change every UI contro
 if you need to set specific colors for some UI controls you can overrite default values.
 
 You can see detailed mapping of fields of ColorScheme to colors of UI controls here 
-[![guide](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/Profile_editing/phone.id_theming_guide.pdf)
+[![guide](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)
 
 Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
 In customize colors&background can be done in two steps:
@@ -265,13 +276,21 @@ In customize colors&background can be done in two steps:
 }
 ``` 
 
-
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
 
-## Author
+## <a name="#profile">User Profile</a>
+
+
+## <a name="#contacts">Upload Contacts</a>
+
+
+## <a name="#tokenRefresh">How automatic token refresh works</a>
+
+
+## <a name="#author">Author</a>
 
 Federico Pomi, federico@pomi.net
 
-## License
+## <a name="#license">License</a>  
 
 phoneid_iOS is available under the Apache License Version 2.0. See the LICENSE file for more info.
