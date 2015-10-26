@@ -312,7 +312,7 @@ class PhoneIdServiceTests: XCTestCase {
         let expectation = expectationWithDescription("Should successfully handle user info request")
 
         var result:UserInfo? = nil
-        phoneId.loadUserProfile { (userInfo, e) -> Void in
+        phoneId.loadMyProfile { (userInfo, e) -> Void in
             
             result = userInfo
             if(e == nil){
@@ -339,7 +339,7 @@ class PhoneIdServiceTests: XCTestCase {
         
         var result:UserInfo? = nil
         var errorResult:NSError?
-        phoneId.loadUserProfile { (userInfo, e) -> Void in
+        phoneId.loadMyProfile { (userInfo, e) -> Void in
             
             result = userInfo
             if(e != nil){
@@ -364,7 +364,7 @@ class PhoneIdServiceTests: XCTestCase {
         let expectation = expectationWithDescription("Expected to get server error")
 
         var errorResult:NSError?
-        phoneId.loadUserProfile { (userInfo, e) -> Void in
+        phoneId.loadMyProfile { (userInfo, e) -> Void in
 
             if(e != nil){
                 errorResult = e

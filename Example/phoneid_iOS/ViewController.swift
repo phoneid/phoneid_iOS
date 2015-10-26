@@ -100,7 +100,7 @@ class ViewController: UIViewController {
     
     @IBAction func editProfileTapped(sender: AnyObject) {
     
-        phoneId.loadUserProfile{ (userInfo, e) -> Void in
+        phoneId.loadMyProfile{ (userInfo, e) -> Void in
 
             if let user = userInfo{
                 let profileController = self.phoneId.componentFactory.editProfileViewController(user)

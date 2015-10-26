@@ -58,7 +58,7 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer, UserName
 
         super.viewDidLoad()
 
-        let result = self.phoneIdComponentFactory.userNameView(self.model.screenName!)
+        let result = self.phoneIdComponentFactory.userNameView(self.model.screenName)
         result.delegate = self
         self.view = result
     }

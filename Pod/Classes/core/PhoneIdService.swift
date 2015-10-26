@@ -206,7 +206,7 @@ public class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    public func loadUserProfile(completion:UserInfoRequestCompletion) {
+    public func loadMyProfile(completion:UserInfoRequestCompletion) {
         
         let endpoint: String = Endpoints.RequestMe.endpoint()
         self.get(endpoint, params: nil) { response in
@@ -228,6 +228,8 @@ public class PhoneIdService: NSObject {
             self.notifyClientCodeAboutError(error)
         }
     }
+    
+    
     
     public func updateUserProfile(userInfo:UserInfo, completion:RequestCompletion){
         let endpoint: String = Endpoints.RequestMe.endpoint()
