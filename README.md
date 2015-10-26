@@ -26,20 +26,20 @@ use_frameworks!
 pod "phoneid_iOS"
 ```
 
-## <a name="#content">Table Of Contents</a>
-- [Quick Start](#quickStart) 
- - [Configure phoneid client](#configureClient) 
- - [Integrate phoneid button](#integrateButton) 
- - [Callbacks](#callbacks) 
-- [UI Customization](#ui) 
-- [User Profile](#profile)
-- [Upload Contacts](#contacts)
+## Table Of Contents
+- [Quick Start](#quick-start) 
+ - [Configure phoneid client](#1-configure-phoneid-client) 
+ - [Integrate phoneid button](#2-integrate-phoneid-button) 
+ - [Callbacks](#3-callbacks) 
+- [UI Customization](#ui-customization) 
+- [User Profile](#user-profile)
+- [Upload Contacts](#upload-contacts)
 - [Author](#author)
 - [License](#license)
 
-## <a name="#quickStart">Quick Start</a>
+## Quick Start
 
-#### <a name="configureClient">1. Configure phoneid client:</a>
+#### 1. Configure phoneid client:
 If your app is not yet registered with PhoneId and has a client ID, you should create it on [developer.phone.id](http://developer.phone.id/)
 
 In order to start work with phoneid SDK you should configure it with your client ID (replace "TestPhoneId" with your client ID):
@@ -82,7 +82,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
 PhoneIdService.sharedInstance - returns a singleton instance of PhoneIdService.
 
-#### <a name="#integrateButton">2. Integrate phoneid button:</a>
+#### 2. Integrate phoneid button:
 **PhoneIdLoginButton** is a UIView's subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
 
 Put UIView to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
@@ -93,7 +93,7 @@ Note, you can use **CompactPhoneIdLoginButton** instead of **PhoneIdLoginButton*
 
 After this step integration is almost completed. 
 
-#### <a name="#callbacks">3. Callbacks:</a>
+#### 3. Callbacks:
 
 In order to be notified about interesting events like successfull login, logout, or some error happened, etc. you can set appropriate handlers on PhoneIdService.sharedInstance. Here is list if available handlers:
 
@@ -170,7 +170,7 @@ PhoneIdService.sharedInstance.phoneIdDidLogout = {
 
 
 
-## <a name="#ui">UI Customization</a>
+## UI Customization
 
 Color scheme of phone.id UI can be easily customized.
 This can be achieved via ColorScheme object. ColorScheme object defines set of named colors used inside of phone.id.
@@ -278,7 +278,7 @@ The customization of colors&background can be done in two steps:
 
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
 
-## <a name="#profile">User Profile</a>
+## User Profile
 Phone.id SDK provides User Profile management. 
 
 In order to request user's profile call to loadMyProfile method of PhoneIdService. 
@@ -330,7 +330,7 @@ User profile pictures are uploaded to s3.amazon.com which does not copmletely su
     </dict>
 ``` 
 
-## <a name="#contacts">Upload Contacts</a>
+## Upload Contacts
 
 Phone numbers from user's address book are stored on Phone.id servers and used to build the Social Graph. You can upload user's address book using following call:
 
