@@ -34,7 +34,6 @@ pod "phoneid_iOS"
 - [UI Customization](#ui) 
 - [User Profile](#profile)
 - [Upload Contacts](#contacts)
-- [How automatic token refresh works](#tokenRefresh)
 - [Author](#author)
 - [License](#license)
 
@@ -83,7 +82,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
 PhoneIdService.sharedInstance - returns a singleton instance of PhoneIdService.
 
-#### 2. <a name="#integrateButton">Integrate phoneid button:</a>
+#### <a name="#integrateButton">2. Integrate phoneid button:</a>
 **PhoneIdLoginButton** is a UIView's subclass in the iOS SDK that allows users to log in and log out. It tracks the user's login state and automatically displays the appropriate message, **Log in** or **Log out**: 
 
 Put UIView to your view controller in the storyboard and change it's class to **“PhoneIdLoginButton”**. Pay attention that module of this button will be changed automatically to “phoneid_iOS”. This is correct, don’t change this value:
@@ -94,7 +93,7 @@ Note, you can use **CompactPhoneIdLoginButton** instead of **PhoneIdLoginButton*
 
 After this step integration is almost completed. 
 
-#### 3. <a name="#callbacks">Callbacks</a>
+#### <a name="#callbacks">3. Callbacks:</a>
 
 In order to be notified about interesting events like successfull login, logout, or some error happened, etc. you can set appropriate handlers on PhoneIdService.sharedInstance. Here is list if available handlers:
 
@@ -190,7 +189,7 @@ You can see detailed mapping of fields of ColorScheme to colors of UI controls h
 [![guide](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)
 
 Phone.id SDK provides customization point via the componentFactory property of PhoneIdService instance.
-In customize colors&background can be done in two steps:
+The customization of colors&background can be done in two steps:
 
 1) Create your own instance of component factory and setup colorScheme with colors you like:
 ######Swift
@@ -249,6 +248,7 @@ In customize colors&background can be done in two steps:
 
 
 2) set your own component factory to phoneid service, as early as possible, preferable in didFinishLaunchingWithOptions:
+######Swift
 ```swift
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -279,13 +279,76 @@ In customize colors&background can be done in two steps:
 ![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
 
 ## <a name="#profile">User Profile</a>
+Phone.id SDK provides User Profile management. 
 
+In order to request user's profile call to loadMyProfile method of PhoneIdService. 
+User can also edit her profile: setup screen name, profile picture, and date of birth. 
+The component factory provides profile editing UI for you, see example below:
+ 
+######Swift
+```swift
+   // load user profile
+   PhoneIdService.sharedInstance.loadMyProfile{ (userInfo, e) -> Void in
+
+       if let user = userInfo{
+       
+           // present user editing profile UI
+           let profileController = PhoneIdService.sharedInstance.componentFactory.editProfileViewController(user)
+           self.presentViewController(profileController, animated: true, completion: nil)
+       }
+   }
+``` 
+
+######Objective-C
+```Objective-C
+    // load user profile
+    [[PhoneIdService sharedInstance] loadUserProfile: ^(UserInfo* userInfo, NSError* e){
+        
+        if (userInfo){
+            // present user editing profile UI
+            UIViewController* profileController = [[PhoneIdService sharedInstance].componentFactory editProfileViewController: userInfo];
+            [self presentViewController:profileController animated:YES completion:nil];
+        }
+        
+    }];
+``` 
+
+User profile pictures are uploaded to s3.amazon.com which does not copmletely supports requirements of [Apple App transport security](https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/index.html) yet ([more details](http://stackoverflow.com/questions/32500655/ios-9-app-download-from-amazon-s3-ssl-error-tls-1-2-support)). So in order to make it workable following snippet need to be added into application's Info.plist
+
+######Info.plist
+```XML
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>s3.amazonaws.com</key>
+            <dict>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
+``` 
 
 ## <a name="#contacts">Upload Contacts</a>
 
+Phone numbers from user's address book are stored on Phone.id servers and used to build the Social Graph. You can upload user's address book using following call:
 
-## <a name="#tokenRefresh">How automatic token refresh works</a>
+######Swift
+```swift
+    PhoneIdService.sharedInstance.uploadContacts() { (numberOfUpdatedContacts, error) -> Void in
+ 
+    }
+``` 
 
+######Objective-C
+```Objective-C
+   [[PhoneIdService sharedInstance] uploadContacts:^(NSInteger numberOfContacts, NSError * error) {
+
+   }];
+``` 
+
+If user's address book was not changed since last upload, method will not reupload the book once more.
 
 ## <a name="#author">Author</a>
 
