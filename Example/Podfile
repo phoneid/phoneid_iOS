@@ -1,7 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'phoneid_iOS_Example', :exclusive => true do
+target 'phoneid_iOS_Example_swift', :exclusive => true do
+  pod "phoneid_iOS", :path => "../"
+end
+
+target 'phoneid_iOS_Example_objc', :exclusive => true do
   pod "phoneid_iOS", :path => "../"
 end
 

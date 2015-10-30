@@ -1,6 +1,6 @@
 {
   "name": "phoneid_iOS",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "summary": "Phone.Id SDK library",
   "description": "iOS library that provides access to phone.id service.\nPhone.id service allows App developers to use the phone number as a social login, without using nicknames or passwords at all.",
   "homepage": "https://github.com/phoneid/phoneid_iOS",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/phoneid/phoneid_iOS.git",
-    "tag": "0.1.1"
+    "tag": "0.1.4"
   },
   "pod_target_xcconfig": {
     "ENABLE_TESTABILITY": "YES"

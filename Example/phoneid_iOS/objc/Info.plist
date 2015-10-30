@@ -34,7 +34,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
     <key>NSAppTransportSecurity</key>
@@ -42,6 +41,11 @@
         <key>NSExceptionDomains</key>
         <dict>
             <key>s3.amazonaws.com</key>
+            <dict>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+            <key>api.phone.id</key>
             <dict>
                 <key>NSExceptionRequiresForwardSecrecy</key>
                 <false/>

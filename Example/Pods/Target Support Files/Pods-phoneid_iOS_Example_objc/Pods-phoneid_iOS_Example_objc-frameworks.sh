@@ -84,10 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-phoneid_iOS_Tests/libPhoneNumber_iOS.framework"
-  install_framework "Pods-phoneid_iOS_Tests/phoneid_iOS.framework"
+  install_framework "Pods-phoneid_iOS_Example_objc/libPhoneNumber_iOS.framework"
+  install_framework "Pods-phoneid_iOS_Example_objc/phoneid_iOS.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-phoneid_iOS_Tests/libPhoneNumber_iOS.framework"
-  install_framework "Pods-phoneid_iOS_Tests/phoneid_iOS.framework"
+  install_framework "Pods-phoneid_iOS_Example_objc/libPhoneNumber_iOS.framework"
+  install_framework "Pods-phoneid_iOS_Example_objc/phoneid_iOS.framework"
 fi
