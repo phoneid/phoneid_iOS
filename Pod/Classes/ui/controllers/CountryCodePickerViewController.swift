@@ -71,7 +71,7 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
     func countryCodeSelected(model: NumberInfo) {
         self.phoneIdModel = model
         self.dismissViewControllerAnimated(true) {
-            countryCodePickerCompletionBlock?(model: model)
+            self.countryCodePickerCompletionBlock?(model: model)
         }
     }
 }

@@ -316,9 +316,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
             for section in sections {
 
                 let filteredCountries: [CountryInfo] = section.countries.filter({
-                    (country: CountryInfo) -> Bool in
-                    (country.name.lowercaseString.rangeOfString(searchText.lowercaseString) != nil) ||
-                            (country.prefix.lowercaseString.rangeOfString(searchText.lowercaseString) != nil)
+                    (country: CountryInfo) -> Bool in                    
 
                     let rangeInName = country.name.rangeOfString(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch])
 

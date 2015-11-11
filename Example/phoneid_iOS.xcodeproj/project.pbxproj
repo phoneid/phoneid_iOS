@@ -15,19 +15,17 @@
 		09C1E6021B55261100662C2F /* PhoneIdRefreshMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */; };
 		09C1E6261B57B6BE00662C2F /* phoneid_iOS_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */; };
 		09C1E62D1B57B74900662C2F /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
-		09DB02FA1BE40B6D008ACBE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F01BE40B6D008ACBE6 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
-		09DB02FC1BE40B6D008ACBE6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F41BE40B6D008ACBE6 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
-		09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02EE1BE40B6D008ACBE6 /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };
-		09DB03001BE40B7E008ACBE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02EF1BE40B6D008ACBE6 /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
-		09DB03011BE40B89008ACBE6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F51BE40B6D008ACBE6 /* main.m */; settings = {ASSET_TAGS = (); }; };
-		09DB03021BE40B89008ACBE6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F71BE40B6D008ACBE6 /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
-		09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
-		09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03071BE40BB1008ACBE6 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
-		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
-		09DB03101BE40BB1008ACBE6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB030A1BE40BB1008ACBE6 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
-		09DB03111BE40BB1008ACBE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB030B1BE40BB1008ACBE6 /* ViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		09DB03121BE4115F008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F21BE40B6D008ACBE6 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
+		09DB02FA1BE40B6D008ACBE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F01BE40B6D008ACBE6 /* LaunchScreen.storyboard */; };
+		09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02EE1BE40B6D008ACBE6 /* AppDelegate.m */; };
+		09DB03001BE40B7E008ACBE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02EF1BE40B6D008ACBE6 /* Assets.xcassets */; };
+		09DB03011BE40B89008ACBE6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F51BE40B6D008ACBE6 /* main.m */; };
+		09DB03021BE40B89008ACBE6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F71BE40B6D008ACBE6 /* ViewController.m */; };
+		09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */; };
+		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; };
+		09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03071BE40BB1008ACBE6 /* Main.storyboard */; };
+		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; };
+		09DB03111BE40BB1008ACBE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB030B1BE40BB1008ACBE6 /* ViewController.swift */; };
+		09DB03121BE4115F008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F21BE40B6D008ACBE6 /* Main.storyboard */; };
 		6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE95D314144B12892F26E4D1 /* Pods_phoneid_iOS_Example_objc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B277EF78A02703A1CEE4663A /* Pods_phoneid_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F13FCC57C9335EB8B3B8862A /* Pods_phoneid_iOS_Tests.framework */; };
 		EA3EC45E152814EC54EAA7C4 /* Pods_phoneid_iOS_Example_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF718097CC02310906BFB39C /* Pods_phoneid_iOS_Example_swift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -351,7 +349,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					09C1E6221B57B6BE00662C2F = {
@@ -411,10 +409,8 @@
 			files = (
 				09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */,
 				09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */,
-				09DB02FC1BE40B6D008ACBE6 /* Info.plist in Resources */,
 				09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */,
 				09DB02FA1BE40B6D008ACBE6 /* LaunchScreen.storyboard in Resources */,
-				09DB03101BE40BB1008ACBE6 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
