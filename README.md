@@ -183,7 +183,7 @@ Common colors never user directly inside of phone.id, they only provide default 
 
 This separation was done in order to to provide more flexible way of theming:
 You can change only main colors - and there is no need to change every UI control color, however,
-if you need to set specific colors for some UI controls you can overrite default values.
+if you need to set specific colors for some UI controls you can override default values.
 
 You can see detailed mapping of fields of ColorScheme to colors of UI controls here 
 [![guide](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)](https://github.com/phoneid/phoneid_iOS/blob/master/phone.id_theming_guide.pdf)
