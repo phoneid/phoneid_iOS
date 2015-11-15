@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "phoneid_iOS"
-  s.version          = "0.1.4"
+  s.version          = "0.1.5"
   s.summary          = "Phone.Id SDK library"
   s.description      = <<-DESC
 
@@ -14,7 +14,7 @@ Phone.id service allows App developers to use the phone number as a social login
 
   s.homepage         = "https://github.com/phoneid/phoneid_iOS"
   s.license          = 'Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)'
-  s.author           = { "Alyona" => "a.bachurina@gmail.com" }
+  s.author           = { "Federico Pomi" => "federico@pomi.net" }
   s.source           = { :git => "https://github.com/phoneid/phoneid_iOS.git", :tag => s.version.to_s }
 
   s.pod_target_xcconfig = { 'ENABLE_TESTABILITY' => 'YES' }
