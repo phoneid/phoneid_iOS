@@ -1,7 +1,8 @@
 # phoneid_iOS
+[![Build Status](https://travis-ci.org/phoneid/phoneid_iOS.svg)](https://travis-ci.org/phoneid/phoneid_iOS)
 [![Version](https://cocoapod-badges.herokuapp.com/v/phoneid_iOS/badge.png)](http://cocoapods.org/pods/phoneid_iOS)
 [![Platform](https://cocoapod-badges.herokuapp.com/p/phoneid_iOS/badge.png)](http://cocoapods.org/pods/phoneid_iOS)
-[![License](https://img.shields.io/cocoapods/l/phoneid_iOS.svg)](http://cocoapods.org/pods/phoneid_iOS)
+[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Overview
 
