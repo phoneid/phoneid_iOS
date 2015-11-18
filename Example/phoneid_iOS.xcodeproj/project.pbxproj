@@ -361,7 +361,6 @@
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
 			};
@@ -826,7 +825,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -836,7 +834,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/phoneid_iOS_Example.app/phoneid_iOS_Example";
 			};
 			name = Debug;
 		};
@@ -844,13 +841,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F6BDA6C3924856318AB76E88 /* Pods-phoneid_iOS_Tests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/phoneid_iOS_Example.app/phoneid_iOS_Example";
 			};
 			name = Release;
 		};
