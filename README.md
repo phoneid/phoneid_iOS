@@ -276,7 +276,7 @@ The customization of colors&background can be done in two steps:
 }
 ``` 
 
-![phoneId](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
+[Example of customization](http://i284.photobucket.com/albums/ll39/streamlet10/Screenshot%202015-10-25%2021.51.43_zpszpmapuvo.png)
 
 ## User Profile
 Phone.id SDK provides User Profile management. 
