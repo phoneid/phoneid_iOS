@@ -82,7 +82,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func uploadContactsTapped(sender: UIButton) {
-        phoneId.uploadContacts() { (numberOfUpdatedContacts, error) -> Void in
+        phoneId.uploadContacts(debugMode:true) { (numberOfUpdatedContacts, error) -> Void in
             
             var alertController:UIAlertController!
             

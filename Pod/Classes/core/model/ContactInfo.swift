@@ -52,6 +52,10 @@ internal class ContactInfo: NSObject{
         if let company = self.company {
             result["company"] = company
         }
+        
+        if let number = self.number {
+            result["number_checksum"] = number.sha1()
+        }
         return result
     }
     

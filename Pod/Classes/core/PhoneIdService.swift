@@ -331,7 +331,7 @@ public class PhoneIdService: NSObject {
         })
     }
     
-    public func uploadContacts(completion:ContactsUpdateRequestCompletion){
+    public func uploadContacts(debugMode debugMode:Bool = false, completion:ContactsUpdateRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
@@ -339,7 +339,7 @@ public class PhoneIdService: NSObject {
                 
                 if let contacts = contacts{
                     
-                    self.updateContactsIfNeeded(contacts, completion:completion)
+                    self.updateContactsIfNeeded(contacts, debugMode:debugMode, completion:completion)
                     
                 }else{
                     completion(numberOfUpdatedContacts: 0, error: nil)
@@ -374,13 +374,13 @@ public class PhoneIdService: NSObject {
         })
     }
     
-    internal func updateContactsIfNeeded(contacts:[ContactInfo], completion:ContactsUpdateRequestCompletion){
+    internal func updateContactsIfNeeded(contacts:[ContactInfo], debugMode:Bool, completion:ContactsUpdateRequestCompletion){
         
         self.needsUpdateContacts(contacts, completion: { (needsUpdate) -> Void in
             
             if(needsUpdate){
                 
-                let params = self.wrapContactsAsHTTPFormParams(contacts)
+                let params = self.wrapContactsAsHTTPFormParams(contacts, debugMode:debugMode)
                 
                 let endpoint = Endpoints.Contacts.endpoint()
                 
@@ -409,9 +409,9 @@ public class PhoneIdService: NSObject {
     }
     
     
-    private func wrapContactsAsHTTPFormParams(contacts:[ContactInfo]) -> [String:AnyObject]{
+    private func wrapContactsAsHTTPFormParams(contacts:[ContactInfo], debugMode:Bool) -> [String:AnyObject]{
         
-        let contactsDictionary = contacts.map({ return $0.asDictionary()})
+        let contactsDictionary = contacts.map({ return debugMode ? $0.asDebugDictionary() : $0.asDictionary() })
         
         let serialized = try! NSJSONSerialization.dataWithJSONObject(["contacts": contactsDictionary], options: [.PrettyPrinted])
         

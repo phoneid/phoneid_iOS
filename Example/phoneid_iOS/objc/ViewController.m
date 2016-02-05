@@ -86,7 +86,7 @@
 }
 
 - (IBAction)uploadContactsTapped:(id)sender {
-   [self.phoneId uploadContacts:^(NSInteger numberOfContacts, NSError * error) {
+   [self.phoneId uploadContactsWithDebugMode:true completion:^(NSInteger numberOfContacts, NSError * error) {
        
        UIAlertController* alertController;
        if(error){
