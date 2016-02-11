@@ -86,7 +86,7 @@ public class NumberInfo: NSObject {
             let number:NBPhoneNumber! = try phoneUtil.parse(numberString, defaultRegion: self.isoCountryCode)
             let validationResult:NBEValidationResult = phoneUtil.isPossibleNumberWithReason(number, error:&error)
             
-            if(validationResult != NBEValidationResultIS_POSSIBLE){
+            if(validationResult != NBEValidationResult.IS_POSSIBLE){
                 
                 if let error = error{
                     throw PhoneIdNumberValidationError.validationFail(error.localizedDescription)
@@ -170,7 +170,7 @@ public class NumberInfo: NSObject {
         var result: NSString? = nil;
         
         if let formatted = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso){
-            result = try? NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormatE164)
+            result = try? NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormat.E164)
         }
     
         return result as? String
@@ -181,7 +181,7 @@ public class NumberInfo: NSObject {
         do {
             let myNumber: NBPhoneNumber! = try phoneUtil.parse(number, defaultRegion: self.isoCountryCode);
             let countryCodeWithSpace: String = self.phoneCountryCode! + " "
-            let tempNumber = try phoneUtil.format(myNumber, numberFormat: NBEPhoneNumberFormatINTERNATIONAL)
+            let tempNumber = try phoneUtil.format(myNumber, numberFormat: NBEPhoneNumberFormat.INTERNATIONAL)
             return tempNumber.stringByReplacingOccurrencesOfString(countryCodeWithSpace, withString: "")
         }catch{
             return number
@@ -191,7 +191,7 @@ public class NumberInfo: NSObject {
     func internationalFormatted()->String?{
         var number = self.phoneNumber
         if let parsed = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: self.isoCountryCode){
-            if let formatted = try? NBPhoneNumberUtil.sharedInstance().format(parsed, numberFormat: NBEPhoneNumberFormatINTERNATIONAL){
+            if let formatted = try? NBPhoneNumberUtil.sharedInstance().format(parsed, numberFormat: NBEPhoneNumberFormat.INTERNATIONAL){
                 number = formatted
             }
         }

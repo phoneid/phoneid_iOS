@@ -12,7 +12,6 @@
 #import "NBMetadataCoreTest.h"
 #import "NBMetadataCoreMapper.h"
 #import "NBMetadataCoreTestMapper.h"
-#import "NSArray+NBAdditions.h"
 
 FOUNDATION_EXPORT double libPhoneNumber_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char libPhoneNumber_iOSVersionString[];

@@ -25,6 +25,6 @@ Phone.id service allows App developers to use the phone number as a social login
   s.resources =['Pod/Assets/Images.xcassets', 'Pod/Assets/strings/**' ]
 
   s.frameworks = 'UIKit', 'CoreTelephony'
-  s.dependency 'libPhoneNumber-iOS', '~> 0.8'
+  s.dependency 'libPhoneNumber-iOS', '~> 0.8.10'
 
 end
