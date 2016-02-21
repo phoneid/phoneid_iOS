@@ -158,6 +158,8 @@ import Foundation
         imageView = UIImageView(image: UIImage(namedInPhoneId: "phone")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate))
 
         titleLabel = UILabel()
+        titleLabel.textAlignment = .Center
+            
         separatorView = UIView()
         separatorView.backgroundColor = colorScheme.buttonSeparator
 

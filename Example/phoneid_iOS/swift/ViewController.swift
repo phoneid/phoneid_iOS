@@ -70,7 +70,7 @@ class ViewController: UIViewController {
         phoneId.phoneIdDidLogout = {  [unowned self] () ->Void in
             self.updateTokenInfoView()
         } 
-        
+
     }
     
     func updateTokenInfoView(){

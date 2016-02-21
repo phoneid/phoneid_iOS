@@ -20,19 +20,8 @@
 import UIKit
 
 
-@IBDesignable class InternalCompactPhoneIdLoginButton: PhoneIdLoginButton {
-
-    internal var loginTouchedBlock: (() -> Void)?
-    override func loginTouched() {
-
-        loginTouchedBlock?()
-    }
-
-}
-
 
 @IBDesignable public class CompactPhoneIdLoginButton: PhoneIdBaseView {
-
     public var phoneNumberE164: String! {
         get {
             return self.phoneIdModel.e164Format()
@@ -44,9 +33,19 @@ import UIKit
         }
     }
 
-    private(set) var loginButton: InternalCompactPhoneIdLoginButton!
+    private(set) var loginButton: PhoneIdLoginButton!
     private(set) var numberInputControl: NumberInputControl!
     private(set) var verifyCodeControl: VerifyCodeControl!
+    
+    public var titleText:String?{
+        get{ return loginButton.titleLabel.text}
+        set{ loginButton.titleLabel.text = newValue}
+    }
+    
+    public var placeholderText:String?{
+        get{ return numberInputControl.numberText.placeholder}
+        set{ numberInputControl.numberText.placeholder = newValue}
+    }
 
     public init() {
         super.init(frame: CGRectZero)
@@ -67,10 +66,15 @@ import UIKit
         prep()
         initUI();
     }
-
+        
+    private class InternalPhoneIdLoginButton: PhoneIdLoginButton{
+        var loginTouchedBlock: (() -> Void)?
+        override func loginTouched() { loginTouchedBlock?() }
+    }
+    
     func initUI() {
 
-        loginButton = InternalCompactPhoneIdLoginButton()
+        loginButton = InternalPhoneIdLoginButton()
 
         phoneIdModel = NumberInfo()
 
@@ -91,7 +95,7 @@ import UIKit
 
         loginButton.hidden = false
 
-        loginButton.loginTouchedBlock = {
+        (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = {
             self.numberInputControl.hidden = false
             self.loginButton.hidden = true
             self.numberInputControl.validatePhoneNumber()
