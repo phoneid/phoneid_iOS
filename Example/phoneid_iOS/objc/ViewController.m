@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
 @property (weak, nonatomic) IBOutlet UITextField *refreshTokenText;
 @property (weak, nonatomic) IBOutlet UITextField *presetNumber;
+@property (weak, nonatomic) IBOutlet UISwitch *switchDebugContactsUpload;
 
 @property (weak, nonatomic) IBOutlet PhoneIdLoginButton *phoneIdButton;
 @property (weak, nonatomic) IBOutlet CompactPhoneIdLoginButton *compactPhoneIdButton;
@@ -86,7 +87,8 @@
 }
 
 - (IBAction)uploadContactsTapped:(id)sender {
-   [self.phoneId uploadContactsWithDebugMode:true completion:^(NSInteger numberOfContacts, NSError * error) {
+    BOOL uploadInDebugMode = self.switchDebugContactsUpload.isOn;
+    [self.phoneId uploadContactsWithDebugMode:uploadInDebugMode completion:^(NSInteger numberOfContacts, NSError * error) {
        
        UIAlertController* alertController;
        if(error){

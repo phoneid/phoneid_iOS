@@ -97,10 +97,17 @@ class ContactsLoader: NSObject {
                                 contactInfo = ContactInfo()
 
                                 contactInfo.number = number
+                                
+                                
+                                let locLabel : CFStringRef = (ABMultiValueCopyLabelAtIndex(phonesRef, i) != nil) ? ABMultiValueCopyLabelAtIndex(phonesRef, i).takeUnretainedValue() as CFStringRef : ""
+                                
+                                let cfStr:CFTypeRef = locLabel
+                                let nsTypeString = cfStr as! NSString
+                                let customLabel:String = nsTypeString as String
 
-                                let rawLabel = ABMultiValueCopyLabelAtIndex(phonesRef, i)?.takeRetainedValue()
-
-                                contactInfo.kind = ABAddressBookCopyLocalizedLabel(rawLabel)?.takeRetainedValue() as? String
+                                contactInfo.kind = customLabel
+                                    .stringByReplacingOccurrencesOfString("_$!<", withString: "")
+                                    .stringByReplacingOccurrencesOfString(">!$_", withString: "")
 
                                 if let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty)?.takeRetainedValue() as? String {
                                     contactInfo.firstName = firstName

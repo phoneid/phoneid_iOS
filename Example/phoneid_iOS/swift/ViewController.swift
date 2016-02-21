@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var refreshTokenText: UITextField!
     @IBOutlet weak var presetNumber: UITextField!
     
+    @IBOutlet weak var switchDebugContactsUpload: UISwitch!
+    
     @IBOutlet weak var phoneIdButton: PhoneIdLoginButton!
     @IBOutlet weak var compactPhoneIdButton: CompactPhoneIdLoginButton!
     
@@ -82,7 +84,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func uploadContactsTapped(sender: UIButton) {
-        phoneId.uploadContacts(debugMode:true) { (numberOfUpdatedContacts, error) -> Void in
+        let uploadInDebugMode = switchDebugContactsUpload.on
+        phoneId.uploadContacts(debugMode:uploadInDebugMode) { (numberOfUpdatedContacts, error) -> Void in
             
             var alertController:UIAlertController!
             
