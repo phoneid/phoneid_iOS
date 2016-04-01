@@ -105,7 +105,7 @@ public class LoginView: PhoneIdBaseFullscreenView {
         }
 
         self.backgroundView.userInteractionEnabled = true
-        self.backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "resignFirstResponder"))
+        self.backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIResponder.resignFirstResponder)))
 
         let subviews: [UIView] = [verifyCodeControl, numberInputControl, topText, midText, bottomText]
 
@@ -213,7 +213,7 @@ public class LoginView: PhoneIdBaseFullscreenView {
     func setupHintTimer() {
 
         let fireDate = NSDate(timeIntervalSinceNow: 30)
-        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: #selector(LoginView.timerFired), userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
         self.verifyCodeControl.setupHintTimer()
 

@@ -144,9 +144,10 @@ import Foundation
         localizationBundle = phoneIdComponentFactory.localizationBundle
         localizationTableName = phoneIdComponentFactory.localizationTableName
         colorScheme = phoneIdComponentFactory.colorScheme
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
+            
+        let notificator = NSNotificationCenter.defaultCenter()
+        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnSuccessfulLogin), name: Notifications.VerificationSuccess, object: nil)
+        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
     }
 
     func initUI() {
@@ -216,7 +217,9 @@ import Foundation
             self.removeGestureRecognizer(gestureRecognizer)
         }
 
-        gestureRecognizer = UITapGestureRecognizer(target: self, action: isLoggedIn ? "logoutTouched" : "loginTouched")
+        let loginSelector = #selector(PhoneIdLoginButton.loginTouched)
+        let logoutSelector = #selector(PhoneIdLoginButton.logoutTouched)
+        gestureRecognizer = UITapGestureRecognizer(target: self, action: isLoggedIn ? logoutSelector : loginSelector)
         self.addGestureRecognizer(gestureRecognizer)
 
         if (isLoggedIn) {

@@ -35,8 +35,8 @@ extension String {
 
         let len: Int = 64
         while msgLength % len != (len - 8) {
-            counter++
-            msgLength++
+            counter += 1
+            msgLength += 1
         }
 
         let bufZeros = UnsafeMutablePointer<UInt8>(calloc(counter, sizeof(UInt8)))
@@ -55,7 +55,9 @@ extension String {
         // Process the message in successive 512-bit chunks:
         let chunkSizeBytes = 64
         var leftMessageBytes = data.length
-        for var i = 0; i < data.length; i = i + chunkSizeBytes, leftMessageBytes -= chunkSizeBytes {
+        
+        var i = 0
+        while i < data.length {
             let chunk = data.subdataWithRange(NSRange(location: i, length: min(chunkSizeBytes, leftMessageBytes)))
 
             // break chunk into sixteen 32-bit words M[j], 0 ≤ j ≤ 15, big-endian
@@ -119,6 +121,9 @@ extension String {
             hh[2] = (hh[2] &+ C) & 0xffffffff
             hh[3] = (hh[3] &+ D) & 0xffffffff
             hh[4] = (hh[4] &+ E) & 0xffffffff
+            
+            i = i + chunkSizeBytes
+            leftMessageBytes -= chunkSizeBytes
         }
 
         // Produce the final hash value (big-endian) as a 160 bit number:

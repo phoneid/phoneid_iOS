@@ -227,7 +227,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
 
         datePickerCell = {
             let cell = DatePickerCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "expandable")
-            cell.datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
+            cell.datePicker.addTarget(self, action: #selector(EditProfileView.datePickerChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
             return cell
         }()
 
@@ -266,7 +266,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             profileView.avatarView.backgroundColor = colorScheme.profilePictureBackground
             profileView.nameText.textColor = colorScheme.profileTopUsernameText
             profileView.hintLabel.textColor = colorScheme.profilePictureEditingHintText
-            profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changePhotoTapped"))
+            profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(EditProfileView.changePhotoTapped)))
             profileView.avatarView.userInteractionEnabled = true
             profileView.avatarView.activityIndicator.color = colorScheme.profileActivityIndicator
             profileView.userInteractionEnabled = true
@@ -276,7 +276,7 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         saveButton = {
             let saveButton = UIButton()
             saveButton.titleLabel?.textAlignment = .Left
-            saveButton.addTarget(self, action: "saveTapped", forControlEvents: .TouchUpInside)
+            saveButton.addTarget(self, action: #selector(EditProfileView.saveTapped), forControlEvents: .TouchUpInside)
             return saveButton
         }()
 

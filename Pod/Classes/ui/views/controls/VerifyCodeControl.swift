@@ -42,7 +42,7 @@ class VerifyCodeControl: PhoneIdBaseView {
         codeText = {
             let codeText = NumericTextField(maxLength: maxVerificationCodeLength)
             codeText.keyboardType = .NumberPad
-            codeText.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+            codeText.addTarget(self, action: #selector(VerifyCodeControl.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
             codeText.backgroundColor = UIColor.clearColor()
             return codeText
         }()
@@ -74,7 +74,7 @@ class VerifyCodeControl: PhoneIdBaseView {
             let backButtonImage = UIImage(namedInPhoneId: "compact-back")?.imageWithRenderingMode(.AlwaysTemplate)
             backButton.setImage(backButtonImage, forState: .Normal)
 
-            backButton.addTarget(self, action: "backTapped:", forControlEvents: .TouchUpInside)
+            backButton.addTarget(self, action: #selector(VerifyCodeControl.backTapped(_:)), forControlEvents: .TouchUpInside)
             backButton.tintColor = colorScheme.inputCodeBackbuttonNormal
             return backButton
         }()
@@ -228,7 +228,7 @@ class VerifyCodeControl: PhoneIdBaseView {
 
         timer?.invalidate()
         let fireDate = NSDate(timeIntervalSinceNow: 30)
-        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: #selector(VerifyCodeControl.timerFired), userInfo: nil, repeats: false)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
 
     }
@@ -236,7 +236,7 @@ class VerifyCodeControl: PhoneIdBaseView {
     func timerFired() {
         let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
 
-        let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .Plain, target: self, action: "callMeButtonTapped")
+        let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .Plain, target: self, action: #selector(VerifyCodeControl.callMeButtonTapped))
 
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 

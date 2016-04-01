@@ -72,11 +72,11 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
 
 
         NSNotificationCenter.defaultCenter().addObserver(self,
-                selector: Selector("keyboardWillShow:"),
+                selector: #selector(CountryCodePickerView.keyboardWillShow(_:)),
                 name: UIKeyboardWillShowNotification,
                 object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self,
-                selector: Selector("keyboardWillHide:"),
+                selector: #selector(CountryCodePickerView.keyboardWillHide(_:)),
                 name: UIKeyboardWillHideNotification,
                 object: nil)
     }
@@ -337,7 +337,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
 
     func prefferedLocale() -> NSLocale {
         let langs: AnyObject = NSLocale.preferredLanguages()
-        let identifier: String = langs[0] as! String
+        let identifier: String = (langs.firstItem as? String) ?? "en_US"
         let locale = NSLocale(localeIdentifier: identifier)
         return locale
     }
@@ -350,7 +350,7 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
 
         let countries = loadCountriesList()
 
-        let selector: Selector = "localizedTitle"
+        let selector: Selector = #selector(CountryInfo.localizedTitle)
         let sortedCountries: [AnyObject] = collation.sortedArrayFromArray(countries, collationStringSelector: selector)
         for c in sortedCountries {
 

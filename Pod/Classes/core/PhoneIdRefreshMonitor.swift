@@ -38,8 +38,8 @@ class PhoneIdRefreshMonitor{
         refreshRetryCount = 0
         self.notificationCenter = notificationCenter
         
-        notificationCenter.addObserver(self, selector: "willEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
-        notificationCenter.addObserver(self, selector: "didEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.willEnterForeground), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.didEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
     }
     
     convenience init(phoneIdService:PhoneIdService){
@@ -93,7 +93,7 @@ class PhoneIdRefreshMonitor{
         if(fireTime > NSDate().timeIntervalSince1970){
             
             let fireDate = NSDate(timeIntervalSince1970:fireTime)
-            timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: "timerFired", userInfo: nil, repeats: false)
+            timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: #selector(PhoneIdRefreshMonitor.timerFired), userInfo: nil, repeats: false)
             NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
             
         }else{
@@ -123,7 +123,7 @@ class PhoneIdRefreshMonitor{
                 self.stop()
                 self.phoneId.logout()
             }
-            self.refreshRetryCount++
+            self.refreshRetryCount+=1
         }
         
     }

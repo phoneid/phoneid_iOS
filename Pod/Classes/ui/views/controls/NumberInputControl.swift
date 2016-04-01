@@ -50,7 +50,7 @@ class NumberInputControl: PhoneIdBaseView {
         numberText = {
             let numberText = NumericTextField(maxLength: 15)
             numberText.keyboardType = .NumberPad
-            numberText.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+            numberText.addTarget(self, action: #selector(NumberInputControl.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
             numberText.backgroundColor = UIColor.clearColor()
             return numberText
         }()
@@ -66,14 +66,14 @@ class NumberInputControl: PhoneIdBaseView {
         okButton = {
             let okButton = UIButton()
             okButton.hidden = true
-            okButton.addTarget(self, action: "okButtonTapped:", forControlEvents: .TouchUpInside)
+            okButton.addTarget(self, action: #selector(NumberInputControl.okButtonTapped(_:)), forControlEvents: .TouchUpInside)
             return okButton
         }()
 
         prefixButton = {
             let prefixButton = UIButton()
             prefixButton.titleLabel?.textAlignment = .Left
-            prefixButton.addTarget(self, action: "countryCodeTapped:", forControlEvents: .TouchUpInside)
+            prefixButton.addTarget(self, action: #selector(NumberInputControl.countryCodeTapped(_:)), forControlEvents: .TouchUpInside)
             return prefixButton
         }()
 
@@ -122,8 +122,8 @@ class NumberInputControl: PhoneIdBaseView {
     private func setupKeyboardToolBar() {
         let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
 
-        countryCodeBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "countryCodeTapped:")
-        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: "okButtonTapped:")
+        countryCodeBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: #selector(NumberInputControl.countryCodeTapped(_:)))
+        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: #selector(NumberInputControl.okButtonTapped(_:)))
 
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 

@@ -92,8 +92,8 @@ public class ImageEditViewController: UIViewController, PhoneIdConsumer, Customi
 
         self.view.addConstraints(c)
 
-        doneBarButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonTapped:")
-        cancelBarButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonTapped:")
+        doneBarButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(ImageEditViewController.doneButtonTapped(_:)))
+        cancelBarButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(ImageEditViewController.cancelButtonTapped(_:)))
 
         doneBarButton.tintColor = self.colorScheme.headerButtonText
         cancelBarButton.tintColor = self.colorScheme.headerButtonText

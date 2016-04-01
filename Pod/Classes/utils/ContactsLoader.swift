@@ -88,7 +88,7 @@ class ContactsLoader: NSObject {
 
                     let phonesRef: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValueRef
 
-                    for var i: Int = 0; i < ABMultiValueGetCount(phonesRef); i++ {
+                    for i: Int in 0 ..< ABMultiValueGetCount(phonesRef) {
 
                         if let value = ABMultiValueCopyValueAtIndex(phonesRef, i).takeRetainedValue() as? String {
 

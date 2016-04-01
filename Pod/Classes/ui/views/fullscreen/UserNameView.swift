@@ -102,7 +102,7 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         saveButton = {
             let saveButton = UIButton()
             saveButton.titleLabel?.textAlignment = .Left
-            saveButton.addTarget(self, action: "saveTapped", forControlEvents: .TouchUpInside)
+            saveButton.addTarget(self, action: #selector(UserNameView.saveTapped), forControlEvents: .TouchUpInside)
             return saveButton
         }()
 

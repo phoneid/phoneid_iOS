@@ -107,7 +107,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
         headerBackgroundView = UIView()
         closeButton = UIButton(type: .System)
 
-        closeButton.addTarget(self, action: "closeButtonTapped", forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(PhoneIdBaseView.closeButtonTapped), forControlEvents: .TouchUpInside)
 
         titleLabel = UILabel()
 

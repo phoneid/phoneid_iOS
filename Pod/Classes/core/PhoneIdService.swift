@@ -442,7 +442,8 @@ public class PhoneIdService: NSObject {
         
         urlSession.getTasksWithCompletionHandler({
             (dataTasks, uploadTasks, downloadTasks) -> Void in
-            for tasksList: [NSURLSessionTask] in [dataTasks, uploadTasks, downloadTasks] {
+            let tasksLists:[[NSURLSessionTask]] = [dataTasks, uploadTasks, downloadTasks]
+            for tasksList: [NSURLSessionTask] in tasksLists {
                 for task in tasksList {
                     task.cancel();
                 }

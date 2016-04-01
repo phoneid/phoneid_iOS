@@ -109,8 +109,9 @@ import UIKit
         localizationTableName = phoneIdComponentFactory.localizationTableName
         colorScheme = phoneIdComponentFactory.colorScheme
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnSuccessfulLogin", name: Notifications.VerificationSuccess, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doOnlogout", name: Notifications.DidLogout, object: nil)
+        let notificator = NSNotificationCenter.defaultCenter()
+        notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnSuccessfulLogin), name: Notifications.VerificationSuccess, object: nil)
+       notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
 
     }
 
