@@ -160,7 +160,7 @@ public class NumberInfo: NSObject {
         return false;
     }
     
-    func e164Format() -> String? {
+    public func e164Format() -> String? {
         let number = self.phoneCountryCode! + self.phoneNumber!
         let result: NSString? =  NumberInfo.e164Format(number, iso: self.isoCountryCode!);
         return result as? String
