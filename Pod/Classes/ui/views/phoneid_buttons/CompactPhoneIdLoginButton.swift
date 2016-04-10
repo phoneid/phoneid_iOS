@@ -66,22 +66,33 @@ import UIKit
         prep()
         initUI();
     }
-        
+    
+    override public func prepareForInterfaceBuilder() {
+        self.prep()
+        initUI(designtime: true);
+    }
+    
     private class InternalPhoneIdLoginButton: PhoneIdLoginButton{
         var loginTouchedBlock: (() -> Void)?
         override func loginTouched() { loginTouchedBlock?() }
     }
     
-    func initUI() {
+    func initUI(designtime designtime:Bool = false) {
 
         loginButton = InternalPhoneIdLoginButton()
 
         phoneIdModel = NumberInfo()
 
-        setupNumberInputControl()
-        setupVerificationCodeControl()
-
-        let subviews = [loginButton, numberInputControl, verifyCodeControl]
+        var subviews:[UIView] = []
+        
+        if designtime {
+            subviews = [loginButton]
+        }else{
+            setupNumberInputControl()
+            setupVerificationCodeControl()
+            
+            subviews = [loginButton, numberInputControl, verifyCodeControl]
+        }
 
         for subview in subviews {
             subview.translatesAutoresizingMaskIntoConstraints = false
@@ -119,11 +130,6 @@ import UIKit
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    override public func prepareForInterfaceBuilder() {
-        self.prep()
-        initUI();
-    }
-
     func setupNumberInputControl() {
 
         numberInputControl = NumberInputControl(model: phoneIdModel, scheme: colorScheme, bundle: localizationBundle, tableName: localizationTableName)
@@ -141,29 +147,30 @@ import UIKit
 
         verifyCodeControl = VerifyCodeControl(model: phoneIdModel, scheme: colorScheme, bundle: localizationBundle, tableName: self.localizationTableName)
 
-        verifyCodeControl.verificationCodeDidCahnge = {
-            (code) -> Void in
+        verifyCodeControl.verificationCodeDidCahnge = { [weak self] (code) -> Void in
+            guard let me = self else {return}
 
-            if (code.utf16.count == self.verifyCodeControl.maxVerificationCodeLength) {
+            if (code.utf16.count == me.verifyCodeControl.maxVerificationCodeLength) {
 
-                self.phoneIdService.verifyAuthentication(code, info: self.phoneIdModel) {
-                    (token, error) -> Void in
+                me.phoneIdService.verifyAuthentication(code, info: me.phoneIdModel) { (token, error) -> Void in
+                    guard let me = self else {return}
 
                     if (error == nil) {
-                        self.verifyCodeControl.indicateVerificationSuccess() {
+                        me.verifyCodeControl.indicateVerificationSuccess() { [weak self] in
+                            guard let me = self else {return}
                             print("PhoneId login finished")
-                            self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
-                            self.resetControls()
+                            me.phoneIdService.phoneIdAuthenticationSucceed?(token: me.phoneIdService.token!)
+                            me.resetControls()
                         }
                     } else {
                         print("PhoneId login cancelled")
-                        self.verifyCodeControl.indicateVerificationFail()
+                        me.verifyCodeControl.indicateVerificationFail()
                     }
 
                 }
 
             } else {
-                self.phoneIdService.abortCall()
+                me.phoneIdService.abortCall()
             }
 
         }
@@ -179,9 +186,10 @@ import UIKit
 
         verifyCodeControl.requestVoiceCall = {
             self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .Call, completion: {
-                (error) -> Void in
+                [weak self] (error) -> Void in
+                
                 if let e = error {
-                    self.presentErrorMessage(e)
+                    self?.presentErrorMessage(e)
                 }
             })
         }
@@ -190,15 +198,17 @@ import UIKit
     func requestAuthentication() {
 
         phoneIdService.requestAuthenticationCode(self.phoneIdModel, completion: {
-            [unowned self] (error) -> Void in
+            [weak self] (error) -> Void in
 
+            guard let me = self else {return}
+            
             if let e = error {
-                self.presentErrorMessage(e)
+                me.presentErrorMessage(e)
             } else {
-                self.numberInputControl.hidden = true
-                self.verifyCodeControl.hidden = false
-                self.verifyCodeControl.becomeFirstResponder()
-                self.verifyCodeControl.setupHintTimer()
+                me.numberInputControl.hidden = true
+                me.verifyCodeControl.hidden = false
+                me.verifyCodeControl.becomeFirstResponder()
+                me.verifyCodeControl.setupHintTimer()
             }
         });
     }

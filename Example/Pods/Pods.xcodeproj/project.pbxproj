@@ -10,6 +10,7 @@
 		0074B99E6B2F0835D218AD955A106635 /* NBMetadataCoreTestMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = C47EE84F6AE47D71B0005406F33FA4E4 /* NBMetadataCoreTestMapper.m */; };
 		07BBBC415E647A76DC5F03C3BF2DFBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7D2AA6A9EB09907A66CE8B85938CDB0 /* Foundation.framework */; };
 		0831FBC434D2D40911EF4C0DD8125640 /* NSURLRequest+PhoneId.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50E738B2DA430A38E6C6720F91632F /* NSURLRequest+PhoneId.swift */; };
+		0926942C1CB4662400968F5F /* PhoneIdLoginFlowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0926942A1CB4661700968F5F /* PhoneIdLoginFlowManager.swift */; };
 		09E4735B16E744F8019BFB86F4D9A1FD /* NBNumberFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = A5F7BCF4850AA693EC0289DF2787EBD8 /* NBNumberFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B86C7F4082E3414DC61B30135C76437 /* PhoneIdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3F9CBFEBE1C895AB5CF29E86B9924 /* PhoneIdService.swift */; };
 		0DC742D9D2E23B2AA881970CBCBEACD2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5FE28970A4951A981B87ABE00422C6 /* UIKit.framework */; };
@@ -149,6 +150,7 @@
 		009AF161FD12EA07F8B831AADE9ED579 /* NumberInputControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NumberInputControl.swift; sourceTree = "<group>"; };
 		07AB5E5BDB510CDFE7FA29F45CA8BCD8 /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0900FD97ADD3BB41B87A15C30564668B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0926942A1CB4661700968F5F /* PhoneIdLoginFlowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdLoginFlowManager.swift; sourceTree = "<group>"; };
 		0D36C1278D87C3765C9B4F3ED5A0D4BF /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberDesc.m; path = libPhoneNumber/NBPhoneNumberDesc.m; sourceTree = "<group>"; };
 		0D9CAF763C6830EDDAECAC6C3C71535A /* NBMetadataHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataHelper.h; path = libPhoneNumber/NBMetadataHelper.h; sourceTree = "<group>"; };
 		0F2A3684A87BE0C565DD8B472F406446 /* Pods-phoneid_iOS_Example_swift-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-phoneid_iOS_Example_swift-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -648,6 +650,7 @@
 				DD358BF1F92530D161915B5A47CD466C /* KeychainStorage.swift */,
 				374B015AE21F6516222E04764F878CB6 /* Reachability.swift */,
 				5FC0497CC021B3D0B98B2CAC8BECE8C9 /* ResourcesLoadingExtensions.swift */,
+				0926942A1CB4661700968F5F /* PhoneIdLoginFlowManager.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -839,7 +842,7 @@
 		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
@@ -916,6 +919,7 @@
 				1974C9D3A64B3F80C591B6ED5EEA8A1B /* TokenInfo.swift in Sources */,
 				47ECD21056AD7AF1BF1FCAF5F596ED0F /* UICustomization.swift in Sources */,
 				63FC9627225D7B7221CC3486DD26ABF6 /* UserInfo.swift in Sources */,
+				0926942C1CB4662400968F5F /* PhoneIdLoginFlowManager.swift in Sources */,
 				413EC66489E849A5C67FEF2495C6603C /* UserNameView.swift in Sources */,
 				F57A07DE347ED7E377924D7A66B61D80 /* UserNameViewController.swift in Sources */,
 				ADE51D9F9DF0495FE11C50F93E7D2C22 /* VerifyCodeControl.swift in Sources */,
@@ -1084,6 +1088,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C6EEBE3B3FEA6868357935DAC8ADAF3 /* libPhoneNumber-iOS.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1367,6 +1372,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C6EEBE3B3FEA6868357935DAC8ADAF3 /* libPhoneNumber-iOS.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1385,6 +1391,7 @@
 				PRODUCT_NAME = libPhoneNumber_iOS;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0926942E1CB46D0B00968F5F /* StandardExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0926942D1CB46D0B00968F5F /* StandardExampleViewController.swift */; };
+		092694301CB46D1B00968F5F /* CompactExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */; };
+		092694321CB46D3000968F5F /* CustomExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092694311CB46D3000968F5F /* CustomExampleViewController.swift */; };
+		09293DD71CB478F50070208A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09293DD61CB478F50070208A /* DetailsViewController.swift */; };
 		09587C7E1B4D1C510019FA97 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
 		09587C7F1B4D1C510019FA97 /* PhoneIdServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2C1B4D1C070019FA97 /* PhoneIdServiceTests.swift */; };
 		09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */; };
@@ -49,6 +53,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0926942D1CB46D0B00968F5F /* StandardExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardExampleViewController.swift; sourceTree = "<group>"; };
+		0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactExampleViewController.swift; sourceTree = "<group>"; };
+		092694311CB46D3000968F5F /* CustomExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExampleViewController.swift; sourceTree = "<group>"; };
+		09293DD61CB478F50070208A /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		09587C2B1B4D1C070019FA97 /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		09587C2C1B4D1C070019FA97 /* PhoneIdServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdServiceTests.swift; sourceTree = "<group>"; };
 		09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdSDKIntegrationTests.swift; sourceTree = "<group>"; };
@@ -164,6 +172,10 @@
 				09DB03091BE40BB1008ACBE6 /* Images.xcassets */,
 				09DB030A1BE40BB1008ACBE6 /* Info.plist */,
 				09DB030B1BE40BB1008ACBE6 /* ViewController.swift */,
+				09293DD61CB478F50070208A /* DetailsViewController.swift */,
+				0926942D1CB46D0B00968F5F /* StandardExampleViewController.swift */,
+				0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */,
+				092694311CB46D3000968F5F /* CustomExampleViewController.swift */,
 			);
 			path = swift;
 			sourceTree = "<group>";
@@ -584,8 +596,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092694321CB46D3000968F5F /* CustomExampleViewController.swift in Sources */,
 				09DB03111BE40BB1008ACBE6 /* ViewController.swift in Sources */,
+				0926942E1CB46D0B00968F5F /* StandardExampleViewController.swift in Sources */,
 				09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */,
+				092694301CB46D1B00968F5F /* CompactExampleViewController.swift in Sources */,
+				09293DD71CB478F50070208A /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

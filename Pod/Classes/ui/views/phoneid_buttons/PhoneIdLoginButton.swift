@@ -29,22 +29,38 @@ import Foundation
 
     public var phoneNumberE164: String!
 
-
-    public private(set) var imageView: UIImageView!
-    public private(set) var titleLabel: UILabel!
-    public private(set) var separatorView: UIView!
-    public private(set) var activityIndicator: UIActivityIndicatorView!
+    public private(set) var imageView: UIImageView = {
+        let image = UIImage(namedInPhoneId: "phone")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        return UIImageView(image:image)
+    }()
+    
+    public private(set) var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textAlignment = .Center
+        titleLabel.font = UIFont.systemFontOfSize(20)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.text = "Login with phone.id"
+        return titleLabel
+    }()
+    
+    public private(set) var separatorView: UIView = {
+        let separatorView = UIView()
+        return separatorView
+    }()
+    
+    public private(set) var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
 
     private var gestureRecognizer: UITapGestureRecognizer!
 
-
+    var phoneIdLoginFlowManager = PhoneIdLoginWorkflowManager()
+    
     var phoneIdService: PhoneIdService! {
         return PhoneIdService.sharedInstance
     }
+    
     var phoneIdComponentFactory: ComponentFactory! {
         return phoneIdService.componentFactory
     }
-
 
     private var titleColors: [UInt:UIColor] = [:];
     private var imageColors: [UInt:UIColor] = [:];
@@ -54,14 +70,14 @@ import Foundation
     public func setTitleColor(color: UIColor?, forState state: UIControlState) {
         titleColors[state.rawValue] = color
         if (state == self.state) {
-            titleLabel?.textColor = color
+            titleLabel.textColor = color
         }
     }
 
     public func setImageColor(color: UIColor?, forState state: UIControlState) {
         imageColors[state.rawValue] = color
         if (state == self.state) {
-            imageView?.tintColor = color
+            imageView.tintColor = color
         }
     }
 
@@ -84,6 +100,8 @@ import Foundation
     }
 
     func setupDefaultColors() {
+        separatorView.backgroundColor = colorScheme.buttonSeparator
+        
         backgroundColors = [
                 UIControlState.Normal.rawValue: colorScheme.buttonNormalBackground,
                 UIControlState.Disabled.rawValue: colorScheme.buttonDisabledBackground,
@@ -137,7 +155,7 @@ import Foundation
 
     override public func prepareForInterfaceBuilder() {
         self.prep()
-        initUI()
+        initUI(designtime:true)
     }
 
     func prep() {
@@ -150,26 +168,12 @@ import Foundation
         notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
     }
 
-    func initUI() {
+    func initUI(designtime designtime:Bool = false) {
 
         self.translatesAutoresizingMaskIntoConstraints = false
-
-        self.accessibilityActivate()
-
-        imageView = UIImageView(image: UIImage(namedInPhoneId: "phone")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate))
-
-        titleLabel = UILabel()
-        titleLabel.textAlignment = .Center
-            
-        separatorView = UIView()
-        separatorView.backgroundColor = colorScheme.buttonSeparator
-
-        titleLabel.font = UIFont.systemFontOfSize(20)
-
+        
         layer.cornerRadius = 3
         layer.masksToBounds = true
-
-        activityIndicator = UIActivityIndicatorView()
 
         let subviews: [UIView] = [imageView, titleLabel, separatorView, activityIndicator]
 
@@ -180,7 +184,9 @@ import Foundation
 
         setupLayout()
 
-        configureButton(phoneIdService.isLoggedIn)
+        if !designtime {
+            configureButton(phoneIdService.isLoggedIn)
+        }
 
         setupDefaultColors()
 
@@ -213,7 +219,7 @@ import Foundation
     func configureButton(isLoggedIn: Bool) {
 
 
-        if ((gestureRecognizer) != nil) {
+        if let _ = gestureRecognizer {
             self.removeGestureRecognizer(gestureRecognizer)
         }
 
@@ -230,7 +236,6 @@ import Foundation
         } else {
             titleLabel.attributedText = localizedStringAttributed("html-button.title.login.with.phone.id")
             self.accessibilityLabel = localizedString("accessibility.title.login.with.phone.id")
-
         }
 
     }
@@ -239,7 +244,6 @@ import Foundation
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-
     public override func intrinsicContentSize() -> CGSize {
         return CGSizeMake(UIViewNoIntrinsicMetric, 48)
     }
@@ -247,68 +251,27 @@ import Foundation
     override public class func requiresConstraintBasedLayout() -> Bool {
         return true
     }
-
-
-    func loginTouched() {
-
-        self.userInteractionEnabled = false
-
-        if (phoneIdService.clientId == nil) {
-            fatalError("Phone.id is not configured for use: clientId is not set. Please call configureClient(clientId) first")
-        }
-
-
-        if (phoneIdService.appName != nil) {
-            self.presentLoginViewController()
-            self.userInteractionEnabled = true
-        } else {
-            activityIndicator.startAnimating()
-            phoneIdService.loadClients(phoneIdService.clientId!, completion: {
-                (error) -> Void in
-
-                self.activityIndicator.stopAnimating()
-
-                if (error == nil) {
-                    self.presentLoginViewController()
-                } else {
-                    if (error != nil) {
-                        let alertController = UIAlertController(title: error?.localizedDescription, message: error?.localizedFailureReason, preferredStyle: .Alert)
-
-                        alertController.addAction(UIAlertAction(title: self.localizedString("alert.button.title.dismiss"), style: .Cancel, handler: nil));
-                        self.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
-                    }
-                }
+    
+    func loginTouched(){
+       
+        phoneIdLoginFlowManager.login(presentFromController:self.window!.rootViewController!
+            , initialPhoneNumerE164:self.phoneNumberE164
+            , lock: { _ in
+                self.userInteractionEnabled = false
+            }, unlock: { _ in
                 self.userInteractionEnabled = true
-            })
-        }
-
+            }, startAnimatingProgress: { _ in
+                self.activityIndicator.startAnimating()
+            }, stopAnimationProgress: { _ in
+                self.activityIndicator.stopAnimating()
+        })
+    
     }
-
 
     func logoutTouched() {
         phoneIdService.logout()
     }
-
-    private func presentLoginViewController() {
-
-        let controller = phoneIdComponentFactory.loginViewController()
-
-        let navigation = UINavigationController(rootViewController: controller)
-        navigation.navigationBar.hidden = true
-
-        if let phoneNumberE164 = phoneNumberE164 {
-            controller.phoneIdModel = NumberInfo(numberE164: phoneNumberE164)
-        }
-
-
-        let phoneIdWindow = PhoneIdWindow()
-
-        phoneIdWindow.makeActive()
-
-        phoneIdWindow.rootViewController?.presentViewController(navigation, animated: true, completion: nil)
-
-    }
-
+    
     // MARK: Notification handlers
 
     func doOnSuccessfulLogin() -> Void {
