@@ -347,7 +347,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YTq-Kc-fDG" kind="embed" id="GPG-O4-urp"/>
+                                    <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="GPG-O4-urp"/>
                                 </connections>
                             </containerView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-XB-O4x">
@@ -568,7 +568,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vow-8A-gMT" firstAttribute="top" secondItem="2oS-44-k2f" secondAttribute="bottom" constant="1" id="0yk-ji-Hqi">
-                                <variation key="widthClass=compact" constant="19"/>
+                                <variation key="widthClass=compact" constant="10"/>
                             </constraint>
                             <constraint firstItem="S7V-q0-tvv" firstAttribute="centerY" secondItem="2oS-44-k2f" secondAttribute="centerY" id="Acp-Qf-9ur"/>
                             <constraint firstItem="hvS-0X-HOB" firstAttribute="top" secondItem="S7V-q0-tvv" secondAttribute="bottom" constant="2" id="CEs-O5-Gun"/>
@@ -580,9 +580,7 @@
                             <constraint firstItem="hvS-0X-HOB" firstAttribute="leading" secondItem="S7V-q0-tvv" secondAttribute="trailing" constant="-128" id="c4h-DQ-n3c"/>
                             <constraint firstItem="hvS-0X-HOB" firstAttribute="leading" secondItem="S7V-q0-tvv" secondAttribute="trailing" constant="5" id="dsM-6a-Hrw"/>
                             <constraint firstItem="2oS-44-k2f" firstAttribute="top" secondItem="S7V-q0-tvv" secondAttribute="bottom" constant="-10" id="hs7-Pa-bs5"/>
-                            <constraint firstItem="2oS-44-k2f" firstAttribute="top" secondItem="uvb-XU-0tA" secondAttribute="topMargin" constant="13" id="tY9-L7-d3e">
-                                <variation key="widthClass=compact" constant="20"/>
-                            </constraint>
+                            <constraint firstItem="2oS-44-k2f" firstAttribute="top" secondItem="uvb-XU-0tA" secondAttribute="topMargin" constant="20" id="tY9-L7-d3e"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
