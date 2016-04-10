@@ -68,7 +68,7 @@ class DetailsViewController: UIViewController {
             let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .Alert)
             
             alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
-            self.presentViewController(alertController, animated: true, completion:nil)
+            self.parentViewController!.presentViewController(alertController, animated: true, completion:nil)
         }
         
         // SDK calls this block every time when token refreshed
@@ -104,7 +104,7 @@ class DetailsViewController: UIViewController {
             }
             
             alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
-            self.presentViewController(alertController, animated: true, completion:nil)
+            self.parentViewController!.presentViewController(alertController, animated: true, completion:nil)
             
         }
     }

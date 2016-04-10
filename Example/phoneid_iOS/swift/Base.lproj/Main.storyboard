@@ -19,10 +19,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="60" y="40" width="280" height="48"/>
+                                </variation>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GsO-a3-vB0">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="ck3-RX-K52" eventType="touchUpInside" id="2mc-wZ-NIc"/>
+                                    <action selector="dismiss:" destination="c95-wZ-NhQ" eventType="touchUpInside" id="Qv6-4n-8Bf"/>
+                                </connections>
+                            </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vom-CJ-fg5">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="252" id="FW5-yd-aYq"/>
+                                    <constraint firstAttribute="height" constant="252" id="FW5-yd-aYq">
+                                        <variation key="widthClass=compact" constant="280"/>
+                                    </constraint>
                                     <constraint firstAttribute="width" constant="312" id="zzH-Vt-0N6"/>
                                 </constraints>
                                 <variation key="default">
@@ -38,30 +55,30 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YTq-Kc-fDG" kind="embed" id="mjw-di-XNY"/>
+                                    <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="mjw-di-XNY"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="93.5" y="28" width="213.5" height="48"/>
-                                </variation>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="zqO-a1-fqD" secondAttribute="bottom" constant="8" id="KSb-rd-0eg"/>
+                            <constraint firstItem="GsO-a3-vB0" firstAttribute="top" secondItem="Vom-CJ-fg5" secondAttribute="bottom" constant="8" id="9Dc-1W-mPl"/>
+                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="zqO-a1-fqD" secondAttribute="bottom" constant="8" id="KSb-rd-0eg">
+                                <variation key="widthClass=compact" constant="20"/>
+                            </constraint>
                             <constraint firstItem="Vom-CJ-fg5" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="amm-gi-3WR"/>
                             <constraint firstItem="Vom-CJ-fg5" firstAttribute="top" secondItem="4qf-Ei-B7p" secondAttribute="bottom" constant="25" id="dso-OI-Mc2"/>
                             <constraint firstItem="4qf-Ei-B7p" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="fCy-2O-uVW"/>
+                            <constraint firstItem="GsO-a3-vB0" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="kmw-r1-wOI"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="Vom-CJ-fg5"/>
                                 <exclude reference="4qf-Ei-B7p"/>
+                                <exclude reference="GsO-a3-vB0"/>
+                                <exclude reference="Vom-CJ-fg5"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="9Dc-1W-mPl"/>
+                                <exclude reference="kmw-r1-wOI"/>
                                 <exclude reference="KSb-rd-0eg"/>
                                 <exclude reference="fCy-2O-uVW"/>
                                 <exclude reference="amm-gi-3WR"/>
@@ -70,10 +87,13 @@
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="Vom-CJ-fg5"/>
                                 <include reference="4qf-Ei-B7p"/>
+                                <include reference="GsO-a3-vB0"/>
+                                <include reference="Vom-CJ-fg5"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="9Dc-1W-mPl"/>
+                                <include reference="kmw-r1-wOI"/>
                                 <include reference="KSb-rd-0eg"/>
                                 <include reference="fCy-2O-uVW"/>
                                 <include reference="amm-gi-3WR"/>
@@ -81,10 +101,13 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="phoneIdButton" destination="4qf-Ei-B7p" id="Kp6-rV-acf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OID-0e-ydM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-850.5" y="-188"/>
+            <point key="canvasLocation" x="-871.5" y="-186"/>
         </scene>
         <!--Choose-->
         <scene sceneID="ufC-wZ-h7g">
@@ -177,7 +200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2199" y="392"/>
+            <point key="canvasLocation" x="-1740" y="564"/>
         </scene>
         <!--Compact-->
         <scene sceneID="9de-iW-UGN">
@@ -198,7 +221,9 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WQn-qX-w4N">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="252" id="3dM-XL-Uor"/>
+                                    <constraint firstAttribute="height" constant="252" id="3dM-XL-Uor">
+                                        <variation key="widthClass=compact" constant="280"/>
+                                    </constraint>
                                     <constraint firstAttribute="width" constant="312" id="oQQ-0I-d9h"/>
                                 </constraints>
                                 <variation key="default">
@@ -214,52 +239,74 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YTq-Kc-fDG" kind="embed" id="r5C-He-8ci"/>
+                                    <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="r5C-He-8ci"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ej-Zu-FrI">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="zUf-8Z-uLB" eventType="touchUpInside" id="6Dn-Zf-YaQ"/>
+                                    <action selector="dismiss:" destination="c95-wZ-NhQ" eventType="touchUpInside" id="uj6-Js-157"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Pao-oF-P5P" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="1BV-UL-ALQ"/>
-                            <constraint firstItem="WQn-qX-w4N" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="A2Z-1B-DGe"/>
-                            <constraint firstItem="Pao-oF-P5P" firstAttribute="top" secondItem="gAk-rn-Tv5" secondAttribute="bottom" constant="8" id="AWG-nz-qq5"/>
-                            <constraint firstItem="WQn-qX-w4N" firstAttribute="top" secondItem="Pao-oF-P5P" secondAttribute="bottom" constant="25" id="Isu-qY-9gS"/>
-                            <constraint firstAttribute="bottom" secondItem="Pao-oF-P5P" secondAttribute="bottom" constant="524" id="VrE-u1-mML"/>
-                            <constraint firstItem="Pao-oF-P5P" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="x5J-cs-h3G"/>
+                            <constraint firstItem="WQn-qX-w4N" firstAttribute="top" secondItem="Pao-oF-P5P" secondAttribute="bottom" constant="22" id="4ov-aH-FJi"/>
+                            <constraint firstItem="WQn-qX-w4N" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="BPe-7S-pQ7"/>
+                            <constraint firstItem="6Ej-Zu-FrI" firstAttribute="top" secondItem="WQn-qX-w4N" secondAttribute="bottom" constant="8" id="dQN-5d-G7v"/>
+                            <constraint firstItem="Pao-oF-P5P" firstAttribute="top" secondItem="gAk-rn-Tv5" secondAttribute="bottom" constant="28" id="eHz-6b-CuD"/>
+                            <constraint firstItem="6Ej-Zu-FrI" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="h2k-bf-4F5"/>
+                            <constraint firstItem="Pao-oF-P5P" firstAttribute="centerX" secondItem="HQS-WG-L4b" secondAttribute="centerX" id="mFU-xi-VzI"/>
+                            <constraint firstAttribute="bottom" secondItem="Pao-oF-P5P" secondAttribute="bottom" constant="516" id="tap-1Y-wla"/>
+                            <constraint firstItem="Pao-oF-P5P" firstAttribute="top" secondItem="gAk-rn-Tv5" secondAttribute="bottom" constant="20" id="xod-xw-n5T"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Pao-oF-P5P"/>
                                 <exclude reference="WQn-qX-w4N"/>
+                                <exclude reference="6Ej-Zu-FrI"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="dQN-5d-G7v"/>
+                                <exclude reference="h2k-bf-4F5"/>
                                 <exclude reference="1BV-UL-ALQ"/>
-                                <exclude reference="AWG-nz-qq5"/>
-                                <exclude reference="VrE-u1-mML"/>
-                                <exclude reference="x5J-cs-h3G"/>
-                                <exclude reference="A2Z-1B-DGe"/>
-                                <exclude reference="Isu-qY-9gS"/>
+                                <exclude reference="eHz-6b-CuD"/>
+                                <exclude reference="mFU-xi-VzI"/>
+                                <exclude reference="tap-1Y-wla"/>
+                                <exclude reference="xod-xw-n5T"/>
+                                <exclude reference="4ov-aH-FJi"/>
+                                <exclude reference="BPe-7S-pQ7"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="Pao-oF-P5P"/>
                                 <include reference="WQn-qX-w4N"/>
+                                <include reference="6Ej-Zu-FrI"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="dQN-5d-G7v"/>
+                                <include reference="h2k-bf-4F5"/>
                                 <exclude reference="1BV-UL-ALQ"/>
-                                <include reference="AWG-nz-qq5"/>
-                                <include reference="VrE-u1-mML"/>
-                                <include reference="x5J-cs-h3G"/>
-                                <include reference="A2Z-1B-DGe"/>
-                                <include reference="Isu-qY-9gS"/>
+                                <exclude reference="eHz-6b-CuD"/>
+                                <include reference="mFU-xi-VzI"/>
+                                <exclude reference="tap-1Y-wla"/>
+                                <include reference="xod-xw-n5T"/>
+                                <include reference="4ov-aH-FJi"/>
+                                <include reference="BPe-7S-pQ7"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="compactPhoneIdButton" destination="Pao-oF-P5P" id="BRD-qY-BGR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TMc-3e-SIT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-871.5" y="580"/>
+            <point key="canvasLocation" x="-892.5" y="585"/>
         </scene>
         <!--Custom-->
         <scene sceneID="9eg-u4-YcG">
@@ -300,9 +347,12 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="YTq-Kc-fDG" kind="embed" id="zQA-xs-P2K"/>
+                                    <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="zQA-xs-P2K"/>
                                 </connections>
                             </containerView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-XB-O4x">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YJP-Ny-POn">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Done"/>
@@ -310,9 +360,6 @@
                                     <action selector="dismiss:" destination="c95-wZ-NhQ" eventType="touchUpInside" id="RtI-sw-rAF"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-XB-O4x">
-                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -330,14 +377,16 @@
                             <constraint firstItem="pEt-XB-O4x" firstAttribute="leading" secondItem="s5J-8e-f93" secondAttribute="trailing" constant="8" id="eWM-8t-Z73"/>
                             <constraint firstItem="Ihx-zw-ZRB" firstAttribute="top" secondItem="s5J-8e-f93" secondAttribute="bottom" constant="13" id="iIX-Y8-LpW"/>
                             <constraint firstItem="Ihx-zw-ZRB" firstAttribute="top" secondItem="s5J-8e-f93" secondAttribute="bottom" constant="13" id="sAX-ua-Z4I"/>
+                            <constraint firstItem="YJP-Ny-POn" firstAttribute="top" secondItem="Ihx-zw-ZRB" secondAttribute="bottom" constant="15" id="sWN-Gw-LKG"/>
+                            <constraint firstItem="YJP-Ny-POn" firstAttribute="centerX" secondItem="UWn-NS-HYf" secondAttribute="centerX" id="xZW-v2-T9Z"/>
                             <constraint firstItem="YJP-Ny-POn" firstAttribute="trailing" secondItem="Ihx-zw-ZRB" secondAttribute="trailing" id="zry-pV-1OG"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="s5J-8e-f93"/>
                                 <exclude reference="Ihx-zw-ZRB"/>
-                                <exclude reference="YJP-Ny-POn"/>
                                 <exclude reference="pEt-XB-O4x"/>
+                                <exclude reference="YJP-Ny-POn"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="FQA-Vw-gKg"/>
@@ -347,6 +396,8 @@
                                 <exclude reference="8ud-ss-mxO"/>
                                 <exclude reference="TEd-4A-bi3"/>
                                 <exclude reference="W7c-RY-ceg"/>
+                                <exclude reference="sWN-Gw-LKG"/>
+                                <exclude reference="xZW-v2-T9Z"/>
                                 <exclude reference="zry-pV-1OG"/>
                                 <exclude reference="BFo-XE-3Gd"/>
                                 <exclude reference="XSG-JQ-4tx"/>
@@ -361,8 +412,8 @@
                             <mask key="subviews">
                                 <include reference="s5J-8e-f93"/>
                                 <include reference="Ihx-zw-ZRB"/>
-                                <include reference="YJP-Ny-POn"/>
                                 <include reference="pEt-XB-O4x"/>
+                                <include reference="YJP-Ny-POn"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="FQA-Vw-gKg"/>
@@ -371,8 +422,10 @@
                                 <include reference="eWM-8t-Z73"/>
                                 <exclude reference="8ud-ss-mxO"/>
                                 <exclude reference="TEd-4A-bi3"/>
-                                <include reference="W7c-RY-ceg"/>
-                                <include reference="zry-pV-1OG"/>
+                                <exclude reference="W7c-RY-ceg"/>
+                                <include reference="sWN-Gw-LKG"/>
+                                <include reference="xZW-v2-T9Z"/>
+                                <exclude reference="zry-pV-1OG"/>
                                 <include reference="BFo-XE-3Gd"/>
                                 <exclude reference="XSG-JQ-4tx"/>
                                 <include reference="bvz-i9-HOu"/>
@@ -391,12 +444,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z17-zt-otP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-871.5" y="1324"/>
+            <point key="canvasLocation" x="-850.5" y="1346"/>
         </scene>
         <!--Details-->
         <scene sceneID="kXa-iR-mgY">
             <objects>
-                <viewController id="YTq-Kc-fDG" userLabel="Details" customClass="DetailsViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="YTq-Kc-fDG" userLabel="Details" customClass="DetailsViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ir2-I9-21m"/>
                         <viewControllerLayoutGuide type="bottom" id="5s3-dB-agJ"/>
@@ -575,10 +628,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GwB-uN-Bhg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3.75" y="233.5"/>
+            <point key="canvasLocation" x="-24" y="443"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mjw-di-XNY"/>
+        <segue reference="zQA-xs-P2K"/>
     </inferredMetricsTieBreakers>
 </document>

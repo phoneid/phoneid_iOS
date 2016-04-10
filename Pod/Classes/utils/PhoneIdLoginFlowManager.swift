@@ -81,7 +81,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         }
         
         if (phoneIdService.appName != nil) {
-            self.presentLoginViewController(initialPhoneNumerE164, presentingViewController:self.presentingController(controller))
+            self.presentLoginViewController(initialPhoneNumerE164, presentingViewController:self.presentingController())
             unlock?()
         } else {
             startAnimatingProgress?()
@@ -92,7 +92,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
                 
                 stopAnimationProgress?()
                 
-                let presenter = me.presentingController(controller)
+                let presenter = me.presentingController()
                 
                 if (error == nil) {
                     me.presentLoginViewController(initialPhoneNumerE164, presentingViewController:presenter)
@@ -108,16 +108,12 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         
     }
     
-    private func presentingController(controller:UIViewController?) -> UIViewController{
-        var  presentingController:UIViewController
+    private func presentingController() -> UIViewController{
+
+        let phoneIdWindow = PhoneIdWindow()
+        phoneIdWindow.makeActive()
+        var  presentingController = phoneIdWindow.rootViewController!
         
-        if let presentFromController = controller {
-            presentingController = presentFromController
-        }else{
-            let phoneIdWindow = PhoneIdWindow()
-            phoneIdWindow.makeActive()
-            presentingController = phoneIdWindow.rootViewController!
-        }
         return presentingController
     }
     

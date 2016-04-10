@@ -139,18 +139,27 @@ import Foundation
         activityIndicator.color = colorScheme.activityIndicatorInitial
     }
 
-    // init from viewcontroller
-    required override public init(frame: CGRect) {
+
+    init(frame: CGRect, designtime:Bool) {
         super.init(frame: frame)
         prep()
-        initUI()
+        initUI(designtime:designtime)
+    }
+
+    init?(coder aDecoder: NSCoder, designtime:Bool) {
+        super.init(coder: aDecoder)
+        prep()
+        initUI(designtime:designtime)
+    }
+    
+    // init from viewcontroller
+    required override public convenience init(frame: CGRect) {
+        self.init(frame:frame, designtime:false)
     }
 
     // init from interface builder
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        prep()
-        initUI()
+    required public convenience init?(coder aDecoder: NSCoder) {
+        self.init(coder:aDecoder, designtime:false)
     }
 
     override public func prepareForInterfaceBuilder() {
@@ -168,7 +177,7 @@ import Foundation
         notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
     }
 
-    func initUI(designtime designtime:Bool = false) {
+    func initUI(designtime designtime:Bool) {
 
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -245,7 +254,7 @@ import Foundation
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(UIViewNoIntrinsicMetric, 48)
+        return CGSizeMake(280, 48)
     }
 
     override public class func requiresConstraintBasedLayout() -> Bool {
@@ -281,5 +290,4 @@ import Foundation
     func doOnlogout() -> Void {
         configureButton(phoneIdService.isLoggedIn)
     }
-
 }

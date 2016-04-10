@@ -11,16 +11,39 @@ import UIKit
 import phoneid_iOS
 
 
-class StandardExampleViewController: UIViewController {
+class StandardExampleViewController: UIViewController, UITextFieldDelegate {
     
-    //@IBOutlet var phoneIdButton: PhoneIdLoginButton!
+    @IBOutlet var phoneIdButton: PhoneIdLoginButton!
     
+    var details:DetailsViewController!
  
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBAction func dismiss(sender: AnyObject) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        details.presetNumber.addTarget(self,
+                                       action: #selector(StandardExampleViewController.presetNumberChanged(_:)),
+                                       forControlEvents:.EditingChanged)
+        
+        details.switchUserPresetNumber.addTarget(self,
+                                                 action: #selector(StandardExampleViewController.presetNumberSwitchChanged(_:)),
+                                                 forControlEvents:.ValueChanged)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "details" {
+            details = segue.destinationViewController as? DetailsViewController
+        }
+    }
+    
+    func presetNumberChanged(sender:UITextField){
+        phoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.on ? sender.text : ""
+    }
+    
+    func presetNumberSwitchChanged(sender:UISwitch){
+        phoneIdButton.phoneNumberE164 = sender.on ? details.presetNumber.text : ""
     }
 }

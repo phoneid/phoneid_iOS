@@ -50,21 +50,21 @@ import UIKit
     public init() {
         super.init(frame: CGRectZero)
         prep()
-        initUI()
+        initUI(designtime: false)
     }
 
     // init from viewcontroller
     public override init(frame: CGRect) {
         super.init(frame: frame)
         prep()
-        initUI()
+        initUI(designtime: false)
     }
 
     // init from interface builder
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         prep()
-        initUI();
+        initUI(designtime: false);
     }
     
     override public func prepareForInterfaceBuilder() {
@@ -77,22 +77,31 @@ import UIKit
         override func loginTouched() { loginTouchedBlock?() }
     }
     
-    func initUI(designtime designtime:Bool = false) {
+    func initUI(designtime designtime:Bool) {
 
-        loginButton = InternalPhoneIdLoginButton()
+        loginButton = InternalPhoneIdLoginButton(frame:CGRectZero, designtime:designtime)
 
-        phoneIdModel = NumberInfo()
+        
 
         var subviews:[UIView] = []
         
         if designtime {
             subviews = [loginButton]
+            
         }else{
+            phoneIdModel = NumberInfo()
             setupNumberInputControl()
             setupVerificationCodeControl()
-            
             subviews = [loginButton, numberInputControl, verifyCodeControl]
+            
+            (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = {
+                self.numberInputControl.hidden = false
+                self.loginButton.hidden = true
+                self.numberInputControl.validatePhoneNumber()
+                self.numberInputControl.becomeFirstResponder()
+            }
         }
+
 
         for subview in subviews {
             subview.translatesAutoresizingMaskIntoConstraints = false
@@ -106,12 +115,7 @@ import UIKit
 
         loginButton.hidden = false
 
-        (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = {
-            self.numberInputControl.hidden = false
-            self.loginButton.hidden = true
-            self.numberInputControl.validatePhoneNumber()
-            self.numberInputControl.becomeFirstResponder()
-        }
+ 
 
     }
 
@@ -248,5 +252,8 @@ import UIKit
         self.loginButton?.hidden = false
     }
 
+    public override func intrinsicContentSize() -> CGSize {
+        return CGSizeMake(280, 48)
+    }
 
 }
