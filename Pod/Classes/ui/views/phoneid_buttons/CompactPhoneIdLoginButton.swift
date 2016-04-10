@@ -138,11 +138,12 @@ import UIKit
 
         numberInputControl = NumberInputControl(model: phoneIdModel, scheme: colorScheme, bundle: localizationBundle, tableName: localizationTableName)
 
-        numberInputControl.numberInputCompleted = {
-            (numberInfo) -> Void in
-            self.phoneIdModel = numberInfo
-            self.verifyCodeControl.phoneIdModel = numberInfo
-            self.requestAuthentication()
+        numberInputControl.numberInputCompleted = { [weak self] (numberInfo) -> Void in
+            guard let me = self else {return}
+            me.phoneIdModel = numberInfo
+            me.verifyCodeControl.phoneIdModel = numberInfo
+            me.requestAuthentication()
+            PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(numberInfo: numberInfo)
         }
 
     }
@@ -156,6 +157,8 @@ import UIKit
 
             if (code.utf16.count == me.verifyCodeControl.maxVerificationCodeLength) {
 
+                PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(verificationCode: code)
+                
                 me.phoneIdService.verifyAuthentication(code, info: me.phoneIdModel) { (token, error) -> Void in
                     guard let me = self else {return}
 

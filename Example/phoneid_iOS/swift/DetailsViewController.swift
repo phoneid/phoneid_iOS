@@ -36,26 +36,24 @@ class DetailsViewController: UIViewController {
             self.updateTokenInfoView()
         }
         
-//        phoneId.phoneIdWorkflowNumberInputChanged = { input:String
-//        
-//        }
-//        
-//        phoneId.phoneIdWorkflowCountryCodeSelected = { code:String
-//            
-//        }
-//        
-//        phoneId.phoneIdWorkflowVerificationCodeRequested = { numberInfo:NumberInfo
-//            
-//        }
-//        
-//        phoneId.phoneIdWorkflowVerificationCodeInputChanged = { code:String
-//            
-//        }
-//        
-//        phoneId.phoneIdWorkflowVerificationCodeSent = { code:String
-//            
-//        }
         
+        // Track changes of country code
+        phoneId.phoneIdWorkflowCountryCodeSelected = { countryCode in
+            print("country code changed to \(countryCode)")
+        }
+        
+        // Notifies number input completed and will be sent to phone.id server
+        phoneId.phoneIdWorkflowNumberInputCompleted = { numberInfo in
+            print("phone number input completed \(numberInfo.e164Format())")
+        }
+        
+        
+        // Notifies that verification code input completed and will be sent to phone.id server
+        phoneId.phoneIdWorkflowVerificationCodeInputCompleted = { code in
+            print("verification input completed \(code)")
+        }
+        
+
         
         // SDK calls this block whenever error happened
         phoneId.phoneIdWorkflowErrorHappened = { (error) ->Void in

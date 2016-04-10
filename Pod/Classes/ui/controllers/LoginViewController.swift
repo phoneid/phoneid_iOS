@@ -63,6 +63,9 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
 
     public func numberInputCompleted(model: NumberInfo) {
         self.phoneIdModel = model
+        
+        PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(numberInfo: model)
+        
         phoneIdService.requestAuthenticationCode(phoneIdModel, completion: {
             (error) -> Void in
             if let e = error {
@@ -87,6 +90,9 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
     }
 
     public func verifyCode(model: NumberInfo, code: String) {
+        
+        PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(verificationCode:code)
+        
         phoneIdService.verifyAuthentication(code, info: model) {
             [unowned self] (token, error) -> Void in
 

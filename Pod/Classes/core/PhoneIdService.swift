@@ -32,6 +32,10 @@ public typealias PhoneIdAuthenticationSucceed = (token:TokenInfo) -> Void
 public typealias PhoneIdWorkflowErrorHappened = (error:NSError) -> Void
 public typealias PhoneIdAuthenticationCancelled = () -> Void
 
+public typealias PhoneIdWorkflowNumberInputCompleted = (numberInfo:NumberInfo) -> Void
+public typealias PhoneIdWorkflowVerificationCodeInputCompleted = (verificationCode:String) -> Void
+public typealias PhoneIdWorkflowCountryCodeSelected = (countryCode:String) -> Void
+
 public class PhoneIdService: NSObject {
     
     public class var sharedInstance: PhoneIdService {
@@ -44,6 +48,12 @@ public class PhoneIdService: NSObject {
     public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
     public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
     public var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
+        
+    public var phoneIdWorkflowNumberInputCompleted:PhoneIdWorkflowNumberInputCompleted?
+    public var phoneIdWorkflowVerificationCodeInputCompleted:PhoneIdWorkflowVerificationCodeInputCompleted?
+    public var phoneIdWorkflowCountryCodeSelected:PhoneIdWorkflowCountryCodeSelected?
+
+    
     public var phoneIdDidLogout:(() -> Void)?
     
     public var isLoggedIn: Bool {

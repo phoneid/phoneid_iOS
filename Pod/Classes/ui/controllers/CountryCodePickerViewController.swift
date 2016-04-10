@@ -70,8 +70,10 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
 
     func countryCodeSelected(model: NumberInfo) {
         self.phoneIdModel = model
-        self.dismissViewControllerAnimated(true) {
-            self.countryCodePickerCompletionBlock?(model: model)
+        self.dismissViewControllerAnimated(true) { [weak self] in
+            guard let me  = self else {return}
+            PhoneIdService.sharedInstance.phoneIdWorkflowCountryCodeSelected?(countryCode: model.phoneCountryCode!)
+            me.countryCodePickerCompletionBlock?(model: model)
         }
     }
 }
