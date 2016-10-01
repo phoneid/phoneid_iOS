@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -19,13 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="60" y="40" width="280" height="48"/>
-                                </variation>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GsO-a3-vB0">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Done"/>
@@ -58,46 +51,48 @@
                                     <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="mjw-di-XNY"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="OBZ-uY-RaY" secondAttribute="top" id="4x5-t5-4O5"/>
+                            <constraint firstItem="Vom-CJ-fg5" firstAttribute="top" secondItem="4qf-Ei-B7p" secondAttribute="bottom" constant="65" id="99h-Fd-XUn"/>
                             <constraint firstItem="GsO-a3-vB0" firstAttribute="top" secondItem="Vom-CJ-fg5" secondAttribute="bottom" constant="8" id="9Dc-1W-mPl"/>
-                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="zqO-a1-fqD" secondAttribute="bottom" constant="8" id="KSb-rd-0eg">
-                                <variation key="widthClass=compact" constant="20"/>
-                            </constraint>
+                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="leading" secondItem="OBZ-uY-RaY" secondAttribute="leading" id="TqC-E6-0rb"/>
                             <constraint firstItem="Vom-CJ-fg5" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="amm-gi-3WR"/>
-                            <constraint firstItem="Vom-CJ-fg5" firstAttribute="top" secondItem="4qf-Ei-B7p" secondAttribute="bottom" constant="25" id="dso-OI-Mc2"/>
-                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="fCy-2O-uVW"/>
                             <constraint firstItem="GsO-a3-vB0" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="kmw-r1-wOI"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="4qf-Ei-B7p"/>
                                 <exclude reference="GsO-a3-vB0"/>
                                 <exclude reference="Vom-CJ-fg5"/>
+                                <exclude reference="4qf-Ei-B7p"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="4x5-t5-4O5"/>
+                                <exclude reference="TqC-E6-0rb"/>
+                                <exclude reference="99h-Fd-XUn"/>
+                                <exclude reference="amm-gi-3WR"/>
                                 <exclude reference="9Dc-1W-mPl"/>
                                 <exclude reference="kmw-r1-wOI"/>
-                                <exclude reference="KSb-rd-0eg"/>
-                                <exclude reference="fCy-2O-uVW"/>
-                                <exclude reference="amm-gi-3WR"/>
-                                <exclude reference="dso-OI-Mc2"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="4qf-Ei-B7p"/>
                                 <include reference="GsO-a3-vB0"/>
                                 <include reference="Vom-CJ-fg5"/>
+                                <include reference="4qf-Ei-B7p"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="4x5-t5-4O5"/>
+                                <include reference="TqC-E6-0rb"/>
+                                <include reference="99h-Fd-XUn"/>
+                                <include reference="amm-gi-3WR"/>
                                 <include reference="9Dc-1W-mPl"/>
                                 <include reference="kmw-r1-wOI"/>
-                                <include reference="KSb-rd-0eg"/>
-                                <include reference="fCy-2O-uVW"/>
-                                <include reference="amm-gi-3WR"/>
-                                <include reference="dso-OI-Mc2"/>
                             </mask>
                         </variation>
                     </view>
