@@ -34,8 +34,7 @@ class DetailsViewController: UIViewController {
         // Handle authentication success
         phoneId.phoneIdAuthenticationSucceed = { [unowned self] (token) ->Void in
             self.updateTokenInfoView()
-        }
-        
+        }        
         
         // Track changes of country code
         phoneId.phoneIdWorkflowCountryCodeSelected = { countryCode in
@@ -47,13 +46,10 @@ class DetailsViewController: UIViewController {
             print("phone number input completed \(numberInfo.e164Format())")
         }
         
-        
         // Notifies that verification code input completed and will be sent to phone.id server
         phoneId.phoneIdWorkflowVerificationCodeInputCompleted = { code in
             print("verification input completed \(code)")
         }
-        
-
         
         // SDK calls this block whenever error happened
         phoneId.phoneIdWorkflowErrorHappened = { (error) ->Void in

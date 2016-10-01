@@ -28,8 +28,11 @@
 		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; };
 		09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03071BE40BB1008ACBE6 /* Main.storyboard */; };
 		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; };
-		09DB03111BE40BB1008ACBE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB030B1BE40BB1008ACBE6 /* ViewController.swift */; };
 		09DB03121BE4115F008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F21BE40B6D008ACBE6 /* Main.storyboard */; };
+		09E9C5A41D294C790006A4B7 /* StandardExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */; };
+		09E9C5A71D294C9C0006A4B7 /* CompactExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */; };
+		09E9C5AA1D294CAD0006A4B7 /* CustomExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */; };
+		09E9C5AD1D294D2E0006A4B7 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */; };
 		6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE95D314144B12892F26E4D1 /* Pods_phoneid_iOS_Example_objc.framework */; };
 		B277EF78A02703A1CEE4663A /* Pods_phoneid_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F13FCC57C9335EB8B3B8862A /* Pods_phoneid_iOS_Tests.framework */; };
 		EA3EC45E152814EC54EAA7C4 /* Pods_phoneid_iOS_Example_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF718097CC02310906BFB39C /* Pods_phoneid_iOS_Example_swift.framework */; };
@@ -81,7 +84,14 @@
 		09DB03081BE40BB1008ACBE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09DB03091BE40BB1008ACBE6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		09DB030A1BE40BB1008ACBE6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09DB030B1BE40BB1008ACBE6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		09E9C5A21D294C790006A4B7 /* StandardExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardExampleViewController.h; sourceTree = "<group>"; };
+		09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardExampleViewController.m; sourceTree = "<group>"; };
+		09E9C5A51D294C9C0006A4B7 /* CompactExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactExampleViewController.h; sourceTree = "<group>"; };
+		09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompactExampleViewController.m; sourceTree = "<group>"; };
+		09E9C5A81D294CAD0006A4B7 /* CustomExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomExampleViewController.h; sourceTree = "<group>"; };
+		09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomExampleViewController.m; sourceTree = "<group>"; };
+		09E9C5AB1D294D2E0006A4B7 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Tests/Pods-phoneid_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13124AA0B1313A0311ADB6F8 /* Pods-phoneid_iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example/Pods-phoneid_iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		362AFCC00A4BF892D38AEA41 /* Pods-phoneid_iOS_Example_objc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example_objc.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example_objc/Pods-phoneid_iOS_Example_objc.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +169,14 @@
 				09DB02F51BE40B6D008ACBE6 /* main.m */,
 				09DB02F61BE40B6D008ACBE6 /* ViewController.h */,
 				09DB02F71BE40B6D008ACBE6 /* ViewController.m */,
+				09E9C5A21D294C790006A4B7 /* StandardExampleViewController.h */,
+				09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */,
+				09E9C5A51D294C9C0006A4B7 /* CompactExampleViewController.h */,
+				09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */,
+				09E9C5A81D294CAD0006A4B7 /* CustomExampleViewController.h */,
+				09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */,
+				09E9C5AB1D294D2E0006A4B7 /* DetailsViewController.h */,
+				09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */,
 			);
 			path = objc;
 			sourceTree = "<group>";
@@ -171,7 +189,6 @@
 				09DB03071BE40BB1008ACBE6 /* Main.storyboard */,
 				09DB03091BE40BB1008ACBE6 /* Images.xcassets */,
 				09DB030A1BE40BB1008ACBE6 /* Info.plist */,
-				09DB030B1BE40BB1008ACBE6 /* ViewController.swift */,
 				09293DD61CB478F50070208A /* DetailsViewController.swift */,
 				0926942D1CB46D0B00968F5F /* StandardExampleViewController.swift */,
 				0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */,
@@ -587,7 +604,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				09DB03021BE40B89008ACBE6 /* ViewController.m in Sources */,
+				09E9C5A71D294C9C0006A4B7 /* CompactExampleViewController.m in Sources */,
+				09E9C5AA1D294CAD0006A4B7 /* CustomExampleViewController.m in Sources */,
 				09DB03011BE40B89008ACBE6 /* main.m in Sources */,
+				09E9C5AD1D294D2E0006A4B7 /* DetailsViewController.m in Sources */,
+				09E9C5A41D294C790006A4B7 /* StandardExampleViewController.m in Sources */,
 				09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,7 +618,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				092694321CB46D3000968F5F /* CustomExampleViewController.swift in Sources */,
-				09DB03111BE40BB1008ACBE6 /* ViewController.swift in Sources */,
 				0926942E1CB46D0B00968F5F /* StandardExampleViewController.swift in Sources */,
 				09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */,
 				092694301CB46D1B00968F5F /* CompactExampleViewController.swift in Sources */,

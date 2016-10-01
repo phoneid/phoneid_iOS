@@ -394,15 +394,6 @@
                                 <exclude reference="s5J-8e-f93"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="BFo-XE-3Gd"/>
-                                <exclude reference="XSG-JQ-4tx"/>
-                                <exclude reference="bvz-i9-HOu"/>
-                                <exclude reference="cD9-xV-WEr"/>
-                                <exclude reference="cEx-Au-SVn"/>
-                                <exclude reference="4CK-3Z-9U5"/>
-                                <exclude reference="iIX-Y8-LpW"/>
-                                <exclude reference="sAX-ua-Z4I"/>
-                                <exclude reference="zFd-Cm-gbV"/>
                                 <exclude reference="CUj-by-3Cd"/>
                                 <exclude reference="FQA-Vw-gKg"/>
                                 <exclude reference="Jid-xv-t04"/>
@@ -414,6 +405,15 @@
                                 <exclude reference="sWN-Gw-LKG"/>
                                 <exclude reference="xZW-v2-T9Z"/>
                                 <exclude reference="zry-pV-1OG"/>
+                                <exclude reference="BFo-XE-3Gd"/>
+                                <exclude reference="XSG-JQ-4tx"/>
+                                <exclude reference="bvz-i9-HOu"/>
+                                <exclude reference="cD9-xV-WEr"/>
+                                <exclude reference="cEx-Au-SVn"/>
+                                <exclude reference="4CK-3Z-9U5"/>
+                                <exclude reference="iIX-Y8-LpW"/>
+                                <exclude reference="sAX-ua-Z4I"/>
+                                <exclude reference="zFd-Cm-gbV"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -424,15 +424,6 @@
                                 <include reference="s5J-8e-f93"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="BFo-XE-3Gd"/>
-                                <exclude reference="XSG-JQ-4tx"/>
-                                <exclude reference="bvz-i9-HOu"/>
-                                <include reference="cD9-xV-WEr"/>
-                                <exclude reference="cEx-Au-SVn"/>
-                                <include reference="4CK-3Z-9U5"/>
-                                <exclude reference="iIX-Y8-LpW"/>
-                                <include reference="sAX-ua-Z4I"/>
-                                <exclude reference="zFd-Cm-gbV"/>
                                 <include reference="CUj-by-3Cd"/>
                                 <exclude reference="FQA-Vw-gKg"/>
                                 <exclude reference="Jid-xv-t04"/>
@@ -444,6 +435,15 @@
                                 <include reference="sWN-Gw-LKG"/>
                                 <include reference="xZW-v2-T9Z"/>
                                 <exclude reference="zry-pV-1OG"/>
+                                <include reference="BFo-XE-3Gd"/>
+                                <exclude reference="XSG-JQ-4tx"/>
+                                <exclude reference="bvz-i9-HOu"/>
+                                <include reference="cD9-xV-WEr"/>
+                                <exclude reference="cEx-Au-SVn"/>
+                                <include reference="4CK-3Z-9U5"/>
+                                <exclude reference="iIX-Y8-LpW"/>
+                                <include reference="sAX-ua-Z4I"/>
+                                <exclude reference="zFd-Cm-gbV"/>
                             </mask>
                         </variation>
                     </view>
@@ -653,6 +653,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GPG-O4-urp"/>
+        <segue reference="mjw-di-XNY"/>
     </inferredMetricsTieBreakers>
 </document>
