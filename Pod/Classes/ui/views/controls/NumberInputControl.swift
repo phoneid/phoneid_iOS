@@ -106,7 +106,7 @@ class NumberInputControl: PhoneIdBaseView {
         c.append(NSLayoutConstraint(item: numberText, attribute: .CenterY, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .CenterY, multiplier: 1, constant: 0))
 
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Left, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Left, multiplier: 1, constant: 2))
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Baseline, relatedBy: .Equal, toItem: numberText, attribute: .Baseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .LastBaseline, relatedBy: .Equal, toItem: numberText, attribute: .LastBaseline, multiplier: 1, constant: 0))
         c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
 
         c.append(NSLayoutConstraint(item: okButton, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))

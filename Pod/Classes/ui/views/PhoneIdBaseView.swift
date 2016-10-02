@@ -140,7 +140,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
         c.append(NSLayoutConstraint(item: backgroundView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
 
         c.append(NSLayoutConstraint(item: closeButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Baseline, relatedBy: .Equal, toItem: titleLabel, attribute: .Baseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: closeButton, attribute: .LastBaseline, relatedBy: .Equal, toItem: titleLabel, attribute: .LastBaseline, multiplier: 1, constant: 0))
 
         self.customConstraints = c
         self.addConstraints(c)

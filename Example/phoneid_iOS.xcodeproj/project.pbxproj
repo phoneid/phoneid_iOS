@@ -12,7 +12,6 @@
 		092694321CB46D3000968F5F /* CustomExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092694311CB46D3000968F5F /* CustomExampleViewController.swift */; };
 		09293DD71CB478F50070208A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09293DD61CB478F50070208A /* DetailsViewController.swift */; };
 		094550A81DA05B300094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A71DA05B300094F3D3 /* Main.storyboard */; };
-		094550AB1DA05BAD0094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A91DA05BAD0094F3D3 /* Main.storyboard */; };
 		094DA5481DA1382C006F3F15 /* DetailsViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B39E82DAC9F577F210040 /* DetailsViewControllerObjc.m */; };
 		094DA5491DA1382F006F3F15 /* CustomExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B35160B962D06F2535910 /* CustomExampleViewControllerObjc.m */; };
 		09587C7E1B4D1C510019FA97 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
@@ -30,6 +29,7 @@
 		09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */; };
 		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; };
 		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; };
+		09E361FB1DA147EC001EB0BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A91DA05BAD0094F3D3 /* Main.storyboard */; };
 		112B33F126430C42DF1613CB /* CompactExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B32D36C8D8D7584F1A526 /* CompactExampleViewControllerObjc.m */; };
 		112B3FCB413E4F8B3578416A /* StandardExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B34CCE060D251E02F768A /* StandardExampleViewControllerObjc.m */; };
 		6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE95D314144B12892F26E4D1 /* Pods_phoneid_iOS_Example_objc.framework */; };
@@ -373,15 +373,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					09C1E6221B57B6BE00662C2F = {
 						CreatedOnToolsVersion = 7.0;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
+					09DB02DA1BE40773008ACBE6 = {
+						DevelopmentTeam = PLRP4GR7S4;
+						LastSwiftMigration = 0800;
+					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = PLRP4GR7S4;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -421,7 +426,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				094550AB1DA05BAD0094F3D3 /* Main.storyboard in Resources */,
 				09DB03001BE40B7E008ACBE6 /* Assets.xcassets in Resources */,
 				094550A81DA05B300094F3D3 /* Main.storyboard in Resources */,
 			);
@@ -434,6 +438,7 @@
 				09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */,
 				09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */,
 				09DB02FA1BE40B6D008ACBE6 /* LaunchScreen.storyboard in Resources */,
+				09E361FB1DA147EC001EB0BB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,13 +711,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B32DF8B43002688644B204F8 /* Pods-phoneid_iOS_Example_objc.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/objc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -720,13 +728,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 362AFCC00A4BF892D38AEA41 /* Pods-phoneid_iOS_Example_objc.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/objc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -743,8 +754,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -789,8 +802,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -811,6 +826,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -819,8 +835,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5581F954AE3C5075CD8DE15B /* Pods-phoneid_iOS_Example_swift.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -828,6 +846,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -835,14 +854,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BEB9A49FD7E8D0D0FD344C93 /* Pods-phoneid_iOS_Example_swift.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -850,6 +872,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -866,6 +889,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F6BDA6C3924856318AB76E88 /* Pods-phoneid_iOS_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

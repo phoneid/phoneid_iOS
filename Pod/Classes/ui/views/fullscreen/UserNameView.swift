@@ -129,7 +129,7 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
         c.append(NSLayoutConstraint(item: userNameField, attribute: .Left, relatedBy: .Equal, toItem: userNameLabel, attribute: .Right, multiplier: 1, constant: 10))
         c.append(NSLayoutConstraint(item: userNameField, attribute: .Right, relatedBy: .Equal, toItem: self.containerView, attribute: .Right, multiplier: 1, constant: -16))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: .Baseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .Baseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .LastBaseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .LastBaseline, multiplier: 1, constant: 0))
 
         c.append(NSLayoutConstraint(item: noteLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 16))
         c.append(NSLayoutConstraint(item: noteLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -16))

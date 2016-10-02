@@ -24,7 +24,7 @@ class PhoneIdRefreshMonitor{
     var timer:NSTimer?
     var notificationCenter:NSNotificationCenter!
     weak var phoneId:PhoneIdService!
-    var reachability = Reachability.reachabilityForInternetConnection()
+    var reachability:Reachability? = try?Reachability.reachabilityForInternetConnection()
     
     var isRunning:Bool
     let maxRefreshRetryCount = 5
@@ -70,13 +70,22 @@ class PhoneIdRefreshMonitor{
     }
     
     func startReachabilityMonitoring(){
-        reachability.whenReachable = {[unowned self] reachability in
-            self.start()
+        if let reachability = reachability{
+            reachability.whenReachable = {[unowned self] reachability in
+                self.start()
+            }
+            reachability.whenUnreachable = {[unowned self] reachability in
+                self.stop()
+            }
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start reachability notifier for phone.id")
+            }
+        }else{
+            print("Failed to create reachability object for phone.id refresh token monitor.")
         }
-        reachability.whenUnreachable = {[unowned self] reachability in
-           self.stop()
-        }
-        reachability.startNotifier()
+
     }
     
     func resetTimer(token:TokenInfo){
