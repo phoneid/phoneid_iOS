@@ -10,7 +10,7 @@
         <!--Standard-->
         <scene sceneID="jNS-sa-r46">
             <objects>
-                <viewController id="9Ch-G0-Bas" userLabel="Standard" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9Ch-G0-Bas" userLabel="Standard" customClass="StandardExampleViewControllerObjc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sha-en-9Uy"/>
                         <viewControllerLayoutGuide type="bottom" id="Rsu-K9-n2b"/>
@@ -211,7 +211,7 @@
         <!--Compact-->
         <scene sceneID="ycg-8D-chZ">
             <objects>
-                <viewController id="r0I-iX-BdN" userLabel="Compact" customClass="CompactExampleViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="r0I-iX-BdN" userLabel="Compact" customClass="CompactExampleViewControllerObjc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Zp-F5-YcO"/>
                         <viewControllerLayoutGuide type="bottom" id="Muq-T9-pVR"/>
@@ -317,7 +317,7 @@
         <!--Custom-->
         <scene sceneID="1Kp-EL-q7K">
             <objects>
-                <viewController id="a1L-Rj-wRW" userLabel="Custom" customClass="CustomExampleViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="a1L-Rj-wRW" userLabel="Custom" customClass="CustomExampleViewControllerObjc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0IY-wG-eUA"/>
                         <viewControllerLayoutGuide type="bottom" id="vjg-kW-61u"/>
@@ -362,7 +362,6 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Custom Run Login Flow"/>
                                 <connections>
-                                    <action selector="presentFromCustomButton:" destination="Smt-0A-EWg" eventType="touchUpInside" id="bKI-0R-iln"/>
                                     <action selector="presentFromCustomButton:" destination="a1L-Rj-wRW" eventType="touchUpInside" id="yna-8j-zlj"/>
                                 </connections>
                             </button>
@@ -465,7 +464,7 @@
         <!--Details-->
         <scene sceneID="vzP-Ke-6AZ">
             <objects>
-                <viewController storyboardIdentifier="DetailsViewController" id="cu3-04-EEm" userLabel="Details" customClass="DetailsViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="cu3-04-EEm" userLabel="Details" customClass="DetailsViewControllerObjc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6er-cO-JcM"/>
                         <viewControllerLayoutGuide type="bottom" id="CxT-87-MXI"/>
@@ -659,6 +658,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="42N-tq-94d"/>
+        <segue reference="Del-eC-YYT"/>
     </inferredMetricsTieBreakers>
 </document>

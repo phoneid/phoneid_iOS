@@ -7,17 +7,17 @@
 //
 
 #import "phoneid_iOS-Swift.h"
-#import "DetailsViewController.h"
-#import "StandardExampleViewController.h"
+#import "DetailsViewControllerObjc.h"
+#import "StandardExampleViewControllerObjc.h"
 
 
-@interface StandardExampleViewController ()
+@interface StandardExampleViewControllerObjc ()
 @property (weak, nonatomic) IBOutlet PhoneIdLoginButton *phoneIdButton;
-@property (strong, nonatomic) DetailsViewController *details;
+@property (strong, nonatomic) DetailsViewControllerObjc *details;
 
 @end
 
-@implementation StandardExampleViewController
+@implementation StandardExampleViewControllerObjc
 
 - (IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];

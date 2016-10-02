@@ -6,14 +6,14 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-#import "DetailsViewController.h"
+#import "DetailsViewControllerObjc.h"
 #import "phoneid_iOS-Swift.h"
 
-@interface DetailsViewController ()
+@interface DetailsViewControllerObjc ()
 @property (strong, nonatomic) PhoneIdService *phoneId;
 @end
 
-@implementation DetailsViewController
+@implementation DetailsViewControllerObjc
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsViewController : UIViewController
+@interface DetailsViewControllerObjc : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *tokensView;
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
 @property (weak, nonatomic) IBOutlet UITextField *refreshTokenText;

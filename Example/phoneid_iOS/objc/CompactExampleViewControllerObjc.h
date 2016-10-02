@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CompactExampleViewController : UIViewController
+@interface CompactExampleViewControllerObjc : UIViewController
 
 @end

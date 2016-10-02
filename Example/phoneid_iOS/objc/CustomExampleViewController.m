@@ -6,26 +6,26 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-#import "CustomExampleViewController.h"
+#import "CustomExampleViewControllerObjc.h"
 #import "phoneid_iOS-Swift.h"
-#import "DetailsViewController.h"
+#import "DetailsViewControllerObjc.h"
 
-@interface CustomExampleViewController ()
+@interface CustomExampleViewControllerObjc ()
 
 @property (strong, nonatomic) PhoneIdLoginWorkflowManager *flowManager;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *customLoginButton;
 
-@property (strong, nonatomic) DetailsViewController *details;
+@property (strong, nonatomic) DetailsViewControllerObjc *details;
 @property (strong, nonatomic) NSString *phoneNumberE164;
 
 @end
 
-@implementation CustomExampleViewController
+@implementation CustomExampleViewControllerObjc
 
 - (IBAction)presentFromCustomButton:(id)sender {
-    [self.flowManager startLoginFlow: nil
+    [self.flowManager startLoginFlow: nil // parent controller to present phone.id from
                initialPhoneNumerE164: self.phoneNumberE164
               startAnimatingProgress: ^{
                   [self.activityIndicator startAnimating];
@@ -41,6 +41,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.flowManager = [[PhoneIdLoginWorkflowManager alloc] init]
     
     [self.details.presetNumber addTarget:self action:@selector(presetNumberChanged:) forControlEvents:UIControlEventEditingChanged];
     
