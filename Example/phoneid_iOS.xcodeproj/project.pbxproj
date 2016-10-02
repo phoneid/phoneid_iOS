@@ -55,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		091B2F451DA1813500F5217F /* phoneid_iOS_Example_objc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = phoneid_iOS_Example_objc.entitlements; sourceTree = "<group>"; };
+		091B2F461DA1814900F5217F /* phoneid_iOS_Example_swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = phoneid_iOS_Example_swift.entitlements; sourceTree = "<group>"; };
 		0926942D1CB46D0B00968F5F /* StandardExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardExampleViewController.swift; sourceTree = "<group>"; };
 		0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactExampleViewController.swift; sourceTree = "<group>"; };
 		092694311CB46D3000968F5F /* CustomExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExampleViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +212,8 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				091B2F461DA1814900F5217F /* phoneid_iOS_Example_swift.entitlements */,
+				091B2F451DA1813500F5217F /* phoneid_iOS_Example_objc.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for phoneid_iOS */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -383,10 +387,20 @@
 					09DB02DA1BE40773008ACBE6 = {
 						DevelopmentTeam = PLRP4GR7S4;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = PLRP4GR7S4;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -715,6 +729,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = phoneid_iOS_Example_objc.entitlements;
 				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/objc/Info.plist;
@@ -732,6 +747,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = phoneid_iOS_Example_objc.entitlements;
 				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/objc/Info.plist;
@@ -840,6 +856,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = phoneid_iOS_Example_swift.entitlements;
 				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;
@@ -859,6 +876,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = phoneid_iOS_Example_swift.entitlements;
 				DEVELOPMENT_TEAM = PLRP4GR7S4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;

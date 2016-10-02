@@ -53,7 +53,7 @@ class MockSession: NSURLSession {
     
     override func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask{
         
-        if let mockRequest = self.mockResponses[request.URL!.absoluteString]{
+        if let url = request.URL?.absoluteString, mockRequest = self.mockResponses[url]{
             return MockTask(session: self, request:request, response: mockRequest, completionHandler:completionHandler)
         }else{
             fatalError("Mock response is not configured for \(request.URL)")
@@ -83,8 +83,9 @@ class MockUtil{
         let jsonData = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
         let URL = NSURL(string: endpoint, relativeToURL: Constants.baseURL)!
         let urlResponse = NSHTTPURLResponse(URL:URL, statusCode: statusCode, HTTPVersion: nil, headerFields: nil)
-        session.mockResponses[URL.absoluteString] = (jsonData, urlResponse: urlResponse, error: nil)
-        
+        if let url = URL.absoluteString {
+            session.mockResponses[url] = (jsonData, urlResponse: urlResponse, error: nil)
+        }
     }
     
     class func sessionForMockResponseWithParams(endpoint:String, params:AnyObject, statusCode: Int) ->MockSession{
