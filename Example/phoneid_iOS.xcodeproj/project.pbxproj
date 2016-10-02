@@ -13,6 +13,8 @@
 		09293DD71CB478F50070208A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09293DD61CB478F50070208A /* DetailsViewController.swift */; };
 		094550A81DA05B300094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A71DA05B300094F3D3 /* Main.storyboard */; };
 		094550AB1DA05BAD0094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A91DA05BAD0094F3D3 /* Main.storyboard */; };
+		094DA5481DA1382C006F3F15 /* DetailsViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B39E82DAC9F577F210040 /* DetailsViewControllerObjc.m */; };
+		094DA5491DA1382F006F3F15 /* CustomExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B35160B962D06F2535910 /* CustomExampleViewControllerObjc.m */; };
 		09587C7E1B4D1C510019FA97 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
 		09587C7F1B4D1C510019FA97 /* PhoneIdServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2C1B4D1C070019FA97 /* PhoneIdServiceTests.swift */; };
 		09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */; };
@@ -29,8 +31,6 @@
 		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; };
 		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; };
 		112B33F126430C42DF1613CB /* CompactExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B32D36C8D8D7584F1A526 /* CompactExampleViewControllerObjc.m */; };
-		112B38C5230B9749F94EA814 /* CustomExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B35160B962D06F2535910 /* CustomExampleViewController.m */; };
-		112B3D125382823A4881E5AE /* DetailsViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B39E82DAC9F577F210040 /* DetailsViewControllerObjc.m */; };
 		112B3FCB413E4F8B3578416A /* StandardExampleViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B34CCE060D251E02F768A /* StandardExampleViewControllerObjc.m */; };
 		6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE95D314144B12892F26E4D1 /* Pods_phoneid_iOS_Example_objc.framework */; };
 		B277EF78A02703A1CEE4663A /* Pods_phoneid_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F13FCC57C9335EB8B3B8862A /* Pods_phoneid_iOS_Tests.framework */; };
@@ -86,7 +86,7 @@
 		112B32D36C8D8D7584F1A526 /* CompactExampleViewControllerObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompactExampleViewControllerObjc.m; sourceTree = "<group>"; };
 		112B346993FBDD77AD958AE5 /* DetailsViewControllerObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewControllerObjc.h; sourceTree = "<group>"; };
 		112B34CCE060D251E02F768A /* StandardExampleViewControllerObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardExampleViewControllerObjc.m; sourceTree = "<group>"; };
-		112B35160B962D06F2535910 /* CustomExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomExampleViewController.m; sourceTree = "<group>"; };
+		112B35160B962D06F2535910 /* CustomExampleViewControllerObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomExampleViewControllerObjc.m; sourceTree = "<group>"; };
 		112B39E82DAC9F577F210040 /* DetailsViewControllerObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewControllerObjc.m; sourceTree = "<group>"; };
 		112B3C54BCA7234E901F4C01 /* StandardExampleViewControllerObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardExampleViewControllerObjc.h; sourceTree = "<group>"; };
 		112B3D8D1C28948EA29B5864 /* CompactExampleViewControllerObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactExampleViewControllerObjc.h; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 				112B3D8D1C28948EA29B5864 /* CompactExampleViewControllerObjc.h */,
 				112B32D36C8D8D7584F1A526 /* CompactExampleViewControllerObjc.m */,
 				112B32383D1CCD40960725AF /* CustomExampleViewControllerObjc.h */,
-				112B35160B962D06F2535910 /* CustomExampleViewController.m */,
+				112B35160B962D06F2535910 /* CustomExampleViewControllerObjc.m */,
 				112B346993FBDD77AD958AE5 /* DetailsViewControllerObjc.h */,
 				112B39E82DAC9F577F210040 /* DetailsViewControllerObjc.m */,
 				112B3C54BCA7234E901F4C01 /* StandardExampleViewControllerObjc.h */,
@@ -601,8 +601,8 @@
 				09DB03011BE40B89008ACBE6 /* main.m in Sources */,
 				09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */,
 				112B33F126430C42DF1613CB /* CompactExampleViewControllerObjc.m in Sources */,
-				112B38C5230B9749F94EA814 /* CustomExampleViewController.m in Sources */,
-				112B3D125382823A4881E5AE /* DetailsViewControllerObjc.m in Sources */,
+				094DA5481DA1382C006F3F15 /* DetailsViewControllerObjc.m in Sources */,
+				094DA5491DA1382F006F3F15 /* CustomExampleViewControllerObjc.m in Sources */,
 				112B3FCB413E4F8B3578416A /* StandardExampleViewControllerObjc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

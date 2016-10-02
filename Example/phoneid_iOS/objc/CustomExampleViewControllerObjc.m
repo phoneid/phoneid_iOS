@@ -42,9 +42,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.flowManager = [[PhoneIdLoginWorkflowManager alloc] init]
+    self.flowManager = [[PhoneIdLoginWorkflowManager alloc] init];
     
-    [self.details.presetNumber addTarget:self action:@selector(presetNumberChanged:) forControlEvents:UIControlEventEditingChanged];
+    [self.details.presetNumber addTarget:self
+                                  action:@selector(presetNumberChanged:)
+                        forControlEvents:UIControlEventEditingChanged];
     
     [self.details.switchUserPresetNumber addTarget:self action:@selector(presetSwitchChanged:) forControlEvents:UIControlEventValueChanged];
 }
