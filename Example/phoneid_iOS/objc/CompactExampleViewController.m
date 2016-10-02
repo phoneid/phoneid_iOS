@@ -6,32 +6,44 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
+#import "phoneid_iOS-Swift.h"
 #import "CompactExampleViewController.h"
+#import "DetailsViewController.h"
 
 @interface CompactExampleViewController ()
+@property (weak, nonatomic) IBOutlet CompactPhoneIdLoginButton *compactPhoneIdButton;
+@property (strong, nonatomic) DetailsViewController *details;
 
 @end
 
 @implementation CompactExampleViewController
 
+- (IBAction)dismiss:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.details.presetNumber addTarget:self action:@selector(presetNumberChanged:) forControlEvents:UIControlEventEditingChanged];
+    
+    [self.details.switchUserPresetNumber addTarget:self action:@selector(presetSwitchChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)presetNumberChanged:(UITextField*)sender{
+    self.compactPhoneIdButton.phoneNumberE164 = self.details.switchUserPresetNumber.on ? sender.text : @"";
 }
 
-/*
-#pragma mark - Navigation
+- (void)presetSwitchChanged:(UISwitch*)sender{
+    self.compactPhoneIdButton.phoneNumberE164 = sender.on ? self.details.presetNumber.text : @"";
+}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqual:@"details"]) {
+        self.details = segue.destinationViewController;
+    }
 }
-*/
+
 
 @end

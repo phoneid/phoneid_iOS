@@ -7,31 +7,61 @@
 //
 
 #import "CustomExampleViewController.h"
+#import "phoneid_iOS-Swift.h"
+#import "DetailsViewController.h"
 
 @interface CustomExampleViewController ()
+
+@property (strong, nonatomic) PhoneIdLoginWorkflowManager *flowManager;
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *customLoginButton;
+
+@property (strong, nonatomic) DetailsViewController *details;
+@property (strong, nonatomic) NSString *phoneNumberE164;
 
 @end
 
 @implementation CustomExampleViewController
 
+- (IBAction)presentFromCustomButton:(id)sender {
+    [self.flowManager startLoginFlow: nil
+               initialPhoneNumerE164: self.phoneNumberE164
+              startAnimatingProgress: ^{
+                  [self.activityIndicator startAnimating];
+              }
+              stopAnimationProgress: ^{
+                   [self.activityIndicator startAnimating];
+              }];
+}
+
+- (IBAction)dismiss:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.details.presetNumber addTarget:self action:@selector(presetNumberChanged:) forControlEvents:UIControlEventEditingChanged];
+    
+    [self.details.switchUserPresetNumber addTarget:self action:@selector(presetSwitchChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)presetNumberChanged:(UITextField*)sender{
+    self.phoneNumberE164 = self.details.switchUserPresetNumber.on ? sender.text : @"";
 }
 
-/*
-#pragma mark - Navigation
+- (void)presetSwitchChanged:(UISwitch*)sender{
+    self.phoneNumberE164 = sender.on ? self.details.presetNumber.text : @"";
+}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqual:@"details"]) {
+        self.details = segue.destinationViewController;
+    }
 }
-*/
+
+
 
 @end

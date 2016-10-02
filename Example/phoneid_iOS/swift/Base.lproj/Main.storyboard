@@ -10,7 +10,7 @@
         <!--Standard-->
         <scene sceneID="Kj8-oM-rLc">
             <objects>
-                <viewController id="ck3-RX-K52" userLabel="Standard" customClass="StandardExampleViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ck3-RX-K52" userLabel="Standard" customClass="StandardExampleViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zqO-a1-fqD"/>
                         <viewControllerLayoutGuide type="bottom" id="H0Q-b1-gEz"/>
@@ -27,6 +27,13 @@
                                     <action selector="dismiss:" destination="c95-wZ-NhQ" eventType="touchUpInside" id="Qv6-4n-8Bf"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="280" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="60" y="40" width="280" height="48"/>
+                                </variation>
+                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vom-CJ-fg5">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
@@ -51,48 +58,52 @@
                                     <segue destination="YTq-Kc-fDG" kind="embed" identifier="details" id="mjw-di-XNY"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qf-Ei-B7p" customClass="PhoneIdLoginButton" customModule="phoneid_iOS">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="OBZ-uY-RaY" secondAttribute="top" id="4x5-t5-4O5"/>
-                            <constraint firstItem="Vom-CJ-fg5" firstAttribute="top" secondItem="4qf-Ei-B7p" secondAttribute="bottom" constant="65" id="99h-Fd-XUn"/>
-                            <constraint firstItem="GsO-a3-vB0" firstAttribute="top" secondItem="Vom-CJ-fg5" secondAttribute="bottom" constant="8" id="9Dc-1W-mPl"/>
-                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="leading" secondItem="OBZ-uY-RaY" secondAttribute="leading" id="TqC-E6-0rb"/>
+                            <constraint firstItem="GsO-a3-vB0" firstAttribute="top" secondItem="Vom-CJ-fg5" secondAttribute="bottom" constant="8" id="9Dc-1W-mPl">
+                                <variation key="widthClass=compact" constant="44"/>
+                            </constraint>
+                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="top" secondItem="OBZ-uY-RaY" secondAttribute="top" constant="20" id="Jz7-0q-Wai">
+                                <variation key="widthClass=compact" constant="40"/>
+                            </constraint>
                             <constraint firstItem="Vom-CJ-fg5" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="amm-gi-3WR"/>
                             <constraint firstItem="GsO-a3-vB0" firstAttribute="centerX" secondItem="OBZ-uY-RaY" secondAttribute="centerX" id="kmw-r1-wOI"/>
+                            <constraint firstItem="4qf-Ei-B7p" firstAttribute="leading" secondItem="OBZ-uY-RaY" secondAttribute="leading" id="tnl-NM-ZJG">
+                                <variation key="widthClass=compact" constant="60"/>
+                            </constraint>
+                            <constraint firstItem="Vom-CJ-fg5" firstAttribute="top" secondItem="4qf-Ei-B7p" secondAttribute="bottom" constant="65" id="ywg-mD-Ec0">
+                                <variation key="widthClass=compact" constant="29"/>
+                            </constraint>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="GsO-a3-vB0"/>
-                                <exclude reference="Vom-CJ-fg5"/>
                                 <exclude reference="4qf-Ei-B7p"/>
+                                <exclude reference="Vom-CJ-fg5"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="4x5-t5-4O5"/>
-                                <exclude reference="TqC-E6-0rb"/>
-                                <exclude reference="99h-Fd-XUn"/>
-                                <exclude reference="amm-gi-3WR"/>
                                 <exclude reference="9Dc-1W-mPl"/>
                                 <exclude reference="kmw-r1-wOI"/>
+                                <exclude reference="Jz7-0q-Wai"/>
+                                <exclude reference="tnl-NM-ZJG"/>
+                                <exclude reference="amm-gi-3WR"/>
+                                <exclude reference="ywg-mD-Ec0"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="GsO-a3-vB0"/>
-                                <include reference="Vom-CJ-fg5"/>
                                 <include reference="4qf-Ei-B7p"/>
+                                <include reference="Vom-CJ-fg5"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="4x5-t5-4O5"/>
-                                <include reference="TqC-E6-0rb"/>
-                                <include reference="99h-Fd-XUn"/>
-                                <include reference="amm-gi-3WR"/>
                                 <include reference="9Dc-1W-mPl"/>
                                 <include reference="kmw-r1-wOI"/>
+                                <include reference="Jz7-0q-Wai"/>
+                                <include reference="tnl-NM-ZJG"/>
+                                <include reference="amm-gi-3WR"/>
+                                <include reference="ywg-mD-Ec0"/>
                             </mask>
                         </variation>
                     </view>
@@ -200,7 +211,7 @@
         <!--Compact-->
         <scene sceneID="9de-iW-UGN">
             <objects>
-                <viewController id="zUf-8Z-uLB" userLabel="Compact" customClass="CompactExampleViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zUf-8Z-uLB" userLabel="Compact" customClass="CompactExampleViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gAk-rn-Tv5"/>
                         <viewControllerLayoutGuide type="bottom" id="14E-uT-un9"/>
@@ -209,7 +220,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pao-oF-P5P" customClass="CompactPhoneIdLoginButton" customModule="phoneid_iOS">
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="280" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="Pao-oF-P5P" customClass="CompactPhoneIdLoginButton" customModule="phoneid_iOS">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -306,7 +317,7 @@
         <!--Custom-->
         <scene sceneID="9eg-u4-YcG">
             <objects>
-                <viewController id="c95-wZ-NhQ" userLabel="Custom" customClass="CustomExampleViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="c95-wZ-NhQ" userLabel="Custom" customClass="CustomExampleViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gaf-PO-cCJ"/>
                         <viewControllerLayoutGuide type="bottom" id="EGC-Hq-hMO"/>
@@ -454,7 +465,7 @@
         <!--Details-->
         <scene sceneID="kXa-iR-mgY">
             <objects>
-                <viewController storyboardIdentifier="DetailsViewController" id="YTq-Kc-fDG" userLabel="Details" customClass="DetailsViewController" customModule="phoneid_iOS_Example_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="YTq-Kc-fDG" userLabel="Details" customClass="DetailsViewController" customModule="phoneid_iOS_Example_objc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ir2-I9-21m"/>
                         <viewControllerLayoutGuide type="bottom" id="5s3-dB-agJ"/>
@@ -648,6 +659,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mjw-di-XNY"/>
+        <segue reference="r5C-He-8ci"/>
     </inferredMetricsTieBreakers>
 </document>

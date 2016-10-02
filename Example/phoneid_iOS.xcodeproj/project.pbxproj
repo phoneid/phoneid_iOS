@@ -11,6 +11,8 @@
 		092694301CB46D1B00968F5F /* CompactExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */; };
 		092694321CB46D3000968F5F /* CustomExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092694311CB46D3000968F5F /* CustomExampleViewController.swift */; };
 		09293DD71CB478F50070208A /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09293DD61CB478F50070208A /* DetailsViewController.swift */; };
+		094550A81DA05B300094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A71DA05B300094F3D3 /* Main.storyboard */; };
+		094550AB1DA05BAD0094F3D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094550A91DA05BAD0094F3D3 /* Main.storyboard */; };
 		09587C7E1B4D1C510019FA97 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
 		09587C7F1B4D1C510019FA97 /* PhoneIdServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2C1B4D1C070019FA97 /* PhoneIdServiceTests.swift */; };
 		09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */; };
@@ -23,16 +25,13 @@
 		09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02EE1BE40B6D008ACBE6 /* AppDelegate.m */; };
 		09DB03001BE40B7E008ACBE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02EF1BE40B6D008ACBE6 /* Assets.xcassets */; };
 		09DB03011BE40B89008ACBE6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F51BE40B6D008ACBE6 /* main.m */; };
-		09DB03021BE40B89008ACBE6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB02F71BE40B6D008ACBE6 /* ViewController.m */; };
 		09DB030C1BE40BB1008ACBE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */; };
 		09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */; };
-		09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03071BE40BB1008ACBE6 /* Main.storyboard */; };
 		09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09DB03091BE40BB1008ACBE6 /* Images.xcassets */; };
-		09DB03121BE4115F008ACBE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09DB02F21BE40B6D008ACBE6 /* Main.storyboard */; };
-		09E9C5A41D294C790006A4B7 /* StandardExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */; };
-		09E9C5A71D294C9C0006A4B7 /* CompactExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */; };
-		09E9C5AA1D294CAD0006A4B7 /* CustomExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */; };
-		09E9C5AD1D294D2E0006A4B7 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */; };
+		09DE02F01DA0535500A92897 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DE02E61DA052DC00A92897 /* DetailsViewController.m */; };
+		09DE02F11DA0535500A92897 /* StandardExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DE02E71DA052DC00A92897 /* StandardExampleViewController.m */; };
+		09DE02F21DA0535500A92897 /* CompactExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DE02E81DA052DC00A92897 /* CompactExampleViewController.m */; };
+		09DE02F31DA0535500A92897 /* CustomExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DE02E91DA052DC00A92897 /* CustomExampleViewController.m */; };
 		6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE95D314144B12892F26E4D1 /* Pods_phoneid_iOS_Example_objc.framework */; };
 		B277EF78A02703A1CEE4663A /* Pods_phoneid_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F13FCC57C9335EB8B3B8862A /* Pods_phoneid_iOS_Tests.framework */; };
 		EA3EC45E152814EC54EAA7C4 /* Pods_phoneid_iOS_Example_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF718097CC02310906BFB39C /* Pods_phoneid_iOS_Example_swift.framework */; };
@@ -60,6 +59,8 @@
 		0926942F1CB46D1B00968F5F /* CompactExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactExampleViewController.swift; sourceTree = "<group>"; };
 		092694311CB46D3000968F5F /* CustomExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExampleViewController.swift; sourceTree = "<group>"; };
 		09293DD61CB478F50070208A /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		094550A71DA05B300094F3D3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		094550AA1DA05BAD0094F3D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09587C2B1B4D1C070019FA97 /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		09587C2C1B4D1C070019FA97 /* PhoneIdServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdServiceTests.swift; sourceTree = "<group>"; };
 		09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdSDKIntegrationTests.swift; sourceTree = "<group>"; };
@@ -74,24 +75,20 @@
 		09DB02EE1BE40B6D008ACBE6 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		09DB02EF1BE40B6D008ACBE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09DB02F11BE40B6D008ACBE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		09DB02F31BE40B6D008ACBE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09DB02F41BE40B6D008ACBE6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09DB02F51BE40B6D008ACBE6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		09DB02F61BE40B6D008ACBE6 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		09DB02F71BE40B6D008ACBE6 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09DB03061BE40BB1008ACBE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		09DB03081BE40BB1008ACBE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09DB03091BE40BB1008ACBE6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		09DB030A1BE40BB1008ACBE6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09E9C5A21D294C790006A4B7 /* StandardExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardExampleViewController.h; sourceTree = "<group>"; };
-		09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardExampleViewController.m; sourceTree = "<group>"; };
-		09E9C5A51D294C9C0006A4B7 /* CompactExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactExampleViewController.h; sourceTree = "<group>"; };
-		09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompactExampleViewController.m; sourceTree = "<group>"; };
-		09E9C5A81D294CAD0006A4B7 /* CustomExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomExampleViewController.h; sourceTree = "<group>"; };
-		09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomExampleViewController.m; sourceTree = "<group>"; };
-		09E9C5AB1D294D2E0006A4B7 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
-		09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		09DE02E31DA052DC00A92897 /* CompactExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactExampleViewController.h; sourceTree = "<group>"; };
+		09DE02E41DA052DC00A92897 /* CustomExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomExampleViewController.h; sourceTree = "<group>"; };
+		09DE02E51DA052DC00A92897 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		09DE02E61DA052DC00A92897 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		09DE02E71DA052DC00A92897 /* StandardExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardExampleViewController.m; sourceTree = "<group>"; };
+		09DE02E81DA052DC00A92897 /* CompactExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompactExampleViewController.m; sourceTree = "<group>"; };
+		09DE02E91DA052DC00A92897 /* CustomExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomExampleViewController.m; sourceTree = "<group>"; };
+		09DE02EA1DA052DC00A92897 /* StandardExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardExampleViewController.h; sourceTree = "<group>"; };
 		0AD62F19F74131A18CCFF168 /* Pods-phoneid_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Tests/Pods-phoneid_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13124AA0B1313A0311ADB6F8 /* Pods-phoneid_iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example/Pods-phoneid_iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		362AFCC00A4BF892D38AEA41 /* Pods-phoneid_iOS_Example_objc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phoneid_iOS_Example_objc.release.xcconfig"; path = "Pods/Target Support Files/Pods-phoneid_iOS_Example_objc/Pods-phoneid_iOS_Example_objc.release.xcconfig"; sourceTree = "<group>"; };
@@ -160,23 +157,21 @@
 		09DB02EC1BE40B6D008ACBE6 /* objc */ = {
 			isa = PBXGroup;
 			children = (
+				09DE02E31DA052DC00A92897 /* CompactExampleViewController.h */,
+				094550A71DA05B300094F3D3 /* Main.storyboard */,
+				09DE02E41DA052DC00A92897 /* CustomExampleViewController.h */,
+				09DE02E51DA052DC00A92897 /* DetailsViewController.h */,
+				09DE02E61DA052DC00A92897 /* DetailsViewController.m */,
+				09DE02E71DA052DC00A92897 /* StandardExampleViewController.m */,
+				09DE02E81DA052DC00A92897 /* CompactExampleViewController.m */,
+				09DE02E91DA052DC00A92897 /* CustomExampleViewController.m */,
+				09DE02EA1DA052DC00A92897 /* StandardExampleViewController.h */,
 				09DB02ED1BE40B6D008ACBE6 /* AppDelegate.h */,
 				09DB02EE1BE40B6D008ACBE6 /* AppDelegate.m */,
 				09DB02EF1BE40B6D008ACBE6 /* Assets.xcassets */,
 				09DB02F01BE40B6D008ACBE6 /* LaunchScreen.storyboard */,
-				09DB02F21BE40B6D008ACBE6 /* Main.storyboard */,
 				09DB02F41BE40B6D008ACBE6 /* Info.plist */,
 				09DB02F51BE40B6D008ACBE6 /* main.m */,
-				09DB02F61BE40B6D008ACBE6 /* ViewController.h */,
-				09DB02F71BE40B6D008ACBE6 /* ViewController.m */,
-				09E9C5A21D294C790006A4B7 /* StandardExampleViewController.h */,
-				09E9C5A31D294C790006A4B7 /* StandardExampleViewController.m */,
-				09E9C5A51D294C9C0006A4B7 /* CompactExampleViewController.h */,
-				09E9C5A61D294C9C0006A4B7 /* CompactExampleViewController.m */,
-				09E9C5A81D294CAD0006A4B7 /* CustomExampleViewController.h */,
-				09E9C5A91D294CAD0006A4B7 /* CustomExampleViewController.m */,
-				09E9C5AB1D294D2E0006A4B7 /* DetailsViewController.h */,
-				09E9C5AC1D294D2E0006A4B7 /* DetailsViewController.m */,
 			);
 			path = objc;
 			sourceTree = "<group>";
@@ -184,9 +179,9 @@
 		09DB03031BE40BB1008ACBE6 /* swift */ = {
 			isa = PBXGroup;
 			children = (
+				094550A91DA05BAD0094F3D3 /* Main.storyboard */,
 				09DB03041BE40BB1008ACBE6 /* AppDelegate.swift */,
 				09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */,
-				09DB03071BE40BB1008ACBE6 /* Main.storyboard */,
 				09DB03091BE40BB1008ACBE6 /* Images.xcassets */,
 				09DB030A1BE40BB1008ACBE6 /* Info.plist */,
 				09293DD61CB478F50070208A /* DetailsViewController.swift */,
@@ -377,7 +372,7 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
@@ -426,8 +421,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094550AB1DA05BAD0094F3D3 /* Main.storyboard in Resources */,
 				09DB03001BE40B7E008ACBE6 /* Assets.xcassets in Resources */,
-				09DB03121BE4115F008ACBE6 /* Main.storyboard in Resources */,
+				094550A81DA05B300094F3D3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +432,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				09DB030D1BE40BB1008ACBE6 /* LaunchScreen.xib in Resources */,
-				09DB030E1BE40BB1008ACBE6 /* Main.storyboard in Resources */,
 				09DB030F1BE40BB1008ACBE6 /* Images.xcassets in Resources */,
 				09DB02FA1BE40B6D008ACBE6 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -603,12 +598,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09DB03021BE40B89008ACBE6 /* ViewController.m in Sources */,
-				09E9C5A71D294C9C0006A4B7 /* CompactExampleViewController.m in Sources */,
-				09E9C5AA1D294CAD0006A4B7 /* CustomExampleViewController.m in Sources */,
+				09DE02F01DA0535500A92897 /* DetailsViewController.m in Sources */,
+				09DE02F21DA0535500A92897 /* CompactExampleViewController.m in Sources */,
+				09DE02F31DA0535500A92897 /* CustomExampleViewController.m in Sources */,
 				09DB03011BE40B89008ACBE6 /* main.m in Sources */,
-				09E9C5AD1D294D2E0006A4B7 /* DetailsViewController.m in Sources */,
-				09E9C5A41D294C790006A4B7 /* StandardExampleViewController.m in Sources */,
+				09DE02F11DA0535500A92897 /* StandardExampleViewController.m in Sources */,
 				09DB02FF1BE40B78008ACBE6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -654,6 +648,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		094550A91DA05BAD0094F3D3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				094550AA1DA05BAD0094F3D3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		09DB02F01BE40B6D008ACBE6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -662,28 +664,12 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		09DB02F21BE40B6D008ACBE6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				09DB02F31BE40B6D008ACBE6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		09DB03051BE40BB1008ACBE6 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				09DB03061BE40BB1008ACBE6 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		09DB03071BE40BB1008ACBE6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				09DB03081BE40BB1008ACBE6 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -834,12 +820,14 @@
 			baseConfigurationReference = 5581F954AE3C5075CD8DE15B /* Pods-phoneid_iOS_Example_swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -848,6 +836,7 @@
 			baseConfigurationReference = BEB9A49FD7E8D0D0FD344C93 /* Pods-phoneid_iOS_Example_swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				ENABLE_ONLY_ACTIVE_RESOURCES = NO;
 				INFOPLIST_FILE = phoneid_iOS/swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

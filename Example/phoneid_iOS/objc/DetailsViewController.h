@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailsViewController : UIViewController
-
 @property (weak, nonatomic) IBOutlet UIView *tokensView;
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
 @property (weak, nonatomic) IBOutlet UITextField *refreshTokenText;
 @property (weak, nonatomic) IBOutlet UITextField *presetNumber;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUserPresetNumber;
 @property (weak, nonatomic) IBOutlet UISwitch *switchDebugContactsUpload;
-
-
 @end
