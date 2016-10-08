@@ -24,11 +24,11 @@ let SHA1_DIGEST_LENGTH = 20
 
 extension String {
     func sha1() -> String {
-        let data: NSMutableData = self.dataUsingEncoding(NSUTF8StringEncoding)!.mutableCopy() as! NSMutableData
+        let data: NSMutableData = (self.data(using: String.Encoding.utf8)! as NSData).mutableCopy() as! NSMutableData
         let dataLen = data.length
 
         var value: UInt8 = 0x80
-        data.appendBytes(&value, length: 1) // append one bit to data
+        data.append(&value, length: 1) // append one bit to data
 
         var msgLength = data.length
         var counter = 0
@@ -41,16 +41,16 @@ extension String {
 
         let bufZeros = UnsafeMutablePointer<UInt8>(calloc(counter, sizeof(UInt8)))
 
-        data.appendBytes(bufZeros, length: counter)
+        data.append(bufZeros, length: counter)
 
-        bufZeros.destroy()
-        bufZeros.dealloc(1)
+        bufZeros.deinitialize()
+        bufZeros.deallocateCapacity(1)
 
         let h: [UInt32] = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
         var hh = h
 
-        var value4: UInt64 = UInt64(dataLen * sizeof(UInt64)).bigEndian
-        data.appendBytes(&value4, length: sizeof(UInt64));
+        var value4: UInt64 = UInt64(dataLen * MemoryLayout<UInt64>.size).bigEndian
+        data.append(&value4, length: MemoryLayout<UInt64>.size);
 
         // Process the message in successive 512-bit chunks:
         let chunkSizeBytes = 64
@@ -58,16 +58,16 @@ extension String {
         
         var i = 0
         while i < data.length {
-            let chunk = data.subdataWithRange(NSRange(location: i, length: min(chunkSizeBytes, leftMessageBytes)))
+            let chunk = data.subdata(with: NSRange(location: i, length: min(chunkSizeBytes, leftMessageBytes)))
 
             // break chunk into sixteen 32-bit words M[j], 0 ≤ j ≤ 15, big-endian
             // Extend the sixteen 32-bit words into eighty 32-bit words:
-            var M: [UInt32] = [UInt32](count: 80, repeatedValue: 0)
+            var M: [UInt32] = [UInt32](repeating: 0, count: 80)
             for x in 0 ..< M.count {
                 switch (x) {
                 case 0 ... 15:
                     var le: UInt32 = 0
-                    chunk.getBytes(&le, range: NSRange(location: x * sizeofValue(M[x]), length: sizeofValue(M[x])));
+                    (chunk as NSData).getBytes(&le, range: NSRange(location: x * MemoryLayout.size(ofValue: M[x]), length: MemoryLayout.size(ofValue: M[x])));
                     M[x] = le.bigEndian
                     break
                 default:
@@ -130,11 +130,11 @@ extension String {
         let digest: NSMutableData = NSMutableData();
         for item in hh {
             var i: UInt32 = item.bigEndian
-            digest.appendBytes(&i, length: sizeofValue(i))
+            digest.append(&i, length: MemoryLayout.size(ofValue: i))
         }
 
 
-        var bytes = [UInt8](count: SHA1_DIGEST_LENGTH, repeatedValue: 0)
+        var bytes = [UInt8](repeating: 0, count: SHA1_DIGEST_LENGTH)
         digest.getBytes(&bytes, length: SHA1_DIGEST_LENGTH)
 
         let result = NSMutableString()
@@ -147,6 +147,6 @@ extension String {
     }
 }
 
-func shiftLeft(v: UInt32, n: UInt32) -> UInt32 {
+func shiftLeft(_ v: UInt32, n: UInt32) -> UInt32 {
     return ((v << n) & 0xFFFFFFFF) | (v >> (32 - n))
 }

@@ -40,9 +40,9 @@ class CircleOverlayView: UIView {
     }
 
     func setup() {
-        self.userInteractionEnabled = false
-        shapeLayer.opaque = false
-        shapeLayer.fillColor = UIColor.blackColor().CGColor
+        self.isUserInteractionEnabled = false
+        shapeLayer.isOpaque = false
+        shapeLayer.fillColor = UIColor.black.cgColor
         shapeLayer.fillRule = kCAFillRuleEvenOdd
         shapeLayer.borderWidth = 1.0
         self.layer.addSublayer(shapeLayer)
@@ -58,9 +58,9 @@ class CircleOverlayView: UIView {
                 width: smallest,
                 height: smallest)
         let path = UIBezierPath(rect: frame)
-        path.appendPath(UIBezierPath(ovalInRect: square))
-        path.closePath()
-        shapeLayer.path = path.CGPath
+        path.append(UIBezierPath(ovalIn: square))
+        path.close()
+        shapeLayer.path = path.cgPath
     }
 
 }

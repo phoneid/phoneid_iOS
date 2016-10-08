@@ -26,22 +26,22 @@ import CoreTelephony.CTCarrier
 import libPhoneNumber_iOS
 
 class PhoneIdNumberValidationError:PhoneIdServiceError{
-    class func validationFail(descriptionKey:String?) -> PhoneIdServiceError{
+    class func validationFail(_ descriptionKey:String?) -> PhoneIdServiceError{
         return PhoneIdNumberValidationError(code: 1004, descriptionKey:descriptionKey!, reasonKey: nil)
     }
 }
 
-public class NumberInfo: NSObject {
+open class NumberInfo: NSObject {
     
-    public var phoneNumber:String?
-    public var phoneCountryCode:String?
-    public var isoCountryCode:String?
+    open var phoneNumber:String?
+    open var phoneCountryCode:String?
+    open var isoCountryCode:String?
     
-    public let defaultCountryCode:String = "+1"
-    public let defaultIsoCountryCode:String = "US"
+    open let defaultCountryCode:String = "+1"
+    open let defaultIsoCountryCode:String = "US"
     
-    public private(set) var phoneCountryCodeSim:String?
-    public private(set) var isoCountryCodeSim:String?
+    open fileprivate(set) var phoneCountryCodeSim:String?
+    open fileprivate(set) var isoCountryCodeSim:String?
     
     public override init() {
         super.init()
@@ -57,14 +57,14 @@ public class NumberInfo: NSObject {
     
     public convenience init(numberE164:String?) {
         self.init()
-        if let number:NBPhoneNumber = try? self.phoneUtil.parseWithPhoneCarrierRegion(numberE164){
+        if let number:NBPhoneNumber = try? self.phoneUtil.parse(withPhoneCarrierRegion: numberE164){
             self.phoneNumber = number.nationalNumber.stringValue
             self.phoneCountryCode = "+\(number.countryCode.stringValue)"
-            self.isoCountryCode = self.phoneUtil.getRegionCodeForNumber(number)
+            self.isoCountryCode = self.phoneUtil.getRegionCode(for: number)
         }
     }
     
-    public func validate() throws -> Bool {
+    open func validate() throws -> Bool {
         
         guard self.phoneNumber != nil else{
             throw PhoneIdNumberValidationError.validationFail("error.number.is.not.set")
@@ -84,7 +84,7 @@ public class NumberInfo: NSObject {
         
             var error: NSError?
             let number:NBPhoneNumber! = try phoneUtil.parse(numberString, defaultRegion: self.isoCountryCode)
-            let validationResult:NBEValidationResult = phoneUtil.isPossibleNumberWithReason(number, error:&error)
+            let validationResult:NBEValidationResult = phoneUtil.isPossibleNumber(withReason: number, error:&error)
             
             if(validationResult != NBEValidationResult.IS_POSSIBLE){
                 
@@ -106,7 +106,7 @@ public class NumberInfo: NSObject {
         return result;
     }
     
-    public func isValid() -> (result: Bool, error: NSError?) {
+    open func isValid() -> (result: Bool, error: NSError?) {
         
         var result = false
         var error:NSError? = nil;
@@ -119,9 +119,9 @@ public class NumberInfo: NSObject {
         return (result, error);
     }
     
-    private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
+    fileprivate var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
     
-    private func prep(){
+    fileprivate func prep(){
         let netInfo:CTTelephonyNetworkInfo = CTTelephonyNetworkInfo()
         let carrier:CTCarrier! = netInfo.subscriberCellularProvider
         
@@ -133,10 +133,10 @@ public class NumberInfo: NSObject {
                 
             } else {
 
-                self.isoCountryCode = carrier.isoCountryCode!.uppercaseString // IT
+                self.isoCountryCode = carrier.isoCountryCode!.uppercased() // IT
                 self.isoCountryCodeSim = self.isoCountryCode
                 
-                if let countryCode = phoneUtil.getCountryCodeForRegion(isoCountryCode){
+                if let countryCode = phoneUtil.getCountryCode(forRegion: isoCountryCode){
                     self.phoneCountryCode = "+\(countryCode)"
                 }
                 
@@ -146,7 +146,7 @@ public class NumberInfo: NSObject {
     }
     
     
-    func isValidNumber(number: String) -> Bool {
+    func isValidNumber(_ number: String) -> Bool {
         
         do {
             let myNumber: NBPhoneNumber! = try phoneUtil.parse(number, defaultRegion: self.isoCountryCode)
@@ -160,31 +160,31 @@ public class NumberInfo: NSObject {
         return false;
     }
     
-    public func e164Format() -> String? {
+    open func e164Format() -> String? {
         let number = self.phoneCountryCode! + self.phoneNumber!
-        let result: NSString? =  NumberInfo.e164Format(number, iso: self.isoCountryCode!);
+        let result: NSString? =  NumberInfo.e164Format(number, iso: self.isoCountryCode!) as NSString?;
         return result as? String
     }
     
-    class func e164Format(number:String, iso:String) -> String? {
+    class func e164Format(_ number:String, iso:String) -> String? {
         var result: NSString? = nil;
         
         if let formatted = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso){
-            result = try? NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormat.E164)
+            result = try! NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormat.E164) as NSString?
         }
     
         return result as? String
     }
     
-    func formatNumber(number: String) -> NSString {
+    func formatNumber(_ number: String) -> NSString {
         
         do {
             let myNumber: NBPhoneNumber! = try phoneUtil.parse(number, defaultRegion: self.isoCountryCode);
             let countryCodeWithSpace: String = self.phoneCountryCode! + " "
             let tempNumber = try phoneUtil.format(myNumber, numberFormat: NBEPhoneNumberFormat.INTERNATIONAL)
-            return tempNumber.stringByReplacingOccurrencesOfString(countryCodeWithSpace, withString: "")
+            return tempNumber.replacingOccurrences(of: countryCodeWithSpace, with: "") as NSString
         }catch{
-            return number
+            return number as NSString
         }
     }
     
@@ -198,7 +198,7 @@ public class NumberInfo: NSObject {
         return number
     }
     
-    override public var description: String {
+    override open var description: String {
         
         return "NumberInfo: {phoneCountryCode:\(phoneCountryCode),\n phoneNumber: \(phoneNumber),\nphoneCountryCodeSim: \(phoneCountryCodeSim), isoCountryCode: \(isoCountryCode), \nisoCountryCodeSim: \(isoCountryCodeSim)  }"
     }

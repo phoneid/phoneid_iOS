@@ -19,12 +19,12 @@
 
 import UIKit
 
-public class UserNameViewController: UIViewController, PhoneIdConsumer, UserNameViewDelegate {
+open class UserNameViewController: UIViewController, PhoneIdConsumer, UserNameViewDelegate {
 
 
-    private var model: UserInfo!
+    fileprivate var model: UserInfo!
 
-    public var completeEditing: ((model:UserInfo) -> Void)?
+    open var completeEditing: ((_ model:UserInfo) -> Void)?
 
     // Mark: custom init
 
@@ -42,7 +42,7 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer, UserName
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var userNameView: UserNameView! {
+    fileprivate var userNameView: UserNameView! {
         get {
             let result = self.view as? UserNameView
             if (result == nil) {
@@ -54,7 +54,7 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer, UserName
 
     // MARK: initialization
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
 
         super.viewDidLoad()
 
@@ -63,13 +63,13 @@ public class UserNameViewController: UIViewController, PhoneIdConsumer, UserName
         self.view = result
     }
 
-    public func close() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    open func close() {
+        self.dismiss(animated: true, completion: nil)
     }
 
-    public func save() {
+    open func save() {
         self.model.screenName = self.userNameView.userNameField.text
-        completeEditing?(model: self.model)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        completeEditing?(self.model)
+        self.dismiss(animated: true, completion: nil)
     }
 }

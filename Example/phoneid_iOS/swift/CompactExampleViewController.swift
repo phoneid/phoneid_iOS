@@ -16,32 +16,32 @@ class CompactExampleViewController: UIViewController {
     @IBOutlet weak var compactPhoneIdButton: CompactPhoneIdLoginButton!
     var details:DetailsViewController!
     
-    @IBAction func dismiss(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func dismiss(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         details.presetNumber.addTarget(self,
                                        action: #selector(CompactExampleViewController.presetNumberChanged(_:)),
-                                       forControlEvents:.EditingChanged)
+                                       for:.editingChanged)
         
         details.switchUserPresetNumber.addTarget(self,
                                                  action: #selector(CompactExampleViewController.presetNumberSwitchChanged(_:)),
-                                                 forControlEvents:.ValueChanged)
+                                                 for:.valueChanged)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "details" {
-            details = segue.destinationViewController as? DetailsViewController
+            details = segue.destination as? DetailsViewController
         }
     }
     
-    func presetNumberChanged(sender:UITextField){
-        compactPhoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.on ? sender.text : ""
+    func presetNumberChanged(_ sender:UITextField){
+        compactPhoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.isOn ? sender.text : ""
     }
     
-    func presetNumberSwitchChanged(sender:UISwitch){
-        compactPhoneIdButton.phoneNumberE164 = sender.on ? details.presetNumber.text : ""
+    func presetNumberSwitchChanged(_ sender:UISwitch){
+        compactPhoneIdButton.phoneNumberE164 = sender.isOn ? details.presetNumber.text : ""
     }
 }

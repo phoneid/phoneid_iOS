@@ -19,17 +19,17 @@
 
 import UIKit
 
-public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditProfileViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+open class EditProfileViewController: UIViewController, PhoneIdConsumer, EditProfileViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    public var user: UserInfo!
+    open var user: UserInfo!
 
-    lazy private var imagePickerViewController: UIImagePickerController = {
+    lazy fileprivate var imagePickerViewController: UIImagePickerController = {
         let result = UIImagePickerController()
         result.delegate = self
         return result
     }()
 
-    private var editProfileView: EditProfileView! {
+    fileprivate var editProfileView: EditProfileView! {
         get {
             let result = self.view as? EditProfileView
             if (result == nil) {
@@ -48,13 +48,13 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func loadView() {
+    open override func loadView() {
         let result = phoneIdComponentFactory.editProfileView(user)
         result.delegate = self
         self.view = result
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -66,87 +66,87 @@ public class EditProfileViewController: UIViewController, PhoneIdConsumer, EditP
             self.user = user
             self.editProfileView.setupWithUser(user)
         }
-        self.presentViewController(controller, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
 
     func changePhotoButtonTapped() {
 
         let bundle = self.phoneIdService.componentFactory.localizationBundle
-        let actionSheet = UIAlertController(title: NSLocalizedString("alert.title.select.image", bundle: bundle, comment: "alert.title.select.image"), message: nil, preferredStyle: .ActionSheet)
+        let actionSheet = UIAlertController(title: NSLocalizedString("alert.title.select.image", bundle: bundle, comment: "alert.title.select.image"), message: nil, preferredStyle: .actionSheet)
 
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
-            actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.camera", bundle: bundle, comment: "alert.button.title.camera"), style: .Default, handler: {
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.camera", bundle: bundle, comment: "alert.button.title.camera"), style: .default, handler: {
                 [unowned self] (action) -> Void in
-                self.presentImagePicker(.Camera)
+                self.presentImagePicker(.camera)
             }));
         }
 
-        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.library", bundle: bundle, comment: "alert.button.title.library"), style: .Default, handler: {
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.library", bundle: bundle, comment: "alert.button.title.library"), style: .default, handler: {
             [unowned self] (action) -> Void in
-            self.presentImagePicker(.PhotoLibrary)
+            self.presentImagePicker(.photoLibrary)
         }));
 
-        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "alert.button.title.dismiss"), style: .Cancel, handler: nil));
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "alert.button.title.dismiss"), style: .cancel, handler: nil));
 
-        self.presentViewController(actionSheet, animated: true, completion: nil)
+        self.present(actionSheet, animated: true, completion: nil)
     }
 
-    func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
+    func presentImagePicker(_ sourceType: UIImagePickerControllerSourceType) {
 
         imagePickerViewController.allowsEditing = false
         imagePickerViewController.sourceType = sourceType
         let colorScheme = self.phoneIdComponentFactory.colorScheme
         imagePickerViewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: colorScheme.headerTitleText]
-        imagePickerViewController.navigationBar.translucent = false
-        imagePickerViewController.navigationBar.barStyle = UIBarStyle.Default
+        imagePickerViewController.navigationBar.isTranslucent = false
+        imagePickerViewController.navigationBar.barStyle = UIBarStyle.default
         imagePickerViewController.navigationBar.barTintColor = colorScheme.headerBackground
         imagePickerViewController.navigationBar.tintColor = colorScheme.headerButtonText
 
-        self.presentViewController(imagePickerViewController, animated: true, completion: nil)
+        self.present(imagePickerViewController, animated: true, completion: nil)
     }
 
 
     func closeButtonTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
-    func saveButtonTapped(userInfo: UserInfo) {
+    func saveButtonTapped(_ userInfo: UserInfo) {
         self.editProfileView.activityIndicator.startAnimating()
         self.phoneIdService.updateUserProfile(userInfo) {
             (error) -> Void in
             self.editProfileView.activityIndicator.stopAnimating()
             if (error != nil) {
                 let bundle = self.phoneIdService.componentFactory.localizationBundle
-                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.alert)
 
-                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .cancel, handler: nil))
 
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             } else {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
 
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String:AnyObject]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String:Any]) {
 
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
 
         let editingController = self.phoneIdComponentFactory.imageEditViewController(image)
 
         editingController.imageEditingCancelled = {
-            picker.dismissViewControllerAnimated(true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
         }
 
         editingController.imageEditingCompleted = {
             (editedImage: UIImage) in
             self.editProfileView.avatarImage = editedImage
             self.user.updatedImage = editedImage
-            picker.dismissViewControllerAnimated(true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
         }
 
         picker.pushViewController(editingController, animated: true)
-        picker.navigationBarHidden = false
+        picker.isNavigationBarHidden = false
     }
 
 }

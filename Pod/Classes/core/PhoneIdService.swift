@@ -23,77 +23,77 @@ import UIKit
 import libPhoneNumber_iOS
 
 
-public typealias RequestCompletion = (error:NSError?) -> Void
-public typealias UserInfoRequestCompletion = (userInfo:UserInfo?,error:NSError?) -> Void
-public typealias TokenRequestCompletion = (token:TokenInfo?,error:NSError?) -> Void
-public typealias ContactsUpdateRequestCompletion = (numberOfUpdatedContacts:NSInteger,error:NSError?) -> Void
+public typealias RequestCompletion = (_ error:NSError?) -> Void
+public typealias UserInfoRequestCompletion = (_ userInfo:UserInfo?,_ error:NSError?) -> Void
+public typealias TokenRequestCompletion = (_ token:TokenInfo?,_ error:NSError?) -> Void
+public typealias ContactsUpdateRequestCompletion = (_ numberOfUpdatedContacts:NSInteger,_ error:NSError?) -> Void
 
-public typealias PhoneIdAuthenticationSucceed = (token:TokenInfo) -> Void
-public typealias PhoneIdWorkflowErrorHappened = (error:NSError) -> Void
+public typealias PhoneIdAuthenticationSucceed = (_ token:TokenInfo) -> Void
+public typealias PhoneIdWorkflowErrorHappened = (_ error:NSError) -> Void
 public typealias PhoneIdAuthenticationCancelled = () -> Void
 
-public typealias PhoneIdWorkflowNumberInputCompleted = (numberInfo:NumberInfo) -> Void
-public typealias PhoneIdWorkflowVerificationCodeInputCompleted = (verificationCode:String) -> Void
-public typealias PhoneIdWorkflowCountryCodeSelected = (countryCode:String) -> Void
+public typealias PhoneIdWorkflowNumberInputCompleted = (_ numberInfo:NumberInfo) -> Void
+public typealias PhoneIdWorkflowVerificationCodeInputCompleted = (_ verificationCode:String) -> Void
+public typealias PhoneIdWorkflowCountryCodeSelected = (_ countryCode:String) -> Void
 
-public class PhoneIdService: NSObject {
+open class PhoneIdService: NSObject {
     
-    public class var sharedInstance: PhoneIdService {
+    open class var sharedInstance: PhoneIdService {
         struct Static { static let instance: PhoneIdService = PhoneIdService() }
         return Static.instance
     }
     
-    public var componentFactory:ComponentFactory!
-    public var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
-    public var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
-    public var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
-    public var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
+    open var componentFactory:ComponentFactory!
+    open var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
+    open var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
+    open var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
+    open var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
         
-    public var phoneIdWorkflowNumberInputCompleted:PhoneIdWorkflowNumberInputCompleted?
-    public var phoneIdWorkflowVerificationCodeInputCompleted:PhoneIdWorkflowVerificationCodeInputCompleted?
-    public var phoneIdWorkflowCountryCodeSelected:PhoneIdWorkflowCountryCodeSelected?
+    open var phoneIdWorkflowNumberInputCompleted:PhoneIdWorkflowNumberInputCompleted?
+    open var phoneIdWorkflowVerificationCodeInputCompleted:PhoneIdWorkflowVerificationCodeInputCompleted?
+    open var phoneIdWorkflowCountryCodeSelected:PhoneIdWorkflowCountryCodeSelected?
 
     
-    public var phoneIdDidLogout:(() -> Void)?
+    open var phoneIdDidLogout:(() -> Void)?
     
-    public var isLoggedIn: Bool {
+    open var isLoggedIn: Bool {
         get {
             return token != nil ? self.token!.isValid() : false
         }
     }
     
-    public var token: TokenInfo? {
+    open var token: TokenInfo? {
         get {
             return TokenInfo.loadFromKeyChain()
         }
     }
     
-    public internal(set) var appName: String?
-    public internal(set) var clientId: String?
-    public internal(set) var autorefreshToken: Bool = true
+    open internal(set) var appName: String?
+    open internal(set) var clientId: String?
+    open internal(set) var autorefreshToken: Bool = true
     
-    internal var urlSession: NSURLSession!;
+    internal var urlSession: URLSession!;
     internal var refreshMonitor: PhoneIdRefreshMonitor!;
     
-    private var contactsLoader:ContactsLoader!
-    private var apiBaseURL:NSURL!
-    private var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
+    fileprivate var contactsLoader:ContactsLoader!
+    fileprivate var apiBaseURL:URL!
+    fileprivate var phoneUtil: NBPhoneNumberUtil {return NBPhoneNumberUtil.sharedInstance()}
     
     override init(){
         super.init()
         componentFactory = DefaultComponentFactory()
         contactsLoader = ContactsLoader()
-        urlSession = NSURLSession.sharedSession()
-        apiBaseURL = Constants.baseURL
+        urlSession = URLSession.shared
+        apiBaseURL = Constants.baseURL as URL!
         
     }
     
-    convenience init(baseURL:NSURL) {
+    convenience init(baseURL:URL) {
         self.init()
         apiBaseURL = baseURL
     }
     
-    public func configureClient(id: String, autorefresh:Bool = true) {
+    open func configureClient(_ id: String, autorefresh:Bool = true) {
         self.autorefreshToken = autorefresh
         
         self.clientId = id;
@@ -107,36 +107,41 @@ public class PhoneIdService: NSObject {
     }
     
     
-    public func logout() {
+    open func logout() {
         
         self.refreshMonitor?.stop()
         self.token?.removeFromKeychain();
         
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(Notifications.DidLogout, object: nil, userInfo:nil)
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Notifications.DidLogout), object: nil, userInfo:nil)
         phoneIdDidLogout?()
     }
     
     // MARK: - API
-    func requestAuthenticationCode(info: NumberInfo, channel:AuthChannels = .Sms, completion:RequestCompletion) {
+    func requestAuthenticationCode(_ info: NumberInfo, channel:AuthChannels = .sms, completion:@escaping RequestCompletion) {
         
         let validation = info.isValid()
         guard validation.result else{
-            completion(error:validation.error);
+            completion(validation.error);
+            self.notifyClientCodeAboutError(validation.error)
+            return
+        }
+        
+        guard let clientId = clientId else{
+            completion(validation.error);
             self.notifyClientCodeAboutError(validation.error)
             return
         }
         
         let number = info.e164Format()!
 
-        var params = ["number":number,"client_id":clientId!, "channel":channel.value]
+        var params = ["number":number,"client_id":clientId, "channel":channel.value]
         
-        if let lang = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String{
-          params["lang"] = NSLocale.canonicalLanguageIdentifierFromString(lang)
+        if let lang = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String{
+          params["lang"] = Locale.canonicalLanguageIdentifier(from: lang)
         }
 
-        self.post(Endpoints.RequestCode.endpoint(), params:params, completion: { response in
+        self.post(Endpoints.requestCode.endpoint(), params:params as Dictionary<String, AnyObject>?, completion: { response in
             
             var error:NSError?=nil
             if let responseError = response.error {
@@ -154,17 +159,17 @@ public class PhoneIdService: NSObject {
                 }
             }
             
-            completion(error:error)
+            completion(error)
             self.notifyClientCodeAboutError(error)
         })
         
     }
     
-    func verifyAuthentication(verifyCode: String, info: NumberInfo, completion:TokenRequestCompletion) {
+    func verifyAuthentication(_ verifyCode: String, info: NumberInfo, completion:@escaping TokenRequestCompletion) {
         
         let validation = info.isValid()
         guard validation.result else{
-            completion(token: nil, error:validation.error);
+            completion(nil, validation.error);
             self.notifyClientCodeAboutError(validation.error)
             return
         }
@@ -172,14 +177,14 @@ public class PhoneIdService: NSObject {
         if let number: String = info.e164Format(){
             
             var params: Dictionary<String, AnyObject> = [:]
-            params["grant_type"] = "password"
-            params["username"] = number
-            params["password"] = verifyCode
-            params["client_id"] = clientId!
+            params["grant_type"] = "password" as AnyObject?
+            params["username"] = number as AnyObject?
+            params["password"] = verifyCode as AnyObject?
+            params["client_id"] = clientId! as AnyObject?
             
             print("request params: \(params)")
             
-            self.post(Endpoints.RequestToken.endpoint(), params:params) { response in
+            self.post(Endpoints.requestToken.endpoint(), params:params) { response in
                 
                 var error:NSError?
                 var token:TokenInfo?
@@ -200,13 +205,13 @@ public class PhoneIdService: NSObject {
                     self.sendNotificationVerificationFail(error!)
                 }
                 
-                completion(token:token, error:error)
+                completion(token, error)
                 self.notifyClientCodeAboutError(error)
             }
         }
     }
     
-    func doOnAuthenticationSucceed(token:TokenInfo){
+    func doOnAuthenticationSucceed(_ token:TokenInfo){
         token.saveToKeychain()
         
         if(self.autorefreshToken){
@@ -216,9 +221,9 @@ public class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    public func loadMyProfile(completion:UserInfoRequestCompletion) {
+    open func loadMyProfile(_ completion:@escaping UserInfoRequestCompletion) {
         
-        let endpoint: String = Endpoints.RequestMe.endpoint()
+        let endpoint: String = Endpoints.requestMe.endpoint()
         self.get(endpoint, params: nil) { response in
             
             var error:NSError?
@@ -234,30 +239,30 @@ public class PhoneIdService: NSObject {
                 error = PhoneIdServiceError.inappropriateResponseError("error.user.info.unexpected.response", reasonKey:"error.reason.user.info.unexpected.response")
             }
             
-            completion(userInfo:userInfo , error: error)
+            completion(userInfo , error)
             self.notifyClientCodeAboutError(error)
         }
     }
     
     
     
-    public func updateUserProfile(userInfo:UserInfo, completion:RequestCompletion){
-        let endpoint: String = Endpoints.RequestMe.endpoint()
+    open func updateUserProfile(_ userInfo:UserInfo, completion:@escaping RequestCompletion){
+        let endpoint: String = Endpoints.requestMe.endpoint()
         
-        self.post(endpoint, params: userInfo.asDictionary()) { (response) -> Void in
+        self.post(endpoint, params: userInfo.asDictionary() as Dictionary<String, AnyObject>?) { (response) -> Void in
             var error:NSError?
             if let responseError = response.error {
                 NSLog("Failed to update user info due to %@", responseError)
                 error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
-                completion(error: error)
+                completion(error)
                 self.notifyClientCodeAboutError(error)
             }else if let image  = userInfo.updatedImage{                
                 self.updateUserAvatar(image, completion: { (error) -> Void in
-                    completion(error: error)
+                    completion(error)
                     self.notifyClientCodeAboutError(error)
                 })
             }else{
-                completion(error: error)
+                completion(error)
                 self.notifyClientCodeAboutError(error)
             }
             
@@ -265,21 +270,21 @@ public class PhoneIdService: NSObject {
         }
     }
     
-    public func updateUserAvatar(image:UIImage, completion:RequestCompletion){
-        let endpoint: String = Endpoints.UploadAvatar.endpoint()
+    open func updateUserAvatar(_ image:UIImage, completion:@escaping RequestCompletion){
+        let endpoint: String = Endpoints.uploadAvatar.endpoint()
         
         var params: Dictionary<String, AnyObject> = [:]
         
         params["uploadfile"] = image
         self.post(endpoint, params:params) { (response) -> Void in
-            completion(error: response.error)
+            completion(response.error)
         }
     }
     
     
-    func loadClients(clientId:String, completion:RequestCompletion){
+    func loadClients(_ clientId:String, completion:@escaping RequestCompletion){
         
-        let endpoint: String = Endpoints.ClientsList.endpoint(clientId)
+        let endpoint: String = Endpoints.clientsList.endpoint(clientId)
         self.get(endpoint, params:nil, completion: { response in
             
             var resultError:NSError? = nil
@@ -287,7 +292,7 @@ public class PhoneIdService: NSObject {
                 NSLog("Failed to obtain list of PhoneId clients due to \(error)")
                 resultError = PhoneIdServiceError.requestFailedError("error.failed.request.clients", reasonKey: error.localizedDescription)
                 
-            }else if let info = response.responseJSON as? NSDictionary, appName = info["appName"] as? String {
+            }else if let info = response.responseJSON as? NSDictionary, let appName = info["appName"] as? String {
                 self.appName = appName
                 self.sendNotificationAppName()
                 
@@ -295,25 +300,25 @@ public class PhoneIdService: NSObject {
                 NSLog("Failed to parse appName in response \(response.responseJSON)")
                 resultError = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.clients.unexpected.response")
             }
-            completion(error: resultError)
+            completion(resultError)
             self.notifyClientCodeAboutError(resultError)
         })
         
     }
     
-    public func refreshToken(completion:TokenRequestCompletion){
+    open func refreshToken(_ completion:@escaping TokenRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
             var params: Dictionary<String, AnyObject> = [:]
-            params["grant_type"]="refresh_token"
-            params["client_id"]=self.clientId!
-            params["refresh_token"]=token.refreshToken
+            params["grant_type"]="refresh_token" as AnyObject?
+            params["client_id"]=self.clientId! as AnyObject?
+            params["refresh_token"]=token.refreshToken as AnyObject?
             
             print("request params: \(params)")
             
             
-            self.post(Endpoints.RequestToken.endpoint(), params:params, completion: { response in
+            self.post(Endpoints.requestToken.endpoint(), params:params, completion: { response in
                 
                 var error:NSError?
                 var token:TokenInfo?
@@ -330,18 +335,18 @@ public class PhoneIdService: NSObject {
                     error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contain.valid.token.info")
                 }
                 
-                completion(token: token, error: error)
+                completion(token, error)
                 self.notifyClientCodeAboutError(error)
             })
             
             }, fail: {(error) -> Void in
                 
-                completion(token: nil, error: error)
+                completion(nil, error)
                 
         })
     }
     
-    public func uploadContacts(debugMode debugMode:Bool = false, completion:ContactsUpdateRequestCompletion){
+    open func uploadContacts(debugMode:Bool = false, completion:@escaping ContactsUpdateRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
@@ -352,39 +357,39 @@ public class PhoneIdService: NSObject {
                     self.updateContactsIfNeeded(contacts, debugMode:debugMode, completion:completion)
                     
                 }else{
-                    completion(numberOfUpdatedContacts: 0, error: nil)
+                    completion(0, nil)
                 }
             }
             
             }, fail: { (error) -> Void in
-                completion(numberOfUpdatedContacts: 0, error: nil)
+                completion(0, nil)
         })
         
     }
     
-    internal func needsUpdateContacts(contacts:[ContactInfo], completion:(needsUpdate:Bool)->Void){
+    internal func needsUpdateContacts(_ contacts:[ContactInfo], completion:@escaping (_ needsUpdate:Bool)->Void){
         
         let checksums:[String] = contacts.map({ return $0.number!.sha1()})
         
-        let checksumFlat = checksums.sort().joinWithSeparator(",")
+        let checksumFlat = checksums.sorted().joined(separator: ",")
         
-        let endpoint = Endpoints.NeedRefreshContacts.endpoint(checksumFlat.sha1())
+        let endpoint = Endpoints.needRefreshContacts.endpoint(checksumFlat.sha1())
         
         self.get(endpoint, params: nil, completion: { (response) -> Void in
             
             var result:Bool = true
             
             if let json = response.responseJSON as? NSDictionary,
-                needsUpdate = json["refresh_needed"] as? Bool{
+                let needsUpdate = json["refresh_needed"] as? Bool{
                     
                     result = needsUpdate
             }
             
-            completion(needsUpdate: result)
+            completion(result)
         })
     }
     
-    internal func updateContactsIfNeeded(contacts:[ContactInfo], debugMode:Bool, completion:ContactsUpdateRequestCompletion){
+    internal func updateContactsIfNeeded(_ contacts:[ContactInfo], debugMode:Bool, completion:@escaping ContactsUpdateRequestCompletion){
         
         self.needsUpdateContacts(contacts, completion: { (needsUpdate) -> Void in
             
@@ -392,7 +397,7 @@ public class PhoneIdService: NSObject {
                 
                 let params = self.wrapContactsAsHTTPFormParams(contacts, debugMode:debugMode)
                 
-                let endpoint = Endpoints.Contacts.endpoint()
+                let endpoint = Endpoints.contacts.endpoint()
                 
                 self.post(endpoint, params: params, completion: { (response) -> Void in
                     var error:NSError?
@@ -401,50 +406,50 @@ public class PhoneIdService: NSObject {
                         NSLog("Failed to upload contacts \(responseError)")
                         error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
                         
-                    }else if let json = response.responseJSON as? NSDictionary, number = json["received"] as? NSInteger{
+                    }else if let json = response.responseJSON as? NSDictionary, let number = json["received"] as? NSInteger{
                         numberOfUpdatedContacts = number
                     }
                     
-                    completion(numberOfUpdatedContacts: numberOfUpdatedContacts, error: error)
+                    completion(numberOfUpdatedContacts, error)
                     
                     self.notifyClientCodeAboutError(error)
                     
                 })
                 
             }else{
-                completion(numberOfUpdatedContacts: 0, error: nil)
+                completion(0, nil)
             }
             
         })
     }
     
     
-    private func wrapContactsAsHTTPFormParams(contacts:[ContactInfo], debugMode:Bool) -> [String:AnyObject]{
+    fileprivate func wrapContactsAsHTTPFormParams(_ contacts:[ContactInfo], debugMode:Bool) -> [String:AnyObject]{
         
         let contactsDictionary = contacts.map({ return debugMode ? $0.asDebugDictionary() : $0.asDictionary() })
         
-        let serialized = try! NSJSONSerialization.dataWithJSONObject(["contacts": contactsDictionary], options: [.PrettyPrinted])
+        let serialized = try! JSONSerialization.data(withJSONObject: ["contacts": contactsDictionary], options: [.prettyPrinted])
         
-        let serializedAsString = NSString(data: serialized, encoding: NSUTF8StringEncoding) as! String
+        let serializedAsString = NSString(data: serialized, encoding: String.Encoding.utf8.rawValue) as! String
         
         print(serializedAsString)
-        return ["contacts":serializedAsString]
+        return ["contacts":serializedAsString as AnyObject]
     }
     
-    private func checkToken(errorKey:String, success:(token:TokenInfo)->Void, fail:(error:PhoneIdServiceError)->Void){
+    fileprivate func checkToken(_ errorKey:String, success:(_ token:TokenInfo)->Void, fail:(_ error:PhoneIdServiceError)->Void){
         
         if let currentToken = self.token{
-            success(token: currentToken)
+            success(currentToken)
         }else{
             let error = PhoneIdServiceError.requestFailedError(errorKey, reasonKey:"error.unautorized.request")
-            fail(error: error)
+            fail(error)
             self.notifyClientCodeAboutError(error)
         }
     }
     
-    func doOnAuthenticationRefreshSucceed(token:TokenInfo){
+    func doOnAuthenticationRefreshSucceed(_ token:TokenInfo){
         token.saveToKeychain()
-        self.phoneIdAuthenticationRefreshed?(token: token)
+        self.phoneIdAuthenticationRefreshed?(token)
         self.sendNotificationTokenRefreshed()
     }
     
@@ -452,8 +457,8 @@ public class PhoneIdService: NSObject {
         
         urlSession.getTasksWithCompletionHandler({
             (dataTasks, uploadTasks, downloadTasks) -> Void in
-            let tasksLists:[[NSURLSessionTask]] = [dataTasks, uploadTasks, downloadTasks]
-            for tasksList: [NSURLSessionTask] in tasksLists {
+            let tasksLists:[[URLSessionTask]] = [dataTasks, uploadTasks, downloadTasks]
+            for tasksList: [URLSessionTask] in tasksLists {
                 for task in tasksList {
                     task.cancel();
                 }
@@ -463,79 +468,75 @@ public class PhoneIdService: NSObject {
     
     
     // MARK: - NOTIFICATIONS / CALLBACKS for client code
-    func notifyClientCodeAboutError(error:NSError?){
+    func notifyClientCodeAboutError(_ error:NSError?){
         if(error != nil){
-            self.phoneIdWorkflowErrorHappened?(error: error!)
+            self.phoneIdWorkflowErrorHappened?(error!)
         }
     }
     
     
     // MARK: - NOTIFICATIONS / CALLBACKS internal
     
-    private func sendNotificationVerificationSuccess() {
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(Notifications.VerificationSuccess, object: nil, userInfo:nil)
+    fileprivate func sendNotificationVerificationSuccess() {
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Notifications.VerificationSuccess), object: nil, userInfo:nil)
     }
     
-    private func sendNotificationVerificationFail(error:NSError) {
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(Notifications.VerificationFail, object: nil, userInfo: ["error":error] as [NSObject : AnyObject])
+    fileprivate func sendNotificationVerificationFail(_ error:NSError) {
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Notifications.VerificationFail), object: nil, userInfo: ["error":error] as [AnyHashable: Any])
     }
     
-    private func sendNotificationTokenRefreshed() {
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(Notifications.TokenRefreshed, object: nil, userInfo: nil)
+    fileprivate func sendNotificationTokenRefreshed() {
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Notifications.TokenRefreshed), object: nil, userInfo: nil)
     }
     
-    private func sendNotificationAppName() {
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(Notifications.AppNameUpdated, object: nil, userInfo:nil)
+    fileprivate func sendNotificationAppName() {
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Notifications.AppNameUpdated), object: nil, userInfo:nil)
     }
     
     // MARK  - Networking internals
     
-    private func requestWithMethod(method: String, endpoint:String, queryParams: [String: String]? = nil, bodyParams: Dictionary<String,AnyObject>? = nil, headers:[String: String]?=nil, completion: NetworkingCompletion) {
+    fileprivate func requestWithMethod(_ method: String, endpoint:String, queryParams: [String: String]? = nil, bodyParams: Dictionary<String,AnyObject>? = nil, headers:[String: String]?=nil, completion: @escaping NetworkingCompletion) {
         
-        let URL = NSURL(string: endpoint, relativeToURL: self.apiBaseURL)!
+        let URL = Foundation.URL(string: endpoint, relativeTo: self.apiBaseURL)!
         
-        let request = NSURLRequest.requestWithURL(URL, method: method, queryParams: queryParams, bodyParams: bodyParams, headers: headers)
+        let request = URLRequest.requestWithURL(URL, method: method, queryParams: queryParams, bodyParams: bodyParams, headers: headers)
         
-        let task:NSURLSessionDataTask! = urlSession.dataTaskWithRequest(request) { data, response, sessionError in
+        let task:URLSessionDataTask! = urlSession.dataTask(with: request, completionHandler: { data, response, sessionError in
             
             var error = sessionError
             
-            var wrappedResponse = Response(response: response, data: data, error: error)
+            var wrappedResponse = Response(response: response, data: data, error: error as NSError?)
             
-            if let httpResponse = response as? NSHTTPURLResponse {
+            if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode < 200 || httpResponse.statusCode >= 300 {
                     
-                    if let message = (wrappedResponse.responseJSON as? NSDictionary)?.objectForKey("message") as? String {
+                    if let message = (wrappedResponse.responseJSON as? NSDictionary)?.object(forKey: "message") as? String {
                         error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: message])
                     }else{
                         let description = "HTTP response was \(httpResponse.statusCode)"
                         error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: description])
                     }
-                    wrappedResponse.error = error
+                    wrappedResponse.error = error as NSError?
                 }
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 
                 print("Response as string: \(wrappedResponse.responseString)")
                 
                 completion(wrappedResponse)
             }
-        }
+        }) 
        
         task.resume()
         
     }
     
-    private func defaultHeaders() -> [String:String]{
+    fileprivate func defaultHeaders() -> [String:String]{
         var headers:[String: String] = [:]
         if (self.token != nil) {
             headers = [ HttpHeaderName.Authorization :"Bearer \(self.token!.accessToken!)"]
@@ -543,13 +544,13 @@ public class PhoneIdService: NSObject {
         return headers
     }
     
-    private func get(endpoint:String, params: [String: String]? = nil, completion: NetworkingCompletion) {
+    fileprivate func get(_ endpoint:String, params: [String: String]? = nil, completion: @escaping NetworkingCompletion) {
         let headers:[String: String]? = defaultHeaders()
         
         requestWithMethod(HttpMethod.Get, endpoint:endpoint, queryParams: params, headers: headers, completion: completion)
     }
     
-    private func post(endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: NetworkingCompletion) {
+    fileprivate func post(_ endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: @escaping NetworkingCompletion) {
         
         var headers = defaultHeaders()
         
@@ -558,7 +559,7 @@ public class PhoneIdService: NSObject {
         requestWithMethod(HttpMethod.Post, endpoint:endpoint, bodyParams: params, headers: headers, completion: completion)
     }
     
-    private func postJSON(endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: NetworkingCompletion) {
+    fileprivate func postJSON(_ endpoint:String, params: Dictionary<String,AnyObject>? = nil, completion: @escaping NetworkingCompletion) {
         
         var headers = defaultHeaders()
         

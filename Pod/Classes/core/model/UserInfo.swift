@@ -22,14 +22,14 @@ import Foundation
 
 import libPhoneNumber_iOS
 
-public class UserInfo: ParseableModel{
-    public var id:String?
-    public var clientId:String?
-    public var screenName:String?
-    public var phoneNumber:String?
-    public var dateOfBirth:NSDate?
-    public var imageURL:String?
-    public var updatedImage:UIImage?
+open class UserInfo: ParseableModel{
+    open var id:String?
+    open var clientId:String?
+    open var screenName:String?
+    open var phoneNumber:String?
+    open var dateOfBirth:Date?
+    open var imageURL:String?
+    open var updatedImage:UIImage?
     
     public required init(json:NSDictionary){
         super.init(json:json)
@@ -39,24 +39,24 @@ public class UserInfo: ParseableModel{
         screenName = json["screen_name"] as? String
         imageURL = json["picture"] as? String
         if let birthdate = json["birthdate"] as? String{
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateOfBirth = dateFormatter.dateFromString(birthdate)
+            dateOfBirth = dateFormatter.date(from: birthdate)
         }
     }
     
-    public override func isValid() -> Bool{
+    open override func isValid() -> Bool{
         return id != nil && clientId != nil && phoneNumber != nil
     }
     
     func dateOfBirthAsString() ->String?{
         var result:String? = nil
         if let dateOfBirth=self.dateOfBirth {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-            dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = DateFormatter.Style.medium
+            dateFormatter.timeStyle = DateFormatter.Style.none
             
-            result = dateFormatter.stringFromDate(dateOfBirth)
+            result = dateFormatter.string(from: dateOfBirth)
         }
 
         return result
@@ -68,9 +68,9 @@ public class UserInfo: ParseableModel{
             result["screen_name"] = screenName
         }
         if let birthdate = self.dateOfBirth {
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            result["birthdate"] = dateFormatter.stringFromDate(birthdate)
+            result["birthdate"] = dateFormatter.string(from: birthdate)
         }
         return result
     }

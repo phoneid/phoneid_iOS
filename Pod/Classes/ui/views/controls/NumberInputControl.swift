@@ -23,21 +23,21 @@ import libPhoneNumber_iOS
 
 class NumberInputControl: PhoneIdBaseView {
 
-    private(set) var numberText: NumericTextField!
-    private(set) var doneBarButton: UIBarButtonItem!
-    private(set) var countryCodeBarButton: UIBarButtonItem!
+    fileprivate(set) var numberText: NumericTextField!
+    fileprivate(set) var doneBarButton: UIBarButtonItem!
+    fileprivate(set) var countryCodeBarButton: UIBarButtonItem!
 
-    private(set) var okButton: UIButton!
-    private(set) var prefixButton: UIButton!
+    fileprivate(set) var okButton: UIButton!
+    fileprivate(set) var prefixButton: UIButton!
 
-    private(set) var numberPlaceholderView: UIView!
-    private(set) var activityIndicator: UIActivityIndicatorView!
-    private var asYouTypeFomratter: NBAsYouTypeFormatter!
+    fileprivate(set) var numberPlaceholderView: UIView!
+    fileprivate(set) var activityIndicator: UIActivityIndicatorView!
+    fileprivate var asYouTypeFomratter: NBAsYouTypeFormatter!
 
     var numberDidChange: (() -> Void)?
     var numberInputCompleted: ((NumberInfo) -> Void)?
 
-    override init(model: NumberInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    override init(model: NumberInfo, scheme: ColorScheme, bundle: Bundle, tableName: String) {
         super.init(model: model, scheme: scheme, bundle: bundle, tableName: tableName)
     }
 
@@ -49,9 +49,9 @@ class NumberInputControl: PhoneIdBaseView {
 
         numberText = {
             let numberText = NumericTextField(maxLength: 15)
-            numberText.keyboardType = .NumberPad
-            numberText.addTarget(self, action: #selector(NumberInputControl.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
-            numberText.backgroundColor = UIColor.clearColor()
+            numberText.keyboardType = .numberPad
+            numberText.addTarget(self, action: #selector(NumberInputControl.textFieldDidChange(_:)), for: .editingChanged)
+            numberText.backgroundColor = UIColor.clear
             return numberText
         }()
 
@@ -65,28 +65,28 @@ class NumberInputControl: PhoneIdBaseView {
 
         okButton = {
             let okButton = UIButton()
-            okButton.hidden = true
-            okButton.addTarget(self, action: #selector(NumberInputControl.okButtonTapped(_:)), forControlEvents: .TouchUpInside)
+            okButton.isHidden = true
+            okButton.addTarget(self, action: #selector(NumberInputControl.okButtonTapped(_:)), for: .touchUpInside)
             return okButton
         }()
 
         prefixButton = {
             let prefixButton = UIButton()
-            prefixButton.titleLabel?.textAlignment = .Left
-            prefixButton.addTarget(self, action: #selector(NumberInputControl.countryCodeTapped(_:)), forControlEvents: .TouchUpInside)
+            prefixButton.titleLabel?.textAlignment = .left
+            prefixButton.addTarget(self, action: #selector(NumberInputControl.countryCodeTapped(_:)), for: .touchUpInside)
             return prefixButton
         }()
 
         activityIndicator = {
             let activityIndicator = UIActivityIndicatorView()
-            activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+            activityIndicator.activityIndicatorViewStyle = .whiteLarge
             return activityIndicator
         }()
 
 
         let subviews: [UIView] = [numberPlaceholderView, numberText, okButton, prefixButton, activityIndicator]
 
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
@@ -96,43 +96,43 @@ class NumberInputControl: PhoneIdBaseView {
 
         var c: [NSLayoutConstraint] = []
 
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberPlaceholderView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: numberText, attribute: .Left, relatedBy: .Equal, toItem: prefixButton, attribute: .Right, multiplier: 1, constant: 5))
-        c.append(NSLayoutConstraint(item: numberText, attribute: .Right, relatedBy: .Equal, toItem: okButton, attribute: .Left, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberText, attribute: .CenterY, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberText, attribute: .left, relatedBy: .equal, toItem: prefixButton, attribute: .right, multiplier: 1, constant: 5))
+        c.append(NSLayoutConstraint(item: numberText, attribute: .right, relatedBy: .equal, toItem: okButton, attribute: .left, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberText, attribute: .centerY, relatedBy: .equal, toItem: numberPlaceholderView, attribute: .centerY, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Left, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Left, multiplier: 1, constant: 2))
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .LastBaseline, relatedBy: .Equal, toItem: numberText, attribute: .LastBaseline, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: prefixButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .left, relatedBy: .equal, toItem: numberPlaceholderView, attribute: .left, multiplier: 1, constant: 2))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .lastBaseline, relatedBy: .equal, toItem: numberText, attribute: .lastBaseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: prefixButton, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: okButton, attribute: .CenterX, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: okButton, attribute: .CenterY, relatedBy: .Equal, toItem: activityIndicator, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: okButton, attribute: .centerX, relatedBy: .equal, toItem: activityIndicator, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: okButton, attribute: .centerY, relatedBy: .equal, toItem: activityIndicator, attribute: .centerY, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: numberPlaceholderView, attribute: .Right, multiplier: 1, constant: -5))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .centerY, relatedBy: .equal, toItem: numberPlaceholderView, attribute: .centerY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .right, relatedBy: .equal, toItem: numberPlaceholderView, attribute: .right, multiplier: 1, constant: -5))
 
         self.addConstraints(c)
 
     }
 
-    private func setupKeyboardToolBar() {
-        let toolBar = UIToolbar(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
+    fileprivate func setupKeyboardToolBar() {
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
 
-        countryCodeBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: #selector(NumberInputControl.countryCodeTapped(_:)))
-        doneBarButton = UIBarButtonItem(title: nil, style: .Plain, target: self, action: #selector(NumberInputControl.okButtonTapped(_:)))
+        countryCodeBarButton = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(NumberInputControl.countryCodeTapped(_:)))
+        doneBarButton = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(NumberInputControl.okButtonTapped(_:)))
 
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
         toolBar.items = [countryCodeBarButton, space, doneBarButton]
 
         numberText.inputAccessoryView = toolBar
     }
 
-    override func setupWithModel(model: NumberInfo) {
+    override func setupWithModel(_ model: NumberInfo) {
         super.setupWithModel(model)
 
         if let isoCountryCode = phoneIdModel.isoCountryCode {
@@ -146,11 +146,11 @@ class NumberInputControl: PhoneIdBaseView {
         }
 
         if let phoneCountryCodeString = phoneIdModel.phoneCountryCode {
-            prefixButton.setTitle(phoneCountryCodeString, forState: UIControlState.Normal)
+            prefixButton.setTitle(phoneCountryCodeString, for: UIControlState())
         } else {
             phoneIdModel.phoneCountryCode = phoneIdModel.defaultCountryCode
             phoneIdModel.isoCountryCode = phoneIdModel.defaultIsoCountryCode
-            prefixButton.setTitle(phoneIdModel.defaultCountryCode, forState: UIControlState.Normal)
+            prefixButton.setTitle(phoneIdModel.defaultCountryCode, for: UIControlState())
         }
         self.validatePhoneNumber()
     }
@@ -159,7 +159,7 @@ class NumberInputControl: PhoneIdBaseView {
 
         super.localizeAndApplyColorScheme()
 
-        okButton.setTitle(localizedString("button.title.ok"), forState: .Normal)
+        okButton.setTitle(localizedString("button.title.ok"), for: UIControlState())
         okButton.accessibilityLabel = localizedString("accessibility.button.title.ok")
 
 
@@ -176,12 +176,12 @@ class NumberInputControl: PhoneIdBaseView {
 
         numberPlaceholderView.backgroundColor = colorScheme.inputNumberBackground
 
-        prefixButton.setTitleColor(colorScheme.inputPrefixText, forState: .Normal)
+        prefixButton.setTitleColor(colorScheme.inputPrefixText, for: UIControlState())
 
         numberText.textColor = colorScheme.inputNumberText
 
-        okButton.setTitleColor(colorScheme.buttonOKNormalText, forState: .Normal)
-        okButton.setTitleColor(colorScheme.buttonOKDisabledText, forState: .Disabled)
+        okButton.setTitleColor(colorScheme.buttonOKNormalText, for: UIControlState())
+        okButton.setTitleColor(colorScheme.buttonOKDisabledText, for: .disabled)
 
         activityIndicator.color = colorScheme.activityIndicatorNumber
         self.needsUpdateConstraints()
@@ -191,15 +191,15 @@ class NumberInputControl: PhoneIdBaseView {
         activityIndicator.stopAnimating()
 
         numberText.text = asYouTypeFomratter.inputString(numberText.text)
-        okButton.hidden = numberText.text!.isEmpty
+        okButton.isHidden = numberText.text!.isEmpty
 
         if (phoneIdModel.isValidNumber(numberText.text!)) {
             numberText.text = phoneIdModel.formatNumber(numberText.text!) as String
-            okButton.enabled = true
-            doneBarButton.enabled = true
+            okButton.isEnabled = true
+            doneBarButton.isEnabled = true
         } else {
-            okButton.enabled = false
-            doneBarButton.enabled = false
+            okButton.isEnabled = false
+            doneBarButton.isEnabled = false
         }
     }
 
@@ -207,30 +207,32 @@ class NumberInputControl: PhoneIdBaseView {
         numberText.text = ""
         validatePhoneNumber()
     }
-
+    
+    @discardableResult
     override func resignFirstResponder() -> Bool {
         return self.numberText.resignFirstResponder()
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         return self.numberText.becomeFirstResponder()
     }
 
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         numberDidChange?()
         validatePhoneNumber()
     }
 
-    func okButtonTapped(sender: UIButton) {
+    func okButtonTapped(_ sender: UIButton) {
         self.phoneIdModel.phoneNumber = self.numberText.text
 
-        okButton.hidden = true
+        okButton.isHidden = true
         activityIndicator.startAnimating()
         numberInputCompleted?(self.phoneIdModel)
 
     }
 
-    func countryCodeTapped(sender: UIButton) {
+    func countryCodeTapped(_ sender: UIButton) {
         self.phoneIdModel.phoneNumber = self.numberText.text
 
         let controller = self.phoneIdComponentFactory.countryCodePickerViewController(self.phoneIdModel)
@@ -244,7 +246,7 @@ class NumberInputControl: PhoneIdBaseView {
 
         let presenter: UIViewController = PhoneIdWindow.currentPresenter()
 
-        presenter.presentViewController(controller, animated: true) {
+        presenter.present(controller, animated: true) {
             self.resignFirstResponder()
         }
 

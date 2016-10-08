@@ -22,101 +22,101 @@ import Foundation
 
 public protocol Customizable: NSObjectProtocol{
     var colorScheme: ColorScheme! {get }
-    var localizationBundle:NSBundle! {get }
+    var localizationBundle:Bundle! {get }
     var localizationTableName:String! {get }
     
 }
 
-public class ColorScheme : NSObject{
+open class ColorScheme : NSObject{
     // MARK: Common colors defining color scheme
-    public var mainAccent:UIColor = UIColor(hex: 0x009688)
-    public var extraAccent:UIColor = UIColor(hex: 0x00796B)
-    public var lightText:UIColor = UIColor(hex: 0xFFFFFF)
-    public var darkText:UIColor = UIColor(hex: 0x000000)
-    public var disabledText:UIColor = UIColor(hex: 0xB0B0B0)
-    public var inputBackground:UIColor = UIColor(hex: 0xFFFFFF)
-    public var diabledBackground:UIColor = UIColor(hex: 0xEFEFF4)
-    public var activityIndicator:UIColor = UIColor(hex: 0x203034).colorWithAlphaComponent(0.75)
+    open var mainAccent:UIColor = UIColor(hex: 0x009688)
+    open var extraAccent:UIColor = UIColor(hex: 0x00796B)
+    open var lightText:UIColor = UIColor(hex: 0xFFFFFF)
+    open var darkText:UIColor = UIColor(hex: 0x000000)
+    open var disabledText:UIColor = UIColor(hex: 0xB0B0B0)
+    open var inputBackground:UIColor = UIColor(hex: 0xFFFFFF)
+    open var diabledBackground:UIColor = UIColor(hex: 0xEFEFF4)
+    open var activityIndicator:UIColor = UIColor(hex: 0x203034).withAlphaComponent(0.75)
     
-    public var success:UIColor = UIColor(hex: 0x037AFF)
-    public var fail:UIColor = UIColor(hex: 0xD0021B)
+    open var success:UIColor = UIColor(hex: 0x037AFF)
+    open var fail:UIColor = UIColor(hex: 0xD0021B)
     
     // MARK: Specific colors: phone.id button
-    public var activityIndicatorInitial:UIColor!
-    public var buttonSeparator:UIColor!
+    open var activityIndicatorInitial:UIColor!
+    open var buttonSeparator:UIColor!
     
     // phone.id button background
-    public var buttonDisabledBackground:UIColor!
-    public var buttonNormalBackground:UIColor!
-    public var buttonHighlightedBackground:UIColor!
+    open var buttonDisabledBackground:UIColor!
+    open var buttonNormalBackground:UIColor!
+    open var buttonHighlightedBackground:UIColor!
     
     // phone.id button image
-    public var buttonDisabledImage:UIColor!
-    public var buttonNormalImage:UIColor!
-    public var buttonHighlightedImage:UIColor!
+    open var buttonDisabledImage:UIColor!
+    open var buttonNormalImage:UIColor!
+    open var buttonHighlightedImage:UIColor!
     
     // phone.id button text
-    public var buttonDisabledText:UIColor!
-    public var buttonNormalText:UIColor!
-    public var buttonHighlightedText:UIColor!
+    open var buttonDisabledText:UIColor!
+    open var buttonNormalText:UIColor!
+    open var buttonHighlightedText:UIColor!
     
     // MARK: Specific colors: fullscreen mode
-    public var mainViewBackground:UIColor!
-    public var labelTopNoteText:UIColor!
-    public var labelMidNoteText:UIColor!
-    public var labelBottomNoteText:UIColor!
-    public var labelBottomNoteLinkText:UIColor!
-    public var headerBackground:UIColor!
-    public var headerTitleText:UIColor!
-    public var headerButtonText:UIColor!
+    open var mainViewBackground:UIColor!
+    open var labelTopNoteText:UIColor!
+    open var labelMidNoteText:UIColor!
+    open var labelBottomNoteText:UIColor!
+    open var labelBottomNoteLinkText:UIColor!
+    open var headerBackground:UIColor!
+    open var headerTitleText:UIColor!
+    open var headerButtonText:UIColor!
     
     // MARK: Specific colors: related to number input
-    public var activityIndicatorNumber:UIColor!
-    public var buttonOKNormalText:UIColor!
-    public var buttonOKHighlightedText:UIColor!
-    public var buttonOKDisabledText:UIColor!
-    public var inputPrefixText:UIColor!
-    public var inputNumberText:UIColor!
-    public var inputNumberPlaceholderText:UIColor!
-    public var inputNumberBackground:UIColor!
+    open var activityIndicatorNumber:UIColor!
+    open var buttonOKNormalText:UIColor!
+    open var buttonOKHighlightedText:UIColor!
+    open var buttonOKDisabledText:UIColor!
+    open var inputPrefixText:UIColor!
+    open var inputNumberText:UIColor!
+    open var inputNumberPlaceholderText:UIColor!
+    open var inputNumberBackground:UIColor!
     
     // MARK: Specific colors: related to code verification
-    public var activityIndicatorCode:UIColor!
-    public var inputCodeBackbuttonNormal:UIColor!
-    public var inputCodeBackbuttonDisabled:UIColor!
-    public var inputCodePlaceholder:UIColor!
-    public var inputCodeText:UIColor!
-    public var inputCodeBackground:UIColor!
-    public var inputCodeFailIcon:UIColor!
-    public var inputCodeSuccessIcon:UIColor!
+    open var activityIndicatorCode:UIColor!
+    open var inputCodeBackbuttonNormal:UIColor!
+    open var inputCodeBackbuttonDisabled:UIColor!
+    open var inputCodePlaceholder:UIColor!
+    open var inputCodeText:UIColor!
+    open var inputCodeBackground:UIColor!
+    open var inputCodeFailIcon:UIColor!
+    open var inputCodeSuccessIcon:UIColor!
     
     // MARK: Specific colors: related to country-code picker
-    public var labelPrefixText:UIColor!
-    public var labelCountryNameText:UIColor!
-    public var labelPrefixBackground:UIColor!
-    public var sectionIndexText:UIColor!
+    open var labelPrefixText:UIColor!
+    open var labelCountryNameText:UIColor!
+    open var labelPrefixBackground:UIColor!
+    open var sectionIndexText:UIColor!
     
     // MARK: Specific colors: related to profile
-    public var profileCommentSectionText:UIColor!
-    public var profileCommentSectionBackground:UIColor!
-    public var profileDataSectionTitleText:UIColor!
-    public var profileDataSectionValueText:UIColor!
-    public var profileDataSectionBackground:UIColor!
-    public var profilePictureSectionBackground:UIColor!
-    public var profilePictureBackground:UIColor!
-    public var profileTopUsernameText:UIColor!
-    public var profilePictureEditingHintText:UIColor!
-    public var profileActivityIndicator:UIColor!
+    open var profileCommentSectionText:UIColor!
+    open var profileCommentSectionBackground:UIColor!
+    open var profileDataSectionTitleText:UIColor!
+    open var profileDataSectionValueText:UIColor!
+    open var profileDataSectionBackground:UIColor!
+    open var profilePictureSectionBackground:UIColor!
+    open var profilePictureBackground:UIColor!
+    open var profileTopUsernameText:UIColor!
+    open var profilePictureEditingHintText:UIColor!
+    open var profileActivityIndicator:UIColor!
     
     override public init() {
         super.init()
         applyCommonColors()
     }
     
-    public func applyCommonColors(){
+    open func applyCommonColors(){
         /// Colors of phone.id button
         activityIndicatorInitial = activityIndicator
-        buttonSeparator = darkText.colorWithAlphaComponent(0.12)
+        buttonSeparator = darkText.withAlphaComponent(0.12)
         
         buttonDisabledBackground = diabledBackground
         buttonNormalBackground = mainAccent
@@ -181,7 +181,7 @@ public class ColorScheme : NSObject{
 }
 
 public extension ColorScheme {
-    func replaceNamedColors(input:String)->String
+    func replaceNamedColors(_ input:String)->String
     {
         let result:NSMutableString = input.mutableCopy() as! NSMutableString
         
@@ -194,9 +194,9 @@ public extension ColorScheme {
         }
         
         for name in names{
-            if let color = ((self as AnyObject).valueForKeyPath(name) as? UIColor){
+            if let color = ((self as AnyObject).value(forKeyPath: name) as? UIColor){
                 let hexColor = color.hexString()
-                result.replaceOccurrencesOfString("$\(name)", withString: hexColor, options:NSStringCompareOptions.LiteralSearch, range: NSMakeRange(0, result.length))
+                result.replaceOccurrences(of: "$\(name)", with: hexColor, options:NSString.CompareOptions.literal, range: NSMakeRange(0, result.length))
             }
         }
         
@@ -207,7 +207,7 @@ public extension ColorScheme {
 
 public extension Customizable{
 
-    internal func localizedString(key:String, formatting:((String)->String)? = nil) ->String{
+    internal func localizedString(_ key:String, formatting:((String)->String)? = nil) ->String{
 
         var result = NSLocalizedString(key, tableName: localizationTableName , bundle: localizationBundle, comment:key)
 
@@ -222,10 +222,10 @@ public extension Customizable{
         return result
     }
 
-    internal func localizedStringAttributed(key:String, formatting:((String)->String)? = nil) ->NSAttributedString{
+    internal func localizedStringAttributed(_ key:String, formatting:((String)->String)? = nil) ->NSAttributedString{
         let text = localizedString(key, formatting: formatting)
         let accessAttributedText = try! NSAttributedString(
-            data: text.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
+            data: text.data(using: String.Encoding.unicode, allowLossyConversion: true)!,
             options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
             documentAttributes: nil)
         return accessAttributedText

@@ -43,17 +43,17 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         
         self.loadClientsAndRequestAuthentication(phoneId, info: info)
         
-        var expectation = expectationWithDescription("Confirm verification code")
+        var expectation = self.expectation(description: "Confirm verification code")
         phoneId.verifyAuthentication(TestConstants.VerificationCode, info: info, completion: { (token, error) -> Void in
             
             if(error == nil){
                 expectation.fulfill()
             }
         })
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
         
         // request user info
-        expectation = expectationWithDescription("Request user info")
+        expectation = self.expectation(description: "Request user info")
         phoneId.loadMyProfile() { (userInfo, e1) -> Void in
             
             if let userInfo = userInfo{
@@ -62,10 +62,10 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
                 }
             }
         }
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
         
         // upload contacts list
-        expectation = expectationWithDescription("Upload contacts list")
+        expectation = self.expectation(description: "Upload contacts list")
         phoneId.uploadContacts() { (numberOfUpdatedContacts ,error) -> Void in
             
             if(error == nil){
@@ -73,7 +73,7 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
             }
             
         }
-        waitForExpectationsWithTimeout(30, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
         
     }
   
@@ -92,35 +92,35 @@ class PhoneIdSDKIntegrationTests: XCTestCase {
         self.loadClientsAndRequestAuthentication(phoneId, info: info)
         
         
-        let expectation = expectationWithDescription("Confirm verification code should fail")
+        let expectation = self.expectation(description: "Confirm verification code should fail")
         phoneId.verifyAuthentication("101022", info: info, completion: { (token, error) -> Void in
             
             if(error != nil){
                 expectation.fulfill()
             }
         })
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
     }
     
     
     
-    func loadClientsAndRequestAuthentication(phoneId:PhoneIdService, info:NumberInfo){
-        var expectation = expectationWithDescription("Load application name")
+    func loadClientsAndRequestAuthentication(_ phoneId:PhoneIdService, info:NumberInfo){
+        var expectation = self.expectation(description: "Load application name")
         phoneId.loadClients(phoneId.clientId! ) { (e) -> Void in
             if(e == nil){
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
         
         
-        expectation = expectationWithDescription("Request verification code")
+        expectation = self.expectation(description: "Request verification code")
         phoneId.requestAuthenticationCode(info) { (e) -> Void in
             if(e == nil){
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
     }
     
 }

@@ -26,13 +26,13 @@ public protocol UserNameViewDelegate: NSObjectProtocol {
     func save()
 }
 
-public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
+open class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
 
-    private(set) var userNameLabel: UILabel!
-    private(set) var userNameField: UITextField!
-    private(set) var noteLabel: UILabel!
-    private(set) var saveButton: UIButton!
+    fileprivate(set) var userNameLabel: UILabel!
+    fileprivate(set) var userNameField: UITextField!
+    fileprivate(set) var noteLabel: UILabel!
+    fileprivate(set) var saveButton: UIButton!
 
     var containerView: UIView!
     internal weak var delegate: UserNameViewDelegate?
@@ -43,9 +43,9 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         super.init(frame: frame)
     }
 
-    convenience init(userName: String?, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    convenience init(userName: String?, scheme: ColorScheme, bundle: Bundle, tableName: String) {
 
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
 
         colorScheme = scheme
         localizationBundle = bundle
@@ -76,10 +76,10 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
         userNameLabel = {
             let label = UILabel()
-            label.font = UIFont.boldSystemFontOfSize(17)
+            label.font = UIFont.boldSystemFont(ofSize: 17)
             label.numberOfLines = 1
             label.textColor = self.colorScheme.profileDataSectionTitleText
-            label.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
+            label.setContentHuggingPriority(1000, for: UILayoutConstraintAxis.horizontal)
             return label
         }()
 
@@ -101,13 +101,13 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
         saveButton = {
             let saveButton = UIButton()
-            saveButton.titleLabel?.textAlignment = .Left
-            saveButton.addTarget(self, action: #selector(UserNameView.saveTapped), forControlEvents: .TouchUpInside)
+            saveButton.titleLabel?.textAlignment = .left
+            saveButton.addTarget(self, action: #selector(UserNameView.saveTapped), for: .touchUpInside)
             return saveButton
         }()
 
         let subviews: [UIView] = [containerView, userNameLabel, userNameField, noteLabel, saveButton]
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
@@ -119,24 +119,24 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
         var c: [NSLayoutConstraint] = []
 
-        c.append(NSLayoutConstraint(item: containerView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: containerView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 44))
-        c.append(NSLayoutConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 74))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 44))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 74))
 
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .Leading, relatedBy: .Equal, toItem: self.containerView, attribute: .Leading, multiplier: 1, constant: 16))
-        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .leading, relatedBy: .equal, toItem: self.containerView, attribute: .leading, multiplier: 1, constant: 16))
+        c.append(NSLayoutConstraint(item: userNameLabel, attribute: .centerY, relatedBy: .equal, toItem: self.containerView, attribute: .centerY, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: userNameField, attribute: .Left, relatedBy: .Equal, toItem: userNameLabel, attribute: .Right, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: .Right, relatedBy: .Equal, toItem: self.containerView, attribute: .Right, multiplier: 1, constant: -16))
-        c.append(NSLayoutConstraint(item: userNameField, attribute: .LastBaseline, relatedBy: .Equal, toItem: self.userNameLabel, attribute: .LastBaseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .left, relatedBy: .equal, toItem: userNameLabel, attribute: .right, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .right, relatedBy: .equal, toItem: self.containerView, attribute: .right, multiplier: 1, constant: -16))
+        c.append(NSLayoutConstraint(item: userNameField, attribute: .lastBaseline, relatedBy: .equal, toItem: self.userNameLabel, attribute: .lastBaseline, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 16))
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -16))
-        c.append(NSLayoutConstraint(item: noteLabel, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Bottom, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16))
+        c.append(NSLayoutConstraint(item: noteLabel, attribute: .top, relatedBy: .equal, toItem: self.containerView, attribute: .bottom, multiplier: 1, constant: 10))
 
-        c.append(NSLayoutConstraint(item: saveButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: saveButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -10))
         self.addConstraints(c)
 
     }
@@ -147,11 +147,11 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         userNameLabel.text = localizedString("profile.name.placeholder")
         noteLabel.text = localizedString("profile.hint.about.name")
         containerView.backgroundColor = self.colorScheme.profileDataSectionBackground
-        saveButton.setTitle(localizedString("button.title.done.keyboard"), forState: .Normal)
+        saveButton.setTitle(localizedString("button.title.done.keyboard"), for: UIControlState())
 
         titleLabel.text = localizedString("title.public.profile")
         titleLabel.textColor = self.colorScheme.headerTitleText
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         self.backgroundView.image = nil
         self.backgroundView.backgroundColor = self.colorScheme.profileCommentSectionBackground
 
@@ -159,12 +159,12 @@ public class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
 
     // MARK: UITextFieldDelegate
 
-    public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
         let maxLength = 512
-        let currentString: NSString = textField.text!
+        let currentString: NSString = textField.text! as NSString
         let newString: NSString =
-        currentString.stringByReplacingCharactersInRange(range, withString: string)
+        currentString.replacingCharacters(in: range, with: string) as NSString
         return newString.length <= maxLength
     }
 

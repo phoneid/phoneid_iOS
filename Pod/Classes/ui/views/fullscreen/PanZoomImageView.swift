@@ -21,7 +21,7 @@ import UIKit
 
 class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
 
-    private(set) var imageView: UIImageView!
+    fileprivate(set) var imageView: UIImageView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +30,7 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
     }
 
     init(image: UIImage?) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         prep(image)
     }
@@ -46,7 +46,7 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
             if let newValue = newValue {
 
                 self.imageView.frame = CGRect(x: 0, y: 0, width: newValue.size.width, height: newValue.size.height)
-                self.contentSize = CGSizeMake(self.imageView.bounds.width, self.imageView.bounds.height)
+                self.contentSize = CGSize(width: self.imageView.bounds.width, height: self.imageView.bounds.height)
                 self.layoutSubviews()
                 self.contentOffset = imageView.center
                 self.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -58,14 +58,14 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
         }
     }
 
-    func prep(image: UIImage?) {
+    func prep(_ image: UIImage?) {
 
         imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageView)
 
-        imageView.userInteractionEnabled = true
-        imageView.contentMode = .Center
+        imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .center
 
         self.image = image
         self.delegate = self;
@@ -76,7 +76,7 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
 
     }
 
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }
 
@@ -108,15 +108,15 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
 
     func editedImage() -> UIImage {
 
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
 
-        drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
 
         let offset = self.contentOffset
 
-        CGContextTranslateCTM(UIGraphicsGetCurrentContext()!, -offset.x, -offset.y)
+        UIGraphicsGetCurrentContext()!.translateBy(x: -offset.x, y: -offset.y)
 
-        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
 
         let visibleScrollViewImage = UIGraphicsGetImageFromCurrentImageContext()
 

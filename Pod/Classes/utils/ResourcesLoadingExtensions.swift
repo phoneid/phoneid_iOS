@@ -21,19 +21,19 @@
 import Foundation
 
 
-extension NSBundle {
-    class func phoneIdBundle() -> NSBundle {
+extension Bundle {
+    class func phoneIdBundle() -> Bundle {
 
-        return NSBundle(forClass: PhoneIdLoginButton.self)
+        return Bundle(for: PhoneIdLoginButton.self)
     }
 }
 
 extension UIImage {
 
     convenience init?(namedInPhoneId: String) {
-        let frameworkBundle = NSBundle.phoneIdBundle()
+        let frameworkBundle = Bundle.phoneIdBundle()
 
-        self.init(named: namedInPhoneId, inBundle: frameworkBundle, compatibleWithTraitCollection: nil)
+        self.init(named: namedInPhoneId, in: frameworkBundle, compatibleWith: nil)
     }
 
 }
@@ -41,7 +41,7 @@ extension UIImage {
 extension UIStoryboard {
 
     convenience init?(namedInPhoneId: String) {
-        let frameworkBundle = NSBundle.phoneIdBundle()
+        let frameworkBundle = Bundle.phoneIdBundle()
         self.init(name: namedInPhoneId, bundle: frameworkBundle)
 
     }

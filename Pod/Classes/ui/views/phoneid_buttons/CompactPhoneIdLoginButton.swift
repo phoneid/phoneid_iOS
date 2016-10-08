@@ -21,8 +21,8 @@ import UIKit
 
 
 
-@IBDesignable public class CompactPhoneIdLoginButton: PhoneIdBaseView {
-    public var phoneNumberE164: String! {
+@IBDesignable open class CompactPhoneIdLoginButton: PhoneIdBaseView {
+    open var phoneNumberE164: String! {
         get {
             return self.phoneIdModel.e164Format()
         }
@@ -33,22 +33,22 @@ import UIKit
         }
     }
 
-    private(set) var loginButton: PhoneIdLoginButton!
-    private(set) var numberInputControl: NumberInputControl!
-    private(set) var verifyCodeControl: VerifyCodeControl!
+    fileprivate(set) var loginButton: PhoneIdLoginButton!
+    fileprivate(set) var numberInputControl: NumberInputControl!
+    fileprivate(set) var verifyCodeControl: VerifyCodeControl!
     
-    public var titleText:String?{
+    open var titleText:String?{
         get{ return loginButton.titleLabel.text}
         set{ loginButton.titleLabel.text = newValue}
     }
     
-    public var placeholderText:String?{
+    open var placeholderText:String?{
         get{ return numberInputControl.numberText.placeholder}
         set{ numberInputControl.numberText.placeholder = newValue}
     }
 
     public init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         prep()
         initUI(designtime: false)
     }
@@ -67,19 +67,19 @@ import UIKit
         initUI(designtime: false);
     }
     
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         self.prep()
         initUI(designtime: true);
     }
     
-    private class InternalPhoneIdLoginButton: PhoneIdLoginButton{
+    fileprivate class InternalPhoneIdLoginButton: PhoneIdLoginButton{
         var loginTouchedBlock: (() -> Void)?
         override func loginTouched() { loginTouchedBlock?() }
     }
     
-    func initUI(designtime designtime:Bool) {
+    func initUI(designtime:Bool) {
 
-        loginButton = InternalPhoneIdLoginButton(frame:CGRectZero, designtime:designtime)
+        loginButton = InternalPhoneIdLoginButton(frame:CGRect.zero, designtime:designtime)
 
         
 
@@ -95,8 +95,8 @@ import UIKit
             subviews = [loginButton, numberInputControl, verifyCodeControl]
             
             (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = {
-                self.numberInputControl.hidden = false
-                self.loginButton.hidden = true
+                self.numberInputControl.isHidden = false
+                self.loginButton.isHidden = true
                 self.numberInputControl.validatePhoneNumber()
                 self.numberInputControl.becomeFirstResponder()
             }
@@ -106,14 +106,14 @@ import UIKit
         for subview in subviews {
             subview.translatesAutoresizingMaskIntoConstraints = false
             addSubview(subview)
-            addConstraint(NSLayoutConstraint(item: subview, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-            addConstraint(NSLayoutConstraint(item: subview, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-            addConstraint(NSLayoutConstraint(item: subview, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-            addConstraint(NSLayoutConstraint(item: subview, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
-            subview.hidden = true
+            addConstraint(NSLayoutConstraint(item: subview, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+            addConstraint(NSLayoutConstraint(item: subview, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+            addConstraint(NSLayoutConstraint(item: subview, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+            addConstraint(NSLayoutConstraint(item: subview, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
+            subview.isHidden = true
         }
 
-        loginButton.hidden = false
+        loginButton.isHidden = false
 
  
 
@@ -124,14 +124,14 @@ import UIKit
         localizationTableName = phoneIdComponentFactory.localizationTableName
         colorScheme = phoneIdComponentFactory.colorScheme
 
-        let notificator = NSNotificationCenter.defaultCenter()
-        notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnSuccessfulLogin), name: Notifications.VerificationSuccess, object: nil)
-       notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
+        let notificator = NotificationCenter.default
+        notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnSuccessfulLogin), name: NSNotification.Name(rawValue: Notifications.VerificationSuccess), object: nil)
+       notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnlogout), name: NSNotification.Name(rawValue: Notifications.DidLogout), object: nil)
 
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func setupNumberInputControl() {
@@ -143,7 +143,7 @@ import UIKit
             me.phoneIdModel = numberInfo
             me.verifyCodeControl.phoneIdModel = numberInfo
             me.requestAuthentication()
-            PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(numberInfo: numberInfo)
+            PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(numberInfo)
         }
 
     }
@@ -157,7 +157,7 @@ import UIKit
 
             if (code.utf16.count == me.verifyCodeControl.maxVerificationCodeLength) {
 
-                PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(verificationCode: code)
+                PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(code)
                 
                 me.phoneIdService.verifyAuthentication(code, info: me.phoneIdModel) { (token, error) -> Void in
                     guard let me = self else {return}
@@ -166,7 +166,7 @@ import UIKit
                         me.verifyCodeControl.indicateVerificationSuccess() { [weak self] in
                             guard let me = self else {return}
                             print("PhoneId login finished")
-                            me.phoneIdService.phoneIdAuthenticationSucceed?(token: me.phoneIdService.token!)
+                            me.phoneIdService.phoneIdAuthenticationSucceed?(me.phoneIdService.token!)
                             me.resetControls()
                         }
                     } else {
@@ -185,14 +185,14 @@ import UIKit
         verifyCodeControl.backButtonTapped = {
             self.verifyCodeControl.reset()
             self.verifyCodeControl.resignFirstResponder()
-            self.verifyCodeControl.hidden = true
-            self.numberInputControl.hidden = false
+            self.verifyCodeControl.isHidden = true
+            self.numberInputControl.isHidden = false
             self.numberInputControl.validatePhoneNumber()
             self.numberInputControl.becomeFirstResponder()
         }
 
         verifyCodeControl.requestVoiceCall = {
-            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .Call, completion: {
+            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .call, completion: {
                 [weak self] (error) -> Void in
                 
                 if let e = error {
@@ -212,22 +212,22 @@ import UIKit
             if let e = error {
                 me.presentErrorMessage(e)
             } else {
-                me.numberInputControl.hidden = true
-                me.verifyCodeControl.hidden = false
+                me.numberInputControl.isHidden = true
+                me.verifyCodeControl.isHidden = false
                 me.verifyCodeControl.becomeFirstResponder()
                 me.verifyCodeControl.setupHintTimer()
             }
         });
     }
 
-    func presentErrorMessage(error: NSError) {
+    func presentErrorMessage(_ error: NSError) {
         let bundle = self.phoneIdService.componentFactory.localizationBundle
-        let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.alert)
 
-        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .cancel, handler: nil))
 
         let presenter: UIViewController = PhoneIdWindow.currentPresenter()
-        presenter.presentViewController(alert, animated: true, completion: nil)
+        presenter.present(alert, animated: true, completion: nil)
         self.numberInputControl.validatePhoneNumber()
     }
 
@@ -243,20 +243,20 @@ import UIKit
     func resetControls() {
         if let control = numberInputControl {
             control.reset();
-            control.hidden = true
+            control.isHidden = true
             control.resignFirstResponder()
         }
 
         if let control = verifyCodeControl {
             control.reset();
-            control.hidden = true
+            control.isHidden = true
             control.resignFirstResponder()
         }
-        self.loginButton?.hidden = false
+        self.loginButton?.isHidden = false
     }
 
-    public override func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(280, 48)
+    open override var intrinsicContentSize : CGSize {
+        return CGSize(width: 280, height: 48)
     }
 
 }

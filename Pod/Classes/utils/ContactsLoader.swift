@@ -27,6 +27,7 @@ class ContactsLoader: NSObject {
 
     var book: ABAddressBook!
 
+    @discardableResult 
     func createAddressBook() -> Bool {
 
         if self.book != nil {
@@ -47,17 +48,18 @@ class ContactsLoader: NSObject {
         return true
     }
 
-    func determineStatus(completion: (Bool) -> Void) {
+    func determineStatus(_ completion: @escaping (Bool) -> Void) {
         let status = ABAddressBookGetAuthorizationStatus()
         switch status {
-        case .Authorized:
+        case .authorized:
             self.createAddressBook()
             completion(true)
 
-        case .NotDetermined:
+        case .notDetermined:
+                                    
             ABAddressBookRequestAccessWithCompletion(nil) {
                 (granted: Bool, err: CFError!) in
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     if granted {
                         self.createAddressBook()
                     } else {
@@ -66,13 +68,13 @@ class ContactsLoader: NSObject {
                     completion(granted)
                 }
             }
-        case .Restricted, .Denied:
+        case .restricted, .denied:
             self.book = nil
             completion(false)
         }
     }
 
-    func getContacts(defaultISOCountryCode: String, completion: ([ContactInfo]?) -> Void) {
+    func getContacts(_ defaultISOCountryCode: String, completion: @escaping ([ContactInfo]?) -> Void) {
 
         determineStatus {
             [unowned self] (authenticated) -> Void in
@@ -82,11 +84,11 @@ class ContactsLoader: NSObject {
             if (authenticated) {
 
                 let people = ABAddressBookCopyArrayOfAllPeople(self.book).takeRetainedValue() as NSArray as [ABRecord]
-                for person: ABRecordRef in people {
+                for person: ABRecord in people {
 
                     var contactInfo: ContactInfo!
 
-                    let phonesRef: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValueRef
+                    let phonesRef: ABMultiValue = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValue
 
                     for i: Int in 0 ..< ABMultiValueGetCount(phonesRef) {
 
@@ -99,15 +101,15 @@ class ContactsLoader: NSObject {
                                 contactInfo.number = number
                                 
                                 
-                                let locLabel : CFStringRef = (ABMultiValueCopyLabelAtIndex(phonesRef, i) != nil) ? ABMultiValueCopyLabelAtIndex(phonesRef, i).takeUnretainedValue() as CFStringRef : ""
+                                let locLabel : CFString = (ABMultiValueCopyLabelAtIndex(phonesRef, i) != nil) ? ABMultiValueCopyLabelAtIndex(phonesRef, i).takeUnretainedValue() as CFString : ""
                                 
                                 let cfStr:CFTypeRef = locLabel
                                 let nsTypeString = cfStr as! NSString
                                 let customLabel:String = nsTypeString as String
 
                                 contactInfo.kind = customLabel
-                                    .stringByReplacingOccurrencesOfString("_$!<", withString: "")
-                                    .stringByReplacingOccurrencesOfString(">!$_", withString: "")
+                                    .replacingOccurrences(of: "_$!<", with: "")
+                                    .replacingOccurrences(of: ">!$_", with: "")
 
                                 if let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty)?.takeRetainedValue() as? String {
                                     contactInfo.firstName = firstName
@@ -136,11 +138,11 @@ class ContactsLoader: NSObject {
             } else {
 
                 let alertController = UIAlertController(title: nil, message: NSLocalizedString(
-                "phone.id.needs.access.to.your.contacts", bundle: NSBundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .Alert)
+                "phone.id.needs.access.to.your.contacts", bundle: Bundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .alert)
 
-                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: NSBundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .Cancel, handler: nil));
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: Bundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .cancel, handler: nil));
 
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
 
 
             }

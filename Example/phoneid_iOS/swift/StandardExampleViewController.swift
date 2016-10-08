@@ -17,33 +17,33 @@ class StandardExampleViewController: UIViewController, UITextFieldDelegate {
     
     var details:DetailsViewController!
  
-    @IBAction func dismiss(sender: AnyObject) {
+    @IBAction func dismiss(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         details.presetNumber.addTarget(self,
                                        action: #selector(StandardExampleViewController.presetNumberChanged(_:)),
-                                       forControlEvents:.EditingChanged)
+                                       for:.editingChanged)
         
         details.switchUserPresetNumber.addTarget(self,
                                                  action: #selector(StandardExampleViewController.presetNumberSwitchChanged(_:)),
-                                                 forControlEvents:.ValueChanged)
+                                                 for:.valueChanged)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "details" {
-            details = segue.destinationViewController as? DetailsViewController
+            details = segue.destination as? DetailsViewController
         }
     }
     
-    func presetNumberChanged(sender:UITextField){
-        phoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.on ? sender.text : ""
+    func presetNumberChanged(_ sender:UITextField){
+        phoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.isOn ? sender.text : ""
     }
     
-    func presetNumberSwitchChanged(sender:UISwitch){
-        phoneIdButton.phoneNumberE164 = sender.on ? details.presetNumber.text : ""
+    func presetNumberSwitchChanged(_ sender:UISwitch){
+        phoneIdButton.phoneNumberE164 = sender.isOn ? details.presetNumber.text : ""
     }
 }

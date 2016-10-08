@@ -38,37 +38,38 @@ let kSecReturnDataValue = kSecReturnData as String
 let kSecMatchLimitOneValue = kSecMatchLimitOne as String
 
 
-public class KeychainStorage: NSObject {
-
-    public class func saveValue(value: String) {
+open class KeychainStorage: NSObject {
+    
+    open class func saveValue(_ value: String) {
         self.saveValue(serviceIdentifier, value: value)
     }
 
-    public class func loadValue() -> String? {
+    open class func loadValue() -> String? {
         let token = self.loadValue(serviceIdentifier)
         return token
     }
 
-    public class func saveValue(key: String, value: String) -> Bool {
+    @discardableResult 
+    open class func saveValue(_ key: String, value: String) -> Bool {
 
-        let data: NSData = value.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        let data: Data = value.data(using: String.Encoding.utf8, allowLossyConversion: false)!
 
-        let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, data], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
+        let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, data], forKeys: [kSecClassValue as NSCopying, kSecAttrServiceValue as NSCopying, kSecAttrAccountValue as NSCopying, kSecValueDataValue as NSCopying])
 
-        SecItemDelete(query as CFDictionaryRef)
+        SecItemDelete(query as CFDictionary)
 
-        let status: OSStatus = SecItemAdd(query as CFDictionaryRef, nil)
+        let status: OSStatus = SecItemAdd(query as CFDictionary, nil)
 
         return status == noErr
     }
 
-    public class func loadValue(key: String) -> String? {
+    open class func loadValue(_ key: String) -> String? {
 
         let query: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, key, userAccount, kCFBooleanTrue, kSecMatchLimitOneValue],
-                forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
+                forKeys: [kSecClassValue as NSCopying, kSecAttrServiceValue as NSCopying, kSecAttrAccountValue as NSCopying, kSecReturnDataValue as NSCopying, kSecMatchLimitValue as NSCopying])
 
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(&result) {
+        let status = withUnsafeMutablePointer(to: &result) {
             SecItemCopyMatching(query, UnsafeMutablePointer($0))
         }
 
@@ -76,18 +77,19 @@ public class KeychainStorage: NSObject {
         var value: String?
 
         if status == noErr {
-            let retrievedData: NSData = result as! NSData
-            value = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as? String;
+            let retrievedData: Data = result as! Data
+            value = NSString(data: retrievedData, encoding: String.Encoding.utf8.rawValue) as? String;
         }
 
         return value
     }
 
-    public class func saveIntValue(key: String, value: Int) -> Bool {
+    @discardableResult
+    open class func saveIntValue(_ key: String, value: Int) -> Bool {
         return self.saveValue(key, value: "\(value)")
     }
 
-    public class func loadIntValue(key: String) -> Int? {
+    open class func loadIntValue(_ key: String) -> Int? {
 
         var result: Int?
 
@@ -99,37 +101,40 @@ public class KeychainStorage: NSObject {
 
     }
 
-    public class func saveTimeIntervalValue(key: String, value: NSTimeInterval) -> Bool {
+    @discardableResult
+    open class func saveTimeIntervalValue(_ key: String, value: TimeInterval) -> Bool {
         return self.saveValue(key, value: "\(value)")
     }
 
-    public class func loadTimeIntervalValue(key: String) -> NSTimeInterval? {
+    open class func loadTimeIntervalValue(_ key: String) -> TimeInterval? {
 
-        var result: NSTimeInterval?
+        var result: TimeInterval?
 
         if let value = self.loadValue(key) {
-            result = NSTimeInterval(value)
+            result = TimeInterval(value)
         }
 
         return result
 
     }
 
-    public class func deleteValue(key: String) -> Bool {
+    @discardableResult 
+    open class func deleteValue(_ key: String) -> Bool {
         let query = [
                 kSecClass as String: kSecClassGenericPassword,
-                kSecAttrServiceValue as String: key]
+                kSecAttrServiceValue as String: key] as [String : Any]
 
 
-        let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
+        let status: OSStatus = SecItemDelete(query as CFDictionary)
 
         return status == noErr
     }
 
-    public class func clear() -> Bool {
+    @discardableResult 
+    open class func clear() -> Bool {
         let query = [kSecClass as String: kSecClassGenericPassword]
 
-        let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
+        let status: OSStatus = SecItemDelete(query as CFDictionary)
 
         return status == noErr
     }

@@ -24,16 +24,16 @@ import Foundation
 public protocol Parseable{
     init(json:NSDictionary)
     func isValid() -> Bool
-    static func parse(response:Response) -> Self?
+    static func parse(_ response:Response) -> Self?
 }
 
-public class ParseableModel:NSObject, Parseable{
+open class ParseableModel:NSObject, Parseable{
     
     public required init(json:NSDictionary){
         super.init()
     }
 
-    public class func parse(response:Response) -> Self?{
+    open class func parse(_ response:Response) -> Self?{
         
         if let info = response.responseJSON as? NSDictionary{
             
@@ -46,5 +46,5 @@ public class ParseableModel:NSObject, Parseable{
         return nil
     }
     
-    public func isValid() -> Bool{ return true}
+    open func isValid() -> Bool{ return true}
 }

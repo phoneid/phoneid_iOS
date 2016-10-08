@@ -25,34 +25,34 @@ public protocol LoginViewDelegate: NSObjectProtocol {
 
     func goBack()
 
-    func verifyCode(model: NumberInfo, code: String)
+    func verifyCode(_ model: NumberInfo, code: String)
 
-    func numberInputCompleted(model: NumberInfo)
+    func numberInputCompleted(_ model: NumberInfo)
 
 }
 
 internal enum LoginState {
-    case NumberInput
-    case CodeVerification
-    case CodeVerificationFail
-    case CodeVerificationSuccess
+    case numberInput
+    case codeVerification
+    case codeVerificationFail
+    case codeVerificationSuccess
 }
 
-public class LoginView: PhoneIdBaseFullscreenView {
+open class LoginView: PhoneIdBaseFullscreenView {
 
-    private(set) var verifyCodeControl: VerifyCodeControl!
-    private(set) var numberInputControl: NumberInputControl!
+    fileprivate(set) var verifyCodeControl: VerifyCodeControl!
+    fileprivate(set) var numberInputControl: NumberInputControl!
 
-    private(set) var topText: UITextView!
-    private(set) var midText: UITextView!
-    private(set) var bottomText: UITextView!
+    fileprivate(set) var topText: UITextView!
+    fileprivate(set) var midText: UITextView!
+    fileprivate(set) var bottomText: UITextView!
 
-    private var timer: NSTimer!
-    private var textViewBottomConstraint: NSLayoutConstraint!
+    fileprivate var timer: Timer!
+    fileprivate var textViewBottomConstraint: NSLayoutConstraint!
 
     internal weak var loginViewDelegate: LoginViewDelegate?
 
-    override init(model: NumberInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    override init(model: NumberInfo, scheme: ColorScheme, bundle: Bundle, tableName: String) {
         super.init(model: model, scheme: scheme, bundle: bundle, tableName: tableName)
     }
 
@@ -70,18 +70,18 @@ public class LoginView: PhoneIdBaseFullscreenView {
 
         topText = {
             let topText = UITextView()
-            topText.backgroundColor = UIColor.clearColor()
-            topText.editable = false
-            topText.scrollEnabled = false
+            topText.backgroundColor = UIColor.clear
+            topText.isEditable = false
+            topText.isScrollEnabled = false
             return topText
         }()
 
         midText = {
             let midText = UITextView()
-            midText.editable = false
-            midText.scrollEnabled = false
-            midText.font = UIFont.systemFontOfSize(18)
-            midText.backgroundColor = UIColor.clearColor()
+            midText.isEditable = false
+            midText.isScrollEnabled = false
+            midText.font = UIFont.systemFont(ofSize: 18)
+            midText.backgroundColor = UIColor.clear
             return midText
         }()
 
@@ -89,10 +89,10 @@ public class LoginView: PhoneIdBaseFullscreenView {
 
         bottomText = {
             let bottomText = UITextView()
-            bottomText.editable = false
-            bottomText.scrollEnabled = false
-            bottomText.hidden = true
-            bottomText.backgroundColor = UIColor.clearColor()
+            bottomText.isEditable = false
+            bottomText.isScrollEnabled = false
+            bottomText.isHidden = true
+            bottomText.backgroundColor = UIColor.clear
             return bottomText
         }()
 
@@ -104,12 +104,12 @@ public class LoginView: PhoneIdBaseFullscreenView {
             self.loginViewDelegate?.numberInputCompleted(self.phoneIdModel)
         }
 
-        self.backgroundView.userInteractionEnabled = true
+        self.backgroundView.isUserInteractionEnabled = true
         self.backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIResponder.resignFirstResponder)))
 
         let subviews: [UIView] = [verifyCodeControl, numberInputControl, topText, midText, bottomText]
 
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
@@ -148,30 +148,30 @@ public class LoginView: PhoneIdBaseFullscreenView {
 
         var c: [NSLayoutConstraint] = []
 
-        c.append(NSLayoutConstraint(item: topText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: topText, attribute: .Top, relatedBy: .Equal, toItem: self.headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: topText, attribute: .Bottom, relatedBy: .Equal, toItem: numberInputControl, attribute: .TopMargin, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: topText, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
+        c.append(NSLayoutConstraint(item: topText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: topText, attribute: .top, relatedBy: .equal, toItem: self.headerBackgroundView, attribute: .bottom, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: topText, attribute: .bottom, relatedBy: .equal, toItem: numberInputControl, attribute: .topMargin, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: topText, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.8, constant: 0))
 
-        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
-        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 50))
+        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.8, constant: 0))
+        c.append(NSLayoutConstraint(item: numberInputControl, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 50))
 
-        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .CenterX, relatedBy: .Equal, toItem: numberInputControl, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .CenterY, relatedBy: .Equal, toItem: numberInputControl, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .Height, relatedBy: .Equal, toItem: numberInputControl, attribute: .Height, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .centerX, relatedBy: .equal, toItem: numberInputControl, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .centerY, relatedBy: .equal, toItem: numberInputControl, attribute: .centerY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .width, relatedBy: .equal, toItem: numberInputControl, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: verifyCodeControl, attribute: .height, relatedBy: .equal, toItem: numberInputControl, attribute: .height, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: midText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: midText, attribute: .Top, relatedBy: .Equal, toItem: numberInputControl, attribute: .Bottom, multiplier: 1, constant: 20))
-        c.append(NSLayoutConstraint(item: midText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: midText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: midText, attribute: .top, relatedBy: .equal, toItem: numberInputControl, attribute: .bottom, multiplier: 1, constant: 20))
+        c.append(NSLayoutConstraint(item: midText, attribute: .width, relatedBy: .equal, toItem: numberInputControl, attribute: .width, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: bottomText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: bottomText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 
-        textViewBottomConstraint = NSLayoutConstraint(item: bottomText, attribute: .Top, relatedBy: .Equal, toItem: midText, attribute: .Bottom, multiplier: 1, constant: 20)
+        textViewBottomConstraint = NSLayoutConstraint(item: bottomText, attribute: .top, relatedBy: .equal, toItem: midText, attribute: .bottom, multiplier: 1, constant: 20)
         c.append(textViewBottomConstraint)
 
-        c.append(NSLayoutConstraint(item: bottomText, attribute: .Width, relatedBy: .Equal, toItem: numberInputControl, attribute: .Width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: bottomText, attribute: .width, relatedBy: .equal, toItem: numberInputControl, attribute: .width, multiplier: 1, constant: 0))
 
         self.customConstraints += c
 
@@ -188,23 +188,23 @@ public class LoginView: PhoneIdBaseFullscreenView {
     }
 
 
-    func switchToState(state: LoginState, completion: (() -> Void)? = nil) {
+    func switchToState(_ state: LoginState, completion: (() -> Void)? = nil) {
 
-        self.numberInputControl.hidden = state != .NumberInput
-        self.verifyCodeControl.hidden = !self.numberInputControl.hidden
-        midText.hidden = false
+        self.numberInputControl.isHidden = state != .numberInput
+        self.verifyCodeControl.isHidden = !self.numberInputControl.isHidden
+        midText.isHidden = false
         timer?.invalidate()
         switch (state) {
-        case .NumberInput:
+        case .numberInput:
             indicateNumberInput()
             break
-        case .CodeVerification:
+        case .codeVerification:
             indicateCodeVerification()
             break
-        case .CodeVerificationFail:
+        case .codeVerificationFail:
             indicateVerificationFail()
             break
-        case .CodeVerificationSuccess:
+        case .codeVerificationSuccess:
             indicateVerificationSuccess(completion)
             break
         }
@@ -212,9 +212,9 @@ public class LoginView: PhoneIdBaseFullscreenView {
 
     func setupHintTimer() {
 
-        let fireDate = NSDate(timeIntervalSinceNow: 30)
-        timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: #selector(LoginView.timerFired), userInfo: nil, repeats: false)
-        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+        let fireDate = Date(timeIntervalSinceNow: 30)
+        timer = Timer(fireAt: fireDate, interval: 0, target: self, selector: #selector(LoginView.timerFired), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
         self.verifyCodeControl.setupHintTimer()
 
     }
@@ -230,9 +230,9 @@ public class LoginView: PhoneIdBaseFullscreenView {
         midText.attributedText = localizedStringAttributed("html-label.we.will.send.sms")
         bottomText.attributedText = localizedStringAttributed("html-label.terms.and.conditions")
 
-        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: colorScheme.labelBottomNoteLinkText]
+        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15), NSForegroundColorAttributeName: colorScheme.labelBottomNoteLinkText]
         needsUpdateConstraints()
-        bottomText.hidden = false
+        bottomText.isHidden = false
     }
 
     func indicateCodeVerification() {
@@ -242,7 +242,7 @@ public class LoginView: PhoneIdBaseFullscreenView {
         topText.attributedText = localizedStringAttributed("html-type.the.confirmation.code")
         midText.attributedText = nil
         midText.textColor = colorScheme.labelMidNoteText
-        bottomText.hidden = true
+        bottomText.isHidden = true
         setupHintTimer()
     }
 
@@ -251,7 +251,7 @@ public class LoginView: PhoneIdBaseFullscreenView {
         verifyCodeControl.indicateVerificationFail()
     }
 
-    func indicateVerificationSuccess(completion: (() -> Void)?) {
+    func indicateVerificationSuccess(_ completion: (() -> Void)?) {
         self.midText.attributedText = localizedStringAttributed("html-logged.in")
         verifyCodeControl.indicateVerificationSuccess(completion)
     }
@@ -265,7 +265,8 @@ public class LoginView: PhoneIdBaseFullscreenView {
         loginViewDelegate?.close()
     }
 
-    public override func resignFirstResponder() -> Bool {
+    @discardableResult
+    open override func resignFirstResponder() -> Bool {
         self.verifyCodeControl.resignFirstResponder()
         self.numberInputControl.resignFirstResponder()
         return super.resignFirstResponder()
