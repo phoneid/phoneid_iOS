@@ -19,6 +19,10 @@
 		09587C801B4D1C510019FA97 /* PhoneIdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */; };
 		09587C811B4D1C510019FA97 /* NumberInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */; };
 		09587C821B4D1C510019FA97 /* KeychainStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */; };
+		099FAE961DAADD39005FEF47 /* phoneid_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099FAE951DAADD39005FEF47 /* phoneid_iOS.framework */; };
+		099FAE971DAADD39005FEF47 /* phoneid_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 099FAE951DAADD39005FEF47 /* phoneid_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		099FAE9A1DAADD73005FEF47 /* phoneid_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099FAE991DAADD73005FEF47 /* phoneid_iOS.framework */; };
+		099FAE9B1DAADD73005FEF47 /* phoneid_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 099FAE991DAADD73005FEF47 /* phoneid_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		09C1E6021B55261100662C2F /* PhoneIdRefreshMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */; };
 		09C1E6261B57B6BE00662C2F /* phoneid_iOS_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */; };
 		09C1E62D1B57B74900662C2F /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09587C2B1B4D1C070019FA97 /* TestUtils.swift */; };
@@ -54,6 +58,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		099FAE981DAADD39005FEF47 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				099FAE971DAADD39005FEF47 /* phoneid_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		099FAE9C1DAADD73005FEF47 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				099FAE9B1DAADD73005FEF47 /* phoneid_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		091B2F451DA1813500F5217F /* phoneid_iOS_Example_objc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = phoneid_iOS_Example_objc.entitlements; sourceTree = "<group>"; };
 		091B2F461DA1814900F5217F /* phoneid_iOS_Example_swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = phoneid_iOS_Example_swift.entitlements; sourceTree = "<group>"; };
@@ -68,6 +97,8 @@
 		09587C2D1B4D1C070019FA97 /* PhoneIdSDKIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdSDKIntegrationTests.swift; sourceTree = "<group>"; };
 		09587C2E1B4D1C070019FA97 /* NumberInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInfoTests.swift; sourceTree = "<group>"; };
 		09587C2F1B4D1C070019FA97 /* KeychainStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorageTests.swift; sourceTree = "<group>"; };
+		099FAE951DAADD39005FEF47 /* phoneid_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = phoneid_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		099FAE991DAADD73005FEF47 /* phoneid_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = phoneid_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C1E6011B55261100662C2F /* PhoneIdRefreshMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneIdRefreshMonitorTests.swift; sourceTree = "<group>"; };
 		09C1E6231B57B6BE00662C2F /* phoneid_iOS_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = phoneid_iOS_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C1E6251B57B6BE00662C2F /* phoneid_iOS_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phoneid_iOS_UITests.swift; sourceTree = "<group>"; };
@@ -123,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099FAE961DAADD39005FEF47 /* phoneid_iOS.framework in Frameworks */,
 				6AB0F6A9AE61CFF226D34C85 /* Pods_phoneid_iOS_Example_objc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099FAE9A1DAADD73005FEF47 /* phoneid_iOS.framework in Frameworks */,
 				EA3EC45E152814EC54EAA7C4 /* Pods_phoneid_iOS_Example_swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,6 +245,8 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				099FAE991DAADD73005FEF47 /* phoneid_iOS.framework */,
+				099FAE951DAADD39005FEF47 /* phoneid_iOS.framework */,
 				091B2F461DA1814900F5217F /* phoneid_iOS_Example_swift.entitlements */,
 				091B2F451DA1813500F5217F /* phoneid_iOS_Example_objc.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
@@ -319,6 +354,7 @@
 				09DB02E11BE40773008ACBE6 /* Resources */,
 				09DB02E51BE40773008ACBE6 /* Embed Pods Frameworks */,
 				09DB02E61BE40773008ACBE6 /* Copy Pods Resources */,
+				099FAE981DAADD39005FEF47 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -339,6 +375,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				6492EDE88F5C636CB1D4889D /* Embed Pods Frameworks */,
 				7AA3C3FF805775A678976F84 /* Copy Pods Resources */,
+				099FAE9C1DAADD73005FEF47 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

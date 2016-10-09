@@ -1,0 +1,115 @@
+//  Localizable.strings
+//  phoneid_iOS
+//
+//  Copyright 2015 phone.id - 73 knots, Inc.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+"html-button.title.login.with.phone.id"="<center style=\"color:$buttonNormalText; font-family: Helvetica Neue; font-size:18px;\">Login with phone.id</center>";
+
+"button.title.done.keyboard"="Done";
+"button.title.change.country.code"="Change Country";
+
+"accessibility.button.title.change.country.code"="Change Country";
+"accessibility.button.title.done.keyboard"="Done";
+
+"accessibility.title.login.with.phone.id"="Login with phone.id";
+"accessibility.phone.number.input"="Phone Number";
+"accessibility.verification.input"="Verification Code";
+
+"html-button.title.logout"="<center style=\"color:$buttonNormalText; font-family: Helvetica Neue; font-size:18px;\">Log out</center>";
+"accessibility.button.title.logout"="Log out";
+
+"html-access.app.with.number" = "<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">Access <b style=\"color:$labelTopNoteText\">%@</b><br/>with your phone number:</center>";
+
+"button.title.ok"="OK";
+"button.title.cancel"="Cancel";
+"button.title.call.me"="Call me";
+
+"accessibility.button.title.ok"="OK";
+"accessibility.button.title.cancel"="Cancel";
+"accessibility.button.title.close"="Close";
+"accessibility.button.title.back"="Back";
+
+"html-title.login"="<center style=\"font-weight: bold; color:$headerTitleText; font-family: Helvetica Neue; font-size:18px;\">Login</center>";
+
+"html-placeholder.phone.number"="<left style=\"color:$inputNumberPlaceholderText; font-family: Helvetica Neue; font-size:18px;\">Phone Number</left>";
+
+"html-label.we.will.send.sms"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">We'll send you a SMS to verify it.</center>";
+
+"html-label.terms.and.conditions"="<center style=\"font-family: Helvetica Neue; font-size:12px; color:$labelBottomNoteText;\">Powered by <a href=\"http://phone.id\">phone.id</a><br/>By proceeding you agree to <a href=\"http://phone.id\">TOS</a> and <a href=\"http://phone.id\">Privacy Policy</a></center>";
+
+"html-title.country.code"="<center style=\"font-weight: bold; color:$headerTitleText; font-family: Helvetica Neue; font-size:17px;\">Country Code</center>";
+
+"html-label.when.code.not.received"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:14px;\">If you have not received the code by SMS, we can call you and read you the code</center>";
+
+"current.phone" = "Current Phone";
+"current.network" = "Current Network";
+
+"html-type.the.confirmation.code"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:16px;\">Type the confirmation code</br>we just texted you:</center>";
+
+"html-logging.in"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Logging in...</center>";
+
+"html-logged.in"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">Logged in with phone.id</center>";
+
+"html-loggin.failed"="<center style=\"color:$labelMidNoteText; font-family: Helvetica Neue; font-size:16px;\">The code you typed is different<br/> from the one we've sent you.<br/><br/>Correct the code, or press back and check your phone number.</center>";
+
+"profile.name.placeholder"="Username";
+"profile.birthday.placeholder"="Birthdate";
+
+
+"alert.button.title.dismiss"="Dismiss";
+"alert.title.error"="Error";
+
+"phone.id.needs.access.to.your.contacts"="Failed to upload contacts. Please allow phone.id to access ypur contacts in the Settings App";
+
+"html-button.title.change.picture"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:18px;\">CHANGE PICTURE</center>";
+"html-button.title.edit.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Edit</center>";
+"html-button.title.save.profile"="<center style=\"color:$headerButtonText; font-family: Helvetica Neue; font-size:18px;\">Save</center>";
+"html-label.tap.to.cahnge"="<center style=\"color:$labelTopNoteText; font-family: Helvetica Neue; font-size:17px;\">Tap to change photo</center>";
+"html-label.profile.view.visibility.hint"="<center style=\"color:$profileCommentSectionText; font-family: Helvetica Neue; font-size:17px;\">Your friends who have your phone number in their address book will see you with name and picture they have of you.<br/><br/>Other users who don't have your information will see the name and photo of your public profile.</center>";
+"title.public.profile"="Profile";
+"profile.hint.about.number"="Your phone number won't be shared with anyone, but people who already know your number will be able to look for you.";
+"profile.hint.about.name"="Your friends will always see you with the name they saved your phone number, regardless of the username you pick. \n\nYour username will be used with people who don't have your phone number";
+"profile.hint.about.picture"="Your profile picture will be shown to anyone who doesn't have your photo or your phone number.";
+"profile.hint.photo"="Set your picture";
+"profile.change.picture"="Change Profile Picture";
+"profile.phone.number"="Phone Number";
+"profile.value.not.set"="Not Set";
+
+"alert.title.select.image"="Pick an image from";
+"alert.button.title.camera"="Camera";
+"alert.button.title.library"="Library";
+
+"error.failed.request.auth.code"="Failed to request PhoneId authentication code";
+"error.failed.request.clients"="Failed to request list of clients";
+"error.unexpected.response"="Failed to parse server response.";
+"error.reason.auth.unexpected.response"="Success key not found in response";
+"error.reason.clients.unexpected.response"="There is no \"appName\" key in response";
+
+"error.phone.number.validation.failed"="Phone Number validation failed.";
+"error.unkonwn.problem.phone.number.validation"="Unknown phone number validation error.";
+"error.failed.request.user.info"="Failed to request PhoneId user info.";
+"error.failed.update.user.info"="Failed to update PhoneId user info.";
+"error.user.info.unexpected.response"="Failed to parse user info.";
+"error.reason.user.info.unexpected.response"="User info keys [id, client_id, phoneNumber] not found in response.";
+
+"error.failed.request.code.verification" = "Code verification request has failed.";
+"error.reason.response.does.not.contain.valid.token.info"="Response does not contain valid token info.";
+
+"error.failed.refresh.token"="Failed to refresh authentication.";
+"error.reason.no.token.to.refresh"="There is no authentication credentials to refresh them.";
+
+"error.failed.to.upload.contacts"="Failed to upload contacts";
+
