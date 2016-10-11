@@ -114,7 +114,7 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
 
         let offset = self.contentOffset
 
-        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -offset.x, -offset.y)
+        CGContextTranslateCTM(UIGraphicsGetCurrentContext()!, -offset.x, -offset.y)
 
         self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
 
@@ -122,6 +122,6 @@ class PanZoomImageView: UIScrollView, UIScrollViewDelegate {
 
         UIGraphicsEndImageContext()
 
-        return visibleScrollViewImage
+        return visibleScrollViewImage!
     }
 }

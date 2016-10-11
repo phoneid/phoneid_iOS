@@ -15,7 +15,13 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-iOS 8, iOS 9
+iOS 8, iOS 9, iOS 10
+
+## Versions
+
+0.1.8 - supports XCode 8, Swift 2.3
+Known issue: Control is not rendering properly in UI builder
+
 
 ## Installation
 

@@ -112,7 +112,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
 
         let phoneIdWindow = PhoneIdWindow()
         phoneIdWindow.makeActive()
-        var  presentingController = phoneIdWindow.rootViewController!
+        let  presentingController = phoneIdWindow.rootViewController!
         
         return presentingController
     }

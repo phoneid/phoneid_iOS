@@ -380,10 +380,6 @@ public class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSo
                     countryArray.append(countryInfo)
                 }
             }
-
-            if (countryInfo == nil) {
-                print("Not present: \(countryCode) \(countryName)")
-            }
         }
         return countryArray
 
