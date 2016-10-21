@@ -235,11 +235,11 @@ class NumberInputControl: PhoneIdBaseView {
 
         let controller = self.phoneIdComponentFactory.countryCodePickerViewController(self.phoneIdModel)
 
-        controller.countryCodePickerCompletionBlock = {
-            [unowned self] (model: NumberInfo) -> Void in
-            self.phoneIdModel = model
-            self.setupWithModel(model)
-            self.becomeFirstResponder()
+        controller.countryCodePickerCompletionBlock = {[weak self] (model: NumberInfo) -> Void in
+            guard let me = self else {return}
+            me.phoneIdModel = model
+            me.setupWithModel(model)
+            me.becomeFirstResponder()
         }
 
         let presenter: UIViewController = PhoneIdWindow.currentPresenter()
