@@ -145,16 +145,16 @@ open class PhoneIdService: NSObject {
             
             var error:NSError?=nil
             if let responseError = response.error {
-                NSLog("Failed to request PhoneId authentication code due to \(responseError))")
+                print("Failed to request PhoneId authentication code due to \(responseError))")
                 error = PhoneIdServiceError.requestFailedError("error.failed.request.auth.code", reasonKey:responseError.localizedDescription)
                 
             }else if let info = response.responseJSON as? NSDictionary{
                 let responseCode = info["result"] as? Int
                 if(responseCode==0){
-                    NSLog("Request authentication code success:\(responseCode), info: \(info)")
+                    print("Request authentication code success:\(String(describing: responseCode)), info: \(info)")
                 }else{
-                    let message = "No request success marker in response \(response.responseJSON)"
-                    NSLog(message)
+                    let message = "No request success marker in response \(String(describing: response.responseJSON))"
+                    print(message)
                     error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.auth.unexpected.response")
                 }
             }
@@ -190,7 +190,7 @@ open class PhoneIdService: NSObject {
                 var token:TokenInfo?
                 
                 if let responseError = response.error {
-                    NSLog("Failed to verify code %@", responseError)
+                    print("Failed to verify code %@", responseError)
                     error = PhoneIdServiceError.requestFailedError("error.failed.request.code.verification",reasonKey: responseError.localizedDescription)
                     self.sendNotificationVerificationFail(error!)
                     
@@ -230,7 +230,7 @@ open class PhoneIdService: NSObject {
             var userInfo:UserInfo?
             
             if let responseError = response.error {
-                NSLog("Failed to obtain user info due to %@", responseError)
+                print("Failed to obtain user info due to %@", responseError)
                 error = PhoneIdServiceError.requestFailedError("error.failed.request.user.info", reasonKey: responseError.localizedDescription)
                 
             }else if let resultUserInfo = UserInfo.parse(response){
@@ -252,7 +252,7 @@ open class PhoneIdService: NSObject {
         self.post(endpoint, params: userInfo.asDictionary() as Dictionary<String, AnyObject>?) { (response) -> Void in
             var error:NSError?
             if let responseError = response.error {
-                NSLog("Failed to update user info due to %@", responseError)
+                print("Failed to update user info due to %@", responseError)
                 error = PhoneIdServiceError.requestFailedError("error.failed.update.user.info", reasonKey: responseError.localizedDescription)
                 completion(error)
                 self.notifyClientCodeAboutError(error)
@@ -289,7 +289,7 @@ open class PhoneIdService: NSObject {
             
             var resultError:NSError? = nil
             if let error = response.error{
-                NSLog("Failed to obtain list of PhoneId clients due to \(error)")
+                print("Failed to obtain list of PhoneId clients due to \(error)")
                 resultError = PhoneIdServiceError.requestFailedError("error.failed.request.clients", reasonKey: error.localizedDescription)
                 
             }else if let info = response.responseJSON as? NSDictionary, let appName = info["appName"] as? String {
@@ -297,7 +297,7 @@ open class PhoneIdService: NSObject {
                 self.sendNotificationAppName()
                 
             }else{
-                NSLog("Failed to parse appName in response \(response.responseJSON)")
+                print("Failed to parse appName in response \(String(describing: response.responseJSON))")
                 resultError = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.clients.unexpected.response")
             }
             completion(resultError)
@@ -324,14 +324,14 @@ open class PhoneIdService: NSObject {
                 var token:TokenInfo?
                 
                 if let responseError = response.error{
-                    NSLog("Failed refresh token \(responseError)")
+                    print("Failed refresh token \(responseError)")
                     error = PhoneIdServiceError.requestFailedError("error.failed.refresh.token", reasonKey: responseError.localizedDescription)
                     
                 }else if let refreshedToken = TokenInfo.parse(response) {
                     token = refreshedToken
                     self.doOnAuthenticationRefreshSucceed(refreshedToken)
                 }else{
-                    NSLog("Failed to parse token in response \(response.responseJSON)")
+                    print("Failed to parse token in response \(String(describing: response.responseJSON))")
                     error = PhoneIdServiceError.inappropriateResponseError("error.unexpected.response", reasonKey: "error.reason.response.does.not.contain.valid.token.info")
                 }
                 
@@ -403,7 +403,7 @@ open class PhoneIdService: NSObject {
                     var error:NSError?
                     var numberOfUpdatedContacts = 0
                     if let responseError = response.error{
-                        NSLog("Failed to upload contacts \(responseError)")
+                        print("Failed to upload contacts \(responseError)")
                         error = PhoneIdServiceError.requestFailedError("error.failed.to.upload.contacts", reasonKey: responseError.localizedDescription)
                         
                     }else if let json = response.responseJSON as? NSDictionary, let number = json["received"] as? NSInteger{
@@ -430,9 +430,8 @@ open class PhoneIdService: NSObject {
         
         let serialized = try! JSONSerialization.data(withJSONObject: ["contacts": contactsDictionary], options: [.prettyPrinted])
         
-        let serializedAsString = NSString(data: serialized, encoding: String.Encoding.utf8.rawValue) as! String
-        
-        print(serializedAsString)
+        let serializedAsString = String(data: serialized, encoding: String.Encoding.utf8)
+
         return ["contacts":serializedAsString as AnyObject]
     }
     
@@ -526,7 +525,7 @@ open class PhoneIdService: NSObject {
             
             DispatchQueue.main.async {
                 
-                print("Response as string: \(wrappedResponse.responseString)")
+                print("Response as string: \(String(describing: wrappedResponse.responseString))")
                 
                 completion(wrappedResponse)
             }

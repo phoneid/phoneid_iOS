@@ -76,9 +76,8 @@ open class KeychainStorage: NSObject {
 
         var value: String?
 
-        if status == noErr {
-            let retrievedData: Data = result as! Data
-            value = NSString(data: retrievedData, encoding: String.Encoding.utf8.rawValue) as? String;
+        if status == noErr, let retrievedData: Data = result as? Data {
+            value = String(data: retrievedData, encoding: String.Encoding.utf8)
         }
 
         return value

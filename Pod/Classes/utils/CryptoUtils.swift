@@ -39,12 +39,10 @@ extension String {
             msgLength += 1
         }
 
-        let bufZeros = UnsafeMutablePointer<UInt8>(calloc(counter, sizeof(UInt8)))
-
+        let bufZeros = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: counter)
         data.append(bufZeros, length: counter)
-
         bufZeros.deinitialize()
-        bufZeros.deallocateCapacity(1)
+        bufZeros.deallocate(capacity: 1)
 
         let h: [UInt32] = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
         var hh = h

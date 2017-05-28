@@ -28,14 +28,14 @@ public struct Response {
     let data: Data!
     var error: NSError?
     
-    var responseJSON: AnyObject? {
-        var result:AnyObject? = nil;
+    var responseJSON: Any? {
+        var result:Any? = nil;
         if let data = data {
             do {
                 result = try JSONSerialization.jsonObject(with: data, options: [])
             } catch _ {
                 if let e = error{
-                   NSLog("Failed to deserialize JSON due to %@", e.localizedDescription)
+                   print("Failed to deserialize JSON due to %@", e.localizedDescription)
                 }
             }
         }

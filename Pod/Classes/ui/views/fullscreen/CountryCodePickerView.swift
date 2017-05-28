@@ -396,7 +396,9 @@ open class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSour
 
     func keyboardWillShow(_ notification: Notification) {
         if let userInfo = (notification as NSNotification).userInfo {
-            if let keyboardSize: CGSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size {
+
+            if let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardSize = value.cgRectValue.size
                 self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
             }
         }

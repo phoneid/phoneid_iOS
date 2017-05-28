@@ -162,29 +162,29 @@ open class NumberInfo: NSObject {
     
     open func e164Format() -> String? {
         let number = self.phoneCountryCode! + self.phoneNumber!
-        let result: NSString? =  NumberInfo.e164Format(number, iso: self.isoCountryCode!) as NSString?;
-        return result as? String
+        let result =  NumberInfo.e164Format(number, iso: self.isoCountryCode!)
+        return result
     }
     
     class func e164Format(_ number:String, iso:String) -> String? {
-        var result: NSString? = nil;
+        var result:String? = nil;
         
         if let formatted = try? NBPhoneNumberUtil.sharedInstance().parse(number, defaultRegion: iso){
-            result = try! NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormat.E164) as NSString?
+            result = try! NBPhoneNumberUtil.sharedInstance().format(formatted, numberFormat: NBEPhoneNumberFormat.E164)
         }
     
-        return result as? String
+        return result
     }
     
-    func formatNumber(_ number: String) -> NSString {
+    func formatNumber(_ number: String) -> String {
         
         do {
             let myNumber: NBPhoneNumber! = try phoneUtil.parse(number, defaultRegion: self.isoCountryCode);
             let countryCodeWithSpace: String = self.phoneCountryCode! + " "
             let tempNumber = try phoneUtil.format(myNumber, numberFormat: NBEPhoneNumberFormat.INTERNATIONAL)
-            return tempNumber.replacingOccurrences(of: countryCodeWithSpace, with: "") as NSString
+            return tempNumber.replacingOccurrences(of: countryCodeWithSpace, with: "")
         }catch{
-            return number as NSString
+            return number
         }
     }
     
@@ -200,7 +200,7 @@ open class NumberInfo: NSObject {
     
     override open var description: String {
         
-        return "NumberInfo: {phoneCountryCode:\(phoneCountryCode),\n phoneNumber: \(phoneNumber),\nphoneCountryCodeSim: \(phoneCountryCodeSim), isoCountryCode: \(isoCountryCode), \nisoCountryCodeSim: \(isoCountryCodeSim)  }"
+        return "NumberInfo: {phoneCountryCode:\(phoneCountryCode ?? "nil"),\n phoneNumber: \(phoneNumber ?? "nil"),\nphoneCountryCodeSim: \(phoneCountryCodeSim ?? "nil"), isoCountryCode: \(isoCountryCode ?? "nil"), \nisoCountryCodeSim: \(isoCountryCodeSim ?? "nil")  }"
     }
     
     

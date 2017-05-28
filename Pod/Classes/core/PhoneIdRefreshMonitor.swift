@@ -24,7 +24,7 @@ class PhoneIdRefreshMonitor{
     var timer:Timer?
     var notificationCenter:NotificationCenter!
     weak var phoneId:PhoneIdService!
-    var reachability:Reachability? = try?Reachability.reachabilityForInternetConnection()
+    var reachability:Reachability?
     
     var isRunning:Bool
     let maxRefreshRetryCount = 5
@@ -37,6 +37,12 @@ class PhoneIdRefreshMonitor{
         isRunning = false
         refreshRetryCount = 0
         self.notificationCenter = notificationCenter
+        
+        do{
+            reachability = try Reachability()
+        } catch {
+            print("PhoneId: Failed to start reachability monitor")
+        }
         
         notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
@@ -70,21 +76,26 @@ class PhoneIdRefreshMonitor{
     }
     
     func startReachabilityMonitoring(){
-        if let reachability = reachability{
-            reachability.whenReachable = {[unowned self] reachability in
-                self.start()
-            }
-            reachability.whenUnreachable = {[unowned self] reachability in
-                self.stop()
-            }
-            do {
-                try reachability.startNotifier()
-            } catch {
-                print("Unable to start reachability notifier for phone.id")
-            }
-        }else{
-            print("Failed to create reachability object for phone.id refresh token monitor.")
-        }
+        
+        try?reachability?.start()
+        
+//        if let reachability = reachability{
+//            
+//            
+//            reachability.whenReachable = {[unowned self] reachability in
+//                self.start()
+//            }
+//            reachability.whenUnreachable = {[unowned self] reachability in
+//                self.stop()
+//            }
+//            do {
+//                try reachability.startNotifier()
+//            } catch {
+//                print("Unable to start reachability notifier for phone.id")
+//            }
+//        }else{
+//            print("Failed to create reachability object for phone.id refresh token monitor.")
+//        }
 
     }
     

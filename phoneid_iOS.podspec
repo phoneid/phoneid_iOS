@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "phoneid_iOS"
-  s.version          = "0.1.6"
+  s.version          = "1.0"
   s.summary          = "Phone.Id SDK library"
   s.description      = <<-DESC
 
@@ -18,13 +18,13 @@ Phone.id service allows App developers to use the phone number as a social login
   s.source           = { :git => "https://github.com/phoneid/phoneid_iOS.git", :tag => s.version.to_s }
 
   s.pod_target_xcconfig = { 'ENABLE_TESTABILITY' => 'YES' }
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
   s.resources =['Pod/Assets/Images.xcassets', 'Pod/Assets/strings/**' ]
 
-  s.frameworks = 'UIKit', 'CoreTelephony'
-  s.dependency 'libPhoneNumber-iOS', '~> 0.8.10'
+  s.frameworks = 'UIKit', 'CoreTelephony', 'Contacts'
+  s.dependency 'libPhoneNumber-iOS', '~> 0.9.10'
 
 end

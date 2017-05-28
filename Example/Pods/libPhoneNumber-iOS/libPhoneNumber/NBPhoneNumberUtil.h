@@ -25,14 +25,15 @@
 // libPhoneNumber Util functions
 - (NSString*)convertAlphaCharactersInNumber:(NSString*)number;
 
-- (NSString*)normalizePhoneNumber:(NSString*)phoneNumber;
+- (NSString*)normalize:(NSString*)phoneNumber;
 - (NSString*)normalizeDigitsOnly:(NSString*)number;
+- (NSString*)normalizeDiallableCharsOnly:(NSString*)number;
 
 - (BOOL)isNumberGeographical:(NBPhoneNumber*)phoneNumber;
 
 - (NSString*)extractPossibleNumber:(NSString*)phoneNumber;
 - (NSNumber*)extractCountryCode:(NSString*)fullNumber nationalNumber:(NSString**)nationalNumber;
-#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
+#if TARGET_OS_IOS
 - (NSString *)countryCodeByCarrier;
 #endif
 
@@ -66,6 +67,7 @@
 
 - (NBEValidationResult)isPossibleNumberWithReason:(NBPhoneNumber*)number error:(NSError**)error;
 
+- (BOOL)isPossibleNumber:(NBPhoneNumber*)number;
 - (BOOL)isPossibleNumber:(NBPhoneNumber*)number error:(NSError**)error;
 - (BOOL)isPossibleNumberString:(NSString*)number regionDialingFrom:(NSString*)regionDialingFrom error:(NSError**)error;
 

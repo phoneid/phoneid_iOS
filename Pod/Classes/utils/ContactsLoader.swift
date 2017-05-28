@@ -19,136 +19,61 @@
 
 
 import Foundation
-import AddressBook
-
-// Going to switch to Contacts framework as soon we drop support of iOS8
+import Contacts
 
 class ContactsLoader: NSObject {
 
-    var book: ABAddressBook!
-
-    @discardableResult 
-    func createAddressBook() -> Bool {
-
-        if self.book != nil {
-            return true
-        }
-
-        var err: Unmanaged<CFError>? = nil
-        let adbk: ABAddressBook? = ABAddressBookCreateWithOptions(nil, &err).takeRetainedValue()
-
-        if adbk == nil {
-            print(err)
-            self.book = nil
-            return false
-        }
-
-        self.book = adbk
-
-        return true
-    }
-
-    func determineStatus(_ completion: @escaping (Bool) -> Void) {
-        let status = ABAddressBookGetAuthorizationStatus()
-        switch status {
-        case .authorized:
-            self.createAddressBook()
-            completion(true)
-
-        case .notDetermined:
-                                    
-            ABAddressBookRequestAccessWithCompletion(nil) {
-                (granted: Bool, err: CFError!) in
-                DispatchQueue.main.async {
-                    if granted {
-                        self.createAddressBook()
-                    } else {
-                        self.book = nil
-                    }
-                    completion(granted)
-                }
-            }
-        case .restricted, .denied:
-            self.book = nil
-            completion(false)
-        }
-    }
 
     func getContacts(_ defaultISOCountryCode: String, completion: @escaping ([ContactInfo]?) -> Void) {
 
-        determineStatus {
-            [unowned self] (authenticated) -> Void in
-
-            var result: [ContactInfo]?
-
-            if (authenticated) {
-
-                let people = ABAddressBookCopyArrayOfAllPeople(self.book).takeRetainedValue() as NSArray as [ABRecord]
-                for person: ABRecord in people {
-
-                    var contactInfo: ContactInfo!
-
-                    let phonesRef: ABMultiValue = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValue
-
-                    for i: Int in 0 ..< ABMultiValueGetCount(phonesRef) {
-
-                        if let value = ABMultiValueCopyValueAtIndex(phonesRef, i).takeRetainedValue() as? String {
-
-                            if let number = NumberInfo.e164Format(value, iso: defaultISOCountryCode) {
-
-                                contactInfo = ContactInfo()
-
-                                contactInfo.number = number
+        let store = CNContactStore()
+        
+        var result: [ContactInfo]?
+        
+        store.requestAccess(for: .contacts) { (granted, error) in
+            if granted {
+            
+                do {
+                
+                    let contacts = try store.unifiedContacts(matching: NSPredicate(value: true), keysToFetch:[CNContactGivenNameKey as CNKeyDescriptor
+                        , CNContactFamilyNameKey as CNKeyDescriptor
+                        , CNContactPhoneNumbersKey as CNKeyDescriptor
+                        , CNContactOrganizationNameKey as CNKeyDescriptor])
+                
+                    contacts.forEach({ (contact) in
+                        
+                        contact.phoneNumbers.forEach({ (numberInfo) in
+                        
+                            let number = NumberInfo.e164Format(numberInfo.value.stringValue, iso: defaultISOCountryCode)
+                            if let number = number {
+                                let info = ContactInfo()
+                                info.number = number
+                                info.kind = numberInfo.label
+                                info.company = contact.organizationName
+                                info.firstName = contact.givenName
+                                info.lastName = contact.familyName
                                 
-                                
-                                let locLabel : CFString = (ABMultiValueCopyLabelAtIndex(phonesRef, i) != nil) ? ABMultiValueCopyLabelAtIndex(phonesRef, i).takeUnretainedValue() as CFString : ""
-                                
-                                let cfStr:CFTypeRef = locLabel
-                                let nsTypeString = cfStr as! NSString
-                                let customLabel:String = nsTypeString as String
-
-                                contactInfo.kind = customLabel
-                                    .replacingOccurrences(of: "_$!<", with: "")
-                                    .replacingOccurrences(of: ">!$_", with: "")
-
-                                if let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.firstName = firstName
-                                }
-
-                                if let lastName = ABRecordCopyValue(person, kABPersonLastNameProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.lastName = lastName
-                                }
-
-                                if let lastName = ABRecordCopyValue(person, kABPersonOrganizationProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.company = lastName
-                                }
+                                if result == nil { result = [] }
+                                result?.append(info)
                             }
-                        }
-                        if (contactInfo != nil) {
-                            if result == nil {
-                                result = []
-                            }
-                            result?.append(contactInfo)
-                        }
-                    }
-
-
+                        })
+                    })
+                    
+                } catch {
+                    print("Failed to fetch the contact book.")
                 }
-
-            } else {
-
+                
+            }else{
+            
                 let alertController = UIAlertController(title: nil, message: NSLocalizedString(
-                "phone.id.needs.access.to.your.contacts", bundle: Bundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .alert)
-
+                    "phone.id.needs.access.to.your.contacts", bundle: Bundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .alert)
+                
                 alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: Bundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .cancel, handler: nil));
-
+                
                 UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
-
-
+                
             }
             completion(result)
         }
     }
-
-
 }
