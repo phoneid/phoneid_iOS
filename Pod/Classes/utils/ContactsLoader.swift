@@ -34,12 +34,6 @@ class ContactsLoader: NSObject {
             if granted {
             
                 do {
-                    /* let predicate = CNContact.predicateForContacts(withIdentifiers: [""] )
-                    let contacts = try store.unifiedContacts(matching: predicate, keysToFetch:[CNContactGivenNameKey as CNKeyDescriptor
-                        , CNContactFamilyNameKey as CNKeyDescriptor
-                        , CNContactPhoneNumbersKey as CNKeyDescriptor
-                        , CNContactOrganizationNameKey as CNKeyDescriptor]) */
-                
                     
                     let keysToFetch = [CNContactGivenNameKey as CNKeyDescriptor
                         , CNContactFamilyNameKey as CNKeyDescriptor
@@ -87,7 +81,7 @@ class ContactsLoader: NSObject {
                         })
                     })
                     
-                } 
+                }
                 
             }else{
             
