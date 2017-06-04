@@ -65,7 +65,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testGetClients_Success() {
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: ["appName":"SomeCoolName"], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: ["appName":"SomeCoolName"] as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdService(session)
         
         let expectation = self.expectation(description: "Should successfully handle request clients list")
@@ -85,7 +85,7 @@ class PhoneIdServiceTests: XCTestCase {
     }
     
     func testGetClients_UnexpectedResponse() {
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: ["unexpected":"SomeCoolName"], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: ["unexpected":"SomeCoolName"] as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected fail to parse response")
@@ -105,7 +105,7 @@ class PhoneIdServiceTests: XCTestCase {
     }
     
     func testGetClients_ErrorResponse() {
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: [], statusCode:500)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.clientsList.endpoint(TestConstants.ClientId),params: [] as AnyObject, statusCode:500)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected to get server error")
@@ -127,7 +127,7 @@ class PhoneIdServiceTests: XCTestCase {
     // MARK: requestAuthentication
     func testRequestAuthentication_Success() {
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params: ["result":0,"message":"Message Sent"], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params: ["result":0,"message":"Message Sent"] as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdService(session)
         
         let expectation = self.expectation(description: "Expected successful request for authentication")
@@ -144,7 +144,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testRequestAuthentication_UnexpectedResponse() {
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params:["result":188,"message":":-P"], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params:["result":188,"message":":-P"] as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected fail parse of response")
@@ -163,7 +163,7 @@ class PhoneIdServiceTests: XCTestCase {
     }
     
     func testRequestAuthentication_ErrorResponse() {
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params:[], statusCode:500)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestCode.endpoint(),params:[] as AnyObject , statusCode:500)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected request fail")
@@ -189,7 +189,7 @@ class PhoneIdServiceTests: XCTestCase {
         let refreshToken = "5023784657d3549ad4887c3d313d42bab83106b6"
         let expires = 3600
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(),
-            params:["token_type":"bearer", "access_token":accessToken, "expires_in":expires,"refresh_token":refreshToken], statusCode:200)
+            params:["token_type":"bearer", "access_token":accessToken, "expires_in":expires,"refresh_token":refreshToken] as AnyObject, statusCode:200)
         
         let phoneId:PhoneIdService = PhoneIdService()
         phoneId.urlSession = session
@@ -222,7 +222,7 @@ class PhoneIdServiceTests: XCTestCase {
         
         let message = "Invalid code"
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(),
-            params:["code":"InvalidContent","message":message], statusCode:400)
+            params:["code":"InvalidContent","message":message] as AnyObject, statusCode:400)
         
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
@@ -248,7 +248,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testVerifyAuthentication_ErrorResponse_Abnormal() {
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(), params:[:], statusCode:500)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(), params:[:] as AnyObject, statusCode:500)
         
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
@@ -277,7 +277,7 @@ class PhoneIdServiceTests: XCTestCase {
         
         let refreshToken = "5023784657d3549ad4887c3d313d42bab83106b6"
         let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(),
-            params:["token_type":"bearer", "refresh_token":refreshToken], statusCode:200)
+            params:["token_type":"bearer", "refresh_token":refreshToken] as AnyObject, statusCode:200)
         
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
@@ -306,7 +306,7 @@ class PhoneIdServiceTests: XCTestCase {
     func testLoadUserInfo_Success() {
         let userInfo = ["client_id":TestConstants.ClientId, "phone_number":TestConstants.PhoneNumber, "id":"5592d5d308ca480c644249ea"]
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:userInfo, statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:userInfo as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdService(session)
         
         let expectation = self.expectation(description: "Should successfully handle user info request")
@@ -332,7 +332,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testLoadUserInfo_ErrorResponse() {
 
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:[:], statusCode:401)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:[:] as AnyObject, statusCode:401)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected to get server error")
@@ -358,7 +358,7 @@ class PhoneIdServiceTests: XCTestCase {
     
     func testLoadUserInfo_UnexpectedResponse() {
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:[], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.requestMe.endpoint(),params:[] as AnyObject, statusCode:200)
         let phoneId:PhoneIdService = phoneIdServiceWithClientErrorExpectation(session)
         
         let expectation = self.expectation(description: "Expected to get server error")
@@ -383,9 +383,9 @@ class PhoneIdServiceTests: XCTestCase {
     func testUploadContacts_Success(){
         
         
-        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.contacts.endpoint(), params:["result":0, "received":12], statusCode:200)
+        let session = MockUtil.sessionForMockResponseWithParams(Endpoints.contacts.endpoint(), params:["result":0, "received":12] as AnyObject, statusCode:200)
         
-        MockUtil.mockResponseWithParams(session, endpoint: Endpoints.needRefreshContacts.endpoint("5a70301278ede1822d4de445166257f9ecff1a76"), params: ["refresh_needed":"true"], statusCode: 200)
+        MockUtil.mockResponseWithParams(session, endpoint: Endpoints.needRefreshContacts.endpoint("5a70301278ede1822d4de445166257f9ecff1a76"), params: ["refresh_needed":"true"] as AnyObject, statusCode: 200)
         
         let phoneId:PhoneIdService = phoneIdService(session)
         

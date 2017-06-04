@@ -45,18 +45,16 @@ class MockSession: URLSession {
     
     var mockResponses: [String : Response] = [:]
     
-    func workQueue () ->OperationQueue { return OperationQueue.main}
+    func workQueue () -> OperationQueue { return OperationQueue.main}
     
-    override class func sharedSession() -> URLSession {
-        return MockSession()
-    }
+    open override class var shared: URLSession { return MockSession() }
     
     override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask{
         
         if let url = request.url?.absoluteString, let mockRequest = self.mockResponses[url]{
             return MockTask(session: self, request:request, response: mockRequest, completionHandler:completionHandler)
         }else{
-            fatalError("Mock response is not configured for \(request.url)")
+            fatalError("Mock response is not configured for \(String(describing: request.url))")
         }
     }
     
@@ -83,9 +81,7 @@ class MockUtil{
         let jsonData = try! JSONSerialization.data(withJSONObject: params, options: [])
         let URL = Foundation.URL(string: endpoint, relativeTo: Constants.baseURL)!
         let urlResponse = HTTPURLResponse(url:URL, statusCode: statusCode, httpVersion: nil, headerFields: nil)
-        if let url = URL.absoluteString {
-            session.mockResponses[url] = (jsonData, urlResponse: urlResponse, error: nil)
-        }
+        session.mockResponses[URL.absoluteString] = (jsonData, urlResponse: urlResponse, error: nil)
     }
     
     class func sessionForMockResponseWithParams(_ endpoint:String, params:AnyObject, statusCode: Int) ->MockSession{

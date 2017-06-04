@@ -36,7 +36,7 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
     
     override func setUp() {
         
-        let urlSession = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(), params:tokenJSON, statusCode:200)
+        let urlSession = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(), params:tokenJSON as AnyObject, statusCode:200)
         
         KeychainStorage.clear()
         phoneId.urlSession = urlSession
@@ -67,11 +67,11 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
         
         XCTAssertTrue(phoneId.refreshMonitor.isRunning)
         
-        notificationCenter.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         XCTAssertFalse(phoneId.refreshMonitor.isRunning)
         
-        notificationCenter.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         XCTAssertTrue(phoneId.refreshMonitor.isRunning)
         
@@ -130,7 +130,7 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
     func testRefreshExpiredTokenAfterEnterForeground() {
         
         let notificationCenter = phoneId.refreshMonitor.notificationCenter
-        notificationCenter.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         
         let token:TokenInfo = phoneId.token!
@@ -147,7 +147,7 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
             self.phoneId.logout()
         }
         
-        notificationCenter.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         waitForExpectations(timeout: 8, handler:nil)
         

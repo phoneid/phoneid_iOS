@@ -40,6 +40,11 @@ extension String {
         }
 
         let bufZeros = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: counter)
+        var iz = 0;
+        while (iz < counter) {
+            bufZeros[iz]=0;
+            iz += 1;
+        }
         data.append(bufZeros, length: counter)
         bufZeros.deinitialize()
         bufZeros.deallocate(capacity: 1)
