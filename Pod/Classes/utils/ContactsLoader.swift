@@ -34,12 +34,40 @@ class ContactsLoader: NSObject {
             if granted {
             
                 do {
-                
-                    let contacts = try store.unifiedContacts(matching: NSPredicate(value: true), keysToFetch:[CNContactGivenNameKey as CNKeyDescriptor
+                    /* let predicate = CNContact.predicateForContacts(withIdentifiers: [""] )
+                    let contacts = try store.unifiedContacts(matching: predicate, keysToFetch:[CNContactGivenNameKey as CNKeyDescriptor
                         , CNContactFamilyNameKey as CNKeyDescriptor
                         , CNContactPhoneNumbersKey as CNKeyDescriptor
-                        , CNContactOrganizationNameKey as CNKeyDescriptor])
+                        , CNContactOrganizationNameKey as CNKeyDescriptor]) */
                 
+                    
+                    let keysToFetch = [CNContactGivenNameKey as CNKeyDescriptor
+                        , CNContactFamilyNameKey as CNKeyDescriptor
+                        , CNContactPhoneNumbersKey as CNKeyDescriptor
+                        , CNContactOrganizationNameKey as CNKeyDescriptor]
+                    
+                    // Get all the containers
+                    var allContainers: [CNContainer] = []
+                    do {
+                        allContainers = try store.containers(matching: nil)
+                    } catch {
+                        print("Error fetching containers")
+                    }
+                    
+                    var contacts: [CNContact] = []
+                    
+                    // Iterate all containers and append their contacts to our results array
+                    for container in allContainers {
+                        let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
+                        
+                        do {
+                            let containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch)
+                            contacts.append(contentsOf: containerResults)
+                        } catch {
+                            print("Error fetching results for container")
+                        }
+                    }
+                    
                     contacts.forEach({ (contact) in
                         
                         contact.phoneNumbers.forEach({ (numberInfo) in
@@ -59,9 +87,7 @@ class ContactsLoader: NSObject {
                         })
                     })
                     
-                } catch {
-                    print("Failed to fetch the contact book.")
-                }
+                } 
                 
             }else{
             
