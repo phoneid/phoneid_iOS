@@ -1,0 +1,10 @@
+framework module phoneid_iOS {
+  umbrella header "phoneid_iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module phoneid_iOS.Swift {
+    header "phoneid_iOS-Swift.h"
+}
