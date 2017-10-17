@@ -351,16 +351,16 @@ open class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, UI
         delegate?.closeButtonTapped()
     }
 
-    func changePhotoTapped() {
+    @objc func changePhotoTapped() {
         delegate?.changePhotoButtonTapped()
     }
 
 
-    func saveTapped() {
+    @objc func saveTapped() {
         delegate?.saveButtonTapped(self.userInfo)
     }
 
-    func datePickerChanged(_ datePicker: UIDatePicker) {
+    @objc func datePickerChanged(_ datePicker: UIDatePicker) {
 
         self.userInfo.dateOfBirth = datePicker.date
         self.birthdateCell.detailTextLabel!.text = self.userInfo.dateOfBirthAsString()

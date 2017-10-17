@@ -44,7 +44,7 @@ class CountryCodeCell: UITableViewCell {
         countryLabel = {
             let label = UILabel()
             label.font = UIFont.systemFont(ofSize: 18)
-            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.horizontal)
+            label.setContentCompressionResistancePriority(UILayoutPriority.required, for: UILayoutConstraintAxis.horizontal)
             return label
         }();
 

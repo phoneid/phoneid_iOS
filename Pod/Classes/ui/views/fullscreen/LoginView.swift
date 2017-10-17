@@ -230,7 +230,7 @@ open class LoginView: PhoneIdBaseFullscreenView {
         midText.attributedText = localizedStringAttributed("html-label.we.will.send.sms")
         bottomText.attributedText = localizedStringAttributed("html-label.terms.and.conditions")
 
-        bottomText.linkTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15), NSForegroundColorAttributeName: colorScheme.labelBottomNoteLinkText]
+        bottomText.linkTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 15), NSAttributedStringKey.foregroundColor.rawValue: colorScheme.labelBottomNoteLinkText]
         needsUpdateConstraints()
         bottomText.isHidden = false
     }
@@ -256,7 +256,7 @@ open class LoginView: PhoneIdBaseFullscreenView {
         verifyCodeControl.indicateVerificationSuccess(completion)
     }
 
-    func timerFired() {
+    @objc func timerFired() {
         midText.attributedText = localizedStringAttributed("html-label.when.code.not.received")
     }
 

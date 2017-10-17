@@ -30,7 +30,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
+@objcMembers
 open class TokenInfo: ParseableModel{
     
     open var accessToken:String?;

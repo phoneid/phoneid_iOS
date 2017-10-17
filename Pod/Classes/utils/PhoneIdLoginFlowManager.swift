@@ -22,14 +22,14 @@ import Foundation
 
 open class PhoneIdLoginWorkflowManager:NSObject, Customizable {
     
-    open var colorScheme: ColorScheme!
-    open var localizationBundle: Bundle!
-    open var localizationTableName: String!
+    @objc open var colorScheme: ColorScheme!
+    @objc open var localizationBundle: Bundle!
+    @objc open var localizationTableName: String!
     
     var phoneIdService: PhoneIdService
     var phoneIdComponentFactory: ComponentFactory
     
-    public override init() {
+    @objc public override init() {
         
         phoneIdService = PhoneIdService.sharedInstance
         phoneIdComponentFactory = phoneIdService.componentFactory
@@ -38,7 +38,7 @@ open class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         prep()
     }
     
-    public init(phoneIdService _phoneIdService:PhoneIdService, phoneIdComponentFactory _phoneIdComponentFactory:ComponentFactory){
+    @objc public init(phoneIdService _phoneIdService:PhoneIdService, phoneIdComponentFactory _phoneIdComponentFactory:ComponentFactory){
         
         phoneIdService = _phoneIdService
         phoneIdComponentFactory = _phoneIdComponentFactory
@@ -47,7 +47,7 @@ open class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         prep()
     }    
     
-    open func startLoginFlow(_ presentFromController:UIViewController? = nil,
+    @objc open func startLoginFlow(_ presentFromController:UIViewController? = nil,
                                initialPhoneNumerE164:String? = nil,
                                startAnimatingProgress:(()->())? = nil,
                                stopAnimationProgress:(()->())? = nil){
@@ -72,7 +72,7 @@ open class PhoneIdLoginWorkflowManager:NSObject, Customizable {
                                      initialPhoneNumerE164:String?,
                                      lock:(()->())?,
                                      unlock:(()->())?,
-                                     startAnimatingProgress:((Void)->(Void))?,
+                                     startAnimatingProgress:(()->(Void))?,
                                      stopAnimationProgress:(()->())?){
         
         lock?()

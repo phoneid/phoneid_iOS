@@ -218,12 +218,12 @@ class NumberInputControl: PhoneIdBaseView {
         return self.numberText.becomeFirstResponder()
     }
 
-    func textFieldDidChange(_ textField: UITextField) {
+    @objc func textFieldDidChange(_ textField: UITextField) {
         numberDidChange?()
         validatePhoneNumber()
     }
 
-    func okButtonTapped(_ sender: UIButton) {
+    @objc func okButtonTapped(_ sender: UIButton) {
         self.phoneIdModel.phoneNumber = self.numberText.text
 
         okButton.isHidden = true
@@ -232,7 +232,7 @@ class NumberInputControl: PhoneIdBaseView {
 
     }
 
-    func countryCodeTapped(_ sender: UIButton) {
+    @objc func countryCodeTapped(_ sender: UIButton) {
         self.phoneIdModel.phoneNumber = self.numberText.text
 
         let controller = self.phoneIdComponentFactory.countryCodePickerViewController(self.phoneIdModel)

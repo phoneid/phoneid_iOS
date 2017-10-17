@@ -37,11 +37,11 @@ class CompactExampleViewController: UIViewController {
         }
     }
     
-    func presetNumberChanged(_ sender:UITextField){
+    @objc func presetNumberChanged(_ sender:UITextField){
         compactPhoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.isOn ? sender.text : ""
     }
     
-    func presetNumberSwitchChanged(_ sender:UISwitch){
+    @objc func presetNumberSwitchChanged(_ sender:UISwitch){
         compactPhoneIdButton.phoneNumberE164 = sender.isOn ? details.presetNumber.text : ""
     }
 }

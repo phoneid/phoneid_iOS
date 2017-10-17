@@ -38,39 +38,39 @@ public typealias PhoneIdWorkflowCountryCodeSelected = (_ countryCode:String) -> 
 
 open class PhoneIdService: NSObject {
     
-    open class var sharedInstance: PhoneIdService {
+    @objc open class var sharedInstance: PhoneIdService {
         struct Static { static let instance: PhoneIdService = PhoneIdService() }
         return Static.instance
     }
     
-    open var componentFactory:ComponentFactory!
-    open var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
-    open var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
-    open var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
-    open var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
+    @objc open var componentFactory:ComponentFactory!
+    @objc open var phoneIdAuthenticationSucceed: PhoneIdAuthenticationSucceed?
+    @objc open var phoneIdAuthenticationCancelled: PhoneIdAuthenticationCancelled?
+    @objc open var phoneIdAuthenticationRefreshed: PhoneIdAuthenticationSucceed?
+    @objc open var phoneIdWorkflowErrorHappened: PhoneIdWorkflowErrorHappened?
         
-    open var phoneIdWorkflowNumberInputCompleted:PhoneIdWorkflowNumberInputCompleted?
-    open var phoneIdWorkflowVerificationCodeInputCompleted:PhoneIdWorkflowVerificationCodeInputCompleted?
-    open var phoneIdWorkflowCountryCodeSelected:PhoneIdWorkflowCountryCodeSelected?
+    @objc open var phoneIdWorkflowNumberInputCompleted:PhoneIdWorkflowNumberInputCompleted?
+    @objc open var phoneIdWorkflowVerificationCodeInputCompleted:PhoneIdWorkflowVerificationCodeInputCompleted?
+    @objc open var phoneIdWorkflowCountryCodeSelected:PhoneIdWorkflowCountryCodeSelected?
 
     
-    open var phoneIdDidLogout:(() -> Void)?
+    @objc open var phoneIdDidLogout:(() -> Void)?
     
-    open var isLoggedIn: Bool {
+    @objc open var isLoggedIn: Bool {
         get {
             return token != nil ? self.token!.isValid() : false
         }
     }
     
-    open var token: TokenInfo? {
+    @objc open var token: TokenInfo? {
         get {
             return TokenInfo.loadFromKeyChain()
         }
     }
     
-    open internal(set) var appName: String?
-    open internal(set) var clientId: String?
-    open internal(set) var autorefreshToken: Bool = true
+    @objc open internal(set) var appName: String?
+    @objc open internal(set) var clientId: String?
+    @objc open internal(set) var autorefreshToken: Bool = true
     
     internal var urlSession: URLSession!;
     internal var refreshMonitor: PhoneIdRefreshMonitor!;
@@ -93,7 +93,7 @@ open class PhoneIdService: NSObject {
         apiBaseURL = baseURL
     }
     
-    open func configureClient(_ id: String, autorefresh:Bool = true) {
+    @objc open func configureClient(_ id: String, autorefresh:Bool = true) {
         self.autorefreshToken = autorefresh
         
         self.clientId = id;
@@ -107,7 +107,7 @@ open class PhoneIdService: NSObject {
     }
     
     
-    open func logout() {
+    @objc open func logout() {
         
         self.refreshMonitor?.stop()
         self.token?.removeFromKeychain();
@@ -221,7 +221,7 @@ open class PhoneIdService: NSObject {
         self.sendNotificationVerificationSuccess()
     }
     
-    open func loadMyProfile(_ completion:@escaping UserInfoRequestCompletion) {
+    @objc open func loadMyProfile(_ completion:@escaping UserInfoRequestCompletion) {
         
         let endpoint: String = Endpoints.requestMe.endpoint()
         self.get(endpoint, params: nil) { response in
@@ -246,7 +246,7 @@ open class PhoneIdService: NSObject {
     
     
     
-    open func updateUserProfile(_ userInfo:UserInfo, completion:@escaping RequestCompletion){
+    @objc open func updateUserProfile(_ userInfo:UserInfo, completion:@escaping RequestCompletion){
         let endpoint: String = Endpoints.requestMe.endpoint()
         
         self.post(endpoint, params: userInfo.asDictionary() as Dictionary<String, AnyObject>?) { (response) -> Void in
@@ -270,7 +270,7 @@ open class PhoneIdService: NSObject {
         }
     }
     
-    open func updateUserAvatar(_ image:UIImage, completion:@escaping RequestCompletion){
+    @objc open func updateUserAvatar(_ image:UIImage, completion:@escaping RequestCompletion){
         let endpoint: String = Endpoints.uploadAvatar.endpoint()
         
         var params: Dictionary<String, AnyObject> = [:]
@@ -306,7 +306,7 @@ open class PhoneIdService: NSObject {
         
     }
     
-    open func refreshToken(_ completion:@escaping TokenRequestCompletion){
+    @objc open func refreshToken(_ completion:@escaping TokenRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             
@@ -346,7 +346,7 @@ open class PhoneIdService: NSObject {
         })
     }
     
-    open func uploadContacts(debugMode:Bool = false, completion:@escaping ContactsUpdateRequestCompletion){
+    @objc open func uploadContacts(debugMode:Bool = false, completion:@escaping ContactsUpdateRequestCompletion){
         
         self.checkToken("error.failed.refresh.token", success: { [unowned self] (token) -> Void in
             

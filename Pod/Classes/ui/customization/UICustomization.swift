@@ -27,6 +27,7 @@ public protocol Customizable: NSObjectProtocol{
     
 }
 
+@objcMembers
 open class ColorScheme : NSObject{
     // MARK: Common colors defining color scheme
     open var mainAccent:UIColor = UIColor(hex: 0x009688)
@@ -226,7 +227,8 @@ public extension Customizable{
         let text = localizedString(key, formatting: formatting)
         let accessAttributedText = try! NSAttributedString(
             data: text.data(using: String.Encoding.unicode, allowLossyConversion: true)!,
-            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            options: [.documentType: NSAttributedString.DocumentType.html,
+                      .characterEncoding: String.Encoding.utf8.rawValue],
             documentAttributes: nil)
         return accessAttributedText
     }
@@ -234,15 +236,15 @@ public extension Customizable{
 }
 
 public extension UIColor {
-    public convenience init(red: Int, green: Int, blue: Int) {
+    @objc public convenience init(red: Int, green: Int, blue: Int) {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
     
-    public convenience init(hex:Int) {
+    @objc public convenience init(hex:Int) {
         self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
     
-    public func hexString() -> String {
+    @objc public func hexString() -> String {
         var r:CGFloat = 0
         var g:CGFloat = 0
         var b:CGFloat = 0

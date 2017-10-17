@@ -97,7 +97,7 @@ open class ImageEditViewController: UIViewController, PhoneIdConsumer, Customiza
 
         doneBarButton.tintColor = self.colorScheme.headerButtonText
         cancelBarButton.tintColor = self.colorScheme.headerButtonText
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: self.colorScheme.headerTitleText]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: self.colorScheme.headerTitleText]
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barStyle = UIBarStyle.default
         self.navigationController?.navigationBar.barTintColor = self.colorScheme.headerBackground
@@ -126,11 +126,11 @@ open class ImageEditViewController: UIViewController, PhoneIdConsumer, Customiza
         self.navigationItem.rightBarButtonItems = [doneBarButton]
     }
 
-    func doneButtonTapped(_ sender: UIButton) {
+    @objc func doneButtonTapped(_ sender: UIButton) {
         imageEditingCompleted?(self.editingImageView.editedImage())
     }
 
-    func cancelButtonTapped(_ sender: UIButton) {
+    @objc func cancelButtonTapped(_ sender: UIButton) {
         imageEditingCancelled?()
     }
 

@@ -79,7 +79,7 @@ open class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
             label.font = UIFont.boldSystemFont(ofSize: 17)
             label.numberOfLines = 1
             label.textColor = self.colorScheme.profileDataSectionTitleText
-            label.setContentHuggingPriority(1000, for: UILayoutConstraintAxis.horizontal)
+            label.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: UILayoutConstraintAxis.horizontal)
             return label
         }()
 
@@ -172,7 +172,7 @@ open class UserNameView: PhoneIdBaseFullscreenView, UITextFieldDelegate {
         delegate?.close()
     }
 
-    func saveTapped() {
+    @objc func saveTapped() {
         delegate?.save()
     }
 }

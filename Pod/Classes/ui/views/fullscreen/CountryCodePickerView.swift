@@ -45,7 +45,7 @@ class CountryInfo: NSObject {
         self.code = code
     }
 
-    func localizedTitle() -> String {
+    @objc func localizedTitle() -> String {
         return name
     }
 }
@@ -326,7 +326,7 @@ open class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSour
                 })
 
                 if (filteredCountries.count > 0) {
-                    result.append(letter: section.letter, countries: filteredCountries)
+                    result.append((letter: section.letter, countries: filteredCountries))
                 }
             }
         } else {
@@ -394,7 +394,7 @@ open class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSour
         }
     }
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         if let userInfo = (notification as NSNotification).userInfo {
 
             if let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
@@ -404,7 +404,7 @@ open class CountryCodePickerView: PhoneIdBaseFullscreenView, UITableViewDataSour
         }
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         self.tableView.contentInset = UIEdgeInsets.zero;
     }
 

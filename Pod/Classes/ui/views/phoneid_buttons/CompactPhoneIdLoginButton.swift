@@ -22,7 +22,7 @@ import UIKit
 
 
 @IBDesignable open class CompactPhoneIdLoginButton: PhoneIdBaseView {
-    open var phoneNumberE164: String! {
+    @objc open var phoneNumberE164: String! {
         get {
             return self.phoneIdModel.e164Format()
         }
@@ -37,37 +37,37 @@ import UIKit
     fileprivate(set) var numberInputControl: NumberInputControl!
     fileprivate(set) var verifyCodeControl: VerifyCodeControl!
     
-    open var titleText:String?{
+    @objc open var titleText:String?{
         get{ return loginButton.titleLabel.text}
         set{ loginButton.titleLabel.text = newValue}
     }
     
-    open var placeholderText:String?{
+    @objc open var placeholderText:String?{
         get{ return numberInputControl.numberText.placeholder}
         set{ numberInputControl.numberText.placeholder = newValue}
     }
 
-    public init() {
+    @objc public init() {
         super.init(frame: CGRect.zero)
         prep()
         initUI(designtime: false)
     }
 
     // init from viewcontroller
-    public override init(frame: CGRect) {
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         prep()
         initUI(designtime: false)
     }
 
     // init from interface builder
-    required public init?(coder aDecoder: NSCoder) {
+    @objc required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         prep()
         initUI(designtime: false);
     }
     
-    override open func prepareForInterfaceBuilder() {
+    @objc override open func prepareForInterfaceBuilder() {
         self.prep()
         initUI(designtime: true);
     }
@@ -232,11 +232,11 @@ import UIKit
     }
 
 
-    func doOnSuccessfulLogin() -> Void {
+    @objc func doOnSuccessfulLogin() -> Void {
 
     }
 
-    func doOnlogout() -> Void {
+    @objc func doOnlogout() -> Void {
         resetControls()
     }
 
@@ -255,7 +255,7 @@ import UIKit
         self.loginButton?.isHidden = false
     }
 
-    open override var intrinsicContentSize : CGSize {
+    @objc open override var intrinsicContentSize : CGSize {
         return CGSize(width: 280, height: 48)
     }
 

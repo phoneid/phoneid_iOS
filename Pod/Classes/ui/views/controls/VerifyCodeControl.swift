@@ -141,18 +141,18 @@ class VerifyCodeControl: PhoneIdBaseView {
     fileprivate func applyCodeFieldStyle(_ input: NSAttributedString) -> NSAttributedString {
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(attributedString: input)
         let range: NSRange = NSMakeRange(0, attributedString.length)
-        attributedString.addAttribute(NSKernAttributeName, value: 8, range: range)
+        attributedString.addAttribute(NSAttributedStringKey.kern, value: 8, range: range)
 
         if (attributedString.length > 2) {
             let range: NSRange = NSMakeRange(2, 1)
-            attributedString.addAttribute(NSKernAttributeName, value: 24, range: range)
+            attributedString.addAttribute(NSAttributedStringKey.kern, value: 24, range: range)
         }
 
-        attributedString.addAttribute(NSFontAttributeName, value: UIFont(name: "Menlo", size: 22)!, range: range)
+        attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "Menlo", size: 22)!, range: range)
         return attributedString
     }
 
-    func textFieldDidChange(_ textField: UITextField) {
+    @objc func textFieldDidChange(_ textField: UITextField) {
 
         textField.attributedText = applyCodeFieldStyle(textField.attributedText!)
 
@@ -173,7 +173,7 @@ class VerifyCodeControl: PhoneIdBaseView {
 
     }
 
-    func backTapped(_ sender: UIButton) {
+    @objc func backTapped(_ sender: UIButton) {
         backButtonTapped?()
     }
 
@@ -235,7 +235,7 @@ class VerifyCodeControl: PhoneIdBaseView {
 
     }
 
-    func timerFired() {
+    @objc func timerFired() {
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
 
         let callMeButton = UIBarButtonItem(title: localizedString("button.title.call.me"), style: .plain, target: self, action: #selector(VerifyCodeControl.callMeButtonTapped))
@@ -248,7 +248,7 @@ class VerifyCodeControl: PhoneIdBaseView {
         codeText.becomeFirstResponder()
     }
 
-    func callMeButtonTapped() {
+    @objc func callMeButtonTapped() {
         requestVoiceCall?()
     }
 

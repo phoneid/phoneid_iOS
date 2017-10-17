@@ -23,18 +23,18 @@ import Foundation
 
 @IBDesignable open class PhoneIdLoginButton: UIControl, Customizable {
 
-    open var colorScheme: ColorScheme!
-    open var localizationBundle: Bundle!
-    open var localizationTableName: String!
+    @objc open var colorScheme: ColorScheme!
+    @objc open var localizationBundle: Bundle!
+    @objc open var localizationTableName: String!
 
-    open var phoneNumberE164: String!
+    @objc open var phoneNumberE164: String!
 
-    open fileprivate(set) var imageView: UIImageView = {
+    @objc open fileprivate(set) var imageView: UIImageView = {
         let image = UIImage(namedInPhoneId: "phone")!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         return UIImageView(image:image)
     }()
     
-    open fileprivate(set) var titleLabel: UILabel = {
+    @objc open fileprivate(set) var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.systemFont(ofSize: 20)
@@ -43,12 +43,12 @@ import Foundation
         return titleLabel
     }()
     
-    open fileprivate(set) var separatorView: UIView = {
+    @objc open fileprivate(set) var separatorView: UIView = {
         let separatorView = UIView()
         return separatorView
     }()
     
-    open fileprivate(set) var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    @objc open fileprivate(set) var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
 
     fileprivate var gestureRecognizer: UITapGestureRecognizer!
 
@@ -67,33 +67,34 @@ import Foundation
     fileprivate var backgroundColors: [UInt:UIColor] = [:];
 
 
-    open func setTitleColor(_ color: UIColor?, forState state: UIControlState) {
+    @objc open func setTitleColor(_ color: UIColor?, forState state: UIControlState) {
         titleColors[state.rawValue] = color
         if (state == self.state) {
             titleLabel.textColor = color
         }
     }
 
-    open func setImageColor(_ color: UIColor?, forState state: UIControlState) {
+    @objc open func setImageColor(_ color: UIColor?, forState state: UIControlState) {
         imageColors[state.rawValue] = color
         if (state == self.state) {
             imageView.tintColor = color
         }
     }
 
-    open func setBackgroundColor(_ color: UIColor?, forState state: UIControlState) {
+    @objc open func setBackgroundColor(_ color: UIColor?, forState state: UIControlState) {
         backgroundColors[state.rawValue] = color
         if (state == self.state) {
             backgroundColor = color
         }
     }
 
-    override open var isEnabled: Bool {
+    @objc override open var isEnabled: Bool {
         didSet {
             updateColors()
         }
     }
-    override open var isHighlighted: Bool {
+    
+    @objc override open var isHighlighted: Bool {
         didSet {
             updateColors()
         }
@@ -153,16 +154,16 @@ import Foundation
     }
     
     // init from viewcontroller
-    required override public convenience init(frame: CGRect) {
+    @objc required override public convenience init(frame: CGRect) {
         self.init(frame:frame, designtime:false)
     }
 
     // init from interface builder
-    required public convenience init?(coder aDecoder: NSCoder) {
+    @objc required public convenience init?(coder aDecoder: NSCoder) {
         self.init(coder:aDecoder, designtime:false)
     }
 
-    override open func prepareForInterfaceBuilder() {
+    @objc override open func prepareForInterfaceBuilder() {
         self.prep()
         initUI(designtime:true)
     }
@@ -261,33 +262,33 @@ import Foundation
         return true
     }
     
-    func loginTouched(){
+    @objc func loginTouched(){
        
         phoneIdLoginFlowManager.login(presentFromController:self.window!.rootViewController!
             , initialPhoneNumerE164:self.phoneNumberE164
-            , lock: { _ in
+            , lock: {
                 self.isUserInteractionEnabled = false
-            }, unlock: { _ in
+            }, unlock: {
                 self.isUserInteractionEnabled = true
-            }, startAnimatingProgress: { _ in
+            }, startAnimatingProgress: {
                 self.activityIndicator.startAnimating()
-            }, stopAnimationProgress: { _ in
+            }, stopAnimationProgress: {
                 self.activityIndicator.stopAnimating()
         })
     
     }
 
-    func logoutTouched() {
+    @objc func logoutTouched() {
         phoneIdService.logout()
     }
     
     // MARK: Notification handlers
 
-    func doOnSuccessfulLogin() -> Void {
+    @objc func doOnSuccessfulLogin() -> Void {
         configureButton(phoneIdService.isLoggedIn)
     }
 
-    func doOnlogout() -> Void {
+    @objc func doOnlogout() -> Void {
         configureButton(phoneIdService.isLoggedIn)
     }
 }

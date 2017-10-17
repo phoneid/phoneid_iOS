@@ -31,6 +31,7 @@ class PhoneIdNumberValidationError:PhoneIdServiceError{
     }
 }
 
+@objcMembers
 open class NumberInfo: NSObject {
     
     open var phoneNumber:String?

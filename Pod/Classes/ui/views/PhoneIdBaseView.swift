@@ -70,7 +70,7 @@ open class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer {
 
     }
 
-    func closeButtonTapped() {
+    @objc func closeButtonTapped() {
 
     }
 

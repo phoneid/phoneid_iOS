@@ -39,11 +39,11 @@ class StandardExampleViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func presetNumberChanged(_ sender:UITextField){
+    @objc func presetNumberChanged(_ sender:UITextField){
         phoneIdButton.phoneNumberE164 = details.switchUserPresetNumber.isOn ? sender.text : ""
     }
     
-    func presetNumberSwitchChanged(_ sender:UISwitch){
+    @objc func presetNumberSwitchChanged(_ sender:UISwitch){
         phoneIdButton.phoneNumberE164 = sender.isOn ? details.presetNumber.text : ""
     }
 }

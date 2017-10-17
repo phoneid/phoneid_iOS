@@ -96,7 +96,7 @@ open class EditProfileViewController: UIViewController, PhoneIdConsumer, EditPro
         imagePickerViewController.allowsEditing = false
         imagePickerViewController.sourceType = sourceType
         let colorScheme = self.phoneIdComponentFactory.colorScheme
-        imagePickerViewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: colorScheme.headerTitleText]
+        imagePickerViewController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: colorScheme.headerTitleText]
         imagePickerViewController.navigationBar.isTranslucent = false
         imagePickerViewController.navigationBar.barStyle = UIBarStyle.default
         imagePickerViewController.navigationBar.barTintColor = colorScheme.headerBackground
