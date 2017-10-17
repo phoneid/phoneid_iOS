@@ -19,134 +19,81 @@
 
 
 import Foundation
-import AddressBook
-
-// Going to switch to Contacts framework as soon we drop support of iOS8
+import Contacts
 
 class ContactsLoader: NSObject {
 
-    var book: ABAddressBook!
 
-    func createAddressBook() -> Bool {
+    func getContacts(_ defaultISOCountryCode: String, completion: @escaping ([ContactInfo]?) -> Void) {
 
-        if self.book != nil {
-            return true
-        }
-
-        var err: Unmanaged<CFError>? = nil
-        let adbk: ABAddressBook? = ABAddressBookCreateWithOptions(nil, &err).takeRetainedValue()
-
-        if adbk == nil {
-            print(err)
-            self.book = nil
-            return false
-        }
-
-        self.book = adbk
-
-        return true
-    }
-
-    func determineStatus(completion: (Bool) -> Void) {
-        let status = ABAddressBookGetAuthorizationStatus()
-        switch status {
-        case .Authorized:
-            self.createAddressBook()
-            completion(true)
-
-        case .NotDetermined:
-            ABAddressBookRequestAccessWithCompletion(nil) {
-                (granted: Bool, err: CFError!) in
-                dispatch_async(dispatch_get_main_queue()) {
-                    if granted {
-                        self.createAddressBook()
-                    } else {
-                        self.book = nil
+        let store = CNContactStore()
+        
+        var result: [ContactInfo]?
+        
+        store.requestAccess(for: .contacts) { (granted, error) in
+            if granted {
+            
+                do {
+                    
+                    let keysToFetch = [CNContactGivenNameKey as CNKeyDescriptor
+                        , CNContactFamilyNameKey as CNKeyDescriptor
+                        , CNContactPhoneNumbersKey as CNKeyDescriptor
+                        , CNContactOrganizationNameKey as CNKeyDescriptor]
+                    
+                    // Get all the containers
+                    var allContainers: [CNContainer] = []
+                    do {
+                        allContainers = try store.containers(matching: nil)
+                    } catch {
+                        print("Error fetching containers")
                     }
-                    completion(granted)
-                }
-            }
-        case .Restricted, .Denied:
-            self.book = nil
-            completion(false)
-        }
-    }
-
-    func getContacts(defaultISOCountryCode: String, completion: ([ContactInfo]?) -> Void) {
-
-        determineStatus {
-            [unowned self] (authenticated) -> Void in
-
-            var result: [ContactInfo]?
-
-            if (authenticated) {
-
-                let people = ABAddressBookCopyArrayOfAllPeople(self.book).takeRetainedValue() as NSArray as [ABRecord]
-                for person: ABRecordRef in people {
-
-                    var contactInfo: ContactInfo!
-
-                    let phonesRef: ABMultiValueRef = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue() as ABMultiValueRef
-
-                    for i: Int in 0 ..< ABMultiValueGetCount(phonesRef) {
-
-                        if let value = ABMultiValueCopyValueAtIndex(phonesRef, i).takeRetainedValue() as? String {
-
-                            if let number = NumberInfo.e164Format(value, iso: defaultISOCountryCode) {
-
-                                contactInfo = ContactInfo()
-
-                                contactInfo.number = number
-                                
-                                
-                                let locLabel : CFStringRef = (ABMultiValueCopyLabelAtIndex(phonesRef, i) != nil) ? ABMultiValueCopyLabelAtIndex(phonesRef, i).takeUnretainedValue() as CFStringRef : ""
-                                
-                                let cfStr:CFTypeRef = locLabel
-                                let nsTypeString = cfStr as! NSString
-                                let customLabel:String = nsTypeString as String
-
-                                contactInfo.kind = customLabel
-                                    .stringByReplacingOccurrencesOfString("_$!<", withString: "")
-                                    .stringByReplacingOccurrencesOfString(">!$_", withString: "")
-
-                                if let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.firstName = firstName
-                                }
-
-                                if let lastName = ABRecordCopyValue(person, kABPersonLastNameProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.lastName = lastName
-                                }
-
-                                if let lastName = ABRecordCopyValue(person, kABPersonOrganizationProperty)?.takeRetainedValue() as? String {
-                                    contactInfo.company = lastName
-                                }
-                            }
-                        }
-                        if (contactInfo != nil) {
-                            if result == nil {
-                                result = []
-                            }
-                            result?.append(contactInfo)
+                    
+                    var contacts: [CNContact] = []
+                    
+                    // Iterate all containers and append their contacts to our results array
+                    for container in allContainers {
+                        let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
+                        
+                        do {
+                            let containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch)
+                            contacts.append(contentsOf: containerResults)
+                        } catch {
+                            print("Error fetching results for container")
                         }
                     }
-
-
+                    
+                    contacts.forEach({ (contact) in
+                        
+                        contact.phoneNumbers.forEach({ (numberInfo) in
+                        
+                            let number = NumberInfo.e164Format(numberInfo.value.stringValue, iso: defaultISOCountryCode)
+                            if let number = number {
+                                let info = ContactInfo()
+                                info.number = number
+                                info.kind = numberInfo.label
+                                info.company = contact.organizationName
+                                info.firstName = contact.givenName
+                                info.lastName = contact.familyName
+                                
+                                if result == nil { result = [] }
+                                result?.append(info)
+                            }
+                        })
+                    })
+                    
                 }
-
-            } else {
-
+                
+            }else{
+            
                 let alertController = UIAlertController(title: nil, message: NSLocalizedString(
-                "phone.id.needs.access.to.your.contacts", bundle: NSBundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .Alert)
-
-                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: NSBundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .Cancel, handler: nil));
-
-                UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
-
-
+                    "phone.id.needs.access.to.your.contacts", bundle: Bundle.phoneIdBundle(), comment: "phone.id.needs.access.to.your.contacts"), preferredStyle: .alert)
+                
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: Bundle.phoneIdBundle(), comment: "alert.button.title.dismiss"), style: .cancel, handler: nil));
+                
+                UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+                
             }
             completion(result)
         }
     }
-
-
 }

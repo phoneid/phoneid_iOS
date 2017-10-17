@@ -24,7 +24,7 @@ class WebImageView: UIImageView {
     var activityIndicator:UIActivityIndicatorView!
     
     init(){
-       super.init(frame:CGRectZero)
+       super.init(frame:CGRect.zero)
        setupSubviews()
     }
     
@@ -44,31 +44,32 @@ class WebImageView: UIImageView {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(activityIndicator)
         
-        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant:0))
-        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant:0))
+        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant:0))
+        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant:0))
     }
     
-    func getDataFromUrl(url:String, completion: ((data: NSData?) -> Void)) {
-        let urlSession = PhoneIdService.sharedInstance.urlSession
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        
-        request.cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-        
-        let dataTask = urlSession.dataTaskWithRequest(request) { (data, response, error) -> Void in
-            completion(data: data != nil ? NSData(data: data!) : nil )
+    func getDataFromUrl(_ url:String, completion: @escaping ((_ data: Data?) -> Void)) {
+        if let urlSession = PhoneIdService.sharedInstance.urlSession {
+            var request = URLRequest(url: URL(string: url)!)
+            
+            request.cachePolicy = NSURLRequest.CachePolicy.useProtocolCachePolicy
+            
+            let dataTask = urlSession.dataTask(with: request, completionHandler: { (data, response, error) in
+                completion(data)
+            })
+            
+            dataTask.resume()
         }
-        dataTask.resume()
     }
     
-    func downloadImage(url:String?){
+    func downloadImage(_ url:String?){
         
         guard url != nil else {
             return
         }
         self.activityIndicator.startAnimating()
         getDataFromUrl(url!) { data in
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 self.image = data != nil ? UIImage(data: data!) : nil
             }

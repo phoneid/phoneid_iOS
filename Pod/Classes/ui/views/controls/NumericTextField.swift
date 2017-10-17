@@ -19,6 +19,26 @@
 
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class NumericTextFieldDelegate: NSObject, UITextFieldDelegate{
     var maxLength = NSIntegerMax
@@ -29,15 +49,15 @@ class NumericTextFieldDelegate: NSObject, UITextFieldDelegate{
     }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if (range.length + range.location > textField.text?.characters.count )
         {
             return false;
         }
         
-        let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
-        let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
+        let disallowedCharacterSet = CharacterSet(charactersIn: "0123456789").inverted
+        let replacementStringIsLegal = string.rangeOfCharacter(from: disallowedCharacterSet) == nil
         
         let newLength = textField.text!.characters.count + string.characters.count - range.length
         return newLength <= maxLength && replacementStringIsLegal
@@ -49,7 +69,7 @@ class NumericTextField: UITextField{
     var numericDelegate:NumericTextFieldDelegate!
     
     init(maxLength:Int){
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         numericDelegate = NumericTextFieldDelegate(maxLength:maxLength)
         self.delegate = numericDelegate
     }
@@ -58,8 +78,8 @@ class NumericTextField: UITextField{
         super.init(coder:aDecoder)
     }
     
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        UIMenuController.sharedMenuController().menuVisible = false
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        UIMenuController.shared.isMenuVisible = false
         return false
     }
     

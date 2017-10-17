@@ -30,13 +30,13 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
     let tokenJSON = ["token_type":"bearer",
         "access_token": "ea99fa1f6a7c7713dbcc7d94edfdbc48b15c47a0",
         "expires_in": 10,
-        "refresh_token":"5023784657d3549ad4887c3d313d42bab83106b6"]
+        "refresh_token":"5023784657d3549ad4887c3d313d42bab83106b6"] as [String : Any]
     
     var phoneId:PhoneIdService! = PhoneIdService.sharedInstance;
     
     override func setUp() {
         
-        let urlSession = MockUtil.sessionForMockResponseWithParams(Endpoints.RequestToken.endpoint(), params:tokenJSON, statusCode:200)
+        let urlSession = MockUtil.sessionForMockResponseWithParams(Endpoints.requestToken.endpoint(), params:tokenJSON as AnyObject, statusCode:200)
         
         KeychainStorage.clear()
         phoneId.urlSession = urlSession
@@ -44,13 +44,13 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
         
         phoneId.configureClient(TestConstants.ClientId, autorefresh: true)
         
-       let expectation = expectationWithDescription("expect success code verification")
+       let expectation = self.expectation(description: "expect success code verification")
        phoneId.verifyAuthentication(TestConstants.VerificationCode, info: TestConstants.numberInfo) { (token, error) -> Void in
            if(token != nil && token!.isValid()){
                expectation.fulfill()
            }
        }
-       waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+       waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
         
     }
     
@@ -67,11 +67,11 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
         
         XCTAssertTrue(phoneId.refreshMonitor.isRunning)
         
-        notificationCenter.postNotificationName(UIApplicationDidEnterBackgroundNotification, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         XCTAssertFalse(phoneId.refreshMonitor.isRunning)
         
-        notificationCenter.postNotificationName(UIApplicationWillEnterForegroundNotification, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         XCTAssertTrue(phoneId.refreshMonitor.isRunning)
         
@@ -79,31 +79,31 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
     
     func testRefreshByTimer() {
         
-        var expectation = expectationWithDescription("expect successfulll token refresh")
+        var expectation = self.expectation(description: "expect successfulll token refresh")
         phoneId.phoneIdAuthenticationRefreshed = { (token) -> Void  in
             XCTAssertNotNil(token)
             expectation.fulfill()
         }
-        waitForExpectationsWithTimeout(8, handler: nil)
+        waitForExpectations(timeout: 8, handler: nil)
         
-        expectation = expectationWithDescription("expect successfulll token refresh")
+        expectation = self.expectation(description: "expect successfulll token refresh")
         phoneId.phoneIdAuthenticationRefreshed = { (token) -> Void  in
             XCTAssertNotNil(token)
             expectation.fulfill()
         }
-        waitForExpectationsWithTimeout(8, handler: nil)
+        waitForExpectations(timeout: 8, handler: nil)
         
     }
     
     func testNotRefreshAfterLogout() {
         
-        let expectation = expectationWithDescription("expect successfulll token refresh")
+        let expectation = self.expectation(description: "expect successfulll token refresh")
         phoneId.phoneIdAuthenticationRefreshed = { (token) -> Void  in
             XCTAssertNotNil(token)
             expectation.fulfill()
             self.phoneId.logout()
         }
-        waitForExpectationsWithTimeout(TestConstants.defaultStepTimeout, handler: nil)
+        waitForExpectations(timeout: TestConstants.defaultStepTimeout, handler: nil)
         
         
         var refreshed = false
@@ -117,10 +117,10 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
             refreshed = true
         }
         
-        let expectation1 = expectationWithDescription("expect token not refreshing")
+        let expectation1 = self.expectation(description: "expect token not refreshing")
         delay(15) {expectation1.fulfill()}
         
-        waitForExpectationsWithTimeout(20, handler:nil)
+        waitForExpectations(timeout: 20, handler:nil)
         
         XCTAssertFalse(refreshed)
         XCTAssertFalse(errorReceived)
@@ -130,26 +130,26 @@ class PhoneIdRefreshMonitorTests: XCTestCase {
     func testRefreshExpiredTokenAfterEnterForeground() {
         
         let notificationCenter = phoneId.refreshMonitor.notificationCenter
-        notificationCenter.postNotificationName(UIApplicationDidEnterBackgroundNotification, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         
         let token:TokenInfo = phoneId.token!
-        token.timestamp =  NSDate().dateByAddingTimeInterval(NSTimeInterval(-30))
+        token.timestamp =  Date().addingTimeInterval(TimeInterval(-30))
         token.saveToKeychain()
         
         XCTAssertFalse( phoneId.token == nil)
         XCTAssertTrue(phoneId.token!.expired)
         
         
-        let expectation1 = expectationWithDescription("expect successfulll token refresh")
+        let expectation1 = expectation(description: "expect successfulll token refresh")
         phoneId.phoneIdAuthenticationRefreshed = { (token) -> Void  in
             expectation1.fulfill()
             self.phoneId.logout()
         }
         
-        notificationCenter.postNotificationName(UIApplicationWillEnterForegroundNotification, object: nil)
+        notificationCenter?.post(name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
-        waitForExpectationsWithTimeout(8, handler:nil)
+        waitForExpectations(timeout: 8, handler:nil)
         
     }
     

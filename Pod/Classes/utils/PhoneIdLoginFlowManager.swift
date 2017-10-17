@@ -20,16 +20,16 @@
 import Foundation
 
 
-public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
+open class PhoneIdLoginWorkflowManager:NSObject, Customizable {
     
-    public var colorScheme: ColorScheme!
-    public var localizationBundle: NSBundle!
-    public var localizationTableName: String!
+    @objc open var colorScheme: ColorScheme!
+    @objc open var localizationBundle: Bundle!
+    @objc open var localizationTableName: String!
     
     var phoneIdService: PhoneIdService
     var phoneIdComponentFactory: ComponentFactory
     
-    public override init() {
+    @objc public override init() {
         
         phoneIdService = PhoneIdService.sharedInstance
         phoneIdComponentFactory = phoneIdService.componentFactory
@@ -38,7 +38,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         prep()
     }
     
-    public init(phoneIdService _phoneIdService:PhoneIdService, phoneIdComponentFactory _phoneIdComponentFactory:ComponentFactory){
+    @objc public init(phoneIdService _phoneIdService:PhoneIdService, phoneIdComponentFactory _phoneIdComponentFactory:ComponentFactory){
         
         phoneIdService = _phoneIdService
         phoneIdComponentFactory = _phoneIdComponentFactory
@@ -47,7 +47,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         prep()
     }    
     
-    public func startLoginFlow(presentFromController:UIViewController? = nil,
+    @objc open func startLoginFlow(_ presentFromController:UIViewController? = nil,
                                initialPhoneNumerE164:String? = nil,
                                startAnimatingProgress:(()->())? = nil,
                                stopAnimationProgress:(()->())? = nil){
@@ -72,7 +72,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
                                      initialPhoneNumerE164:String?,
                                      lock:(()->())?,
                                      unlock:(()->())?,
-                                     startAnimatingProgress:((Void)->(Void))?,
+                                     startAnimatingProgress:(()->(Void))?,
                                      stopAnimationProgress:(()->())?){
         
         lock?()
@@ -97,10 +97,10 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
                 if (error == nil) {
                     me.presentLoginViewController(initialPhoneNumerE164, presentingViewController:presenter)
                 } else {
-                    let alertController = UIAlertController(title: error?.localizedDescription, message: error?.localizedFailureReason, preferredStyle: .Alert)
+                    let alertController = UIAlertController(title: error?.localizedDescription, message: error?.localizedFailureReason, preferredStyle: .alert)
                     
-                    alertController.addAction(UIAlertAction(title: me.localizedString("alert.button.title.dismiss"), style: .Cancel, handler: nil));
-                    presenter.presentViewController(alertController, animated: true, completion: nil)
+                    alertController.addAction(UIAlertAction(title: me.localizedString("alert.button.title.dismiss"), style: .cancel, handler: nil));
+                    presenter.present(alertController, animated: true, completion: nil)
                 }
                 unlock?()
                 })
@@ -108,7 +108,7 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         
     }
     
-    private func presentingController() -> UIViewController{
+    fileprivate func presentingController() -> UIViewController{
 
         let phoneIdWindow = PhoneIdWindow()
         phoneIdWindow.makeActive()
@@ -117,18 +117,18 @@ public class PhoneIdLoginWorkflowManager:NSObject, Customizable {
         return presentingController
     }
     
-    private func presentLoginViewController(phoneNumberE164:String?, presentingViewController:UIViewController) {
+    fileprivate func presentLoginViewController(_ phoneNumberE164:String?, presentingViewController:UIViewController) {
         
         let controller = phoneIdComponentFactory.loginViewController()
         
         let navigation = UINavigationController(rootViewController: controller)
-        navigation.navigationBar.hidden = true
+        navigation.navigationBar.isHidden = true
         
         if let phoneNumberE164 = phoneNumberE164 {
             controller.phoneIdModel = NumberInfo(numberE164: phoneNumberE164)
         }
         
-        presentingViewController.presentViewController(navigation, animated: true, completion: nil)
+        presentingViewController.present(navigation, animated: true, completion: nil)
         
     }
 }

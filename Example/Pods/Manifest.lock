@@ -1,7 +1,7 @@
 PODS:
-  - libPhoneNumber-iOS (0.8.17)
-  - phoneid_iOS (0.1.8):
-    - libPhoneNumber-iOS (~> 0.8.16)
+  - libPhoneNumber-iOS (0.9.10)
+  - phoneid_iOS (1.0):
+    - libPhoneNumber-iOS (~> 0.9.10)
 
 DEPENDENCIES:
   - phoneid_iOS (from `../`)
@@ -11,7 +11,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  libPhoneNumber-iOS: 9f083847f8cb9b81064cff2ed2c98cbf18d9f9f2
-  phoneid_iOS: 5be0db1270ff21a6a9d4821836f1f352d5905d19
+  libPhoneNumber-iOS: f721ae4d5854bce60934f9fb9b0b28e8e68913cb
+  phoneid_iOS: 8c55916957b45841c41e5d9f7f2ec02a5af05111
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 2e0332d416c7dd65f4df2fde966147d805b769fc
+
+COCOAPODS: 1.2.1

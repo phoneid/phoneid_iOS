@@ -30,7 +30,7 @@ internal struct Notifications {
 }
 
 internal struct Constants {
-    static let baseURL = NSURL(string: "https://api.phone.id/v2/")!
+    static let baseURL = URL(string: "https://api.phone.id/v2/")!
 }
 
 internal struct  HttpMethod {
@@ -53,23 +53,23 @@ internal struct  HttpHeaderValue{
 }
 
 internal enum Endpoints {
-    case RequestCode
-    case RequestToken
-    case RequestMe
-    case ClientsList
-    case Contacts
-    case NeedRefreshContacts
-    case UploadAvatar
+    case requestCode
+    case requestToken
+    case requestMe
+    case clientsList
+    case contacts
+    case needRefreshContacts
+    case uploadAvatar
     
-    func endpoint(params: String...) -> String {
+    func endpoint(_ params: String...) -> String {
         switch (self) {
-        case .RequestCode: return "auth/sendcode"
-        case .RequestToken: return "auth/token"
-        case .RequestMe: return "users/me"
-        case .ClientsList: return "clients/\(params[0])"
-        case .Contacts: return "contacts"
-        case .NeedRefreshContacts: return "contacts/refresh?checksum=\(params[0])"
-        case .UploadAvatar: return "users/upload"
+        case .requestCode: return "auth/sendcode"
+        case .requestToken: return "auth/token"
+        case .requestMe: return "users/me"
+        case .clientsList: return "clients/\(params[0])"
+        case .contacts: return "contacts"
+        case .needRefreshContacts: return "contacts/refresh?checksum=\(params[0])"
+        case .uploadAvatar: return "users/upload"
         }
     }
 }
@@ -88,13 +88,13 @@ internal struct NumberKey {
 }
 
 internal enum AuthChannels{
-    case Sms
-    case Call
+    case sms
+    case call
     var value:String{
         get{
           switch(self){
-          case Sms: return "sms"
-          case Call: return "call"}
+          case .sms: return "sms"
+          case .call: return "call"}
         }
     }
 }

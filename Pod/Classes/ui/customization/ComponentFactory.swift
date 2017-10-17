@@ -25,85 +25,85 @@ import Foundation
 
     func loginViewController() -> LoginViewController
 
-    func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController
+    func countryCodePickerViewController(_ model: NumberInfo) -> CountryCodePickerViewController
 
-    func editProfileViewController(model: UserInfo) -> EditProfileViewController
+    func editProfileViewController(_ model: UserInfo) -> EditProfileViewController
 
-    func imageEditViewController(image: UIImage) -> ImageEditViewController
+    func imageEditViewController(_ image: UIImage) -> ImageEditViewController
 
-    func editUserNameViewController(model: UserInfo) -> UserNameViewController
+    func editUserNameViewController(_ model: UserInfo) -> UserNameViewController
 
-    func loginView(model: NumberInfo) -> LoginView
+    func loginView(_ model: NumberInfo) -> LoginView
 
-    func countryCodePickerView(model: NumberInfo) -> CountryCodePickerView
+    func countryCodePickerView(_ model: NumberInfo) -> CountryCodePickerView
 
-    func editProfileView(model: UserInfo) -> EditProfileView
+    func editProfileView(_ model: UserInfo) -> EditProfileView
 
-    func userNameView(model: String?) -> UserNameView
+    func userNameView(_ model: String?) -> UserNameView
 
     var colorScheme:ColorScheme {get set}
 
-    var localizationBundle: NSBundle {get set}
+    var localizationBundle: Bundle {get set}
 
     var localizationTableName:String {get set}
 
     var defaultBackgroundImage:UIImage? {get set}
 }
 
-@objc public class DefaultComponentFactory: NSObject, ComponentFactory {
+@objc open class DefaultComponentFactory: NSObject, ComponentFactory {
 
-    public func loginViewController() -> LoginViewController {
+    open func loginViewController() -> LoginViewController {
         let controller = LoginViewController()
         return controller
     }
 
-    public func loginView(model: NumberInfo) -> LoginView {
+    open func loginView(_ model: NumberInfo) -> LoginView {
         let view = LoginView(model: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
-    public func countryCodePickerViewController(model: NumberInfo) -> CountryCodePickerViewController {
+    open func countryCodePickerViewController(_ model: NumberInfo) -> CountryCodePickerViewController {
         let controller = CountryCodePickerViewController(model: model)
         return controller
     }
 
-    public func countryCodePickerView(model: NumberInfo) -> CountryCodePickerView {
+    open func countryCodePickerView(_ model: NumberInfo) -> CountryCodePickerView {
         let view = CountryCodePickerView(model: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
-    public func editProfileViewController(model: UserInfo) -> EditProfileViewController {
+    open func editProfileViewController(_ model: UserInfo) -> EditProfileViewController {
         let controller = EditProfileViewController(model: model)
         return controller
     }
 
-    public func imageEditViewController(image: UIImage) -> ImageEditViewController {
+    open func imageEditViewController(_ image: UIImage) -> ImageEditViewController {
         let controller = ImageEditViewController(image: image)
         return controller
     }
 
-    public func editUserNameViewController(model: UserInfo) -> UserNameViewController {
+    open func editUserNameViewController(_ model: UserInfo) -> UserNameViewController {
         let controller = UserNameViewController(model: model)
         return controller
     }
 
-    public func userNameView(model: String?) -> UserNameView {
+    open func userNameView(_ model: String?) -> UserNameView {
         let view = UserNameView(userName: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
-    public func editProfileView(model: UserInfo) -> EditProfileView {
+    open func editProfileView(_ model: UserInfo) -> EditProfileView {
         let view = EditProfileView(user: model, scheme: self.colorScheme, bundle: self.localizationBundle, tableName: localizationTableName)
         return view
     }
 
-    public var colorScheme = ColorScheme()
+    open var colorScheme = ColorScheme()
 
-    public var localizationBundle = NSBundle.phoneIdBundle()
+    open var localizationBundle = Bundle.phoneIdBundle()
 
-    public var localizationTableName = "Localizable"
+    open var localizationTableName = "Localizable"
 
-    public var defaultBackgroundImage = UIImage(namedInPhoneId: "background")
+    open var defaultBackgroundImage = UIImage(namedInPhoneId: "background")
 
 }
 

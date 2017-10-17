@@ -24,8 +24,8 @@ class PhoneIdWindow: UIWindow {
     weak var previousKeyWindow: UIWindow?
 
     required init() {
-        var frame = UIScreen.mainScreen().bounds
-        if let wnd = UIApplication.sharedApplication().keyWindow {
+        var frame = UIScreen.main.bounds
+        if let wnd = UIApplication.shared.keyWindow {
             frame = wnd.frame
         }
         super.init(frame: frame)
@@ -36,7 +36,7 @@ class PhoneIdWindow: UIWindow {
     }
 
     class func activePhoneIdWindow() -> PhoneIdWindow? {
-        return UIApplication.sharedApplication().keyWindow as? PhoneIdWindow
+        return UIApplication.shared.keyWindow as? PhoneIdWindow
     }
 
     class func currentPresenter() -> UIViewController {
@@ -49,15 +49,15 @@ class PhoneIdWindow: UIWindow {
 
     func close() {
         self.resignFirstResponder()
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             () -> Void in
             self.alpha = 0
 
-        }) {
+        }, completion: {
             (Bool) -> Void in
             self.removeFromSuperview()
             self.previousKeyWindow?.makeKeyAndVisible()
-        }
+        }) 
 
     }
 

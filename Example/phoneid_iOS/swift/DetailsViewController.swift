@@ -59,10 +59,10 @@ class DetailsViewController: UIViewController {
         // SDK calls this block when user taps close button
         phoneId.phoneIdAuthenticationCancelled = { [unowned self] in
             
-            let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .Alert)
+            let alertController = UIAlertController(title:nil, message:"phone.id authentication has been cancelled", preferredStyle: .alert)
             
-            alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
-            self.parentViewController!.presentViewController(alertController, animated: true, completion:nil)
+            alertController.addAction(UIAlertAction(title:"Dismiss", style: .cancel, handler:nil));
+            self.parent!.present(alertController, animated: true, completion:nil)
         }
         
         // SDK calls this block every time when token refreshed
@@ -78,38 +78,38 @@ class DetailsViewController: UIViewController {
     }
     
     func updateTokenInfoView(){
-        self.tokensView.hidden = !phoneId.isLoggedIn
+        self.tokensView.isHidden = !phoneId.isLoggedIn
         if let token = phoneId.token {
             self.tokenText.text = token.accessToken
             self.refreshTokenText.text = token.refreshToken
         }
     }
     
-    @IBAction func uploadContactsTapped(sender: UIButton) {
-        let uploadInDebugMode = switchDebugContactsUpload.on
+    @IBAction func uploadContactsTapped(_ sender: UIButton) {
+        let uploadInDebugMode = switchDebugContactsUpload.isOn
         phoneId.uploadContacts(debugMode:uploadInDebugMode) { (numberOfUpdatedContacts, error) -> Void in
             
             var alertController:UIAlertController!
             
             if let error = error {
-                alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .Alert)
+                alertController = UIAlertController(title:error.localizedDescription, message:error.localizedFailureReason, preferredStyle: .alert)
             }else{
-                alertController = UIAlertController(title:"Number of updated contacts", message:"\(numberOfUpdatedContacts)", preferredStyle: .Alert)
+                alertController = UIAlertController(title:"Number of updated contacts", message:"\(numberOfUpdatedContacts)", preferredStyle: .alert)
             }
             
-            alertController.addAction(UIAlertAction(title:"Dismiss", style: .Cancel, handler:nil));
-            self.parentViewController!.presentViewController(alertController, animated: true, completion:nil)
+            alertController.addAction(UIAlertAction(title:"Dismiss", style: .cancel, handler:nil));
+            self.parent!.present(alertController, animated: true, completion:nil)
             
         }
     }
     
-    @IBAction func editProfileTapped(sender: AnyObject) {
+    @IBAction func editProfileTapped(_ sender: AnyObject) {
         
         phoneId.loadMyProfile{ (userInfo, e) -> Void in
             
             if let user = userInfo{
                 let profileController = self.phoneId.componentFactory.editProfileViewController(user)
-                self.presentViewController(profileController, animated: true, completion: nil)
+                self.present(profileController, animated: true, completion: nil)
             }
         }
     }

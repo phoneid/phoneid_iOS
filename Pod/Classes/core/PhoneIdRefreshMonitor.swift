@@ -21,10 +21,10 @@
 import Foundation
 
 class PhoneIdRefreshMonitor{
-    var timer:NSTimer?
-    var notificationCenter:NSNotificationCenter!
+    var timer:Timer?
+    var notificationCenter:NotificationCenter!
     weak var phoneId:PhoneIdService!
-    var reachability:Reachability? = try?Reachability.reachabilityForInternetConnection()
+    var reachability:Reachability?
     
     var isRunning:Bool
     let maxRefreshRetryCount = 5
@@ -32,18 +32,24 @@ class PhoneIdRefreshMonitor{
     var refreshRetryCount:Int
     
     
-    init(phoneIdService:PhoneIdService, notificationCenter:NSNotificationCenter){
+    init(phoneIdService:PhoneIdService, notificationCenter:NotificationCenter){
         phoneId = phoneIdService
         isRunning = false
         refreshRetryCount = 0
         self.notificationCenter = notificationCenter
         
-        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.willEnterForeground), name: UIApplicationWillEnterForegroundNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.didEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        do{
+            reachability = try Reachability()
+        } catch {
+            print("PhoneId: Failed to start reachability monitor")
+        }
+        
+        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(PhoneIdRefreshMonitor.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     convenience init(phoneIdService:PhoneIdService){
-        self.init(phoneIdService:phoneIdService, notificationCenter: NSNotificationCenter.defaultCenter())
+        self.init(phoneIdService:phoneIdService, notificationCenter: NotificationCenter.default)
     }
     
     deinit{
@@ -70,25 +76,30 @@ class PhoneIdRefreshMonitor{
     }
     
     func startReachabilityMonitoring(){
-        if let reachability = reachability{
-            reachability.whenReachable = {[unowned self] reachability in
-                self.start()
-            }
-            reachability.whenUnreachable = {[unowned self] reachability in
-                self.stop()
-            }
-            do {
-                try reachability.startNotifier()
-            } catch {
-                print("Unable to start reachability notifier for phone.id")
-            }
-        }else{
-            print("Failed to create reachability object for phone.id refresh token monitor.")
-        }
+        
+        try?reachability?.start()
+        
+//        if let reachability = reachability{
+//            
+//            
+//            reachability.whenReachable = {[unowned self] reachability in
+//                self.start()
+//            }
+//            reachability.whenUnreachable = {[unowned self] reachability in
+//                self.stop()
+//            }
+//            do {
+//                try reachability.startNotifier()
+//            } catch {
+//                print("Unable to start reachability notifier for phone.id")
+//            }
+//        }else{
+//            print("Failed to create reachability object for phone.id refresh token monitor.")
+//        }
 
     }
     
-    func resetTimer(token:TokenInfo){
+    func resetTimer(_ token:TokenInfo){
         refreshRetryCount = 0
         timer?.invalidate()
         timer = nil
@@ -96,14 +107,14 @@ class PhoneIdRefreshMonitor{
         var fireTime = 0.0
         
         if let expirationTime = token.expirationTime {
-            fireTime = expirationTime.timeIntervalSince1970 - NSTimeInterval(token.expirationPeriod!/3)
+            fireTime = expirationTime.timeIntervalSince1970 - TimeInterval(token.expirationPeriod!/3)
         }
         
-        if(fireTime > NSDate().timeIntervalSince1970){
+        if(fireTime > Date().timeIntervalSince1970){
             
-            let fireDate = NSDate(timeIntervalSince1970:fireTime)
-            timer = NSTimer(fireDate: fireDate, interval: 0, target: self, selector: #selector(PhoneIdRefreshMonitor.timerFired), userInfo: nil, repeats: false)
-            NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
+            let fireDate = Date(timeIntervalSince1970:fireTime)
+            timer = Timer(fireAt: fireDate, interval: 0, target: self, selector: #selector(PhoneIdRefreshMonitor.timerFired), userInfo: nil, repeats: false)
+            RunLoop.current.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
             
         }else{
             timerFired()
@@ -123,8 +134,8 @@ class PhoneIdRefreshMonitor{
                 
             }else if(self.refreshRetryCount <= self.maxRefreshRetryCount){
                 
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(self.refreshRetrySleepSeconds * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                let delayTime = DispatchTime.now() + Double(Int64(self.refreshRetrySleepSeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
                     self.timerFired()
                 }
                 

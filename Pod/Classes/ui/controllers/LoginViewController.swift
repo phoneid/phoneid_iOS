@@ -19,9 +19,9 @@
 
 import UIKit
 
-public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDelegate {
+open class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDelegate {
 
-    private var loginView: LoginView! {
+    fileprivate var loginView: LoginView! {
         get {
             let result = self.view as? LoginView
             if (result == nil) {
@@ -44,15 +44,15 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
         fatalError("NSCoding not supported")
     }
 
-    public override func loadView() {
+    open override func loadView() {
         let result = phoneIdComponentFactory.loginView(self.phoneIdModel)
         result.loginViewDelegate = self
 
         self.view = result
-        self.loginView.switchToState(.NumberInput)
+        self.loginView.switchToState(.numberInput)
 
         self.loginView.verifyCodeControl.requestVoiceCall = {
-            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .Call, completion: {
+            self.phoneIdService.requestAuthenticationCode(self.phoneIdModel, channel: .call, completion: {
                 (error) -> Void in
                 if let e = error {
                     self.presentError(e)
@@ -61,68 +61,68 @@ public class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDe
         }
     }
 
-    public func numberInputCompleted(model: NumberInfo) {
+    open func numberInputCompleted(_ model: NumberInfo) {
         self.phoneIdModel = model
         
-        PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(numberInfo: model)
+        PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(model)
         
         phoneIdService.requestAuthenticationCode(phoneIdModel, completion: {
             (error) -> Void in
             if let e = error {
                 self.presentError(e)
             } else {
-                self.loginView.switchToState(.CodeVerification)
+                self.loginView.switchToState(.codeVerification)
             }
         })
     }
 
-    func presentError(error: NSError) {
+    func presentError(_ error: NSError) {
         let bundle = self.phoneIdService.componentFactory.localizationBundle
-        let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: NSLocalizedString("alert.title.error", bundle: bundle, comment: "Error"), message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.alert)
 
-        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.title.dismiss", bundle: bundle, comment: "Dismiss"), style: .cancel, handler: nil))
 
-        self.presentViewController(alert, animated: false, completion: nil)
+        self.present(alert, animated: false, completion: nil)
     }
 
-    public func goBack() {
-        self.loginView.switchToState(.NumberInput)
+    open func goBack() {
+        self.loginView.switchToState(.numberInput)
     }
 
-    public func verifyCode(model: NumberInfo, code: String) {
+    open func verifyCode(_ model: NumberInfo, code: String) {
         
-        PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(verificationCode:code)
+        PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(code)
         
         phoneIdService.verifyAuthentication(code, info: model) {
             [unowned self] (token, error) -> Void in
 
             if (error == nil) {
-                self.loginView.switchToState(.CodeVerificationSuccess) {
+                self.loginView.switchToState(.codeVerificationSuccess) {
                     self.callPhoneIdCompletion(true)
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                     PhoneIdWindow.activePhoneIdWindow()?.close()
                 }
 
             } else {
-                self.loginView.switchToState(.CodeVerificationFail)
+                self.loginView.switchToState(.codeVerificationFail)
             }
 
         }
     }
 
-    func callPhoneIdCompletion(success: Bool) {
+    func callPhoneIdCompletion(_ success: Bool) {
         if (success) {
             print("PhoneId login finished")
-            self.phoneIdService.phoneIdAuthenticationSucceed?(token: self.phoneIdService.token!)
+            self.phoneIdService.phoneIdAuthenticationSucceed?(self.phoneIdService.token!)
         } else {
             print("PhoneId login cancelled")
             self.phoneIdService.phoneIdAuthenticationCancelled?()
         }
     }
 
-    public func close() {
+    open func close() {
         self.loginView.resignFirstResponder()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         self.callPhoneIdCompletion(false)
         PhoneIdWindow.activePhoneIdWindow()?.close()
     }

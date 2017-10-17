@@ -20,22 +20,22 @@
 
 import Foundation
 
-typealias NetworkingCompletion = Response -> Void
+typealias NetworkingCompletion = (Response) -> Void
 
 public struct Response {
 
-    let response: NSURLResponse!
-    let data: NSData!
+    let response: URLResponse!
+    let data: Data!
     var error: NSError?
     
-    var responseJSON: AnyObject? {
-        var result:AnyObject? = nil;
+    var responseJSON: Any? {
+        var result:Any? = nil;
         if let data = data {
             do {
-                result = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                result = try JSONSerialization.jsonObject(with: data, options: [])
             } catch _ {
                 if let e = error{
-                   NSLog("Failed to deserialize JSON due to %@", e.localizedDescription)
+                   print("Failed to deserialize JSON due to %@", e.localizedDescription)
                 }
             }
         }
@@ -44,7 +44,7 @@ public struct Response {
     
     var responseString: String? {
         if let data = data,
-            string = NSString(data: data, encoding: NSUTF8StringEncoding) {
+            let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
                 return String(string)
         } else {
             return nil

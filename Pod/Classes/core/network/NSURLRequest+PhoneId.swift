@@ -21,11 +21,11 @@
 import Foundation
 
 
-extension NSURLRequest{
+extension URLRequest{
     
-    class func requestWithURL(URL: NSURL, method: String, queryParams: [String: String]?, bodyParams: Dictionary<String,AnyObject>?, headers: [String: String]?) -> NSURLRequest {
+    static func requestWithURL(_ URL: Foundation.URL, method: String, queryParams: [String: String]?, bodyParams: Dictionary<String,AnyObject>?, headers: [String: String]?) -> URLRequest {
         
-        let actualURL: NSURL
+        let actualURL: Foundation.URL
         if let queryParams = queryParams {
             
             var query:String=""
@@ -37,18 +37,18 @@ extension NSURLRequest{
                     query += "&" + contentKey + "=" + (queryParams[contentKey]! as String).escapeStr()
                 }
             }
-            let components = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true)!
+            var components = URLComponents(url: URL, resolvingAgainstBaseURL: true)!
             components.percentEncodedQuery = query
             print("query = \(query)")
-            actualURL = components.URL!
+            actualURL = components.url!
         } else {
             actualURL = URL
         }
         
         print("URL = \(actualURL.absoluteString)", actualURL.absoluteString)
         
-        let request = NSMutableURLRequest(URL: actualURL)
-        request.HTTPMethod = method
+        let request = NSMutableURLRequest(url: actualURL)
+        request.httpMethod = method
         
         var headersMod = headers != nil ? headers! : [:]
         
@@ -56,21 +56,21 @@ extension NSURLRequest{
             
             if headersMod[HttpHeaderName.ContentType]==HttpHeaderValue.JsonEncoded {
                 do {
-                    request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(bodyParams, options: [])
-                    print(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))
+                    request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
+                    print(String(data: request.httpBody!, encoding: String.Encoding.utf8) ?? "")
                 } catch _ {
-                    request.HTTPBody = nil
+                    request.httpBody = nil
                 }
             } else if headersMod[HttpHeaderName.ContentType]==HttpHeaderValue.FormEncoded{
                 
                 let needHandleMulripart = bodyParams.values.filter({ (element) -> Bool in
-                    return ((element as? NSData) != nil || (element as? UIImage) != nil)
+                    return ((element as? Data) != nil || (element as? UIImage) != nil)
                 })
                 
                 if(needHandleMulripart.count > 0){
-                    let boundary:String = NSUUID().UUIDString
+                    let boundary:String = UUID().uuidString
                     headersMod[HttpHeaderName.ContentType] = "\(HttpHeaderValue.FormMultipart); boundary=\(boundary)"
-                    request.HTTPBody = prepareMultipartBody(bodyParams, boundary: boundary)                    
+                    request.httpBody = prepareMultipartBody(bodyParams, boundary: boundary)                    
                     
                 }else{
                     var firstOneAdded = false
@@ -85,7 +85,7 @@ extension NSURLRequest{
                             contentBodyAsString += "&" + contentKey + "=" + (bodyParams[contentKey]! as! String).escapeStr()
                         }
                     }
-                    request.HTTPBody = contentBodyAsString.dataUsingEncoding(NSUTF8StringEncoding)!
+                    request.httpBody = contentBodyAsString.data(using: String.Encoding.utf8)!
                 }
                 
             }
@@ -97,11 +97,11 @@ extension NSURLRequest{
             request.setValue(value, forHTTPHeaderField: field)
         }
         
-        return request
+        return request as URLRequest
     }
     
     
-    class func prepareMultipartBody(bodyParams: Dictionary<String,AnyObject>, boundary: String) -> NSData{
+    static func prepareMultipartBody(_ bodyParams: Dictionary<String,AnyObject>, boundary: String) -> Data{
         
         let body = NSMutableData()
         
@@ -109,16 +109,16 @@ extension NSURLRequest{
         for (key, value) in bodyParams {
             
             let isImage = (value as? UIImage) != nil
-            let isData = (value as? NSData) != nil
+            let isData = (value as? Data) != nil
             let isBinary = (isData || isImage)
             
             body.appendString("--\(boundary)\r\n")
             if(isBinary){
-                let valueData:NSData = isImage ? UIImageJPEGRepresentation(value as! UIImage, 0.7)! : value as! NSData
+                let valueData:Data = isImage ? UIImageJPEGRepresentation(value as! UIImage, 0.7)! : value as! Data
                 body.appendString("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(key)\"\r\n")
                 body.appendString("Content-Transfer-Encoding:binary\r\n")
-                body.appendString("Content-Length: \(valueData.length)\r\n\r\n")
-                body.appendData(valueData)
+                body.appendString("Content-Length: \(valueData.count)\r\n\r\n")
+                body.append(valueData)
                 body.appendString("\r\n")
                 
             }else{
@@ -129,23 +129,23 @@ extension NSURLRequest{
         }
         
         body.appendString("--\(boundary)--\r\n")
-        return body
+        return body as Data
     }
 }
 
 extension String {
     func escapeStr() -> (String) {
-        let raw: NSString = self
-        let allowedCharacters = NSCharacterSet.URLHostAllowedCharacterSet().mutableCopy();
-        allowedCharacters.removeCharactersInString(":?&=;+!@#$()',*");
-        let str = raw.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters as! NSCharacterSet)
+        let raw: NSString = self as NSString
+        let allowedCharacters = (CharacterSet.urlHostAllowed as NSCharacterSet).mutableCopy();
+        (allowedCharacters as AnyObject).removeCharacters(in: ":?&=;+!@#$()',*");
+        let str = raw.addingPercentEncoding(withAllowedCharacters: allowedCharacters as! CharacterSet)
         return str!
     }
 }
 
 extension NSMutableData{
-    func appendString(string:String){
-        self.appendData(string.dataUsingEncoding(NSUTF8StringEncoding)!)
+    func appendString(_ string:String){
+        self.append(string.data(using: String.Encoding.utf8)!)
     }
 }
 

@@ -20,14 +20,14 @@
 
 import Foundation
 
-public typealias CountryCodePickerCompletionBlock = ((model:NumberInfo) -> Void)
+public typealias CountryCodePickerCompletionBlock = ((_ model:NumberInfo) -> Void)
 
-public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer, CountryCodePickerViewDelegate {
+open class CountryCodePickerViewController: UIViewController, PhoneIdConsumer, CountryCodePickerViewDelegate {
 
-    public var phoneIdModel: NumberInfo!
-    public var countryCodePickerCompletionBlock: CountryCodePickerCompletionBlock?
+    open var phoneIdModel: NumberInfo!
+    open var countryCodePickerCompletionBlock: CountryCodePickerCompletionBlock?
 
-    private var countryCodePickerView: CountryCodePickerView! {
+    fileprivate var countryCodePickerView: CountryCodePickerView! {
         get {
             let result = self.view as? CountryCodePickerView
             if (result == nil) {
@@ -46,18 +46,18 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
         fatalError("NSCoding not supported")
     }
 
-    public override func loadView() {
+    open override func loadView() {
         let result = phoneIdComponentFactory.countryCodePickerView(self.phoneIdModel)
         result.delegate = self
         self.view = result
     }
 
-    public override func viewDidAppear(animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
 
         super.viewDidAppear(animated)
 
         let countrySearchController = self.countryCodePickerView.searchController()
-        presentViewController(countrySearchController, animated: true, completion: {
+        present(countrySearchController, animated: true, completion: {
             countrySearchController.searchBar.becomeFirstResponder()
         })
     }
@@ -65,15 +65,15 @@ public class CountryCodePickerViewController: UIViewController, PhoneIdConsumer,
     // MARK: CountryCodePickerViewDelegate
 
     func close() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
-    func countryCodeSelected(model: NumberInfo) {
+    func countryCodeSelected(_ model: NumberInfo) {
         self.phoneIdModel = model
-        self.dismissViewControllerAnimated(true) { [weak self] in
+        self.dismiss(animated: true) { [weak self] in
             guard let me  = self else {return}
-            PhoneIdService.sharedInstance.phoneIdWorkflowCountryCodeSelected?(countryCode: model.phoneCountryCode!)
-            me.countryCodePickerCompletionBlock?(model: model)
+            PhoneIdService.sharedInstance.phoneIdWorkflowCountryCodeSelected?(model.phoneCountryCode!)
+            me.countryCodePickerCompletionBlock?(model)
         }
     }
 }

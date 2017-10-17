@@ -23,7 +23,7 @@ class CustomExampleViewController: UIViewController {
     var details:DetailsViewController!
     var phoneNumberE164:String?
     
-    @IBAction func presentFromCustomButton(sender: AnyObject) {
+    @IBAction func presentFromCustomButton(_ sender: AnyObject) {
     
 
         flowManager.startLoginFlow(initialPhoneNumerE164:phoneNumberE164,
@@ -31,34 +31,34 @@ class CustomExampleViewController: UIViewController {
                                    stopAnimationProgress: {self.activityIndicator.stopAnimating()})
     }
 
-    @IBAction func dismiss(sender: AnyObject) {
+    @IBAction func dismiss(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         details.presetNumber.addTarget(self,
                                        action: #selector(CustomExampleViewController.presetNumberChanged(_:)),
-                                       forControlEvents:.EditingChanged)
+                                       for:.editingChanged)
         
         details.switchUserPresetNumber.addTarget(self,
                                                  action: #selector(CustomExampleViewController.presetNumberSwitchChanged(_:)),
-                                                 forControlEvents:.ValueChanged)
+                                                 for:.valueChanged)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "details" {
-            details = segue.destinationViewController as? DetailsViewController
+            details = segue.destination as? DetailsViewController
         }
     }
     
-    func presetNumberChanged(sender:UITextField){
-        phoneNumberE164 = details.switchUserPresetNumber.on ? sender.text : ""
+    @objc func presetNumberChanged(_ sender:UITextField){
+        phoneNumberE164 = details.switchUserPresetNumber.isOn ? sender.text : ""
     }
     
-    func presetNumberSwitchChanged(sender:UISwitch){
-        phoneNumberE164 = sender.on ? details.presetNumber.text : ""
+    @objc func presetNumberSwitchChanged(_ sender:UISwitch){
+        phoneNumberE164 = sender.isOn ? details.presetNumber.text : ""
     }
     
   

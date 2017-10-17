@@ -21,36 +21,36 @@
 import Foundation
 
 
-@IBDesignable public class PhoneIdLoginButton: UIControl, Customizable {
+@IBDesignable open class PhoneIdLoginButton: UIControl, Customizable {
 
-    public var colorScheme: ColorScheme!
-    public var localizationBundle: NSBundle!
-    public var localizationTableName: String!
+    @objc open var colorScheme: ColorScheme!
+    @objc open var localizationBundle: Bundle!
+    @objc open var localizationTableName: String!
 
-    public var phoneNumberE164: String!
+    @objc open var phoneNumberE164: String!
 
-    public private(set) var imageView: UIImageView = {
-        let image = UIImage(namedInPhoneId: "phone")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+    @objc open fileprivate(set) var imageView: UIImageView = {
+        let image = UIImage(namedInPhoneId: "phone")!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         return UIImageView(image:image)
     }()
     
-    public private(set) var titleLabel: UILabel = {
+    @objc open fileprivate(set) var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textAlignment = .Center
-        titleLabel.font = UIFont.systemFontOfSize(20)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 20)
+        titleLabel.textColor = UIColor.white
         titleLabel.text = "Login with phone.id"
         return titleLabel
     }()
     
-    public private(set) var separatorView: UIView = {
+    @objc open fileprivate(set) var separatorView: UIView = {
         let separatorView = UIView()
         return separatorView
     }()
     
-    public private(set) var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    @objc open fileprivate(set) var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
 
-    private var gestureRecognizer: UITapGestureRecognizer!
+    fileprivate var gestureRecognizer: UITapGestureRecognizer!
 
     var phoneIdLoginFlowManager = PhoneIdLoginWorkflowManager()
     
@@ -62,38 +62,39 @@ import Foundation
         return phoneIdService.componentFactory
     }
 
-    private var titleColors: [UInt:UIColor] = [:];
-    private var imageColors: [UInt:UIColor] = [:];
-    private var backgroundColors: [UInt:UIColor] = [:];
+    fileprivate var titleColors: [UInt:UIColor] = [:];
+    fileprivate var imageColors: [UInt:UIColor] = [:];
+    fileprivate var backgroundColors: [UInt:UIColor] = [:];
 
 
-    public func setTitleColor(color: UIColor?, forState state: UIControlState) {
+    @objc open func setTitleColor(_ color: UIColor?, forState state: UIControlState) {
         titleColors[state.rawValue] = color
         if (state == self.state) {
             titleLabel.textColor = color
         }
     }
 
-    public func setImageColor(color: UIColor?, forState state: UIControlState) {
+    @objc open func setImageColor(_ color: UIColor?, forState state: UIControlState) {
         imageColors[state.rawValue] = color
         if (state == self.state) {
             imageView.tintColor = color
         }
     }
 
-    public func setBackgroundColor(color: UIColor?, forState state: UIControlState) {
+    @objc open func setBackgroundColor(_ color: UIColor?, forState state: UIControlState) {
         backgroundColors[state.rawValue] = color
         if (state == self.state) {
             backgroundColor = color
         }
     }
 
-    override public var enabled: Bool {
+    @objc override open var isEnabled: Bool {
         didSet {
             updateColors()
         }
     }
-    override public var highlighted: Bool {
+    
+    @objc override open var isHighlighted: Bool {
         didSet {
             updateColors()
         }
@@ -103,33 +104,33 @@ import Foundation
         separatorView.backgroundColor = colorScheme.buttonSeparator
         
         backgroundColors = [
-                UIControlState.Normal.rawValue: colorScheme.buttonNormalBackground,
-                UIControlState.Disabled.rawValue: colorScheme.buttonDisabledBackground,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedBackground,
-                UIControlState.Selected.rawValue: colorScheme.buttonNormalBackground
+                UIControlState().rawValue: colorScheme.buttonNormalBackground,
+                UIControlState.disabled.rawValue: colorScheme.buttonDisabledBackground,
+                UIControlState.highlighted.rawValue: colorScheme.buttonHighlightedBackground,
+                UIControlState.selected.rawValue: colorScheme.buttonNormalBackground
         ]
         imageColors = [
-                UIControlState.Normal.rawValue: colorScheme.buttonNormalImage,
-                UIControlState.Disabled.rawValue: colorScheme.buttonDisabledImage,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedImage,
-                UIControlState.Selected.rawValue: colorScheme.buttonNormalImage
+                UIControlState().rawValue: colorScheme.buttonNormalImage,
+                UIControlState.disabled.rawValue: colorScheme.buttonDisabledImage,
+                UIControlState.highlighted.rawValue: colorScheme.buttonHighlightedImage,
+                UIControlState.selected.rawValue: colorScheme.buttonNormalImage
         ]
         titleColors = [
-                UIControlState.Normal.rawValue: colorScheme.buttonNormalText,
-                UIControlState.Disabled.rawValue: colorScheme.buttonDisabledText,
-                UIControlState.Highlighted.rawValue: colorScheme.buttonHighlightedText,
-                UIControlState.Selected.rawValue: colorScheme.buttonNormalText
+                UIControlState().rawValue: colorScheme.buttonNormalText,
+                UIControlState.disabled.rawValue: colorScheme.buttonDisabledText,
+                UIControlState.highlighted.rawValue: colorScheme.buttonHighlightedText,
+                UIControlState.selected.rawValue: colorScheme.buttonNormalText
         ]
 
     }
 
     func updateColors() {
 
-        var clearState: UIControlState = .Normal;
-        if (self.state.contains(UIControlState.Disabled)) {
-            clearState = UIControlState.Disabled
-        } else if (self.state.contains(UIControlState.Highlighted)) {
-            clearState = UIControlState.Highlighted
+        var clearState: UIControlState = UIControlState();
+        if (self.state.contains(UIControlState.disabled)) {
+            clearState = UIControlState.disabled
+        } else if (self.state.contains(UIControlState.highlighted)) {
+            clearState = UIControlState.highlighted
         }
 
 
@@ -153,16 +154,16 @@ import Foundation
     }
     
     // init from viewcontroller
-    required override public convenience init(frame: CGRect) {
+    @objc required override public convenience init(frame: CGRect) {
         self.init(frame:frame, designtime:false)
     }
 
     // init from interface builder
-    required public convenience init?(coder aDecoder: NSCoder) {
+    @objc required public convenience init?(coder aDecoder: NSCoder) {
         self.init(coder:aDecoder, designtime:false)
     }
 
-    override public func prepareForInterfaceBuilder() {
+    @objc override open func prepareForInterfaceBuilder() {
         self.prep()
         initUI(designtime:true)
     }
@@ -172,12 +173,12 @@ import Foundation
         localizationTableName = phoneIdComponentFactory.localizationTableName
         colorScheme = phoneIdComponentFactory.colorScheme
             
-        let notificator = NSNotificationCenter.defaultCenter()
-        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnSuccessfulLogin), name: Notifications.VerificationSuccess, object: nil)
-        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: Notifications.DidLogout, object: nil)
+        let notificator = NotificationCenter.default
+        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnSuccessfulLogin), name: NSNotification.Name(rawValue: Notifications.VerificationSuccess), object: nil)
+        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: NSNotification.Name(rawValue: Notifications.DidLogout), object: nil)
     }
 
-    func initUI(designtime designtime:Bool) {
+    func initUI(designtime:Bool) {
 
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -186,7 +187,7 @@ import Foundation
 
         let subviews: [UIView] = [imageView, titleLabel, separatorView, activityIndicator]
 
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
@@ -207,25 +208,25 @@ import Foundation
 
         let padding: CGFloat = 14
 
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: padding))
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 20))
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 20))
+        addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: imageView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: padding))
+        addConstraint(NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 20))
+        addConstraint(NSLayoutConstraint(item: imageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 20))
 
-        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 1))
-        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .Left, relatedBy: .Equal, toItem: imageView, attribute: .Right, multiplier: 1, constant: padding))
+        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1))
+        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: separatorView, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1, constant: padding))
 
-        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Left, relatedBy: .Equal, toItem: separatorView, attribute: .Left, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Right, relatedBy: .Equal, toItem: activityIndicator, attribute: .Right, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .left, relatedBy: .equal, toItem: separatorView, attribute: .left, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal, toItem: activityIndicator, attribute: .right, multiplier: 1, constant: 0))
 
-        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -7))
-        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -7))
+        addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
 
-    func configureButton(isLoggedIn: Bool) {
+    func configureButton(_ isLoggedIn: Bool) {
 
 
         if let _ = gestureRecognizer {
@@ -250,44 +251,44 @@ import Foundation
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    public override func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(280, 48)
+    open override var intrinsicContentSize : CGSize {
+        return CGSize(width: 280, height: 48)
     }
 
-    override public class func requiresConstraintBasedLayout() -> Bool {
+    override open class var requiresConstraintBasedLayout : Bool {
         return true
     }
     
-    func loginTouched(){
+    @objc func loginTouched(){
        
         phoneIdLoginFlowManager.login(presentFromController:self.window!.rootViewController!
             , initialPhoneNumerE164:self.phoneNumberE164
-            , lock: { _ in
-                self.userInteractionEnabled = false
-            }, unlock: { _ in
-                self.userInteractionEnabled = true
-            }, startAnimatingProgress: { _ in
+            , lock: {
+                self.isUserInteractionEnabled = false
+            }, unlock: {
+                self.isUserInteractionEnabled = true
+            }, startAnimatingProgress: {
                 self.activityIndicator.startAnimating()
-            }, stopAnimationProgress: { _ in
+            }, stopAnimationProgress: {
                 self.activityIndicator.stopAnimating()
         })
     
     }
 
-    func logoutTouched() {
+    @objc func logoutTouched() {
         phoneIdService.logout()
     }
     
     // MARK: Notification handlers
 
-    func doOnSuccessfulLogin() -> Void {
+    @objc func doOnSuccessfulLogin() -> Void {
         configureButton(phoneIdService.isLoggedIn)
     }
 
-    func doOnlogout() -> Void {
+    @objc func doOnlogout() -> Void {
         configureButton(phoneIdService.isLoggedIn)
     }
 }

@@ -27,8 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
             
             // configure phone.id
             PhoneIdService.sharedInstance.configureClient("TestPhoneId");
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         factory.colorScheme.extraAccent = UIColor(hex: 0x886655)
         factory.colorScheme.success = UIColor(hex: 0x91C1CC)
         factory.colorScheme.fail = UIColor(hex: 0xD4556A)
-        factory.colorScheme.inputBackground = UIColor(hex: 0xEEEEDD).colorWithAlphaComponent(0.6)
+        factory.colorScheme.inputBackground = UIColor(hex: 0xEEEEDD).withAlphaComponent(0.6)
         
         factory.colorScheme .applyCommonColors()
         

@@ -20,16 +20,16 @@
 
 import Foundation
 
-public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer {
+open class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer {
 
-    public var phoneIdModel: NumberInfo!
-    public var colorScheme: ColorScheme!
-    public var localizationBundle: NSBundle!
-    public var localizationTableName: String!
+    open var phoneIdModel: NumberInfo!
+    open var colorScheme: ColorScheme!
+    open var localizationBundle: Bundle!
+    open var localizationTableName: String!
 
-    init(model: NumberInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    init(model: NumberInfo, scheme: ColorScheme, bundle: Bundle, tableName: String) {
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         phoneIdModel = model
         colorScheme = scheme
@@ -62,7 +62,7 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer {
 
     }
 
-    func setupWithModel(model: NumberInfo) {
+    func setupWithModel(_ model: NumberInfo) {
         self.phoneIdModel = model
     }
 
@@ -70,18 +70,18 @@ public class PhoneIdBaseView: UIView, Customizable, PhoneIdConsumer {
 
     }
 
-    func closeButtonTapped() {
+    @objc func closeButtonTapped() {
 
     }
 
 }
 
-public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
+open class PhoneIdBaseFullscreenView: PhoneIdBaseView {
 
-    private(set) var closeButton: UIButton!
-    private(set) var titleLabel: UILabel!
-    private(set) var headerBackgroundView: UIView!
-    private(set) var backgroundView: UIImageView!
+    fileprivate(set) var closeButton: UIButton!
+    fileprivate(set) var titleLabel: UILabel!
+    fileprivate(set) var headerBackgroundView: UIView!
+    fileprivate(set) var backgroundView: UIImageView!
 
     func backgroundImage() -> UIImage? {
         return phoneIdComponentFactory.defaultBackgroundImage
@@ -89,7 +89,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
 
     var customConstraints: [NSLayoutConstraint] = []
 
-    override init(model: NumberInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    override init(model: NumberInfo, scheme: ColorScheme, bundle: Bundle, tableName: String) {
         super.init(model: model, scheme: scheme, bundle: bundle, tableName: tableName)
     }
 
@@ -105,16 +105,16 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
     override func setupSubviews() {
         backgroundView = UIImageView()
         headerBackgroundView = UIView()
-        closeButton = UIButton(type: .System)
+        closeButton = UIButton(type: .system)
 
-        closeButton.addTarget(self, action: #selector(PhoneIdBaseView.closeButtonTapped), forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(PhoneIdBaseView.closeButtonTapped), for: .touchUpInside)
 
         titleLabel = UILabel()
 
         let views = [backgroundView, headerBackgroundView, closeButton, titleLabel]
         for view in views {
-            view.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(view)
+            view?.translatesAutoresizingMaskIntoConstraints = false
+            self.addSubview(view!)
         }
 
     }
@@ -125,22 +125,22 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
 
         var c: [NSLayoutConstraint] = []
 
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .CenterY, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.8, constant: 0))
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: headerBackgroundView, attribute: .centerY, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: titleLabel, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.8, constant: 0))
 
-        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 64))
-        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 64))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: headerBackgroundView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: backgroundView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: backgroundView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: backgroundView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: backgroundView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: backgroundView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: backgroundView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: backgroundView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: backgroundView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 10))
-        c.append(NSLayoutConstraint(item: closeButton, attribute: .LastBaseline, relatedBy: .Equal, toItem: titleLabel, attribute: .LastBaseline, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: closeButton, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 10))
+        c.append(NSLayoutConstraint(item: closeButton, attribute: .lastBaseline, relatedBy: .equal, toItem: titleLabel, attribute: .lastBaseline, multiplier: 1, constant: 0))
 
         self.customConstraints = c
         self.addConstraints(c)
@@ -150,7 +150,7 @@ public class PhoneIdBaseFullscreenView: PhoneIdBaseView {
         super.localizeAndApplyColorScheme()
         closeButton.tintColor = colorScheme.headerButtonText
         closeButton.accessibilityLabel = localizedString("accessibility.button.title.cancel")
-        closeButton.setTitle(localizedString("button.title.cancel"), forState: .Normal)
+        closeButton.setTitle(localizedString("button.title.cancel"), for: UIControlState())
         headerBackgroundView.backgroundColor = colorScheme.headerBackground
         backgroundView.backgroundColor = colorScheme.mainViewBackground
         backgroundView.image = backgroundImage()

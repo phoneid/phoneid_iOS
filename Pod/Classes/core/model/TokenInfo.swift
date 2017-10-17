@@ -19,28 +19,39 @@
 
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class TokenInfo: ParseableModel{
+@objcMembers
+open class TokenInfo: ParseableModel{
     
-    public var accessToken:String?;
-    public var refreshToken:String?;
-    public var expirationPeriod:Int?;
-    public var timestamp:NSDate?;
-    public internal(set) var numberInfo:NumberInfo?;
+    open var accessToken:String?;
+    open var refreshToken:String?;
+    open var expirationPeriod:Int?;
+    open var timestamp:Date?;
+    open internal(set) var numberInfo:NumberInfo?;
     
-    public var expirationTime:NSDate?{
+    open var expirationTime:Date?{
         get {
-            var result:NSDate? = nil
-            if let timestamp = timestamp, expirationPeriod=expirationPeriod{
-                result = NSDate(timeIntervalSince1970: timestamp.timeIntervalSince1970 + NSTimeInterval(expirationPeriod))
+            var result:Date? = nil
+            if let timestamp = timestamp, let expirationPeriod=expirationPeriod{
+                result = Date(timeIntervalSince1970: timestamp.timeIntervalSince1970 + TimeInterval(expirationPeriod))
             }
             return result
         }
     }
     
-    public var expired:Bool{
+    open var expired:Bool{
         get {
-            let result = expirationTime?.timeIntervalSince1970 < NSDate().timeIntervalSince1970
+            let result = expirationTime?.timeIntervalSince1970 < Date().timeIntervalSince1970
             return result
         }
     }
@@ -60,10 +71,10 @@ public class TokenInfo: ParseableModel{
         //#endif
         
         
-        self.timestamp = NSDate()
+        self.timestamp = Date()
     }
     
-    public override func isValid() -> Bool{
+    open override func isValid() -> Bool{
         
         return accessToken != nil && refreshToken != nil && expirationPeriod != nil
     }
@@ -79,7 +90,7 @@ public class TokenInfo: ParseableModel{
         tokenInfo.numberInfo = NumberInfo.loadFromKeyChain()
         
         if let timestamp = KeychainStorage.loadTimeIntervalValue(TokenKey.Timestamp){
-            tokenInfo.timestamp = NSDate(timeIntervalSince1970:timestamp)
+            tokenInfo.timestamp = Date(timeIntervalSince1970:timestamp)
         }
         
         return tokenInfo.isValid() ? tokenInfo : nil

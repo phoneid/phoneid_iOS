@@ -26,14 +26,14 @@ protocol EditProfileViewDelegate: NSObjectProtocol {
 
     func closeButtonTapped()
 
-    func saveButtonTapped(userInfo: UserInfo)
+    func saveButtonTapped(_ userInfo: UserInfo)
 }
 
 class DatePickerCell: UITableViewCell {
-    private(set) var datePicker: UIDatePicker!
-    private var expanded: Bool = false {
+    fileprivate(set) var datePicker: UIDatePicker!
+    fileprivate var expanded: Bool = false {
         didSet {
-            datePicker?.hidden = !expanded
+            datePicker?.isHidden = !expanded
         }
     }
 
@@ -46,18 +46,18 @@ class DatePickerCell: UITableViewCell {
     func setupSubviews() {
         datePicker = {
             let picker = UIDatePicker()
-            picker.datePickerMode = .Date
-            picker.hidden = true
+            picker.datePickerMode = .date
+            picker.isHidden = true
 
-            let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-            let currentDate = NSDate()
-            let comps = NSDateComponents()
+            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+            let currentDate = Date()
+            var comps = DateComponents()
 
             comps.year = -8
-            picker.maximumDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: []);
+            picker.maximumDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: []);
 
             comps.year = -120
-            picker.minimumDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: []);
+            picker.minimumDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: []);
 
             return picker
         }()
@@ -68,10 +68,10 @@ class DatePickerCell: UITableViewCell {
 
     func setupLayout() {
         self.removeConstraints(self.contentView.constraints)
-        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: self.contentView, attribute: .Top, multiplier: 1, constant: 5))
-        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Left, relatedBy: .Equal, toItem: self.contentView, attribute: .Left, multiplier: 1, constant: 5))
-        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Width, relatedBy: .Equal, toItem: self.contentView, attribute: .Width, multiplier: 1, constant: 5))
-        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Height, relatedBy: .Equal, toItem: self.contentView, attribute: .Height, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .top, relatedBy: .equal, toItem: self.contentView, attribute: .top, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .left, relatedBy: .equal, toItem: self.contentView, attribute: .left, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .width, relatedBy: .equal, toItem: self.contentView, attribute: .width, multiplier: 1, constant: 5))
+        self.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .height, relatedBy: .equal, toItem: self.contentView, attribute: .height, multiplier: 1, constant: 5))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -80,18 +80,18 @@ class DatePickerCell: UITableViewCell {
 }
 
 class ProfilePictureView: UIView {
-    private(set) var avatarView: WebImageView!
-    private(set) var nameText: UILabel!
-    private(set) var hintLabel: UILabel!
+    fileprivate(set) var avatarView: WebImageView!
+    fileprivate(set) var nameText: UILabel!
+    fileprivate(set) var hintLabel: UILabel!
 
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         setupSubviews()
         setupLayout()
     }
 
-    func setupWithUser(user: UserInfo) {
-        hintLabel.hidden = (user.imageURL != nil)
+    func setupWithUser(_ user: UserInfo) {
+        hintLabel.isHidden = (user.imageURL != nil)
         avatarView.downloadImage(user.imageURL)
         nameText.text = user.screenName
     }
@@ -99,7 +99,7 @@ class ProfilePictureView: UIView {
     func setupSubviews() {
         avatarView = {
             let avatarView = WebImageView()
-            avatarView.contentMode = .ScaleAspectFit
+            avatarView.contentMode = .scaleAspectFit
             let layer = avatarView.layer;
             layer.masksToBounds = true
             layer.cornerRadius = 50
@@ -108,36 +108,36 @@ class ProfilePictureView: UIView {
 
         nameText = {
             let label = UILabel()
-            label.textAlignment = .Center
+            label.textAlignment = .center
             return label
         }()
 
         hintLabel = {
             let label = UILabel()
             label.numberOfLines = 0
-            label.textAlignment = .Center
+            label.textAlignment = .center
             return label
         }()
 
         let subviews: [UIView] = [avatarView, nameText, hintLabel]
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
     }
 
     func setupLayout() {
-        self.addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 166))
-        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 20))
-        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 100))
-        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 100))
-        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .CenterX, relatedBy: .Equal, toItem: avatarView, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .CenterY, relatedBy: .Equal, toItem: avatarView, attribute: .CenterY, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 100))
-        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 100))
-        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .Top, relatedBy: .Equal, toItem: self.avatarView, attribute: .Bottom, multiplier: 1, constant: 8))
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 166))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 20))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: avatarView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .centerX, relatedBy: .equal, toItem: avatarView, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .centerY, relatedBy: .equal, toItem: avatarView, attribute: .centerY, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: hintLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 100))
+        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: nameText, attribute: .top, relatedBy: .equal, toItem: self.avatarView, attribute: .bottom, multiplier: 1, constant: 8))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -145,44 +145,44 @@ class ProfilePictureView: UIView {
     }
 }
 
-public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate {
+open class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, UITableViewDelegate {
 
 
     weak var delegate: EditProfileViewDelegate?
 
-    private(set) var table: UITableView!
-    private(set) var userNameCell: UITableViewCell!
-    private(set) var birthdateCell: UITableViewCell!
-    private(set) var datePickerCell: DatePickerCell!
-    private(set) var changePicCell: UITableViewCell!
-    private(set) var numberCell: UITableViewCell!
-    private(set) var profileSummaryView: ProfilePictureView!
-    private(set) var footer: UITableViewHeaderFooterView!
-    private(set) var activityIndicator: UIActivityIndicatorView!
+    fileprivate(set) var table: UITableView!
+    fileprivate(set) var userNameCell: UITableViewCell!
+    fileprivate(set) var birthdateCell: UITableViewCell!
+    fileprivate(set) var datePickerCell: DatePickerCell!
+    fileprivate(set) var changePicCell: UITableViewCell!
+    fileprivate(set) var numberCell: UITableViewCell!
+    fileprivate(set) var profileSummaryView: ProfilePictureView!
+    fileprivate(set) var footer: UITableViewHeaderFooterView!
+    fileprivate(set) var activityIndicator: UIActivityIndicatorView!
 
-    private var cells: [UITableViewCell]!
+    fileprivate var cells: [UITableViewCell]!
 
-    private(set) var saveButton: UIButton!
+    fileprivate(set) var saveButton: UIButton!
 
-    public var userInfo: UserInfo!
+    open var userInfo: UserInfo!
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    public var avatarImage: UIImage? {
+    open var avatarImage: UIImage? {
         set {
             self.profileSummaryView.avatarView.image = newValue
-            self.profileSummaryView.hintLabel.hidden = newValue != nil
+            self.profileSummaryView.hintLabel.isHidden = newValue != nil
         }
         get {
             return self.profileSummaryView.avatarView.image
         }
     }
 
-    convenience init(user: UserInfo, scheme: ColorScheme, bundle: NSBundle, tableName: String) {
+    convenience init(user: UserInfo, scheme: ColorScheme, bundle: Bundle, tableName: String) {
 
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
         userInfo = user
         colorScheme = scheme
         localizationBundle = bundle
@@ -202,56 +202,56 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupWithUser(user: UserInfo) {
+    func setupWithUser(_ user: UserInfo) {
         userNameCell.detailTextLabel!.text = user.screenName ?? localizedString("profile.value.not.set")
         birthdateCell.detailTextLabel!.text = user.dateOfBirth != nil ? user.dateOfBirthAsString() : localizedString("profile.value.not.set")
         numberCell.detailTextLabel!.text = user.formattedPhoneNumber()
         profileSummaryView.setupWithUser(user)
-        datePickerCell.datePicker.date = userInfo.dateOfBirth ?? NSDate()
+        datePickerCell.datePicker.date = userInfo.dateOfBirth as Date? ?? Date()
     }
 
     override func setupSubviews() {
         super.setupSubviews()
 
         userNameCell = {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
-            cell.accessoryType = .DisclosureIndicator
+            let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .disclosureIndicator
             return cell
         }()
 
         birthdateCell = {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
-            cell.accessoryType = .DisclosureIndicator
+            let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .disclosureIndicator
             return cell
         }()
 
         datePickerCell = {
-            let cell = DatePickerCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "expandable")
-            cell.datePicker.addTarget(self, action: #selector(EditProfileView.datePickerChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
+            let cell = DatePickerCell(style: UITableViewCellStyle.value1, reuseIdentifier: "expandable")
+            cell.datePicker.addTarget(self, action: #selector(EditProfileView.datePickerChanged(_:)), for: UIControlEvents.valueChanged)
             return cell
         }()
 
 
         changePicCell = {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
-            cell.accessoryType = .DisclosureIndicator
+            let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "ordinary")
+            cell.accessoryType = .disclosureIndicator
             return cell
         }()
 
         activityIndicator = {
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             activityIndicator.color = self.colorScheme.profileActivityIndicator
             return activityIndicator
         }()
 
 
-        numberCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "ordinary")
+        numberCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "ordinary")
 
         cells = [userNameCell, birthdateCell, datePickerCell, changePicCell, numberCell]
 
         table = {
             [unowned self] in
-            let table = UITableView(frame: CGRectZero, style: .Grouped)
+            let table = UITableView(frame: CGRect.zero, style: .grouped)
             table.delegate = self
             table.dataSource = self
             table.backgroundColor = self.colorScheme.profileCommentSectionBackground
@@ -267,30 +267,30 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
             profileView.nameText.textColor = colorScheme.profileTopUsernameText
             profileView.hintLabel.textColor = colorScheme.profilePictureEditingHintText
             profileView.avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(EditProfileView.changePhotoTapped)))
-            profileView.avatarView.userInteractionEnabled = true
+            profileView.avatarView.isUserInteractionEnabled = true
             profileView.avatarView.activityIndicator.color = colorScheme.profileActivityIndicator
-            profileView.userInteractionEnabled = true
+            profileView.isUserInteractionEnabled = true
             return profileView
         }()
 
         saveButton = {
             let saveButton = UIButton()
-            saveButton.titleLabel?.textAlignment = .Left
-            saveButton.addTarget(self, action: #selector(EditProfileView.saveTapped), forControlEvents: .TouchUpInside)
+            saveButton.titleLabel?.textAlignment = .left
+            saveButton.addTarget(self, action: #selector(EditProfileView.saveTapped), for: .touchUpInside)
             return saveButton
         }()
 
         footer = {
             let footer = UITableViewHeaderFooterView()
             footer.textLabel?.textColor = colorScheme.profileCommentSectionText
-            footer.textLabel?.font = UIFont.systemFontOfSize(17)
+            footer.textLabel?.font = UIFont.systemFont(ofSize: 17)
             footer.textLabel?.numberOfLines = 0
-            footer.textLabel?.lineBreakMode = .ByWordWrapping
+            footer.textLabel?.lineBreakMode = .byWordWrapping
             return footer
         }()
 
         let subviews: [UIView] = [titleLabel, saveButton, table, activityIndicator]
-        for (_, element) in subviews.enumerate() {
+        for (_, element) in subviews.enumerated() {
             element.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(element)
         }
@@ -303,15 +303,15 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
 
         var c: [NSLayoutConstraint] = []
 
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: activityIndicator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
 
-        c.append(NSLayoutConstraint(item: table, attribute: .Top, relatedBy: .Equal, toItem: headerBackgroundView, attribute: .Bottom, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: table, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: table, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: table, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: saveButton, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel, attribute: .CenterY, multiplier: 1, constant: 0))
-        c.append(NSLayoutConstraint(item: saveButton, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -10))
+        c.append(NSLayoutConstraint(item: table, attribute: .top, relatedBy: .equal, toItem: headerBackgroundView, attribute: .bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: table, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0))
+        c.append(NSLayoutConstraint(item: saveButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -10))
 
 
         self.customConstraints += c
@@ -320,10 +320,10 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
 
     }
 
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
-        let newSize = profileSummaryView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-        profileSummaryView.frame = CGRectMake(0, 0, table.bounds.size.height, newSize.height)
+        let newSize = profileSummaryView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        profileSummaryView.frame = CGRect(x: 0, y: 0, width: table.bounds.size.height, height: newSize.height)
         table.tableHeaderView = profileSummaryView
     }
 
@@ -338,11 +338,11 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         changePicCell.textLabel!.text = localizedString("profile.change.picture")
         numberCell.textLabel!.text = localizedString("profile.phone.number")
 
-        saveButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), forState: .Normal)
+        saveButton.setAttributedTitle(localizedStringAttributed("html-button.title.save.profile"), for: UIControlState())
 
         titleLabel.text = localizedString("title.public.profile")
         titleLabel.textColor = self.colorScheme.headerTitleText
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
 
         self.needsUpdateConstraints()
     }
@@ -351,38 +351,38 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         delegate?.closeButtonTapped()
     }
 
-    func changePhotoTapped() {
+    @objc func changePhotoTapped() {
         delegate?.changePhotoButtonTapped()
     }
 
 
-    func saveTapped() {
+    @objc func saveTapped() {
         delegate?.saveButtonTapped(self.userInfo)
     }
 
-    func datePickerChanged(datePicker: UIDatePicker) {
+    @objc func datePickerChanged(_ datePicker: UIDatePicker) {
 
         self.userInfo.dateOfBirth = datePicker.date
         self.birthdateCell.detailTextLabel!.text = self.userInfo.dateOfBirthAsString()
     }
 
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cells.count
     }
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = cells[indexPath.row]
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = cells[(indexPath as NSIndexPath).row]
         cell.backgroundColor = self.colorScheme.profileDataSectionBackground
         cell.textLabel?.textColor = self.colorScheme.profileDataSectionTitleText
         cell.detailTextLabel?.textColor = self.colorScheme.profileDataSectionValueText
         return cell
     }
 
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         var result: CGFloat = 44
 
-        if let cell = cells[indexPath.row] as? DatePickerCell {
+        if let cell = cells[(indexPath as NSIndexPath).row] as? DatePickerCell {
             result = cell.expanded ? 177 : 0
         }
 
@@ -390,10 +390,10 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         return result
     }
 
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
-        switch (indexPath.row) {
+        switch ((indexPath as NSIndexPath).row) {
         case 0:
             delegate?.changeUserNameButtonTapped()
             break
@@ -410,19 +410,19 @@ public class EditProfileView: PhoneIdBaseFullscreenView, UITableViewDataSource, 
         }
     }
 
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return self.localizedString("profile.hint.about.number")
     }
 
-    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return footer
     }
 
-    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 100
     }
 
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 10
     }
 }
