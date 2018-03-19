@@ -80,9 +80,7 @@ import UIKit
     func initUI(designtime:Bool) {
 
         loginButton = InternalPhoneIdLoginButton(frame:CGRect.zero, designtime:designtime)
-
         
-
         var subviews:[UIView] = []
         
         if designtime {
@@ -114,9 +112,14 @@ import UIKit
         }
 
         loginButton.isHidden = false
-
  
-
+        self.phoneIdService.phoneIdDidGotPhoneNumberHint = { number in
+            let alreadySetNumber = self.numberInputControl.numberText.text
+            if alreadySetNumber == nil || alreadySetNumber == ""{
+                self.updateFromHint()
+            }
+        }
+        updateFromHint()
     }
 
     func prep() {
@@ -128,6 +131,12 @@ import UIKit
         notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnSuccessfulLogin), name: NSNotification.Name(rawValue: Notifications.VerificationSuccess), object: nil)
        notificator.addObserver(self, selector: #selector(CompactPhoneIdLoginButton.doOnlogout), name: NSNotification.Name(rawValue: Notifications.DidLogout), object: nil)
 
+    }
+    
+    func updateFromHint(){
+        if let hint = self.phoneIdService.phoneNumberHintParsed {
+            self.numberInputControl.setupWithModel(hint)
+        }
     }
 
     deinit {

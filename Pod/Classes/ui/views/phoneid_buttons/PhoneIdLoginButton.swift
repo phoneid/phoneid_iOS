@@ -175,7 +175,7 @@ import Foundation
             
         let notificator = NotificationCenter.default
         notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnSuccessfulLogin), name: NSNotification.Name(rawValue: Notifications.VerificationSuccess), object: nil)
-        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: NSNotification.Name(rawValue: Notifications.DidLogout), object: nil)
+        notificator.addObserver(self, selector: #selector(PhoneIdLoginButton.doOnlogout), name: NSNotification.Name(rawValue: Notifications.DidLogout), object: nil)        
     }
 
     func initUI(designtime:Bool) {
@@ -264,6 +264,7 @@ import Foundation
     
     @objc func loginTouched(){
        
+        
         phoneIdLoginFlowManager.login(presentFromController:self.window!.rootViewController!
             , initialPhoneNumerE164:self.phoneNumberE164
             , lock: {

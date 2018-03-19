@@ -27,6 +27,7 @@ public typealias RequestCompletion = (_ error:NSError?) -> Void
 public typealias UserInfoRequestCompletion = (_ userInfo:UserInfo?,_ error:NSError?) -> Void
 public typealias TokenRequestCompletion = (_ token:TokenInfo?,_ error:NSError?) -> Void
 public typealias ContactsUpdateRequestCompletion = (_ numberOfUpdatedContacts:NSInteger,_ error:NSError?) -> Void
+public typealias PhoneNumberHintCompletion = (_ phoneNumber:String?, _ error:NSError?) -> Void
 
 public typealias PhoneIdAuthenticationSucceed = (_ token:TokenInfo) -> Void
 public typealias PhoneIdWorkflowErrorHappened = (_ error:NSError) -> Void
@@ -55,6 +56,7 @@ open class PhoneIdService: NSObject {
 
     
     @objc open var phoneIdDidLogout:(() -> Void)?
+    @objc open var phoneIdDidGotPhoneNumberHint:((String) -> Void)?
     
     @objc open var isLoggedIn: Bool {
         get {
@@ -71,6 +73,28 @@ open class PhoneIdService: NSObject {
     @objc open internal(set) var appName: String?
     @objc open internal(set) var clientId: String?
     @objc open internal(set) var autorefreshToken: Bool = true
+    @objc internal var sessionCode:String?
+    @objc open internal(set) var phoneNumberHint:String? {
+        didSet{
+            if let number = self.phoneNumberHint {
+                phoneIdDidGotPhoneNumberHint?(number)
+            }
+        }
+    }
+    internal var phoneNumberHintParsed:NumberInfo? {
+        var result:NumberInfo?
+        if let hint = phoneNumberHint {
+            let number = hint.replacingOccurrences(of: "_", with: "0")
+            let parsed = NumberInfo(numberE164:number)
+            if let countryCode = parsed.phoneCountryCode {
+                parsed.phoneNumber = hint.replacingOccurrences(of: "_", with: "").replacingOccurrences(of: "+\(countryCode)", with: "")
+            }
+            result = parsed
+            
+        }
+        return result
+         
+    }
     
     internal var urlSession: URLSession!;
     internal var refreshMonitor: PhoneIdRefreshMonitor!;
@@ -103,6 +127,14 @@ open class PhoneIdService: NSObject {
             if(self.isLoggedIn){
                 refreshMonitor.start()
             }
+            self.requestAuthenticationCodeViaNetwork(completion: { (error) in
+                if let sessionCode = self.sessionCode, let clientId = self.clientId, error==nil {
+                    self.requestPhoneNumberhint(sessionCode: sessionCode, clientId: clientId, { (phoneNumberHint, error) in
+                        self.phoneNumberHint = phoneNumberHint
+                    })
+                }
+                // just ignore, we will fallback to sms/voice solution instead
+            })
         }
     }
     
@@ -118,24 +150,42 @@ open class PhoneIdService: NSObject {
     }
     
     // MARK: - API
-    func requestAuthenticationCode(_ info: NumberInfo, channel:AuthChannels = .sms, completion:@escaping RequestCompletion) {
+    
+    func requestAuthenticationCodeViaNetwork(completion:@escaping RequestCompletion){
+
+        self.requestAuthenticationCode(nil, channel: .network, completion: completion)
+    }
+    
+    func requestAuthenticationCode(_ info: NumberInfo, channel:AuthChannels = .sms, completion:@escaping RequestCompletion){
+        self.requestAuthenticationCode(info, channel: channel, completion: completion)
+    }
+    
+    fileprivate func requestAuthenticationCode(_ info: NumberInfo?, channel:AuthChannels, completion:@escaping RequestCompletion) {
         
-        let validation = info.isValid()
-        guard validation.result else{
-            completion(validation.error);
-            self.notifyClientCodeAboutError(validation.error)
-            return
+        let sessionId = UUID().uuidString
+        var params = ["channel":channel.value, "session_id":sessionId]
+        
+        if let info = info {
+            
+            let validation = info.isValid()
+            guard validation.result else{
+                completion(validation.error);
+                self.notifyClientCodeAboutError(validation.error)
+                return
+            }
+            
+            let number = info.e164Format()!
+            
+            params["number"] = number
         }
         
         guard let clientId = clientId else{
-            completion(validation.error);
-            self.notifyClientCodeAboutError(validation.error)
+            let error = PhoneIdServiceError.requestFailedError("error.failed.to.request.authentication", reasonKey:"error.client.id.not.found")
+            completion(error);
+            self.notifyClientCodeAboutError(error)
             return
         }
-        
-        let number = info.e164Format()!
-
-        var params = ["number":number,"client_id":clientId, "channel":channel.value]
+        params["client_id"] = clientId
         
         if let lang = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String{
           params["lang"] = Locale.canonicalLanguageIdentifier(from: lang)
@@ -150,9 +200,14 @@ open class PhoneIdService: NSObject {
                 
             }else if let info = response.responseJSON as? NSDictionary{
                 let responseCode = info["result"] as? Int
+                let sessionCode = info["session_code"] as? String
                 if(responseCode==0){
                     print("Request authentication code success:\(String(describing: responseCode)), info: \(info)")
-                }else{
+                } else if sessionCode != nil {
+                    self.sessionCode = sessionCode
+                    print("Request authentication code success:\(String(describing: responseCode)), info: \(info)")
+                    
+                } else {
                     let message = "No request success marker in response \(String(describing: response.responseJSON))"
                     print(message)
                     error = PhoneIdServiceError.requestFailedError("error.unexpected.response", reasonKey: "error.reason.auth.unexpected.response")
@@ -163,6 +218,28 @@ open class PhoneIdService: NSObject {
             self.notifyClientCodeAboutError(error)
         })
         
+    }
+    
+    @objc open func requestPhoneNumberhint(sessionCode:String, clientId:String,_ completion:@escaping PhoneNumberHintCompletion) {
+        
+        let endpoint: String = Endpoints.requestPhoneNumberHint.endpoint()
+        var params = ["session_code":sessionCode, "client_id":clientId]
+        self.get(endpoint, params: params) { response in
+            
+            var error:NSError?
+            var phoneNumber:String?
+            if let responseError = response.error {
+                print("Failed to get phone_number hint due to %@", responseError)
+                error = PhoneIdServiceError.requestFailedError("error.failed.request.user.info", reasonKey: responseError.localizedDescription)
+                
+            }else if let result = response.responseJSON as? [String:String] {
+                phoneNumber = result["phoneNumber"]
+            }else{
+                error = PhoneIdServiceError.inappropriateResponseError("error.user.info.unexpected.response", reasonKey:"error.reason.user.info.unexpected.response")
+            }
+            
+            completion(phoneNumber, error)
+        }
     }
     
     func verifyAuthentication(_ verifyCode: String, info: NumberInfo, completion:@escaping TokenRequestCompletion) {
@@ -511,7 +588,7 @@ open class PhoneIdService: NSObject {
             var wrappedResponse = Response(response: response, data: data, error: error as NSError?)
             
             if let httpResponse = response as? HTTPURLResponse {
-                if httpResponse.statusCode < 200 || httpResponse.statusCode >= 300 {
+                if httpResponse.statusCode < 200 || httpResponse.statusCode >= 400 {
                     
                     if let message = (wrappedResponse.responseJSON as? NSDictionary)?.object(forKey: "message") as? String {
                         error = NSError(domain: "Custom", code: 0, userInfo: [NSLocalizedDescriptionKey: message])

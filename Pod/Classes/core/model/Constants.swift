@@ -55,6 +55,7 @@ internal struct  HttpHeaderValue{
 internal enum Endpoints {
     case requestCode
     case requestToken
+    case requestPhoneNumberHint
     case requestMe
     case clientsList
     case contacts
@@ -65,6 +66,7 @@ internal enum Endpoints {
         switch (self) {
         case .requestCode: return "auth/sendcode"
         case .requestToken: return "auth/token"
+        case .requestPhoneNumberHint: return "auth/phone_number_hint"
         case .requestMe: return "users/me"
         case .clientsList: return "clients/\(params[0])"
         case .contacts: return "contacts"
@@ -90,11 +92,13 @@ internal struct NumberKey {
 internal enum AuthChannels{
     case sms
     case call
+    case network
     var value:String{
         get{
           switch(self){
           case .sms: return "sms"
-          case .call: return "call"}
+          case .call: return "call"
+          case .network: return "network"}
         }
     }
 }

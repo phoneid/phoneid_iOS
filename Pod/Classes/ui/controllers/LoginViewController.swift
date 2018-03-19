@@ -59,8 +59,22 @@ open class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDele
                 }
             })
         }
+        
+        self.phoneIdService.phoneIdDidGotPhoneNumberHint = { number in
+            let alreadySetNumber = self.loginView.numberInputControl.numberText.text
+            if alreadySetNumber == nil || alreadySetNumber == ""{
+               self.updateFromHint()
+            }
+        }
+        updateFromHint()
     }
 
+    func updateFromHint(){
+        if let hint = self.phoneIdService.phoneNumberHintParsed {
+            self.loginView.numberInputControl.setupWithModel(hint)
+        }
+    }
+    
     open func numberInputCompleted(_ model: NumberInfo) {
         self.phoneIdModel = model
         
