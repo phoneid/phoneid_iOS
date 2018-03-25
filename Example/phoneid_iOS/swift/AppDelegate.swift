@@ -31,9 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
             
             // configure phone.id
-            //PhoneIdService.sharedInstance.configureClient("TestPhoneId");
+           // PhoneIdService.sharedInstance.configureClient("TestPhoneId");
         
-        PhoneIdService.sharedInstance.configureClient("68e61b8767e6f9793eb6f03f16e185005bfa87c4");
+           PhoneIdService.sharedInstance.configureClient("68e61b8767e6f9793eb6f03f16e185005bfa87c4");
         
             // UI theming
             // PhoneIdService.sharedInstance.componentFactory = customComponentFactory()

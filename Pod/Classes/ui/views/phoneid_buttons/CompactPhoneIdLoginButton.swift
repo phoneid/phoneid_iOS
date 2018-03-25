@@ -92,11 +92,12 @@ import UIKit
             setupVerificationCodeControl()
             subviews = [loginButton, numberInputControl, verifyCodeControl]
             
-            (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = {
+            (loginButton as? InternalPhoneIdLoginButton)?.loginTouchedBlock = { [unowned self] in
                 self.numberInputControl.isHidden = false
                 self.loginButton.isHidden = true
                 self.numberInputControl.validatePhoneNumber()
                 self.numberInputControl.becomeFirstResponder()
+                self.updateFromHint()
             }
         }
 
@@ -114,12 +115,9 @@ import UIKit
         loginButton.isHidden = false
  
         self.phoneIdService.phoneIdDidGotPhoneNumberHint = { number in
-            let alreadySetNumber = self.numberInputControl.numberText.text
-            if alreadySetNumber == nil || alreadySetNumber == ""{
-                self.updateFromHint()
-            }
+            self.updateFromHint()
         }
-        updateFromHint()
+        self.phoneIdService.tryResolveNumber()
     }
 
     func prep() {
@@ -134,8 +132,12 @@ import UIKit
     }
     
     func updateFromHint(){
-        if let hint = self.phoneIdService.phoneNumberHintParsed {
-            self.numberInputControl.setupWithModel(hint)
+        if let hint = self.phoneIdService.phoneNumberHintParsed{
+            let alreadySetNumber = self.numberInputControl.numberText.text
+            if alreadySetNumber == nil || alreadySetNumber == ""{
+                self.numberInputControl.setupWithModel(hint)
+            }
+            
         }
     }
 
@@ -168,16 +170,11 @@ import UIKit
 
                 PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(code)
                 
-                me.phoneIdService.verifyAuthentication(code, info: me.phoneIdModel) { (token, error) -> Void in
+                me.phoneIdService.verifyAuthentication(verifyCode: code, info: me.phoneIdModel) { (token, error) -> Void in
                     guard let me = self else {return}
 
                     if (error == nil) {
-                        me.verifyCodeControl.indicateVerificationSuccess() { [weak self] in
-                            guard let me = self else {return}
-                            print("PhoneId login finished")
-                            me.phoneIdService.phoneIdAuthenticationSucceed?(me.phoneIdService.token!)
-                            me.resetControls()
-                        }
+                        me.doOnVerificationSuccess()
                     } else {
                         print("PhoneId login cancelled")
                         me.verifyCodeControl.indicateVerificationFail()
@@ -211,13 +208,24 @@ import UIKit
         }
     }
 
+    func doOnVerificationSuccess(){
+        
+        self.verifyCodeControl.indicateVerificationSuccess() { [weak self] in
+            guard let me = self else {return}
+            print("PhoneId login finished")
+            me.phoneIdService.phoneIdAuthenticationSucceed?(me.phoneIdService.token!)
+            me.resetControls()
+        }
+        
+    }
+    
     func requestAuthentication() {
 
-        phoneIdService.requestAuthenticationCode(self.phoneIdModel, completion: {
-            [weak self] (error) -> Void in
-
+        phoneIdService.loginOrRequestCodeViaSMS(phoneIdModel, loggedIn: {  [weak self] (error) in
             guard let me = self else {return}
-            
+            me.doOnVerificationSuccess()
+        }) { [weak self] (error) in
+            guard let me = self else {return}
             if let e = error {
                 me.presentErrorMessage(e)
             } else {
@@ -226,7 +234,8 @@ import UIKit
                 me.verifyCodeControl.becomeFirstResponder()
                 me.verifyCodeControl.setupHintTimer()
             }
-        });
+        }
+
     }
 
     func presentErrorMessage(_ error: NSError) {

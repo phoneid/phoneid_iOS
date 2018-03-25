@@ -61,17 +61,17 @@ open class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDele
         }
         
         self.phoneIdService.phoneIdDidGotPhoneNumberHint = { number in
-            let alreadySetNumber = self.loginView.numberInputControl.numberText.text
-            if alreadySetNumber == nil || alreadySetNumber == ""{
-               self.updateFromHint()
-            }
+            self.updateFromHint()
         }
-        updateFromHint()
+        self.phoneIdService.tryResolveNumber()
     }
 
     func updateFromHint(){
-        if let hint = self.phoneIdService.phoneNumberHintParsed {
-            self.loginView.numberInputControl.setupWithModel(hint)
+        if let hint = self.phoneIdService.phoneNumberHintParsed{
+            let alreadySetNumber = self.loginView.numberInputControl.numberText.text
+            if alreadySetNumber == nil || alreadySetNumber == ""{
+                self.loginView.numberInputControl.setupWithModel(hint)
+            }
         }
     }
     
@@ -79,15 +79,19 @@ open class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDele
         self.phoneIdModel = model
         
         PhoneIdService.sharedInstance.phoneIdWorkflowNumberInputCompleted?(model)
-        
-        phoneIdService.requestAuthenticationCode(phoneIdModel, completion: {
-            (error) -> Void in
-            if let e = error {
-                self.presentError(e)
-            } else {
-                self.loginView.switchToState(.codeVerification)
-            }
-        })
+
+        phoneIdService.loginOrRequestCodeViaSMS(phoneIdModel, loggedIn: { (error) in
+            self.callPhoneIdCompletion(true)
+            self.dismiss(animated: true, completion: nil)
+            PhoneIdWindow.activePhoneIdWindow()?.close()
+        }) { (error) in
+             if let e = error {
+                 self.presentError(e)
+             } else {
+                 self.loginView.switchToState(.codeVerification)
+             }
+        }
+
     }
 
     func presentError(_ error: NSError) {
@@ -107,7 +111,7 @@ open class LoginViewController: UIViewController, PhoneIdConsumer, LoginViewDele
         
         PhoneIdService.sharedInstance.phoneIdWorkflowVerificationCodeInputCompleted?(code)
         
-        phoneIdService.verifyAuthentication(code, info: model) {
+        phoneIdService.verifyAuthentication(verifyCode: code, info: model) {
             [unowned self] (token, error) -> Void in
 
             if (error == nil) {
